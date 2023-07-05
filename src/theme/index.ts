@@ -89,19 +89,8 @@ const Theme = {
     lilac_dark: '#4F34BA',
 
     action: {
-      /**
-       * @deprecated
-       */
-      classic: '#FFFFFF',
-
-      /**
-       * @deprecated
-       */
-      classicLight: 'rgba(255, 255, 255, 0.85)',
-
-      /**
-       * @deprecated
-       */
+      classic: '#D23403',
+      classicLight: 'rgba(210, 52, 3, 0.85)',
       classic800: 'rgba(85, 101, 247, 0.2)',
     },
     white: {
@@ -141,64 +130,15 @@ const Theme = {
       900: 'rgba(255, 255, 255, 0.1)',
     },
     background: {
-      /**
-       * @deprecated use theme.colors.elevation
-       */
-      elevation_n1: '#0C0C0C',
-
-      /**
-       * @deprecated use theme.colors.elevation
-       */
-      elevation0: '#181818',
-
-      /**
-       * @deprecated use theme.colors.elevation
-       */
-      elevation1: '#1E2024',
-
-      /**
-       * @deprecated use theme.colors.elevation
-       */
-      elevation_1: '#1E2024',
-
-      /**
-       * @deprecated use theme.colors.elevation
-       */
-      elevation2: '#24282F',
-
-      /**
-       * @deprecated use theme.colors.elevation
-       */
-      elevation3: '#2A2F39',
-
-      /**
-       * @deprecated use theme.colors.elevation
-       */
-      elevation5: '#303643',
-
-      /**
-       * @deprecated use theme.colors.elevation
-       */
-      elevation6: '#4C525F',
-
-      /**
-       * @deprecated use theme.colors.elevation
-       */
-      elevation6_600: 'rgba(76, 82, 95, 0.4)',
-
-      /**
-       * @deprecated use theme.colors.elevation
-       */
-      elevation6_800: 'rgba(76, 82, 95, 0.2)',
-
-      /**
-       * @deprecated use theme.colors.elevation
-       */
-      elevation8: '#7A7688',
-
-      /**
-       * @deprecated
-       */
+      'elevation-1': '#070A13',
+      elevation0: '#040405',
+      elevation1: '#1D2032',
+      elevation2: '#272A44',
+      elevation3: '#303354',
+      elevation6: '#4C5187',
+      elevation6_600: 'rgba(76, 81, 135, 0.4)',
+      elevation6_800: 'rgba(76, 81, 135, 0.2)',
+      elevation8: '#7E89AB',
       elevation9: 'rgba(76, 81, 135, 0.2)',
 
       /**
@@ -207,16 +147,7 @@ const Theme = {
       elevation10: 'rgba(76, 81, 135, 0.35)',
 
       modalBackdrop: 'rgba(18,21,30,0.6)',
-      modalBackdrop2: 'rgba(18, 21, 30, 0.90)',
-      selectBackground:
-        'linear-gradient(0deg, rgba(115, 131, 255, 0.05), rgba(115, 131, 255, 0.05)), #1D2032',
-    },
-
-    /**
-     * @deprecated
-     */
-    border: {
-      select: 'rgba(115, 131, 255, 0.4)',
+      lightOrange: 'rgba(210, 52, 3, 0.2)',
     },
 
     feedback: {
@@ -256,137 +187,6 @@ const Theme = {
      */
     orange_main: '#EE7A30',
   },
-
-  /*
-   * Typography from UI Revamp here:
-   * ref: https://zeroheight.com/0683c9fa7/p/789eec-typography
-   *
-   * Usage:
-   *   import { StyledP, StyledHeading } from '@components/common.styled';
-   *
-   *   <StyledHeading typography="headling_l">My heading</StyledHeading>
-   *   <StyledP typography="body_m">My paragraph text</StyledP>
-   *
-   */
-  typography: {
-    headline_xl: {
-      fontFamily: 'IBMPlexSans-Bold',
-      fontStyle: 'normal',
-      fontWeight: '700',
-      fontSize: 40,
-      letterSpacing: 0.02,
-      lineHeight: '125%',
-    },
-    headline_l: {
-      fontFamily: 'IBMPlexSans-Bold',
-      fontStyle: 'normal',
-      fontWeight: '700',
-      fontSize: 34,
-      letterSpacing: 0.02,
-      lineHeight: '125%',
-    },
-    headline_m: {
-      fontFamily: 'IBMPlexSans-Bold',
-      fontStyle: 'normal',
-      fontWeight: '700',
-      fontSize: 28,
-      letterSpacing: 0.02,
-      lineHeight: '140%',
-    },
-    headline_s: {
-      fontFamily: 'IBMPlexSans-Bold',
-      fontStyle: 'normal',
-      fontWeight: '700',
-      fontSize: 24,
-      letterSpacing: 0.02,
-      lineHeight: '140%',
-    },
-    headline_xs: {
-      fontFamily: 'IBMPlexSans-Bold',
-      fontStyle: 'normal',
-      fontWeight: '700',
-      fontSize: 20,
-      letterSpacing: 0.02,
-      lineHeight: '125%',
-    },
-    body_bold_l: {
-      fontFamily: 'DMSans-Bold',
-      fontStyle: 'normal',
-      fontWeight: '700',
-      fontSize: 16,
-    },
-    body_medium_l: {
-      fontFamily: 'DMSans-Medium',
-      fontStyle: 'normal',
-      fontWeight: '500',
-      fontSize: 16,
-    },
-    body_l: {
-      fontFamily: 'DMSans-Regular',
-      fontStyle: 'normal',
-      fontWeight: '400',
-      fontSize: 16,
-    },
-    body_bold_m: {
-      fontFamily: 'DMSans-Bold',
-      fontStyle: 'normal',
-      fontWeight: '700',
-      fontSize: 14,
-    },
-    body_medium_m: {
-      fontFamily: 'DMSans-Medium',
-      fontStyle: 'normal',
-      fontWeight: '500',
-      fontSize: 14,
-    },
-    body_m: {
-      fontFamily: 'DMSans-Regular',
-      fontStyle: 'normal',
-      fontWeight: '400',
-      fontSize: 14,
-    },
-    body_bold_s: {
-      fontFamily: 'DMSans-Bold',
-      fontStyle: 'normal',
-      fontWeight: '700',
-      fontSize: 12,
-    },
-    body_medium_s: {
-      fontFamily: 'DMSans-Medium',
-      fontStyle: 'normal',
-      fontWeight: '500',
-      fontSize: 12,
-    },
-    body_s: {
-      fontFamily: 'DMSans-Regular',
-      fontStyle: 'normal',
-      fontWeight: '400',
-      fontSize: 12,
-    },
-  },
-
-  scrollbar: {
-    scrollbarGutter: 'stable both-edges',
-    'overflow-y': 'hidden',
-    ':hover': {
-      'overflow-y': 'auto',
-    },
-    '::-webkit-scrollbar': {
-      display: 'block',
-      width: 8,
-      background: 'rgba(255, 255, 255, 0.10)',
-    },
-    '::-webkit-scrollbar-thumb': {
-      width: 8,
-      maxHeight: 10,
-      borderRadius: 24,
-      background: 'rgba(255, 255, 255, 0.2)',
-    },
-  },
-
-  /**
-   * @deprecated use theme.typography
-   */
   headline_category_m: {
     fontFamily: 'DMSans-Medium',
     fontStyle: 'normal',
@@ -395,10 +195,6 @@ const Theme = {
     letterSpacing: 0.02,
     textTransform: 'uppercase',
   },
-
-  /**
-   * @deprecated use theme.typography
-   */
   headline_category_s: {
     fontFamily: 'DMSans-Medium',
     fontStyle: 'normal',
@@ -406,90 +202,42 @@ const Theme = {
     fontSize: 11,
     letterSpacing: 0.02,
   },
-
-  /**
-   * @deprecated use theme.typography
-   */
   body_bold_l: {
     fontFamily: 'DMSans-Bold',
     fontStyle: 'normal',
     fontWeight: '700',
     fontSize: 16,
   },
-
-  /**
-   * @deprecated use theme.typography
-   */
   body_medium_l: {
     fontFamily: 'DMSans-Regular',
     fontStyle: 'normal',
     fontWeight: '500',
     fontSize: 16,
   },
-
-  /**
-   * @deprecated use theme.typography
-   */
   body_l: {
-    fontFamily: 'DMSans-Regular',
+    fontFamily: 'MontRegular',
     fontStyle: 'normal',
     fontWeight: '400',
     fontSize: 16,
   },
-
-  /**
-   * @deprecated use theme.typography
-   */
   body_bold_m: {
     fontFamily: 'DMSans-Bold',
     fontStyle: 'normal',
     fontWeight: '700',
     fontSize: 14,
   },
-
-  /**
-   * @deprecated use theme.typography
-   */
   body_medium_m: {
-    fontFamily: 'DMSans-Medium',
+    fontFamily: 'MontRegular',
     fontStyle: 'normal',
     fontWeight: '500',
     fontSize: 14,
   },
-
-  /**
-   * @deprecated use theme.typography
-   */
   body_m: {
     fontFamily: 'DMSans-Regular',
     fontStyle: 'normal',
     fontWeight: '400',
     fontSize: 14,
   },
-
-  /**
-   * @deprecated use theme.typography
-   */
-  body_medium_s: {
-    fontFamily: 'DMSans-Medium',
-    fontStyle: 'normal',
-    fontWeight: '500',
-    fontSize: 12,
-  },
-
-  /**
-   * @deprecated use theme.typography
-   */
-  body_s: {
-    fontFamily: 'DMSans-Regular',
-    fontStyle: 'normal',
-    fontWeight: '400',
-    fontSize: 12,
-  },
-
-  /**
-   * @deprecated use theme.typography.body_s
-   */
   body_xs: {
     fontFamily: 'DMSans-Regular',
     fontStyle: 'normal',
@@ -523,7 +271,7 @@ const Theme = {
    * @deprecated use theme.typography
    */
   bold_tile_text: {
-    fontFamily: 'Satoshi-Bold',
+    fontFamily: 'MontSemiBold',
     fontStyle: 'normal',
     fontWeight: '700',
     fontSize: 18,
