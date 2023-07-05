@@ -1,4 +1,4 @@
-import logo from '@assets/img/xverse_logo.svg';
+import logo from '@assets/img/orange_pill.png';
 import { animated, useSpring } from '@react-spring/web';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
@@ -8,7 +8,7 @@ const ContentContainer = styled(animated.div)({
   display: 'flex',
   flexDirection: 'column',
   flex: 1,
-  marginTop: 180,
+  marginTop: 40,
 });
 
 const TopSectionContainer = styled.div({
@@ -18,8 +18,8 @@ const TopSectionContainer = styled.div({
 });
 
 const Logo = styled.img({
-  width: 57,
-  height: 57,
+  width: 'auto',
+  height: 'auto',
 });
 
 const LandingTitle = styled.h1((props) => ({
@@ -39,23 +39,22 @@ const ActionButtonsContainer = styled.div((props) => ({
   marginTop: 'auto',
   paddingLeft: props.theme.spacing(10),
   paddingRight: props.theme.spacing(10),
-  marginBottom: props.theme.spacing(32),
+  marginBottom: props.theme.spacing(20),
 }));
 
 const CreateButton = styled.button((props) => ({
   display: 'flex',
-  ...props.theme.body_medium_m,
-  fontSize: 12,
-  color: props.theme.colors.background.elevation0,
+  ...props.theme.bold_tile_text,
+  color: props.theme.colors.white['0'],
   textAlign: 'center',
   flexDirection: 'row',
   justifyContent: 'center',
   alignItems: 'center',
-  borderRadius: props.theme.radius(1),
+  borderRadius: props.theme.radius(3),
   backgroundColor: props.theme.colors.action.classic,
   marginBottom: props.theme.spacing(8),
   width: '100%',
-  height: 44,
+  height: 56,
   ':hover': {
     background: props.theme.colors.action.classicLight,
   },
@@ -66,27 +65,31 @@ const CreateButton = styled.button((props) => ({
 }));
 
 const AppVersion = styled.p((props) => ({
-  ...props.theme.body_xs,
-  color: props.theme.colors.white['0'],
-  textAlign: 'right',
-  marginRight: props.theme.spacing(9),
-  marginTop: props.theme.spacing(8),
+  ...props.theme.body_medium_m,
+  color: props.theme.colors.action.classic,
+  height: 30,
+  borderRadius: props.theme.radius(4),
+  border: `1px solid ${props.theme.colors.action.classic}`,
+  backgroundColor: props.theme.colors.background.lightOrange,
+  width: 58,
+  textAlign: 'center',
+  lineHeight: '30px',
+  marginTop: '-70px',
 }));
 
 const RestoreButton = styled.button((props) => ({
   display: 'flex',
-  ...props.theme.body_medium_m,
-  fontSize: 12,
+  ...props.theme.bold_tile_text,
   color: props.theme.colors.white['0'],
   textAlign: 'center',
   flexDirection: 'row',
   justifyContent: 'center',
   alignItems: 'center',
-  borderRadius: props.theme.radius(1),
+  borderRadius: props.theme.radius(3),
   backgroundColor: props.theme.colors.background.elevation0,
   border: `0.5px solid ${props.theme.colors.background.elevation2}`,
   width: '100%',
-  height: 44,
+  height: 56,
   ':hover': {
     background: props.theme.colors.background.elevation6_800,
   },
@@ -120,19 +123,17 @@ function Landing(): JSX.Element {
   const handlePressRestore = async () => startWalletOnboarding(true);
 
   return (
-    <>
-      <AppVersion>Beta</AppVersion>
-      <ContentContainer style={styles}>
-        <TopSectionContainer>
-          <Logo src={logo} alt="logo" />
-          <LandingTitle>{t('SCREEN_TITLE')}</LandingTitle>
-        </TopSectionContainer>
-        <ActionButtonsContainer>
-          <CreateButton onClick={handlePressCreate}>{t('CREATE_WALLET_BUTTON')}</CreateButton>
-          <RestoreButton onClick={handlePressRestore}>{t('RESTORE_WALLET_BUTTON')}</RestoreButton>
-        </ActionButtonsContainer>
-      </ContentContainer>
-    </>
+    <ContentContainer style={styles}>
+      <TopSectionContainer>
+        <Logo src={logo} alt="logo" />
+        {/* <LandingTitle>{t('SCREEN_TITLE')}</LandingTitle> */}
+        <AppVersion>Beta</AppVersion>
+      </TopSectionContainer>
+      <ActionButtonsContainer>
+        <CreateButton onClick={handlePressCreate}>{t('CREATE_WALLET_BUTTON')}</CreateButton>
+        <RestoreButton onClick={handlePressRestore}>{t('RESTORE_WALLET_BUTTON')}</RestoreButton>
+      </ActionButtonsContainer>
+    </ContentContainer>
   );
 }
 export default Landing;

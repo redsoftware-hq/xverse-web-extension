@@ -1,8 +1,8 @@
 const Theme = {
   colors: {
     action: {
-      classic: '#FFFFFF',
-      classicLight: 'rgba(255, 255, 255, 0.85)',
+      classic: '#D23403',
+      classicLight: 'rgba(210, 52, 3, 0.85)',
       classic800: 'rgba(85, 101, 247, 0.2)',
     },
     white: {
@@ -16,7 +16,7 @@ const Theme = {
     },
     background: {
       'elevation-1': '#070A13',
-      elevation0: '#12151E',
+      elevation0: '#040405',
       elevation1: '#1D2032',
       elevation2: '#272A44',
       elevation3: '#303354',
@@ -27,6 +27,7 @@ const Theme = {
       elevation9: 'rgba(76, 81, 135, 0.2)',
       elevation10: 'rgba(76, 81, 135, 0.35)',
       modalBackdrop: 'rgba(18,21,30,0.6)',
+      lightOrange: 'rgba(210, 52, 3, 0.2)',
     },
     feedback: {
       success: '#51D6A6',
@@ -66,7 +67,7 @@ const Theme = {
     fontSize: 16,
   },
   body_l: {
-    fontFamily: 'DMSans-Regular',
+    fontFamily: 'MontRegular',
     fontStyle: 'normal',
     fontWeight: '400',
     fontSize: 16,
@@ -78,7 +79,7 @@ const Theme = {
     fontSize: 14,
   },
   body_medium_m: {
-    fontFamily: 'DMSans-Medium',
+    fontFamily: 'MontRegular',
     fontStyle: 'normal',
     fontWeight: '500',
     fontSize: 14,
@@ -110,7 +111,7 @@ const Theme = {
     letterSpacing: 0.02,
   },
   bold_tile_text: {
-    fontFamily: 'Satoshi-Bold',
+    fontFamily: 'MontSemiBold',
     fontStyle: 'normal',
     fontWeight: '700',
     fontSize: 18,

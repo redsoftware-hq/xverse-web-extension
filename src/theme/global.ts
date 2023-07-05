@@ -9,6 +9,9 @@ import IBMPlexSansMedium from '../assets/fonts/IBMPlexSans-Medium.ttf';
 import DMSansBold from '../assets/fonts/DMSans-Bold.ttf';
 import DMSansMedium from '../assets/fonts/DMSans-Medium.ttf';
 import DMSansRegular from '../assets/fonts/DMSans-Regular.ttf';
+import MontRegular from '../assets/fonts/Mont-Regular.otf';
+import MontBold from '../assets/fonts/Mont-Bold.otf';
+import MontSemiBold from '../assets/fonts/Mont-SemiBold.otf';
 
 const GlobalStyle = createGlobalStyle`
   @font-face{
@@ -62,6 +65,21 @@ const GlobalStyle = createGlobalStyle`
   @font-face{
     font-family: 'DMSans-Regular';
     src: url(${DMSansRegular});
+    font-display: block;
+  }
+  @font-face{
+    font-family: 'MontRegular';
+    src: url(${MontRegular});
+    font-display: block;
+  }
+  @font-face{
+    font-family: 'MontBold';
+    src: url(${MontBold});
+    font-display: block;
+  }
+  @font-face{
+    font-family: 'MontSemiBold';
+    src: url(${MontSemiBold});
     font-display: block;
   }
   html {
