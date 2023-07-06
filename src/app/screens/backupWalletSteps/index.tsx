@@ -19,7 +19,7 @@ const Container = styled.div((props) => ({
   flexDirection: 'column',
   paddingLeft: props.theme.spacing(10),
   paddingRight: props.theme.spacing(10),
-  paddingTop: props.theme.spacing(12),
+  paddingTop: props.theme.spacing(10),
 }));
 
 const SeedContainer = styled.div((props) => ({
@@ -124,7 +124,7 @@ export default function BackupWalletSteps(): JSX.Element {
 
   return (
     <Container>
-      <Steps data={backupSteps} activeIndex={currentActiveIndex} />
+      <Steps data={backupSteps} withLabel activeIndex={currentActiveIndex} />
       {backupSteps[currentActiveIndex]}
     </Container>
   );
