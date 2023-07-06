@@ -12,6 +12,13 @@ const Container = styled.div((props) => ({
 }));
 
 const Heading = styled.p((props) => ({
+  ...props.theme.mont_tile_text,
+  color: props.theme.colors.action.classic,
+  textAlign: 'left',
+  marginBottom: props.theme.spacing(8),
+}));
+
+const Description = styled.p((props) => ({
   ...props.theme.body_l,
   color: props.theme.colors.white[200],
   marginBottom: props.theme.spacing(15),
@@ -61,7 +68,8 @@ export default function VerifySeed(props: VerifySeedProps): JSX.Element {
 
   return (
     <Container>
-      <Heading>{t('SEED_PHRASE_VERIFY_HEADING')}</Heading>
+      <Heading>{t('SEED_INPUT_LABEL')}</Heading>
+      <Description>{t('SEED_PHRASE_VERIFY_HEADING')}</Description>
       <SeedPhraseInput
         seed={seedInput}
         onSeedChange={setSeedInput}

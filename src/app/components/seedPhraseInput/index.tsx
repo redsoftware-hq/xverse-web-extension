@@ -7,11 +7,7 @@ const InputContainer = styled.div({
   flexDirection: 'column',
 });
 
-const SeedPhraseInputLabel = styled.p((props) => ({
-  ...props.theme.body_bold_m,
-  textAlign: 'left',
-  marginBottom: props.theme.spacing(8),
-}));
+
 
 interface ContainerProps {
   error: boolean;
@@ -61,7 +57,6 @@ export default function SeedPhraseInput(props: SeedPhraseInputProps): JSX.Elemen
 
   return (
     <InputContainer>
-      <SeedPhraseInputLabel>{t('SEED_INPUT_LABEL')}</SeedPhraseInputLabel>
       <SeedphraseInput
         error={seedError !== ''}
         value={seed}

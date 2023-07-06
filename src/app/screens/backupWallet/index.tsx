@@ -1,4 +1,4 @@
-import backup from '@assets/img/backupWallet/backup_orange.svg';
+import backup from '@assets/img/backupWallet/backup.png';
 import ActionButton from '@components/button';
 import useWalletReducer from '@hooks/useWalletReducer';
 import useWalletSelector from '@hooks/useWalletSelector';
