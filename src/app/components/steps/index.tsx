@@ -1,36 +1,50 @@
 import { nanoid } from 'nanoid';
 import styled from 'styled-components';
 
-const StepsContainer = styled.div({
+const StepsContainer = styled.div((props) => ({
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'center',
-});
+  justifyContent: 'space-between',
+  backgroundColor: props.theme.colors.background.elevation0_5,
+  height: 40,
+  borderRadius: props.theme.spacing(4),
+  paddingLeft: props.theme.spacing(8),
+  paddingRight: props.theme.spacing(8),
+}));
 
-const StepsDot = styled.div<StepDotProps>((props) => ({
-  width: 8,
-  height: 8,
-  borderRadius: 4,
-  backgroundColor: props.active ? props.theme.colors.action.classic : props.theme.colors.elevation3,
-  marginRight: props.theme.spacing(4),
+const StepsLine = styled.div<StepLineProps>((props) => ({
+  width: props.steps * 20,
+  borderRadius: 2,
+  background: `linear-gradient(to right, ${props.theme.colors.action.classic} ${props.fill}%, ${props.theme.colors.background.elevation0} ${props.fill}%)`,
+  display: 'flex',
+  height: 4,
+}));
+
+const Label = styled.div((props) => ({
+  ...props.theme.bold_tile_text,
+  fontSize: 14,
+  color: props.theme.colors.white[0],
+  width: 100,
 }));
 
 interface StepsProps {
   data: any[];
   activeIndex: number;
+  withLabel?: boolean;
 }
 
-interface StepDotProps {
-  active: boolean;
+interface StepLineProps {
+  active: number;
+  steps: number;
+  fill: number;
 }
 
 export default function Steps(props: StepsProps): JSX.Element {
-  const { data, activeIndex } = props;
+  const { data, activeIndex, withLabel } = props;
   return (
     <StepsContainer>
-      {data.map((view, index) => (
-        <StepsDot active={index <= activeIndex} key={nanoid()} />
-      ))}
+      {withLabel && <Label>{`Step ${activeIndex + 1}`}</Label>}
+      {data.length ? <StepsLine active={activeIndex + 1} steps={data.length} fill={(activeIndex + 1 ) * 100 / data.length }/> : null}
     </StepsContainer>
   );
 }
