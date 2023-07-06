@@ -1,11 +1,9 @@
+import ActionButton from '@components/button';
 import SeedphraseView from '@components/seedPhraseView';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 
-interface ButtonProps {
-  enabled: boolean;
-}
 
 const Container = styled.div({
   display: 'flex',
@@ -14,8 +12,8 @@ const Container = styled.div({
 });
 
 const Description = styled.p((props) => ({
-  ...props.theme.body_l,
-  color: props.theme.colors.white[200],
+  ...props.theme.bold_tile_text,
+  color: props.theme.colors.white[0],
   marginBottom: props.theme.spacing(20),
 }));
 
@@ -23,23 +21,7 @@ const Heading = styled.p((props) => ({
   ...props.theme.mont_tile_text,
   color: props.theme.colors.action.classic,
   marginBottom: props.theme.spacing(4),
-}));
-
-const ContinueButton = styled.button<ButtonProps>((props) => ({
-  display: 'flex',
-  ...props.theme.body_l,
-  fontWeight: 700,
-  fontSize: 16,
-  flexDirection: 'row',
-  justifyContent: 'center',
-  alignItems: 'center',
-  borderRadius: props.theme.radius(2),
-  backgroundColor: props.theme.colors.action.classic,
-  marginBottom: props.theme.spacing(30),
-  color: props.theme.colors.white[0],
-  width: '100%',
-  height: 44,
-  opacity: props.enabled ? 1 : 0.6,
+  fontSize: 24,
 }));
 
 interface SeedCheckPros {
@@ -57,7 +39,7 @@ export default function SeedCheck(props: SeedCheckPros): JSX.Element {
       <Heading>{t('SEED_PHRASE_VIEW_LABEL')}</Heading>
       <Description>{t('SEED_PHRASE_VIEW_HEADING')}</Description>
       <SeedphraseView seedPhrase={seedPhrase} isVisible={isVisible} setIsVisible={setIsVisible} />
-      {showButton && <ContinueButton enabled={isVisible} onClick={onContinue}>{t('SEED_PHRASE_VIEW_CONTINUE')}</ContinueButton>}
+      {showButton && <ActionButton disabled={!isVisible} onPress={onContinue} text={t('SEED_PHRASE_VIEW_CONTINUE')}/>}
 
     </Container>
   );

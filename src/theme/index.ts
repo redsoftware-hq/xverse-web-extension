@@ -19,7 +19,7 @@ const Theme = {
       'elevation-1': '#070A13',
       elevationDarkGradient: `radial-gradient(85.58% 229.24% at 89.79% 22.85%, rgba(56, 60, 78, 0.2) 0%, rgba(13, 14, 18, 0.2) 100%),
               linear-gradient(154.76deg, rgba(168, 185, 244, 0.12) 15.61%, rgba(168, 185, 244, 0.06) 62.02%);`,
-      elevationZero: '#12151E',
+      elevationZero: 'rgba(168, 185, 244, 0.05)',
       elevation0: '#040405',
       elevation1: '#1D2032',
       elevation2: '#272A44',
@@ -118,7 +118,7 @@ const Theme = {
     fontFamily: 'MontBold',
     fontStyle: 'normal',
     fontWeight: '800',
-    fontSize: 24,
+    fontSize: 32,
     letterSpacing: 0.02,
   },
   bold_tile_text: {
