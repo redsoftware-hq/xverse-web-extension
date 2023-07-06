@@ -25,7 +25,7 @@ const SeedContainer = styled.div((props) => ({
 
 const PasswordContainer = styled.div((props) => ({
   marginTop: props.theme.spacing(32),
-  marginBottom: props.theme.spacing(32),
+  marginBottom: props.theme.spacing(12),
   display: 'flex',
   flex: 1,
 }));

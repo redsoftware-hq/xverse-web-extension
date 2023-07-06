@@ -419,8 +419,8 @@
     "SEED_PHRASE_BACK_BUTTON": "Back"
   },
   "CREATE_PASSWORD_SCREEN": {
-    "CREATE_PASSWORD_TITLE": "Enter password",
-    "CONFIRM_PASSWORD_TITLE": "Confirm your new password",
+    "CREATE_PASSWORD_TITLE": "Enter Password",
+    "CONFIRM_PASSWORD_TITLE": "Confirm Password",
     "ENTER_PASSWORD": "Enter your current password",
     "TEXT_INPUT_NEW_PASSWORD_LABEL": "Enter the password you would like to set for your wallet.",
     "TEXT_INPUT_ENTER_PASSWORD_LABEL": "Enter your current password",
