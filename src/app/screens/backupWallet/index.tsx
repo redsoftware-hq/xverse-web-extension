@@ -1,4 +1,4 @@
-import backup from '@assets/img/backupWallet/backup.svg';
+import backup from '@assets/img/backupWallet/backup_orange.svg';
 import ActionButton from '@components/button';
 import useWalletReducer from '@hooks/useWalletReducer';
 import useWalletSelector from '@hooks/useWalletSelector';
@@ -31,8 +31,9 @@ const ContentContainer = styled.div((props) => ({
 }));
 
 const Title = styled.h1((props) => ({
-  ...props.theme.body_bold_l,
+  ...props.theme.mont_tile_text,
   textAlign: 'center',
+  color: props.theme.colors.action.classic
 }));
 
 const SubTitle = styled.h2((props) => ({
@@ -79,7 +80,7 @@ function BackupWallet(): JSX.Element {
   return (
     <Container>
       <IconContainer>
-        <img src={backup} alt="backup" width={208} />
+        <img src={backup} alt="backup" width={280} />
       </IconContainer>
       <ContentContainer>
         <Title>{t('SCREEN_TITLE')}</Title>
