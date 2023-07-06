@@ -30,16 +30,16 @@ const SeedContainer = styled.div<SeedContainerProps>((props) => ({
 }));
 
 const OuterSeedContainer = styled.div((props) => ({
-  backgroundColor: props.theme.colors.elevation_n1,
-  border: `1px solid ${props.theme.colors.elevation3}`,
+  backgroundColor: props.theme.colors.background.elevationDarkGradient,
+  border: `1px solid ${props.theme.colors.background.elevation3}`,
   borderRadius: props.theme.radius(1),
 }));
 
 const ShowSeedButton = styled.button((props) => ({
   ...props.theme.body_xs,
-  color: props.theme.colors.white_0,
-  backgroundColor: props.theme.colors.white_900,
-  border: `1px solid ${props.theme.colors.white_600}`,
+  color: props.theme.colors.action.classic,
+  backgroundColor: props.theme.colors.action.classicYou,
+  border: `1px solid ${props.theme.colors.white[800]}`,
   height: 36,
   width: 110,
   borderRadius: 48,
@@ -54,12 +54,14 @@ const ShowSeedButton = styled.button((props) => ({
     marginRight: props.theme.spacing(4),
   },
   ':hover': {
-    backgroundColor: props.theme.colors.white_850,
-    border: `1px solid ${props.theme.colors.white_800}`,
+    backgroundColor: props.theme.colors.action.classic,
+    border: `1px solid ${props.theme.colors.action.classic}`,
+    color: props.theme.colors.white[0],
   },
   ':focus': {
-    backgroundColor: props.theme.colors.white_600,
-    border: `1px solid ${props.theme.colors.white_800}`,
+    backgroundColor: props.theme.colors.action.classic,
+    border: `1px solid ${props.theme.colors.action.classic}`,
+    color: props.theme.colors.white[0],
   },
 }));
 
@@ -84,8 +86,8 @@ export default function SeedphraseView(props: SeedPhraseViewProps) {
 
       {!isVisible && (
         <ShowSeedButton onClick={handleToggleVisibility}>
-          <img src={Eye} alt="show-password" height={16} />
-          Show
+          {/* <img src={Eye} alt="show-password" height={16} /> */}
+          Show seedphrase
         </ShowSeedButton>
       )}
     </Container>
