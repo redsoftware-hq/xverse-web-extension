@@ -34,8 +34,9 @@ const Container = styled.div({
 });
 
 const HeaderText = styled.h1((props) => ({
-  ...props.theme.body_bold_l,
-  textAlign: 'center',
+  ...props.theme.mont_tile_text,
+  color: props.theme.colors.action.classic,
+  textAlign: 'left',
   marginTop: props.theme.spacing(15),
 }));
 
@@ -60,11 +61,17 @@ const PasswordInputContainer = styled.div<PasswordInputContainerProps>((props) =
   paddingRight: props.theme.spacing(4),
   marginTop: props.theme.spacing(4),
   marginBottom: props.theme.spacing(3),
+  ':hover': {
+    border : `1px solid ${props.theme.colors.action.classic}`
+  },
+  ':focus': {
+    border : `1px solid ${props.theme.colors.action.classic}`
+  }
 }));
 
 const PasswordInputLabel = styled.h2((props) => ({
   ...props.theme.body_medium_m,
-  marginTop: props.theme.spacing(24),
+  marginTop: props.theme.spacing(6),
   textAlign: 'left',
 }));
 
@@ -75,6 +82,7 @@ const Input = styled.input((props) => ({
   color: props.theme.colors.white_0,
   width: '100%',
   border: 'none',
+  
 }));
 
 interface ButtonContainerProps {
@@ -295,8 +303,8 @@ function PasswordInput(props: PasswordInputProps): JSX.Element {
     <Container>
       <HeaderContainer>
         <img src={PasswordIcon} alt="password" />
-        <HeaderText>{title}</HeaderText>
       </HeaderContainer>
+      <HeaderText>{title}</HeaderText>
       <PasswordInputLabel>{inputLabel}</PasswordInputLabel>
       <PasswordInputContainer
         hasError={

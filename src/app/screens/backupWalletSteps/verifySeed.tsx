@@ -11,6 +11,19 @@ const Container = styled.div((props) => ({
   flex: 1,
 }));
 
+const Heading = styled.p((props) => ({
+  ...props.theme.mont_tile_text,
+  color: props.theme.colors.action.classic,
+  textAlign: 'left',
+  marginBottom: props.theme.spacing(8),
+}));
+
+const Description = styled.p((props) => ({
+  ...props.theme.body_l,
+  color: props.theme.colors.white[200],
+  marginBottom: props.theme.spacing(15),
+}));
+
 const ButtonsContainer = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'row',
@@ -135,20 +148,14 @@ export default function VerifySeed({
 
   return (
     <Container>
-      <Heading>{t('CONFIRM_YOUR_SEEDPHRASE')}</Heading>
-      <Heading>
-        {t('SELECT_THE')}
-        <NthSpan>{quiz.nth}</NthSpan>
-        {t('WORD_OF_YOUR_SEEDPHRASE')}
-      </Heading>
-      <WordGrid>
-        {quiz.words.map((word) => (
-          <WordButton key={word} onClick={handleClickWord} value={word}>
-            {word}
-          </WordButton>
-        ))}
-      </WordGrid>
-      <ErrorMessage visible={!!err}>{err}</ErrorMessage>
+      <Heading>{t('SEED_INPUT_LABEL')}</Heading>
+      <Description>{t('SEED_PHRASE_VERIFY_HEADING')}</Description>
+      <SeedPhraseInput
+        seed={seedInput}
+        onSeedChange={setSeedInput}
+        seedError={err}
+        setSeedError={setErr}
+      />
       <ButtonsContainer>
         <TransparentButtonContainer>
           <ActionButton onPress={onBack} transparent text={t('SEED_PHRASE_BACK_BUTTON')} />

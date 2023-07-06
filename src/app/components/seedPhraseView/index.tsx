@@ -1,4 +1,4 @@
-import Eye from '@assets/img/createPassword/Eye.svg';
+// import Eye from '@assets/img/createPassword/Eye.svg';
 import { useMemo } from 'react';
 import styled from 'styled-components';
 import SeedPhraseWord from './word';
@@ -38,11 +38,11 @@ const OuterSeedContainer = styled.div((props) => ({
 const ShowSeedButton = styled.button((props) => ({
   ...props.theme.body_xs,
   color: props.theme.colors.action.classic,
-  backgroundColor: props.theme.colors.action.classicYou,
-  border: `1px solid ${props.theme.colors.white[800]}`,
+  borderRadius: props.theme.radius(4),
+  border: `1px solid ${props.theme.colors.action.classic}`,
+  backgroundColor: props.theme.colors.background.lightOrange,
   height: 36,
   width: 110,
-  borderRadius: 48,
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',

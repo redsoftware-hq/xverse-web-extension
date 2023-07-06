@@ -1,4 +1,4 @@
-import backup from '@assets/img/backupWallet/backup_orange.svg';
+import backup from '@assets/img/backupWallet/backup.png';
 import ActionButton from '@components/button';
 import useSeedVault from '@hooks/useSeedVault';
 import { a } from '@react-spring/web';

@@ -396,7 +396,7 @@
   },
   "LEGAL_SCREEN": {
     "SCREEN_TITLE": "Legal",
-    "SCREEN_SUBTITLE": "Please review the Xverse Wallet Privacy Policy and Terms of Services.",
+    "SCREEN_SUBTITLE": "Please review the Orange Pill  Privacy Policy and our Terms of Service.",
     "TERMS_SERVICES_LINK_BUTTON": "Terms of Service",
     "PRIVACY_POLICY_LINK_BUTTON": "Privacy Policy",
     "ACCEPT_LEGAL_BUTTON": "Accept",
@@ -415,19 +415,16 @@
     "SEED_PHRASE_VIEW_CONTINUE": "Continue",
     "SEED_PHRASE_VERIFY_HEADING": "Write your seedphrase to confirm you saved it properly.",
     "SEED_PHRASE_VERIFY_BUTTON": "Verify",
-    "SEED_PHRASE_BACK_BUTTON": "Back to seedphrase",
-    "SEED_PHRASE_INCORRECT": "This word is not correct.",
-    "SELECT_THE": "Select the ",
-    "WORD_OF_YOUR_SEEDPHRASE": " word of your seedphrase.",
-    "CONFIRM_YOUR_SEEDPHRASE": "Confirm you've recorded your seed phrase correctly."
+    "SEED_INPUT_LABEL": "Selected Words",
+    "SEED_PHRASE_BACK_BUTTON": "Back"
   },
   "CREATE_PASSWORD_SCREEN": {
-    "CREATE_PASSWORD_TITLE": "Enter a password to protect your wallet",
-    "CONFIRM_PASSWORD_TITLE": "Confirm your password",
+    "CREATE_PASSWORD_TITLE": "Enter password",
+    "CONFIRM_PASSWORD_TITLE": "Confirm your new password",
     "ENTER_PASSWORD": "Enter your current password",
-    "TEXT_INPUT_NEW_PASSWORD_LABEL": "Password",
+    "TEXT_INPUT_NEW_PASSWORD_LABEL": "Enter the password you would like to set for your wallet.",
     "TEXT_INPUT_ENTER_PASSWORD_LABEL": "Enter your current password",
-    "TEXT_INPUT_CONFIRM_PASSWORD_LABEL": "Confirm Password",
+    "TEXT_INPUT_CONFIRM_PASSWORD_LABEL": "Re-enter the password to confirm the password for your wallet.",
     "CONTINUE_BUTTON": "Continue",
     "BACK_BUTTON": "Back",
     "PASSWORD_STRENGTH_LABEL": "Security level",
@@ -439,9 +436,9 @@
     "INCORRECT_PASSWORD_ERROR": "Incorrect password"
   },
   "WALLET_SUCCESS_SCREEN": {
-    "SCREEN_TITLE": "Wallet created successfully",
-    "SCREEN_SUBTITLE": "Your new wallet has been created successfully, you can now connect to your wallet.",
-    "CLOSE_TAB": "Close this tab",
+    "SCREEN_TITLE": "Congratulations!",
+    "SCREEN_SUBTITLE": "Your new Bitcoin wallet has successfully been created. Swipe to learn more.",
+    "CLOSE_TAB": "Complete",
     "CLICK": "Click",
     "THEN": "then",
     "OPEN_WALLET": "to open your wallet",
@@ -510,7 +507,8 @@
     "RESET": "Reset"
   },
   "RESTORE_WALLET_SCREEN": {
-    "ENTER_SEED_HEADER": "Enter your seedphrase to restore your wallet.",
+    "ENTER_SEED_HEADER": "Enter your 12 or 24 word seedphrase to restore your wallet",
+    "SEED_INPUT_PLACEHOLDER": "Enter your seedphrase",
     "SEED_INPUT_ERROR": "Invalid seed phrase, please try again",
     "CONTINUE_BUTTON": "Continue",
     "HAVE_A_24_WORDS_SEEDPHRASE?": "Have a {{number}} words seedphrase?"

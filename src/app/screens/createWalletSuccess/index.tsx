@@ -1,4 +1,4 @@
-import CheckCircle from '@assets/img/createWalletSuccess/CheckCircle.svg';
+import Completed from '@assets/img/createWalletSuccess/completed.png';
 import Extension from '@assets/img/createWalletSuccess/extension.svg';
 import Logo from '@assets/img/createWalletSuccess/logo.svg';
 import Pin from '@assets/img/createWalletSuccess/pin.svg';
@@ -18,6 +18,9 @@ const InstructionsContainer = styled.div((props) => ({
   backgroundColor: 'rgba(39, 42, 68, 0.4)',
   border: `1px solid ${props.theme.colors.elevation3}`,
   borderRadius: 12,
+  padding: `${props.theme.spacing(10.5)}px ${props.theme.spacing(10.5)}px ${props.theme.spacing(
+    10.5,
+  )}px ${props.theme.spacing(10.5)}px`,
   padding: `${props.theme.spacing(10.5)}px ${props.theme.spacing(10.5)}px ${props.theme.spacing(
     10.5,
   )}px ${props.theme.spacing(10.5)}px`,
@@ -48,23 +51,23 @@ const ContentContainer = styled.div((props) => ({
 }));
 
 const Title = styled.h1((props) => ({
-  ...props.theme.headline_s,
-  color: props.theme.colors.white_0,
+  ...props.theme.mont_tile_text,
+  color: props.theme.colors.action.classic,
   marginTop: props.theme.spacing(8),
   textAlign: 'center',
-  fontSize: 20,
 }));
 
 const Subtitle = styled.h2((props) => ({
-  ...props.theme.body_m,
-  color: props.theme.colors.white_400,
+  ...props.theme.mont_tile_text,
+  fontSize: 14,
+  color: props.theme.colors.white[0],
   marginTop: props.theme.spacing(8),
   textAlign: 'center',
 }));
 
 const ContinueButton = styled.button((props) => ({
   ...props.theme.body_bold_m,
-  color: props.theme.colors.elevation0,
+  color: props.theme.colors.white[0],
   backgroundColor: props.theme.colors.action.classic,
   borderRadius: props.theme.radius(1),
   marginLeft: props.theme.spacing(8),
@@ -92,7 +95,7 @@ function CreateWalletSuccess(): JSX.Element {
   return (
     <>
       <ContentContainer>
-        <img src={CheckCircle} alt="success" />
+        <img src={Completed} alt="success" />
         <Title>{action === 'restore' ? t('RESTORE_SCREEN_TITLE') : t('SCREEN_TITLE')}</Title>
         <Subtitle>
           {action === 'restore' ? t('RESTORE_SCREEN_SUBTITLE') : t('SCREEN_SUBTITLE')}

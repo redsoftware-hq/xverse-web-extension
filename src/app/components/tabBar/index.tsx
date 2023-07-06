@@ -2,28 +2,42 @@ import { ChartLineUp, Gear, SketchLogo, Wallet } from '@phosphor-icons/react';
 import { animated, easings, useSpring } from '@react-spring/web';
 import { isInOptions } from '@utils/helper';
 import { useNavigate } from 'react-router-dom';
-import styled, { useTheme } from 'styled-components';
+import NftTab from '@assets/img/bottomTabBar/Selected_nft.svg';
+import SettingsTab from '@assets/img/bottomTabBar/setting_tab.svg';
+import StackingTab from '@assets/img/bottomTabBar/Selected_stake.svg';
+import WalletTab from '@assets/img/bottomTabBar/Selected_wallet.svg';
+import UnselectedNftTab from '@assets/img/bottomTabBar/NFT.svg';
+import UnselectedSettingsTab from '@assets/img/bottomTabBar/unselected_setting_tab.svg';
+import UnselectedStackingTab from '@assets/img/bottomTabBar/Stake.svg';
+import UnselectedWalletTab from '@assets/img/bottomTabBar/Wallet.svg';
 
+const Container = styled.div((props) => ({
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+  width: '100%',
+  height: 64,
+  background: 'transparent',
+  justifyContent: 'space-between',
+  paddingLeft: props.theme.spacing(10),
+  paddingBottom: props.theme.spacing(15),
+  paddingRight: props.theme.spacing(10),
+}));
 const RowContainer = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'center',
   width: '100%',
-  minHeight: 64,
+  height: 64,
+  background: `linear-gradient(rgba(0, 0, 0, 0.9))`,
   justifyContent: 'space-between',
-  paddingLeft: props.theme.spacing(30),
-  paddingRight: props.theme.spacing(30),
-  borderTop: `1px solid ${props.theme.colors.elevation3}`,
-}));
-
-const MovingDiv = styled(animated.div)((props) => ({
-  width: 56,
-  height: 32,
-  backgroundColor: props.theme.colors.white_900,
-  position: 'absolute',
-  bottom: 18,
-  left: 20,
-  borderRadius: 16,
+  paddingLeft: props.theme.spacing(20),
+  borderRadius: props.theme.radius(2),
+  paddingRight: props.theme.spacing(20),
+  border: `1px solid #A8B9F433`,
+  ":hover": {
+    background: 'linear-gradient(90deg, #A8B9F4 20%, #FFFFFF 90%);'
+  }
 }));
 
 const Button = styled.button({
@@ -80,9 +94,8 @@ function BottomTabBar({ tab }: Props) {
     }
   };
 
-  const showBottomBar = !isInOptions();
-
-  return showBottomBar ? (
+  return (
+    <Container>
     <RowContainer>
       <MovingDiv style={styles} />
       <Button onClick={handleDashboardButtonClick}>
@@ -91,17 +104,11 @@ function BottomTabBar({ tab }: Props) {
           size="24"
         />
       </Button>
-      <Button onClick={handleNftButtonClick}>
-        <SketchLogo
-          color={tab === 'nft' ? theme.colors.white_0 : theme.colors.white_600}
-          size="24"
-        />
-      </Button>
       <Button onClick={handleStackingButtonClick}>
-        <ChartLineUp
-          color={tab === 'stacking' ? theme.colors.white_0 : theme.colors.white_600}
-          size="24"
-        />
+        <img src={tab === 'stacking' ? StackingTab : UnselectedStackingTab} alt="stacking" />
+      </Button>
+      <Button onClick={handleNftButtonClick}>
+        <img src={tab === 'nft' ? NftTab : UnselectedNftTab} alt="nft" />
       </Button>
       <Button onClick={handleSettingButtonClick}>
         <Gear
@@ -110,7 +117,8 @@ function BottomTabBar({ tab }: Props) {
         />
       </Button>
     </RowContainer>
-  ) : null;
+    </Container>
+  );
 }
 
 export default BottomTabBar;
