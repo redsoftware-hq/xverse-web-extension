@@ -13,24 +13,21 @@ const Container = styled.div((props) => ({
   flex: 1,
   display: 'flex',
   flexDirection: 'column',
-  padding: props.theme.spacing(8),
-  paddingTop: props.theme.spacing(20),
-  paddingBottom: props.theme.spacing(32),
-  justifyContent: 'space-between',
+  paddingLeft: props.theme.spacing(10),
+  paddingRight: props.theme.spacing(10),
+  paddingTop: props.theme.spacing(10),
 }));
 
 const Title = styled.h1((props) => ({
   ...props.theme.mont_tile_text,
-  fontSize: 24,
   color: props.theme.colors.action.classic,
-  marginTop: props.theme.spacing(20),
+  marginTop: props.theme.spacing(30),
 }));
 
 const SubTitle = styled.h1((props) => ({
-  ...props.theme.body_l,
-  fontSize: 16,
-  color: props.theme.colors.white['200'],
-  marginTop: props.theme.spacing(8),
+  ...props.theme.bold_tile_text,
+  color: props.theme.colors.white['0'],
+  marginTop: props.theme.spacing(4),
 }));
 
 const SpanHighlight = styled.span((props) => ({
@@ -40,46 +37,50 @@ const SpanHighlight = styled.span((props) => ({
 }));
 
 const ActionButton = styled.a((props) => ({
-  ...props.theme.body_m,
-  fontSize: 16,
+  ...props.theme.bold_tile_text,
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
   marginTop: props.theme.spacing(8),
   color: props.theme.colors.white['0'],
   padding: props.theme.spacing(6),
-  borderRadius: props.theme.radius(1),
+  paddingLeft: props.theme.spacing(12),
+  borderRadius: props.theme.radius(3),
+  border: `0.5px solid ${props.theme.colors.background.elevation2}`,
+  height: 56,
+  backgroundColor: props.theme.colors.background.elevationZero,
+  ':hover': {
+    background: props.theme.colors.background.elevation6_800,
+  },
+  ':focus': {
+    background: props.theme.colors.action.classic800,
+  },
 }));
 
-const CustomisedActionButton = styled(ActionButton)`
-  background: radial-gradient(85.58% 229.24% at 89.79% 22.85%, rgba(56, 60, 78, 0.2) 0%, rgba(13, 14, 18, 0.2) 100%),
-              linear-gradient(154.76deg, rgba(168, 185, 244, 0.12) 15.61%, rgba(168, 185, 244, 0.06) 62.02%);
-  :hover {
-    opacity: 0.8;
-  }
-  :active {
-    opacity: 1;
-  }
-`;
 
 const ActionButtonsContainer = styled.div((props) => ({
-  marginTop: props.theme.spacing(20),
+  marginTop: props.theme.spacing(16),
 }));
 
 const AcceptButton = styled.button((props) => ({
-  ...props.theme.mont_tile_text,
-  fontSize: 16,
+  ...props.theme.bold_tile_text,
   display: 'flex',
   color: props.theme.colors.white[0],
   alignItems: 'center',
-  marginTop: props.theme.spacing(8),
-  fontSize: '0.875rem',
-}));
-
-const DataCollectionDescription = styled.p((props) => ({
-  ...props.theme.body_m,
-  color: props.theme.colors.white_200,
-  marginTop: props.theme.spacing(32),
+  justifyContent: 'center',
+  marginTop: 'auto',
+  marginBottom: props.theme.spacing(20),
+  backgroundColor: props.theme.colors.action.classic,
+  borderRadius: props.theme.radius(3),
+  height: 56,
+  width: '100%',
+  ':hover': {
+    background: props.theme.colors.action.classicLight,
+  },
+  ':focus': {
+    background: props.theme.colors.action.classicLight,
+    opacity: 0.6,
+  },
 }));
 
 function LegalLinks() {
@@ -116,15 +117,15 @@ function LegalLinks() {
         Service.
       </SubTitle>
       <ActionButtonsContainer>
-        <CustomisedActionButton href={TERMS_LINK} target="_blank">
+        <ActionButton href={TERMS_LINK} target="_blank">
           {t('TERMS_SERVICES_LINK_BUTTON')}
           <img src={LinkIcon} alt="terms" />
-        </CustomisedActionButton>
+        </ActionButton>
         {/* <Seperator /> */}
-        <CustomisedActionButton href={PRIVACY_POLICY_LINK} target="_blank">
+        <ActionButton href={PRIVACY_POLICY_LINK} target="_blank">
           {t('PRIVACY_POLICY_LINK_BUTTON')}
           <img src={LinkIcon} alt="privacy" />
-        </CustomisedActionButton>
+        </ActionButton>
       </ActionButtonsContainer>
       <AcceptButton onClick={handleLegalAccept}>{t('ACCEPT_LEGAL_BUTTON')}</AcceptButton>
     </Container>

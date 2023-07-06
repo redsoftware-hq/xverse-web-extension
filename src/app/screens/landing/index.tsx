@@ -86,7 +86,7 @@ const RestoreButton = styled.button((props) => ({
   justifyContent: 'center',
   alignItems: 'center',
   borderRadius: props.theme.radius(3),
-  backgroundColor: props.theme.colors.background.elevation0,
+  backgroundColor: props.theme.colors.background.elevationZero,
   border: `0.5px solid ${props.theme.colors.background.elevation2}`,
   width: '100%',
   height: 56,

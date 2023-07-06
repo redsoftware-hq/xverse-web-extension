@@ -14,8 +14,8 @@ const Container = styled.div((props) => ({
   display: 'flex',
   flex: 1,
   flexDirection: 'column',
-  paddingLeft: props.theme.spacing(8),
-  paddingRight: props.theme.spacing(8),
+  paddingLeft: props.theme.spacing(10),
+  paddingRight: props.theme.spacing(10),
   paddingTop: props.theme.spacing(12),
 }));
 

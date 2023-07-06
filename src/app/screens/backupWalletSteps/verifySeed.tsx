@@ -13,14 +13,15 @@ const Container = styled.div((props) => ({
 
 const Heading = styled.p((props) => ({
   ...props.theme.mont_tile_text,
+  fontSize: 24,
   color: props.theme.colors.action.classic,
   textAlign: 'left',
-  marginBottom: props.theme.spacing(8),
+  marginBottom: props.theme.spacing(4),
 }));
 
 const Description = styled.p((props) => ({
-  ...props.theme.body_l,
-  color: props.theme.colors.white[200],
+  ...props.theme.bold_tile_text,
+  color: props.theme.colors.white[0],
   marginBottom: props.theme.spacing(15),
 }));
 
@@ -30,7 +31,7 @@ const ButtonsContainer = styled.div((props) => ({
   justifyContent: 'space-between',
   flex: 1,
   alignItems: 'flex-end',
-  marginBottom: props.theme.spacing(30),
+  marginBottom: props.theme.spacing(20),
   width: '100%',
 }));
 
@@ -157,9 +158,13 @@ export default function VerifySeed({
         setSeedError={setErr}
       />
       <ButtonsContainer>
-        <TransparentButtonContainer>
-          <ActionButton onPress={onBack} transparent text={t('SEED_PHRASE_BACK_BUTTON')} />
-        </TransparentButtonContainer>
+        <ButtonContainer>
+          <ActionButton
+            text={t('SEED_PHRASE_VIEW_CONTINUE')}
+            onPress={handleVerify}
+            disabled={seedInput === ''}
+          />
+        </ButtonContainer>
       </ButtonsContainer>
     </Container>
   );

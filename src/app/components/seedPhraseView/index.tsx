@@ -36,13 +36,13 @@ const OuterSeedContainer = styled.div((props) => ({
 }));
 
 const ShowSeedButton = styled.button((props) => ({
-  ...props.theme.body_xs,
+  ...props.theme.body_medium_m,
   color: props.theme.colors.action.classic,
   borderRadius: props.theme.radius(4),
   border: `1px solid ${props.theme.colors.action.classic}`,
   backgroundColor: props.theme.colors.background.lightOrange,
-  height: 36,
-  width: 110,
+  height: 30,
+  width: 150,
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -87,7 +87,7 @@ export default function SeedphraseView(props: SeedPhraseViewProps) {
       {!isVisible && (
         <ShowSeedButton onClick={handleToggleVisibility}>
           {/* <img src={Eye} alt="show-password" height={16} /> */}
-          Show seedphrase
+          Show Seedphrase
         </ShowSeedButton>
       )}
     </Container>
