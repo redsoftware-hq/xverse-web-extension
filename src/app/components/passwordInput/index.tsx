@@ -37,6 +37,7 @@ const HeaderText = styled.h1((props) => ({
   ...props.theme.mont_tile_text,
   color: props.theme.colors.action.classic,
   textAlign: 'left',
+  fontSize: 24,
   marginTop: props.theme.spacing(15),
 }));
 
@@ -55,13 +56,13 @@ const PasswordInputContainer = styled.div<PasswordInputContainerProps>((props) =
   alignItems: 'center',
   width: '100%',
   border: `1px solid ${
-    props.hasError ? 'rgba(211, 60, 60, 0.3)' : props.theme.colors.background.elevation3
+    props.hasError ? 'rgba(211, 60, 60, 0.3)' : props.theme.colors.action.classic
   }`,
   backgroundColor: props.theme.colors.background['elevation-1'],
-  borderRadius: props.theme.radius(1),
+  borderRadius: props.theme.radius(2),
   paddingLeft: props.theme.spacing(4),
   paddingRight: props.theme.spacing(4),
-  marginTop: props.theme.spacing(4),
+  marginTop: props.theme.spacing(8),
   marginBottom: props.theme.spacing(3),
   ':hover': {
     border : `1px solid ${props.theme.colors.action.classic}`
@@ -73,18 +74,23 @@ const PasswordInputContainer = styled.div<PasswordInputContainerProps>((props) =
 
 const PasswordInputLabel = styled.h2((props) => ({
   ...props.theme.body_medium_m,
-  marginTop: props.theme.spacing(6),
+  marginTop: props.theme.spacing(4),
   textAlign: 'left',
+  fontSize: 18,
 }));
 
 const Input = styled.input((props) => ({
   ...props.theme.body_medium_m,
-  height: 44,
+  height: 48,
   backgroundColor: props.theme.colors.background['elevation-1'],
   color: props.theme.colors.white['0'],
   width: '100%',
   border: 'none',
-  
+  paddingLeft: props.theme.spacing(6),
+  paddingRight: props.theme.spacing(6),
+  paddingTop: props.theme.spacing(4),
+  paddingBottom: props.theme.spacing(4),
+  fontSize: 18,
 }));
 
 interface ButtonContainerProps {
@@ -100,10 +106,11 @@ const ButtonsContainer = styled.div<ButtonContainerProps>((props) => ({
   marginBottom: props.theme.spacing(8),
 }));
 
-const Button = styled.button({
+const Button = styled.button((props) => ({
   background: 'none',
   display: 'flex',
-});
+  marginRight: props.theme.spacing(3),
+}));
 
 const ErrorMessage = styled.h2((props) => ({
   ...props.theme.body_xs,
@@ -291,7 +298,7 @@ function PasswordInput(props: PasswordInputProps): JSX.Element {
     return (
       <PasswordStrengthContainer>
         <span>{t('PASSWORD_STRENGTH_LABEL')}</span>
-        <StrengthBar strengthColor={theme.colors.white[600]} strengthWidth="0">
+        <StrengthBar strengthColor={theme.colors.white[0]} strengthWidth="0">
           {transition((style) => (
             <animated.div style={style} />
           ))}
@@ -325,12 +332,7 @@ function PasswordInput(props: PasswordInputProps): JSX.Element {
         </Button>
       </PasswordInputContainer>
       {error && <ErrorMessage>{error}</ErrorMessage>}
-      {checkPasswordStrength ? renderStrengthBar() : null}
       <ButtonsContainer stackButtonAlignment={stackButtonAlignment} ifError={error !== ''}>
-        <ButtonContainer stackButtonAlignment={stackButtonAlignment}>
-          <ActionButton text={t('BACK_BUTTON')} onPress={handleBack} transparent />
-        </ButtonContainer>
-        <ButtonContainer stackButtonAlignment={stackButtonAlignment}>
           <ActionButton
             processing={loading}
             disabled={
@@ -339,7 +341,6 @@ function PasswordInput(props: PasswordInputProps): JSX.Element {
             text={t('CONTINUE_BUTTON')}
             onPress={handleContinue}
           />
-        </ButtonContainer>
       </ButtonsContainer>
     </Container>
   );
