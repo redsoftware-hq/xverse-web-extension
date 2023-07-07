@@ -59,7 +59,7 @@ const TopSectionContainer = styled.div((props) => ({
 
 const PasswordInputLabel = styled.h2((props) => ({
   ...props.theme.mont_tile_text,
-  fontSize: 18,
+  fontSize: 24,
   color: props.theme.colors.action.classic,
   textAlign: 'left',
   marginTop: props.theme.spacing(15.5),
@@ -70,10 +70,11 @@ const PasswordInputContainer = styled.div((props) => ({
   alignItems: 'center',
   width: '100%',
   border: `1px solid ${props.theme.colors.background.elevation3}`,
+  borderRadius: props.theme.radius(2),
   paddingLeft: props.theme.spacing(8),
   paddingRight: props.theme.spacing(8),
-  borderRadius: props.theme.radius(1),
-  marginTop: props.theme.spacing(4),
+  marginTop: props.theme.spacing(2),
+  marginBottom: props.theme.spacing(3),
   ':hover': {
     border : `1px solid ${props.theme.colors.action.classic}`
   },
@@ -84,11 +85,12 @@ const PasswordInputContainer = styled.div((props) => ({
 
 const PasswordInput = styled.input((props) => ({
   ...props.theme.body_medium_m,
-  height: 44,
+  height: 48,
   backgroundColor: props.theme.colors.background.elevation0,
   color: props.theme.colors.white['0'],
   width: '100%',
   border: 'none',
+  fontSize: 18,
 }));
 
 // const LandingTitle = styled.h1((props) => ({
@@ -103,6 +105,11 @@ const PasswordInput = styled.input((props) => ({
 const ButtonContainer = styled.div((props) => ({
   marginTop: props.theme.spacing(8),
   width: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'end',
+  flex: 1,
+  paddingBottom: props.theme.spacing(20),
 }));
 
 const ErrorMessage = styled.h2((props) => ({
@@ -240,9 +247,9 @@ function Login(): JSX.Element {
                 processing={isVerifying}
               />
             </ButtonContainer>
-            <ForgotPasswordButton onClick={handleForgotPassword}>
+            {/* <ForgotPasswordButton onClick={handleForgotPassword}>
               {t('FORGOT_PASSWORD_BUTTON')}
-            </ForgotPasswordButton>
+            </ForgotPasswordButton> */}
           </ContentContainer>
         </ScreenContainer>
       ) : (
