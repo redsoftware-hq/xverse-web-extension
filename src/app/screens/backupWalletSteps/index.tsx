@@ -20,7 +20,7 @@ const Container = styled.div((props) => ({
 }));
 
 const SeedContainer = styled.div((props) => ({
-  paddingTop: props.theme.spacing(21),
+  paddingTop: props.theme.spacing(10),
 }));
 
 const PasswordContainer = styled.div((props) => ({

@@ -1,5 +1,8 @@
-import IconBitcoin from '@assets/img/dashboard/bitcoin_icon.svg';
+import styled from 'styled-components';
+import IconBitcoin from '@assets/img/dashboard/NewBitcoin_icon.svg';
 import IconStacks from '@assets/img/dashboard/stack_icon.svg';
+import Default from '@assets/img/dashboard/Wallet.svg'
+import { useCallback } from 'react';
 import BarLoader from '@components/barLoader';
 import { FungibleToken } from '@secretkeylabs/xverse-core';
 import { LoaderSize } from '@utils/constants';
@@ -60,6 +63,7 @@ export default function TokenImage({
     if (token === 'BTC') {
       return IconBitcoin;
     }
+    return Default;
   }, [token]);
 
   if (fungibleToken) {

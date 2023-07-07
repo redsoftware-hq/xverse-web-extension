@@ -12,15 +12,15 @@ import styled from 'styled-components';
 const RowContainer = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'row',
-  alignItems: 'center',
+  justifyContent: 'flex-end',
   marginTop: props.theme.spacing(11),
 }));
 
 const BalanceHeadingText = styled.h3((props) => ({
   ...props.theme.headline_category_s,
-  color: props.theme.colors.white_200,
+  fontFamily: 'MontRegular',
+  color: props.theme.colors.dashboard.text,
   textTransform: 'uppercase',
-  opacity: 0.7,
 }));
 
 const CurrencyText = styled.label((props) => ({
@@ -29,7 +29,14 @@ const CurrencyText = styled.label((props) => ({
   fontSize: 13,
 }));
 
-const BalanceAmountText = styled.p((props) => ({
+const BalanceAmountContainer = styled.div((props) => ({
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent:'space-between',
+  alignItems: 'center',
+}));
+
+const BalanceAmountText = styled.h1((props) => ({
   ...props.theme.headline_xl,
   color: props.theme.colors.white_0,
 }));
@@ -43,7 +50,7 @@ const BarLoaderContainer = styled.div((props) => ({
 const CurrencyCard = styled.div((props) => ({
   display: 'flex',
   justifyContent: 'center',
-  backgroundColor: props.theme.colors.elevation3,
+  backgroundColor: props.theme.colors.background.modalBackdrop,
   width: 45,
   borderRadius: 30,
   marginLeft: props.theme.spacing(4),
@@ -62,15 +69,16 @@ const ReloadContainer = styled.div({
 });
 
 interface BalanceCardProps {
+  icon?: any;
   isLoading: boolean;
-  isRefetching: boolean;
 }
 
 function BalanceCard(props: BalanceCardProps) {
   const { t } = useTranslation('translation', { keyPrefix: 'DASHBOARD_SCREEN' });
-  const { fiatCurrency, btcFiatRate, stxBtcRate, stxBalance, btcBalance, btcAddress, stxAddress } =
-    useWalletSelector();
-  const { isLoading, isRefetching } = props;
+  const { fiatCurrency, btcFiatRate, stxBtcRate, stxBalance, btcBalance } = useSelector(
+    (state: StoreState) => state.walletState,
+  );
+  const { isLoading, icon } = props;
 
   function calculateTotalBalance() {
     let totalBalance = new BigNumber(0);
@@ -102,20 +110,18 @@ function BalanceCard(props: BalanceCardProps) {
           <BarLoader loaderSize={LoaderSize.LARGE} />
         </BarLoaderContainer>
       ) : (
-        <BalanceContainer>
-          <NumericFormat
-            value={calculateTotalBalance()}
-            displayType="text"
-            prefix={`${currencySymbolMap[fiatCurrency]}`}
-            thousandSeparator
-            renderText={(value: string) => <BalanceAmountText>{value}</BalanceAmountText>}
-          />
-          {isRefetching && (
-            <ReloadContainer>
-              <MoonLoader color="white" size={16} />
-            </ReloadContainer>
-          )}
-        </BalanceContainer>
+        <BalanceAmountContainer>
+          {icon && <img src={icon} alt="Balance-icon" />}
+          <BalanceAmountText>
+            <NumericFormat
+              value={calculateTotalBalance()}
+              displayType="text"
+              prefix={`${currencySymbolMap[fiatCurrency]}`}
+              thousandSeparator
+              renderText={(value: string) => <BalanceAmountText>{value}</BalanceAmountText>}
+            />
+          </BalanceAmountText>
+        </BalanceAmountContainer>
       )}
     </>
   );

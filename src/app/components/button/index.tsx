@@ -113,7 +113,7 @@ function ActionButton({
       onPress();
     }
   };
-
+  
   if (transparent) {
     return (
       <AnimatedTransparentButton onClick={handleOnPress} disabled={disabled}>

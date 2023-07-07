@@ -2,22 +2,24 @@ import styled from 'styled-components';
 
 interface ButtonProps {
   isOpaque?: boolean;
+  isRound?: boolean;
 }
 const Button = styled.div<ButtonProps>((props) => ({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  borderRadius: 16,
-  backgroundColor: props.isOpaque
-    ? props.theme.colors.elevation2
+  borderRadius: props.isRound ? 24 : 16,
+  border: props.isRound ? '1px solid rgba(168, 185, 244, 0.10)' : 'none',
+  background: props.isOpaque
+    ? 'rgba(0, 0, 0, 0.40)'
     : props.theme.colors.action.classic,
   width: 48,
   height: 48,
   transition: 'background-color 0.2s ease, opacity 0.2s ease',
   ':hover': {
-    backgroundColor: props.isOpaque
-      ? props.theme.colors.elevation2
+    background: props.isOpaque
+      ? 'radial-gradient(157.22% 121.91% at 17.22% 10.50%, #0D0E12 0%, #000 75.87%)'
       : props.theme.colors.action.classicLight,
     opacity: props.isOpaque ? 0.85 : 0.6,
   },
@@ -25,12 +27,12 @@ const Button = styled.div<ButtonProps>((props) => ({
 
 const TransparentButton = styled(Button)`
   background-color: transparent;
-  border: ${(props) => `1px solid ${props.theme.colors.elevation6}`};
+  border: ${(props) => `1px solid ${props.theme.colors.background.elevation6}`};
 `;
 
 const AnimatedTransparentButton = styled(TransparentButton)`
   :hover {
-    background: ${(props) => props.theme.colors.elevation6_800};
+    background: ${(props) => props.theme.colors.background.elevation6_800};
   }
 `;
 
@@ -62,21 +64,24 @@ const ButtonContainer = styled.button<ButtonContainerProps>((props) => ({
 
 interface Props {
   src?: string;
-  text: string;
+  text?: string;
   onPress: () => void;
   isOpaque?: boolean;
+  isRound?: boolean;
   isDisabled?: boolean;
 }
 
-function SmallActionButton({ src, text, onPress, isOpaque, isDisabled }: Props) {
+function SmallActionButton({ src, text, onPress, isOpaque, isDisabled, isRound }: Props) {
   const handleOnPress = () => {
     if (!isDisabled) onPress();
   };
 
   return (
     <ButtonContainer isDisabled={isDisabled} onClick={handleOnPress}>
-      <Button isOpaque={isOpaque}>{src && <ButtonImage src={src} />}</Button>
-      <ButtonText>{text}</ButtonText>
+      <Button isOpaque={isOpaque} isRound={isRound}>
+        {src && <ButtonImage src={src} />}
+      </Button>
+      {text && <ButtonText>{text}</ButtonText>}
     </ButtonContainer>
   );
 }
