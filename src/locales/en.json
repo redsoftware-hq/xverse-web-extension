@@ -192,7 +192,7 @@
     "FEES": "Fees"
   },
   "DASHBOARD_SCREEN": {
-    "TOTAL_BALANCE": "total balance",
+    "TOTAL_BALANCE": "balance",
     "BITCOIN": "Bitcoin",
     "STACKS": "Stacks",
     "ACCOUNT_NAME": "Account",
@@ -202,7 +202,7 @@
     "SEND": "Send",
     "SWAP": "Swap",
     "BUY": "Buy",
-    "MANAGE_TOKEN": "Manage token list",
+    "ADD_COIN": "Add coin",
     "STACKS_AND_TOKEN": "Stacks NFTs & SIP-10 tokens",
     "ORDINALS": "Ordinals & BRC-20 Tokens",
     "VERIFY_ADDRESSES_ON_LEDGER": "Verify addresses on Ledger",
@@ -537,8 +537,7 @@
     "ERROR_RETRIEVING": "We are having trouble retrieving data.",
     "TRY_AGAIN": "Please try again later.",
     "LOAD_MORE": "Load more",
-    "TOTAL_ITEMS_one": "{{count}} item",
-    "TOTAL_ITEMS_other": "{{count}} items",
+    "ITEMS": "NFTs",
     "WEB_GALLERY": "Open gallery",
     "RECEIVE": "Receive",
     "SEND": "Send",

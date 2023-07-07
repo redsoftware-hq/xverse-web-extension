@@ -130,7 +130,12 @@ const Theme = {
        */
       900: 'rgba(255, 255, 255, 0.1)',
     },
+    dashboard: {
+      text: '#FFA589'
+    }
+    ,
     background: {
+      darkbg: '#0E1015',
       'elevation-1': '#070A13',
       elevationDarkGradient: `radial-gradient(85.58% 229.24% at 89.79% 22.85%, rgba(56, 60, 78, 0.2) 0%, rgba(13, 14, 18, 0.2) 100%),
               linear-gradient(154.76deg, rgba(168, 185, 244, 0.12) 15.61%, rgba(168, 185, 244, 0.06) 62.02%);`,
