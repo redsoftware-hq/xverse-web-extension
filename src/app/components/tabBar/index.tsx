@@ -15,7 +15,7 @@ const Container = styled.div((props) => ({
   alignItems: 'center',
   width: '100%',
   height: 64,
-  background: 'transparent',
+  background: props.theme.colors.background.darkbg,
   justifyContent: 'space-between',
   paddingLeft: props.theme.spacing(10),
   paddingBottom: props.theme.spacing(15),

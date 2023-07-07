@@ -1,6 +1,7 @@
 import styled from 'styled-components';
-import IconBitcoin from '@assets/img/dashboard/bitcoin_icon.svg';
+import IconBitcoin from '@assets/img/dashboard/NewBitcoin_icon.svg';
 import IconStacks from '@assets/img/dashboard/stack_icon.svg';
+import Default from '@assets/img/dashboard/Wallet.svg'
 import { useCallback } from 'react';
 import BarLoader from '@components/barLoader';
 import stc from 'string-to-color';
@@ -62,9 +63,11 @@ export default function TokenImage(props: TokenImageProps) {
   const getCoinIcon = useCallback(() => {
     if (token === 'STX') {
       return IconStacks;
-    } if (token === 'BTC') {
+    }
+    if (token === 'BTC') {
       return IconBitcoin;
     }
+    return Default;
   }, [token]);
 
   if (fungibleToken) {

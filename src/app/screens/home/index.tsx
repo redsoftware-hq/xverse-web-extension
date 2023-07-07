@@ -1,11 +1,12 @@
 /* eslint-disable no-await-in-loop */
 import SIP10Icon from '@assets/img/dashboard/SIP10.svg';
-import ArrowDownLeft from '@assets/img/dashboard/arrow_down_left.svg';
-import ArrowUpRight from '@assets/img/dashboard/arrow_up_right.svg';
+import Send from '@assets/img/dashboard/send.svg';
+import Receive from '@assets/img/dashboard/recieve.svg';
 import IconBitcoin from '@assets/img/dashboard/bitcoin_icon.svg';
 import BitcoinToken from '@assets/img/dashboard/bitcoin_token.svg';
-import CreditCard from '@assets/img/dashboard/credit_card.svg';
-import ListDashes from '@assets/img/dashboard/list_dashes.svg';
+import Buy from '@assets/img/dashboard/buy.svg';
+import Wallet from '@assets/img/dashboard/Wallet.svg';
+import AddCoin from '@assets/img/dashboard/AddCoin.svg';
 import OrdinalsIcon from '@assets/img/dashboard/ordinalBRC20.svg';
 import IconStacks from '@assets/img/dashboard/stack_icon.svg';
 import AccountHeaderComponent from '@components/accountHeader';
@@ -32,10 +33,13 @@ import styled from 'styled-components';
 import Theme from 'theme';
 import AlertMessage from '@components/alertMessage';
 import { useDispatch } from 'react-redux';
-import { ChangeShowBtcReceiveAlertAction, ChangeShowOrdinalReceiveAlertAction } from '@stores/wallet/actions/actionCreators';
-import BalanceCard from './balanceCard';
+import {
+  ChangeShowBtcReceiveAlertAction,
+  ChangeShowOrdinalReceiveAlertAction,
+} from '@stores/wallet/actions/actionCreators';
 import ShowBtcReceiveAlert from '@components/showBtcReceiveAlert';
 import ShowOrdinalReceiveAlert from '@components/showOrdinalReceiveAlert';
+import BalanceCard from './balanceCard';
 
 const Container = styled.div`
   display: flex;
@@ -48,6 +52,19 @@ const Container = styled.div`
     display: none;
   }
 `;
+
+const Dashboard = styled.div((props) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  borderRadius: props.theme.radius(2),
+  background: props.theme.colors.action.classic,
+  alignItems: 'space-between',
+  justifyContent: 'space-between',
+  paddingLeft: props.theme.spacing(8),
+  paddingBottom: props.theme.spacing(8),
+  paddingRight: props.theme.spacing(8),
+  marginTop: props.theme.spacing(10),
+}));
 
 const ColumnContainer = styled.div((props) => ({
   display: 'flex',
@@ -73,20 +90,31 @@ const CoinContainer = styled.div({
   justifyContent: 'space-between',
 });
 
+const AvailableCoins = styled.div({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'space-between',
+  justifyContent: 'space-between',
+});
 const Button = styled.button((props) => ({
   display: 'flex',
   flexDirection: 'row',
-  justifyContent: 'flex-end',
+  justifyContent: 'center',
   alignItems: 'center',
   borderRadius: props.theme.radius(1),
-  backgroundColor: 'transparent',
-  opacity: 0.8,
+  backgroundColor: 'rgba(0, 0, 0, 0.40)',
   marginTop: props.theme.spacing(5),
+  paddingTop: props.theme.spacing(3),
+  paddingBottom: props.theme.spacing(3),
+  paddingLeft: props.theme.spacing(7),
+  paddingRight: props.theme.spacing(7),
 }));
 
 const ButtonText = styled.div((props) => ({
   ...props.theme.body_xs,
   fontWeight: 700,
+  fontFamily: 'MontRegular',
+  fontSize:'14px',
   color: props.theme.colors.white['0'],
   textAlign: 'center',
 }));
@@ -112,7 +140,7 @@ const TokenListButtonContainer = styled.div((props) => ({
   flexDirection: 'row',
   justifyContent: 'center',
   marginTop: props.theme.spacing(6),
-  marginBottom: props.theme.spacing(22),
+  // marginBottom: props.theme.spacing(22),
 }));
 
 const Icon = styled.img({
@@ -136,7 +164,15 @@ function Home() {
   const [openBuyModal, setOpenBuyModal] = useState(false);
   const [isBtcReceiveAlertVisible, setIsBtcReceiveAlertVisible] = useState(false);
   const [isOrdinalReceiveAlertVisible, setIsOrdinalReceiveAlertVisible] = useState(false);
-  const { coinsList, stxAddress, btcAddress, ordinalsAddress, brcCoinsList, showBtcReceiveAlert, showOrdinalReceiveAlert } = useWalletSelector();
+  const {
+    coinsList,
+    stxAddress,
+    btcAddress,
+    ordinalsAddress,
+    brcCoinsList,
+    showBtcReceiveAlert,
+    showOrdinalReceiveAlert,
+  } = useWalletSelector();
   const { isLoading: loadingStxWalletData, isRefetching: refetchingStxWalletData } =
     useStxWalletData();
   const { isLoading: loadingBtcWalletData, isRefetching: refetchingBtcWalletData } =
@@ -222,8 +258,7 @@ function Home() {
   };
 
   const onOrdinalReceiveAlertOpen = () => {
-    if (showOrdinalReceiveAlert)
-    setIsOrdinalReceiveAlertVisible(true);
+    if (showOrdinalReceiveAlert) setIsOrdinalReceiveAlertVisible(true);
   };
 
   const onOrdinalReceiveAlertClose = () => {
@@ -235,8 +270,7 @@ function Home() {
   };
 
   const onReceiveAlertOpen = () => {
-    if (showBtcReceiveAlert)
-    setIsBtcReceiveAlertVisible(true);
+    if (showBtcReceiveAlert) setIsBtcReceiveAlertVisible(true);
   };
 
   const handleTokenPressed = (token: {
@@ -287,32 +321,44 @@ function Home() {
   return (
     <>
       <AccountHeaderComponent />
-      {isBtcReceiveAlertVisible && <ShowBtcReceiveAlert onReceiveAlertClose={onReceiveAlertClose}/>}
-      {isOrdinalReceiveAlertVisible && <ShowOrdinalReceiveAlert onOrdinalReceiveAlertClose={onOrdinalReceiveAlertClose}/>}
+      {isBtcReceiveAlertVisible && (
+        <ShowBtcReceiveAlert onReceiveAlertClose={onReceiveAlertClose} />
+      )}
+      {isOrdinalReceiveAlertVisible && (
+        <ShowOrdinalReceiveAlert onOrdinalReceiveAlertClose={onOrdinalReceiveAlertClose} />
+      )}
       <Container>
-        <BalanceCard
-          isLoading={
-            loadingStxWalletData ||
-            loadingBtcWalletData ||
-            refetchingStxWalletData ||
-            refetchingBtcWalletData
-          }
-        />
-        <RowButtonContainer>
-          <ButtonContainer>
-            <SmallActionButton src={ArrowUpRight} text={t('SEND')} onPress={onSendModalOpen} />
-          </ButtonContainer>
-          <ButtonContainer>
-            <SmallActionButton
-              src={ArrowDownLeft}
-              text={t('RECEIVE')}
-              onPress={onReceiveModalOpen}
-            />
-          </ButtonContainer>
-          <ButtonContainer>
-            <SmallActionButton src={CreditCard} text={t('BUY')} onPress={onBuyModalOpen} />
-          </ButtonContainer>
-        </RowButtonContainer>
+        <Dashboard>
+          <BalanceCard
+            icon={Wallet}
+            isLoading={
+              loadingStxWalletData ||
+              loadingBtcWalletData ||
+              refetchingStxWalletData ||
+              refetchingBtcWalletData
+            }
+          />
+
+          {/* <RowButtonContainer>
+            <ButtonContainer>
+              <SmallActionButton isOpaque isRound src={Send} onPress={onSendModalOpen} />
+            </ButtonContainer>
+            <ButtonContainer>
+              <SmallActionButton isOpaque isRound src={Receive} onPress={onReceiveModalOpen} />
+            </ButtonContainer>
+            <ButtonContainer>
+              <SmallActionButton isOpaque isRound src={Buy} onPress={onBuyModalOpen} />
+            </ButtonContainer>
+          </RowButtonContainer> */}
+
+          <TokenListButtonContainer>
+            <AvailableCoins>{}</AvailableCoins>
+            <Button onClick={handleManageTokenListOnClick}>
+              <ButtonImage src={AddCoin} />
+              <ButtonText>{t('ADD_COIN')}</ButtonText>
+            </Button>
+          </TokenListButtonContainer>
+        </Dashboard>
 
         <ColumnContainer>
           <TokenTile
@@ -334,7 +380,8 @@ function Home() {
         </ColumnContainer>
 
         <CoinContainer>
-          {coinsList
+          {
+          coinsList
             ?.filter((ft) => ft.visible)
             .map((coin) => (
               <TokenTile
@@ -357,18 +404,11 @@ function Home() {
             />
           ))}
         </CoinContainer>
+
         <BottomModal visible={openReceiveModal} header={t('RECEIVE')} onClose={onReceiveModalClose}>
           {receiveContent}
         </BottomModal>
 
-        <TokenListButtonContainer>
-          <Button onClick={handleManageTokenListOnClick}>
-            <>
-              <ButtonImage src={ListDashes} />
-              <ButtonText>{t('MANAGE_TOKEN')}</ButtonText>
-            </>
-          </Button>
-        </TokenListButtonContainer>
         <CoinSelectModal
           onSelectBitcoin={onBtcSendClick}
           onSelectStacks={onStxSendClick}

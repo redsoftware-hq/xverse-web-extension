@@ -22,17 +22,22 @@ import {
 import BtcTransactionHistoryItem from '@components/transactions/btcTransaction';
 import StxTransactionHistoryItem from '@components/transactions/stxTransaction';
 
-const ListItemsContainer = styled.div({
+const ListItemsContainer = styled.div((props)=>({
+  marginTop: props.theme.spacing(15),
   display: 'flex',
   flexDirection: 'column',
   flex: 1,
-});
+  borderTopLeftRadius: '24px',
+  borderTopRightRadius: '24px',
+  background: '#0E1015',
+}));
 
 const ListHeader = styled.h1((props) => ({
-  marginTop: props.theme.spacing(20),
+  marginTop: props.theme.spacing(10),
   marginBottom: props.theme.spacing(12),
   marginLeft: props.theme.spacing(8),
   marginRight: props.theme.spacing(8),
+  color: props.theme.colors.action.classic,
   ...props.theme.headline_s,
 }));
 
