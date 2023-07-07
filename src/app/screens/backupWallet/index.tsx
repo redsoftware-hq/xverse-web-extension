@@ -1,4 +1,4 @@
-import backup from '@assets/img/backupWallet/backup.svg';
+import backup from '@assets/img/backupWallet/backup.png';
 import ActionButton from '@components/button';
 import useWalletReducer from '@hooks/useWalletReducer';
 import useWalletSelector from '@hooks/useWalletSelector';
@@ -10,8 +10,8 @@ import styled from 'styled-components';
 
 const Container = styled.div((props) => ({
   flex: 1,
-  paddingLeft: props.theme.spacing(8),
-  paddingRight: props.theme.spacing(8),
+  paddingLeft: props.theme.spacing(10),
+  paddingRight: props.theme.spacing(10),
   display: 'flex',
   flexDirection: 'column',
 }));
@@ -20,26 +20,26 @@ const IconContainer = styled.div({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  flex: 1,
 });
 
 const ContentContainer = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'column',
-  justifyContent: 'center',
-  marginBottom: props.theme.spacing(32),
+  flex: 1,
 }));
 
 const Title = styled.h1((props) => ({
-  ...props.theme.body_bold_l,
+  ...props.theme.mont_tile_text,
+  fontSize: 24,
   textAlign: 'center',
+  color: props.theme.colors.action.classic,
 }));
 
 const SubTitle = styled.h2((props) => ({
-  ...props.theme.body_l,
+  ...props.theme.bold_tile_text,
   textAlign: 'center',
   marginTop: props.theme.spacing(4),
-  color: props.theme.colors.white['200'],
+  color: props.theme.colors.white['0'],
 }));
 
 const BackupActionsContainer = styled.div((props) => ({
@@ -48,6 +48,7 @@ const BackupActionsContainer = styled.div((props) => ({
   justifyContent: 'space-between',
   marginTop: props.theme.spacing(20),
   width: '100%',
+  marginBottom: props.theme.spacing(20),
 }));
 
 const TransparentButtonContainer = styled.div((props) => ({
@@ -79,18 +80,18 @@ function BackupWallet(): JSX.Element {
   return (
     <Container>
       <IconContainer>
-        <img src={backup} alt="backup" width={208} />
+        <img src={backup} alt="backup" />
       </IconContainer>
       <ContentContainer>
         <Title>{t('SCREEN_TITLE')}</Title>
         <SubTitle>{t('SCREEN_SUBTITLE')}</SubTitle>
-        <BackupActionsContainer>
-          <TransparentButtonContainer>
-            <ActionButton onPress={handleSkip} transparent text={t('BACKUP_SKIP_BUTTON')} />
-          </TransparentButtonContainer>
-          <ActionButton onPress={handleBackup} text={t('BACKUP_BUTTON')} />
-        </BackupActionsContainer>
       </ContentContainer>
+      <BackupActionsContainer>
+        <TransparentButtonContainer>
+          <ActionButton onPress={handleSkip} transparent text={t('BACKUP_SKIP_BUTTON')} />
+        </TransparentButtonContainer>
+        <ActionButton onPress={handleBackup} text={t('BACKUP_BUTTON')} />
+      </BackupActionsContainer>
     </Container>
   );
 }

@@ -1,8 +1,8 @@
 import TokenImage from '@components/tokenImage';
-import ArrowDown from '@assets/img/dashboard/arrow_down.svg';
-import ArrowUp from '@assets/img/dashboard/arrow_up.svg';
+import Receive from '@assets/img/dashboard/recieve.svg';
+import Send from '@assets/img/dashboard/send.svg';
 import Lock from '@assets/img/transactions/Lock.svg';
-import Buy from '@assets/img/dashboard/black_plus.svg';
+import Buy from '@assets/img/dashboard/buy.svg';
 import useWalletSelector from '@hooks/useWalletSelector';
 import { FungibleToken, microstacksToStx, satsToBtc } from '@secretkeylabs/xverse-core';
 import { currencySymbolMap } from '@secretkeylabs/xverse-core/types/currency';
@@ -27,12 +27,13 @@ const Container = styled.div((props) => ({
   paddingRight: props.theme.spacing(8),
 }));
 
-const RowContainer = styled.div({
+const RowContainer = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'row',
-  justifyContent: 'center',
+  justifyContent: 'right',
   alignItems: 'center',
-});
+  marginTop: props.theme.spacing(2),
+}));
 
 const ProtocolText = styled.p((props) => ({
   ...props.theme.headline_category_s,
@@ -47,15 +48,23 @@ const ProtocolText = styled.p((props) => ({
   borderRadius: props.theme.radius(2),
 }));
 
-const BalanceInfoContainer = styled.div({
+const BalanceInfoContainer = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'column',
-  alignItems: 'center',
-});
+  borderRadius: props.theme.radius(2),
+  background: props.theme.colors.action.classic,
+  justifyContent: 'space-between',
+  paddingLeft: props.theme.spacing(8),
+  paddingBottom: props.theme.spacing(8),
+  paddingRight: props.theme.spacing(8),
+  marginTop: props.theme.spacing(10),
+}));
 
 const BalanceValuesContainer = styled.div({
   display: 'flex',
-  flexDirection: 'column',
+  flexDirection: 'row',
+  justifyContent: 'space-around',
+  alignItems: 'center',
 });
 
 const CoinBalanceText = styled.h1((props) => ({
@@ -75,9 +84,10 @@ const FiatAmountText = styled.h1((props) => ({
 
 const BalanceTitleText = styled.h1((props) => ({
   ...props.theme.body_medium_m,
-  color: props.theme.colors.white['400'],
+  fontSize: 16,
+  color: props.theme.colors.dashboard.text,
   textAlign: 'center',
-  marginTop: props.theme.spacing(4),
+  // marginTop: props.theme.spacing(4),
 }));
 
 const RowButtonContainer = styled.div((props) => ({
@@ -140,7 +150,19 @@ const StacksLockedInfoText = styled.span((props) => ({
   color: props.theme.colors.white[400],
   textAlign: 'left',
 }));
-
+const CurrencyCard = styled.div((props) => ({
+  display: 'flex',
+  justifyContent: 'center',
+  backgroundColor: props.theme.colors.background.modalBackdrop,
+  width: 45,
+  borderRadius: 30,
+  marginLeft: props.theme.spacing(4),
+}));
+const CurrencyText = styled.h1((props) => ({
+  ...props.theme.headline_category_s,
+  color: props.theme.colors.white['0'],
+  fontSize: 13,
+}));
 export default function CoinHeader(props: CoinBalanceProps) {
   const { coin, fungibleToken } = props;
   const {
@@ -256,10 +278,10 @@ export default function CoinHeader(props: CoinBalanceProps) {
 
   const getDashboardTitle = () => {
     if (fungibleToken) {
-      return `${getFtTicker(fungibleToken)} ${t('BALANCE')}`;
+      return `${t('BALANCE')} ${getFtTicker(fungibleToken)}`;
     }
     if (coin) {
-      return `${coin} ${t('BALANCE')}`;
+      return `${t('BALANCE')}`;
     }
     return '';
   };
@@ -267,65 +289,71 @@ export default function CoinHeader(props: CoinBalanceProps) {
   return (
     <Container>
       <BalanceInfoContainer>
-        <TokenImage
-          token={coin || undefined}
-          loading={false}
-          fungibleToken={fungibleToken || undefined}
-        />
         <RowContainer>
           <BalanceTitleText>{getDashboardTitle()}</BalanceTitleText>
+          {coin !== 'brc20' && (
+            <CurrencyCard>
+              <CurrencyText>{coin}</CurrencyText>
+            </CurrencyCard>
+          )}
           {coin === 'brc20' && <ProtocolText>BRC-20</ProtocolText>}
         </RowContainer>
         <BalanceValuesContainer>
+          <TokenImage
+            token={coin || undefined}
+            loading={false}
+            fungibleToken={fungibleToken || undefined}
+          />
           <NumericFormat
             value={getBalanceAmount()}
             displayType="text"
             thousandSeparator
-            renderText={(value: string) => (
-              <CoinBalanceText>{`${value} ${getTokenTicker()}`}</CoinBalanceText>
-            )}
+            renderText={(value: string) => <CoinBalanceText>{`${value}`}</CoinBalanceText>}
           />
-          <NumericFormat
+          {/* <NumericFormat
             value={getFiatEquivalent()}
             displayType="text"
             thousandSeparator
             prefix={`${currencySymbolMap[fiatCurrency]} `}
             suffix={` ${fiatCurrency}`}
             renderText={(value) => <FiatAmountText>{value}</FiatAmountText>}
-          />
+          /> */}
         </BalanceValuesContainer>
+        <RowButtonContainer>
+          <ButtonContainer>
+            <SmallActionButton isOpaque isRound src={Send} onPress={() => goToSendScreen()} />
+          </ButtonContainer>
+
+          {!fungibleToken ? (
+            <>
+              <ButtonContainer>
+                <SmallActionButton
+                  isOpaque
+                  isRound
+                  src={Receive}
+                  onPress={() => navigate(`/receive/${coin}`)}
+                />
+              </ButtonContainer>
+              <SmallActionButton
+                isOpaque
+                isRound
+                src={Buy}
+                onPress={() => navigate(`/buy/${coin}`)}
+              />
+            </>
+          ) : (
+            <RecieveButtonContainer>
+              <SmallActionButton
+                isOpaque
+                isRound
+                src={Receive}
+                onPress={() => navigate(coin === 'brc20' ? '/receive/ORD' : `/receive/${coin}`)}
+              />
+            </RecieveButtonContainer>
+          )}
+        </RowButtonContainer>
       </BalanceInfoContainer>
       {renderStackingBalances()}
-      <RowButtonContainer>
-        <ButtonContainer>
-          <SmallActionButton
-            src={ArrowUp}
-            text="Send"
-            onPress={() => goToSendScreen()}
-          />
-        </ButtonContainer>
-
-        {!fungibleToken ? (
-          <>
-            <ButtonContainer>
-              <SmallActionButton
-                src={ArrowDown}
-                text="Receive"
-                onPress={() => navigate(`/receive/${coin}`)}
-              />
-            </ButtonContainer>
-            <SmallActionButton src={Buy} text="Buy" onPress={() => navigate(`/buy/${coin}`)} />
-          </>
-        ) : (
-          <RecieveButtonContainer>
-            <SmallActionButton
-              src={ArrowDown}
-              text="Receive"
-              onPress={() => navigate(coin === 'brc20' ? '/receive/ORD' : `/receive/${coin}`)}
-            />
-          </RecieveButtonContainer>
-        )}
-      </RowButtonContainer>
     </Container>
   );
 }

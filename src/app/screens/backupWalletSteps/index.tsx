@@ -17,18 +17,18 @@ const Container = styled.div((props) => ({
   display: 'flex',
   flex: 1,
   flexDirection: 'column',
-  paddingLeft: props.theme.spacing(8),
-  paddingRight: props.theme.spacing(8),
-  paddingTop: props.theme.spacing(12),
+  paddingLeft: props.theme.spacing(10),
+  paddingRight: props.theme.spacing(10),
+  paddingTop: props.theme.spacing(10),
 }));
 
 const SeedContainer = styled.div((props) => ({
-  paddingTop: props.theme.spacing(21),
+  paddingTop: props.theme.spacing(10),
 }));
 
 const PasswordContainer = styled.div((props) => ({
   marginTop: props.theme.spacing(32),
-  marginBottom: props.theme.spacing(32),
+  marginBottom: props.theme.spacing(12),
   display: 'flex',
   flex: 1,
 }));
@@ -124,8 +124,8 @@ export default function BackupWalletSteps(): JSX.Element {
 
   return (
     <Container>
-      <Steps data={backupSteps} activeIndex={currentActiveIndex} />
-      {backupSteps[currentActiveIndex]}
+      <Steps data={backupSteps} withLabel activeIndex={3} />
+      {backupSteps[3]}
     </Container>
   );
 }

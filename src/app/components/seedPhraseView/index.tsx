@@ -1,4 +1,4 @@
-import Eye from '@assets/img/createPassword/Eye.svg';
+// import Eye from '@assets/img/createPassword/Eye.svg';
 import { useMemo } from 'react';
 import styled from 'styled-components';
 import SeedPhraseWord from './word';
@@ -24,24 +24,25 @@ const SeedContainer = styled.div<SeedContainerProps>((props) => ({
   margin: 0,
   columnGap: props.theme.spacing(3),
   paddingBottom: props.theme.spacing(17),
-  paddingLeft: props.theme.spacing(5),
+  paddingLeft: props.theme.spacing(2),
+  paddingRight: props.theme.spacing(4),
   filter: `blur(${props.isVisible ? 0 : '3px'})`,
 }));
 
 const OuterSeedContainer = styled.div((props) => ({
-  backgroundColor: props.theme.colors.background['elevation-1'],
+  backgroundColor: props.theme.colors.background.elevationDarkGradient,
   border: `1px solid ${props.theme.colors.background.elevation3}`,
   borderRadius: props.theme.radius(1),
 }));
 
 const ShowSeedButton = styled.button((props) => ({
-  ...props.theme.body_xs,
-  color: props.theme.colors.white[0],
-  backgroundColor: props.theme.colors.white[900],
-  border: `1px solid ${props.theme.colors.white[600]}`,
-  height: 36,
-  width: 110,
-  borderRadius: 48,
+  ...props.theme.body_medium_m,
+  color: props.theme.colors.action.classic,
+  borderRadius: props.theme.radius(4),
+  border: `1px solid ${props.theme.colors.action.classic}`,
+  backgroundColor: props.theme.colors.background.lightOrange,
+  height: 30,
+  width: 150,
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -53,12 +54,14 @@ const ShowSeedButton = styled.button((props) => ({
     marginRight: props.theme.spacing(4),
   },
   ':hover': {
-    backgroundColor: props.theme.colors.white[850],
-    border: `1px solid ${props.theme.colors.white[800]}`,
+    backgroundColor: props.theme.colors.action.classic,
+    border: `1px solid ${props.theme.colors.action.classic}`,
+    color: props.theme.colors.white[0],
   },
   ':focus': {
-    backgroundColor: props.theme.colors.white[600],
-    border: `1px solid ${props.theme.colors.white[800]}`,
+    backgroundColor: props.theme.colors.action.classic,
+    border: `1px solid ${props.theme.colors.action.classic}`,
+    color: props.theme.colors.white[0],
   },
 }));
 
@@ -83,8 +86,8 @@ export default function SeedphraseView(props: SeedPhraseViewProps) {
 
       {!isVisible && (
         <ShowSeedButton onClick={handleToggleVisibility}>
-          <img src={Eye} alt="show-password" height={16} />
-          Show
+          {/* <img src={Eye} alt="show-password" height={16} /> */}
+          Show Seedphrase
         </ShowSeedButton>
       )}
     </Container>

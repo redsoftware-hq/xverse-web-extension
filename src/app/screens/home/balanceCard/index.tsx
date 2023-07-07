@@ -12,21 +12,28 @@ import { useTranslation } from 'react-i18next';
 const RowContainer = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'row',
-  alignItems: 'center',
+  justifyContent: 'flex-end',
   marginTop: props.theme.spacing(11),
 }));
 
 const BalanceHeadingText = styled.h1((props) => ({
   ...props.theme.headline_category_s,
-  color: props.theme.colors.white['200'],
+  fontFamily: 'MontRegular',
+  color: props.theme.colors.dashboard.text,
   textTransform: 'uppercase',
-  opacity: 0.7,
 }));
 
 const CurrencyText = styled.h1((props) => ({
   ...props.theme.headline_category_s,
   color: props.theme.colors.white['0'],
   fontSize: 13,
+}));
+
+const BalanceAmountContainer = styled.div((props) => ({
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent:'space-between',
+  alignItems: 'center',
 }));
 
 const BalanceAmountText = styled.h1((props) => ({
@@ -43,26 +50,23 @@ const BarLoaderContainer = styled.div((props) => ({
 const CurrencyCard = styled.div((props) => ({
   display: 'flex',
   justifyContent: 'center',
-  backgroundColor: props.theme.colors.background.elevation3,
+  backgroundColor: props.theme.colors.background.modalBackdrop,
   width: 45,
   borderRadius: 30,
   marginLeft: props.theme.spacing(4),
 }));
 
 interface BalanceCardProps {
-  isLoading: boolean,
+  icon?: any;
+  isLoading: boolean;
 }
 
 function BalanceCard(props: BalanceCardProps) {
   const { t } = useTranslation('translation', { keyPrefix: 'DASHBOARD_SCREEN' });
-  const {
-    fiatCurrency,
-    btcFiatRate,
-    stxBtcRate,
-    stxBalance,
-    btcBalance,
-  } = useSelector((state: StoreState) => state.walletState);
-  const { isLoading } = props;
+  const { fiatCurrency, btcFiatRate, stxBtcRate, stxBalance, btcBalance } = useSelector(
+    (state: StoreState) => state.walletState,
+  );
+  const { isLoading, icon } = props;
 
   function calculateTotalBalance() {
     const stxFiatEquiv = microstacksToStx(new BigNumber(stxBalance))
@@ -88,15 +92,18 @@ function BalanceCard(props: BalanceCardProps) {
           <BarLoader loaderSize={LoaderSize.LARGE} />
         </BarLoaderContainer>
       ) : (
-        <BalanceAmountText>
-          <NumericFormat
-            value={calculateTotalBalance()}
-            displayType="text"
-            prefix={`${currencySymbolMap[fiatCurrency]}`}
-            thousandSeparator
-            renderText={(value: string) => <BalanceAmountText>{value}</BalanceAmountText>}
-          />
-        </BalanceAmountText>
+        <BalanceAmountContainer>
+          {icon && <img src={icon} alt="Balance-icon" />}
+          <BalanceAmountText>
+            <NumericFormat
+              value={calculateTotalBalance()}
+              displayType="text"
+              prefix={`${currencySymbolMap[fiatCurrency]}`}
+              thousandSeparator
+              renderText={(value: string) => <BalanceAmountText>{value}</BalanceAmountText>}
+            />
+          </BalanceAmountText>
+        </BalanceAmountContainer>
       )}
     </>
   );

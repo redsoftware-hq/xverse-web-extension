@@ -16,14 +16,14 @@
     "ONBOARDING_CONTINUE_BUTTON": "Continue"
   },
   "DASHBOARD_SCREEN": {
-    "TOTAL_BALANCE": "total balance",
+    "TOTAL_BALANCE": "balance",
     "BITCOIN": "Bitcoin",
     "STACKS": "Stacks",
     "ACCOUNT_NAME": "Account",
     "RECEIVE": "Receive",
     "SEND": "Send",
     "BUY": "Buy",
-    "MANAGE_TOKEN": "Manage token list",
+    "ADD_COIN": "Add coin",
     "STACKS_AND_TOKEN": "Stacks NFTs & SIP-10 tokens",
     "ORDINALS": "Ordinals & BRC-20 Tokens"
   },
@@ -163,14 +163,14 @@
   },
   "LEGAL_SCREEN": {
     "SCREEN_TITLE": "Legal",
-    "SCREEN_SUBTITLE": "Please review the Xverse Wallet Privacy Policy and Terms of Services.",
+    "SCREEN_SUBTITLE": "Please review the Orange Pill  Privacy Policy and our Terms of Service.",
     "TERMS_SERVICES_LINK_BUTTON": "Terms of Service",
     "PRIVACY_POLICY_LINK_BUTTON": "Privacy Policy",
     "ACCEPT_LEGAL_BUTTON": "Accept"
   },
   "BACKUP_WALLET_SCREEN": {
-    "SCREEN_TITLE": "Backup your wallet",
-    "SCREEN_SUBTITLE": "Your seedphrase is the unique key that allows you to recover your wallet.",
+    "SCREEN_TITLE": "Backup Your Wallet",
+    "SCREEN_SUBTITLE": "Your seed phrase is the unique key that allows you to recover your Bitcoin wallet. Backing up your wallet is highly recommended.",
     "BACKUP_BUTTON": "Backup now",
     "BACKUP_SKIP_BUTTON": "Backup later",
     "SEED_PHRASE_VIEW_HEADING": "Write down your seed phrase and make sure to keep it private. This is the unique key to your wallet. ",
@@ -178,15 +178,16 @@
     "SEED_PHRASE_VIEW_CONTINUE": "Continue",
     "SEED_PHRASE_VERIFY_HEADING": "Write your seedphrase to confirm you saved it properly.",
     "SEED_PHRASE_VERIFY_BUTTON": "Verify",
+    "SEED_INPUT_LABEL": "Selected Words",
     "SEED_PHRASE_BACK_BUTTON": "Back"
   },
   "CREATE_PASSWORD_SCREEN": {
-    "CREATE_PASSWORD_TITLE": "Enter your new password",
-    "CONFIRM_PASSWORD_TITLE": "Confirm your new password",
+    "CREATE_PASSWORD_TITLE": "Enter Password",
+    "CONFIRM_PASSWORD_TITLE": "Confirm Password",
     "ENTER_PASSWORD": "Enter your current password",
-    "TEXT_INPUT_NEW_PASSWORD_LABEL": "New Password",
+    "TEXT_INPUT_NEW_PASSWORD_LABEL": "Enter the password you would like to set for your wallet.",
     "TEXT_INPUT_ENTER_PASSWORD_LABEL": "Enter your current password",
-    "TEXT_INPUT_CONFIRM_PASSWORD_LABEL": "Confirm Password",
+    "TEXT_INPUT_CONFIRM_PASSWORD_LABEL": "Re-enter the password to confirm the password for your wallet.",
     "CONTINUE_BUTTON": "Continue",
     "BACK_BUTTON": "Back",
     "PASSWORD_STRENGTH_LABEL": "Security level",
@@ -198,15 +199,23 @@
     "INCORRECT_PASSWORD_ERROR": "Incorrect password"
   },
   "WALLET_SUCCESS_SCREEN": {
-    "SCREEN_TITLE": "Wallet created successfully",
-    "SCREEN_SUBTITLE": "Your new wallet has been created successfully, you can now connect to your wallet.",
-    "CLOSE_TAB": "Close this tab",
+    "SCREEN_TITLE": "Congratulations!",
+    "SCREEN_SUBTITLE": "Your new Bitcoin wallet has successfully been created. Swipe to learn more.",
+    "CLOSE_TAB": "Complete",
     "CLICK": "Click",
     "THEN": "then",
     "OPEN_WALLET": "to open your wallet",
     "RESTORE_SCREEN_TITLE": "Wallet restored",
     "RESTORE_SCREEN_SUBTITLE": "Your wallet has been successfully restored.",
-    "SEARCH_XVERSE": "Locate Xverse and click"
+    "SEARCH_XVERSE": "Locate Xverse and click",
+    "SELF_CUSTODY" : "Self Custody",
+    "SELF_CUSTODY_DESC" : "Your assets are securely stored on the blockchain and only you have access to your encrypted keys.",
+    "PRIVATE" : "Private",
+    "PRIVATE_DESC" : "No personal information is ever collected and no data is stored on any servers.",
+    "ANONYMOUS" : "Anonymous",
+    "ANONYMOUS_DESC" : "Your identity is completely anonymous with no personal information linked to your wallet.",
+    "DECENTRALIZED" : "Decentralized",
+    "DECENTRALIZED_DESC" : "Your transactions are completely decentralized and peer-to-peer. No 3rd parties allowed."
   },
   "WALLET_EXISTS_SCREEN": {
     "CLOSE_TAB": "Close this tab",
@@ -242,7 +251,6 @@
   "RESTORE_WALLET_SCREEN": {
     "ENTER_SEED_HEADER": "Enter your 12 or 24 word seedphrase to restore your wallet",
     "SEED_INPUT_PLACEHOLDER": "Enter your seedphrase",
-    "SEED_INPUT_LABEL": "Selected Words",
     "SEED_INPUT_ERROR": "Invalid seed phrase, please try again",
     "CONTINUE_BUTTON": "Continue"
   },
@@ -266,7 +274,7 @@
     "COLLECTIBLES": "Number of collectibles",
     "NO_COLLECTIBLES": "No collectibles yet",
     "LOAD_MORE": "Load more",
-    "ITEMS": "items",
+    "ITEMS": "NFTs",
     "WEB_GALLERY": "Open gallery",
     "RECEIVE": "Receive",
     "SEND": "Send",

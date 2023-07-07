@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import logo from '@assets/img/xverse_logo.svg';
+import logo from '@assets/img/orange_pill.png';
 import styled from 'styled-components';
 import Eye from '@assets/img/createPassword/Eye.svg';
 import EyeSlash from '@assets/img/createPassword/EyeSlash.svg';
@@ -13,13 +13,13 @@ import useCacheMigration from '@hooks/useCacheMigration';
 import MigrationConfirmation from '@screens/migrationConfirmation';
 import { decryptSeedPhrase } from '@utils/encryptionUtils';
 import useWalletSelector from '@hooks/useWalletSelector';
-import useWalletSession from '@hooks/useWalletSession';
+// import useWalletSession from '@hooks/useWalletSession';
 
-declare const VERSION: string;
+// declare const VERSION: string;
 
 const Logo = styled.img({
-  width: 57,
-  height: 57,
+  width: 250,
+  height: 250,
 });
 
 const ScreenContainer = styled(animated.div)({
@@ -36,24 +36,31 @@ const ContentContainer = styled(animated.div)({
   flex: 1,
 });
 
-const AppVersion = styled.p((props) => ({
-  ...props.theme.body_xs,
-  color: props.theme.colors.white['0'],
-  textAlign: 'right',
-  marginTop: props.theme.spacing(8),
-}));
+// const AppVersion = styled.div((props) => ({
+//   ...props.theme.body_xs,
+//   color: props.theme.colors.action.classic,
+//   height: 30,
+//   borderRadius: props.theme.radius(4),
+//   border: `1px solid ${props.theme.colors.action.classic}`,
+//   backgroundColor: props.theme.colors.background.lightOrange,
+//   width: 58,
+//   textAlign: 'center',
+//   lineHeight: '30px',
+// }));
 
 const TopSectionContainer = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
   alignItems: 'center',
-  marginTop: props.theme.spacing(60),
-  marginBottom: props.theme.spacing(30),
+  marginTop: props.theme.spacing(15),
+  marginBottom: props.theme.spacing(7.5),
 }));
 
 const PasswordInputLabel = styled.h2((props) => ({
-  ...props.theme.body_medium_m,
+  ...props.theme.mont_tile_text,
+  fontSize: 24,
+  color: props.theme.colors.action.classic,
   textAlign: 'left',
   marginTop: props.theme.spacing(15.5),
 }));
@@ -63,33 +70,46 @@ const PasswordInputContainer = styled.div((props) => ({
   alignItems: 'center',
   width: '100%',
   border: `1px solid ${props.theme.colors.background.elevation3}`,
+  borderRadius: props.theme.radius(2),
   paddingLeft: props.theme.spacing(8),
   paddingRight: props.theme.spacing(8),
-  borderRadius: props.theme.radius(1),
-  marginTop: props.theme.spacing(4),
+  marginTop: props.theme.spacing(2),
+  marginBottom: props.theme.spacing(3),
+  ':hover': {
+    border : `1px solid ${props.theme.colors.action.classic}`
+  },
+  ':focus': {
+    border : `1px solid ${props.theme.colors.action.classic}`
+  }
 }));
 
 const PasswordInput = styled.input((props) => ({
   ...props.theme.body_medium_m,
-  height: 44,
+  height: 48,
   backgroundColor: props.theme.colors.background.elevation0,
   color: props.theme.colors.white['0'],
   width: '100%',
   border: 'none',
+  fontSize: 18,
 }));
 
-const LandingTitle = styled.h1((props) => ({
-  ...props.theme.tile_text,
-  paddingTop: props.theme.spacing(15),
-  paddingLeft: props.theme.spacing(34),
-  paddingRight: props.theme.spacing(34),
-  color: props.theme.colors.white['200'],
-  textAlign: 'center',
-}));
+// const LandingTitle = styled.h1((props) => ({
+//   ...props.theme.tile_text,
+//   paddingTop: props.theme.spacing(15),
+//   paddingLeft: props.theme.spacing(34),
+//   paddingRight: props.theme.spacing(34),
+//   color: props.theme.colors.white['200'],
+//   textAlign: 'center',
+// }));
 
 const ButtonContainer = styled.div((props) => ({
   marginTop: props.theme.spacing(8),
   width: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'end',
+  flex: 1,
+  paddingBottom: props.theme.spacing(20),
 }));
 
 const ErrorMessage = styled.h2((props) => ({
@@ -196,11 +216,11 @@ function Login(): JSX.Element {
     <>
       {!showMigration ? (
         <ScreenContainer>
-          <AppVersion>Beta</AppVersion>
+          {/* <AppVersion>Beta</AppVersion> */}
           <ContentContainer style={styles}>
             <TopSectionContainer>
               <Logo src={logo} />
-              <LandingTitle>{t('WELCOME_MESSAGE_FIRST_LOGIN')}</LandingTitle>
+              {/* <LandingTitle>{t('WELCOME_MESSAGE_FIRST_LOGIN')}</LandingTitle> */}
             </TopSectionContainer>
             <PasswordInputLabel>{t('PASSWORD_INPUT_LABEL')}</PasswordInputLabel>
             <PasswordInputContainer>
@@ -227,9 +247,9 @@ function Login(): JSX.Element {
                 processing={isVerifying}
               />
             </ButtonContainer>
-            <ForgotPasswordButton onClick={handleForgotPassword}>
+            {/* <ForgotPasswordButton onClick={handleForgotPassword}>
               {t('FORGOT_PASSWORD_BUTTON')}
-            </ForgotPasswordButton>
+            </ForgotPasswordButton> */}
           </ContentContainer>
         </ScreenContainer>
       ) : (
