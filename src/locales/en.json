@@ -207,7 +207,15 @@
     "OPEN_WALLET": "to open your wallet",
     "RESTORE_SCREEN_TITLE": "Wallet restored",
     "RESTORE_SCREEN_SUBTITLE": "Your wallet has been successfully restored.",
-    "SEARCH_XVERSE": "Locate Xverse and click"
+    "SEARCH_XVERSE": "Locate Xverse and click",
+    "SELF_CUSTODY" : "Self Custody",
+    "SELF_CUSTODY_DESC" : "Your assets are securely stored on the blockchain and only you have access to your encrypted keys.",
+    "PRIVATE" : "Private",
+    "PRIVATE_DESC" : "No personal information is ever collected and no data is stored on any servers.",
+    "ANONYMOUS" : "Anonymous",
+    "ANONYMOUS_DESC" : "Your identity is completely anonymous with no personal information linked to your wallet.",
+    "DECENTRALIZED" : "Decentralized",
+    "DECENTRALIZED_DESC" : "Your transactions are completely decentralized and peer-to-peer. No 3rd parties allowed."
   },
   "WALLET_EXISTS_SCREEN": {
     "CLOSE_TAB": "Close this tab",
