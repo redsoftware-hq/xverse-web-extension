@@ -16,14 +16,14 @@
     "ONBOARDING_CONTINUE_BUTTON": "Continue"
   },
   "DASHBOARD_SCREEN": {
-    "TOTAL_BALANCE": "total balance",
+    "TOTAL_BALANCE": "balance",
     "BITCOIN": "Bitcoin",
     "STACKS": "Stacks",
     "ACCOUNT_NAME": "Account",
     "RECEIVE": "Receive",
     "SEND": "Send",
     "BUY": "Buy",
-    "MANAGE_TOKEN": "Manage token list",
+    "ADD_COIN": "Add coin",
     "STACKS_AND_TOKEN": "Stacks NFTs & SIP-10 tokens",
     "ORDINALS": "Ordinals & BRC-20 Tokens"
   },
@@ -266,7 +266,7 @@
     "COLLECTIBLES": "Number of collectibles",
     "NO_COLLECTIBLES": "No collectibles yet",
     "LOAD_MORE": "Load more",
-    "ITEMS": "items",
+    "ITEMS": "NFTs",
     "WEB_GALLERY": "Open gallery",
     "RECEIVE": "Receive",
     "SEND": "Send",
