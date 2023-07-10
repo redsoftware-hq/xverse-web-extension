@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-useless-fragment */
 import BottomModal from '@components/bottomModal';
 import { useTranslation } from 'react-i18next';
 import Cross from '@assets/img/dashboard/X.svg';
@@ -100,7 +101,8 @@ function ReceiveNftModal({ visible, onClose, isGalleryOpen, setOrdinalReceiveAle
           {receiveContent}
         </BottomModal>
       )}
-    </>);
+    </>
+    );
 }
 
 export default ReceiveNftModal;

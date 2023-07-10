@@ -3,26 +3,26 @@ import { MoonLoader } from 'react-spinners';
 import useWalletSelector from '@hooks/useWalletSelector';
 import BottomTabBar from '@components/tabBar';
 import { useTranslation } from 'react-i18next';
+import { StoreState } from '@stores/index';
 import SquaresFour from '@assets/img/nftDashboard/squares_four.svg';
-import ArrowDownLeft from '@assets/img/dashboard/arrow_down_left.svg';
+import icon from '@assets/img/nftDashboard/NFT_dash.svg';
+import Receive from '@assets/img/nftDashboard/buy-crypto.svg';
 import ActionButton from '@components/button';
-import {
-  useCallback, useEffect, useMemo, useState,
-} from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import BarLoader from '@components/barLoader';
 import { GAMMA_URL, LoaderSize } from '@utils/constants';
 import ShareDialog from '@components/shareNft';
 import AccountHeaderComponent from '@components/accountHeader';
 import Ordinal from '@screens/ordinals';
 import { ChangeActivateOrdinalsAction } from '@stores/wallet/actions/actionCreators';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { InscriptionsList } from '@secretkeylabs/xverse-core/types';
 import AlertMessage from '@components/alertMessage';
 import useAddressInscriptions from '@hooks/queries/ordinals/useAddressInscriptions';
 import useStacksCollectibles from '@hooks/queries/useStacksCollectibles';
+import ShowOrdinalReceiveAlert from '@components/showOrdinalReceiveAlert';
 import Nft from './nft';
 import ReceiveNftModal from './receiveNft';
-import ShowOrdinalReceiveAlert from '@components/showOrdinalReceiveAlert';
 
 const Container = styled.div`
   display: flex;
@@ -30,7 +30,7 @@ const Container = styled.div`
   flex: 1;
   margin-left: 5%;
   margin-right: 5%;
-  overflow-y: auto;
+  padding-bottom: 5%;
   &::-webkit-scrollbar {
     display: none;
   }
@@ -40,8 +40,23 @@ interface GridContainerProps {
   isGalleryOpen: boolean;
 }
 
+const Dashboard = styled.div((props) => ({
+  display: 'flex',
+  gap: props.theme.spacing(2),
+  flexDirection: 'column',
+  borderRadius: props.theme.radius(2),
+  background: props.theme.colors.action.classic,
+  alignItems: 'space-between',
+  justifyContent: 'space-between',
+  paddingLeft: props.theme.spacing(8),
+  // paddingBottom: props.theme.spacing(8),
+  paddingRight: props.theme.spacing(8),
+  // marginTop: props.theme.spacing(10),
+}));
+
 const GridContainer = styled.div<GridContainerProps>((props) => ({
   display: 'grid',
+  background: props.theme.colors.background.darkbg,
   columnGap: props.theme.spacing(8),
   rowGap: props.theme.spacing(6),
   marginTop: props.theme.spacing(14),
@@ -89,59 +104,104 @@ const ButtonContainer = styled.div((props) => ({
   maxWidth: 400,
 }));
 
-const ShareButtonContainer = styled.div((props) => ({
-  marginLeft: props.theme.spacing(3),
-  width: '100%',
-}));
+// const ShareButtonContainer = styled.div((props) => ({
+//   marginLeft: props.theme.spacing(3),
+//   width: '100%',
+// }));
 
 const ReceiveButtonContainer = styled.div((props) => ({
   marginRight: props.theme.spacing(3),
   width: '100%',
 }));
 
-const WebGalleryButton = styled.button((props) => ({
+// const WebGalleryButton = styled.button((props) => ({
+//   display: 'flex',
+//   flexDirection: 'row',
+//   justifyContent: 'center',
+//   alignItems: 'center',
+//   borderRadius: props.theme.radius(1),
+//   backgroundColor: 'transparent',
+//   width: '100%',
+//   marginTop: props.theme.spacing(8),
+//   opacity: 0.8,
+//   ':hover': {
+//     opacity: 1,
+//   },
+// }));
+
+// const WebGalleryButtonText = styled.div((props) => ({
+//   ...props.theme.body_xs,
+//   fontWeight: 700,
+//   color: props.theme.colors.white['0'],
+//   textAlign: 'center',
+// }));
+
+// const ButtonImage = styled.img((props) => ({
+//   marginRight: props.theme.spacing(3),
+//   alignSelf: 'center',
+//   transform: 'all',
+// }));
+
+const BottomBarContainer = styled.div((props) => ({
+  background: props.theme.colors.background.darkbg,
+}));
+
+const FiatPill = styled.div((props) => ({
+  ...props.theme.headline_category_s,
+  color: props.theme.colors.white['0'],
+  fontSize: 13,
+  fontWeight: 700,
+  fontFamily: 'MontRegular',
   display: 'flex',
-  flexDirection: 'row',
+  justifyContent: 'center',
+  backgroundColor: props.theme.colors.background.modalBackdrop,
+  width: 45,
+  borderRadius: 30,
+  marginLeft: props.theme.spacing(4),
+}));
+
+const CollectiblesValueTextContainer = styled.div((props) => ({
+  display: 'flex',
+  flexDirection: 'column',
   justifyContent: 'flex-start',
   alignItems: 'center',
-  borderRadius: props.theme.radius(1),
-  backgroundColor: 'transparent',
-  width: '100%',
-  marginTop: props.theme.spacing(8),
-  opacity: 0.8,
-  ':hover': {
-    opacity: 1,
-  },
+}));
+const CollectibleType = styled.span((props) => ({
+  ...props.theme.body_m,
+  color: props.theme.colors.dashboard.text,
+  fontSize: 18,
+  fontWeight: 600,
+  fontFamily: 'MontRegular',
 }));
 
-const WebGalleryButtonText = styled.div((props) => ({
-  ...props.theme.body_xs,
-  fontWeight: 700,
-  color: props.theme.colors.white['0'],
-  textAlign: 'center',
+const CollectiblesHeading = styled.div((props) => ({
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'flex-end',
+  alignItems: 'center',
 }));
 
-const ButtonImage = styled.img((props) => ({
-  marginRight: props.theme.spacing(3),
-  alignSelf: 'center',
-  transform: 'all',
+const CollectibleRowContainer = styled.div((props) => ({
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  alignItems: 'flex-end',
 }));
-
-const BottomBarContainer = styled.div({
-  marginTop: '5%',
-});
 
 const CollectiblesHeadingText = styled.h1((props) => ({
   ...props.theme.headline_category_s,
-  color: props.theme.colors.white['200'],
-  textTransform: 'uppercase',
-  letterSpacing: '0.02em',
-  opacity: 0.7,
+  color: props.theme.colors.dashboard.text,
+  fontSize: 18,
+  fontWeight: 700,
+  fontFamily: 'MontRegular',
 }));
 
 const GalleryCollectiblesHeadingText = styled.h1((props) => ({
   ...props.theme.headline_category_m,
-  color: props.theme.colors.white['200'],
+  color: props.theme.colors.dashboard.text,
+  fontSize: 20,
+  fontWeight: 700,
+  fontFamily: 'MontRegular',
   textTransform: 'uppercase',
   letterSpacing: '0.02em',
   opacity: 0.7,
@@ -190,6 +250,19 @@ const BarLoaderContainer = styled.div((props) => ({
   display: 'flex',
 }));
 
+const NftListViewContainer = styled.div((props) => ({
+  background: props.theme.colors.background.darkbg,
+  borderTopLeftRadius: '24px',
+  borderTopRightRadius: '24px',
+  display: 'flex',
+  flexDirection: 'column',
+  flex: 1,
+  overflowY: 'auto',
+  '&::-webkit-scrollbar': {
+    display: 'none',
+  },
+}));
+
 function NftDashboard() {
   const { t } = useTranslation('translation', { keyPrefix: 'NFT_DASHBOARD_SCREEN' });
   const dispatch = useDispatch();
@@ -198,6 +271,7 @@ function NftDashboard() {
   const [openReceiveModal, setOpenReceiveModal] = useState(false);
   const [showActivateOrdinalsAlert, setShowActivateOrdinalsAlert] = useState(false);
   const [isOrdinalReceiveAlertVisible, setIsOrdinalReceiveAlertVisible] = useState(false);
+  const { fiatCurrency } = useSelector((state: StoreState) => state.walletState);
   const {
     data: nftsList,
     hasNextPage,
@@ -269,7 +343,10 @@ function NftDashboard() {
   };
 
   const renderOrdinalsList = useCallback(
-    (list: InscriptionsList) => list.results.map((ordinal) => <Ordinal asset={ordinal} key={ordinal.id} isGalleryOpen={isGalleryOpen} />),
+    (list: InscriptionsList) =>
+      list.results.map((ordinal) => (
+        <Ordinal asset={ordinal} key={ordinal.id} isGalleryOpen={isGalleryOpen} />
+      )),
     [],
   );
 
@@ -282,27 +359,28 @@ function NftDashboard() {
   };
 
   const NftListView = useCallback(
-    () => (totalNfts === 0 && ordinalsLength === 0 ? (
-      <NoCollectiblesText>{t('NO_COLLECTIBLES')}</NoCollectiblesText>
-    ) : (
-      <>
-        <GridContainer isGalleryOpen={isGalleryOpen}>
-          {hasActivatedOrdinalsKey && !ordinalsError && ordinals?.pages?.map(renderOrdinalsList)}
-          {nfts?.map((nft) => (
-            <Nft asset={nft} key={nft.asset_identifier} isGalleryOpen={isGalleryOpen} />
-          ))}
-        </GridContainer>
-        {(hasNextPage || hasNextPageOrdinals) && (
-        <LoadMoreButtonContainer>
-          {isFetchingNextPage || isFetchingNextPageOrdinals ? (
-            <MoonLoader color="white" size={30} />
-          ) : (
-            <LoadMoreButton onClick={onLoadMoreButtonClick}>{t('LOAD_MORE')}</LoadMoreButton>
+    () =>
+      totalNfts === 0 && ordinalsLength === 0 ? (
+        <NoCollectiblesText>{t('NO_COLLECTIBLES')}</NoCollectiblesText>
+      ) : (
+        <>
+          <GridContainer isGalleryOpen={isGalleryOpen}>
+            {hasActivatedOrdinalsKey && !ordinalsError && ordinals?.pages?.map(renderOrdinalsList)}
+            {nfts?.map((nft) => (
+              <Nft asset={nft} key={nft.asset_identifier} isGalleryOpen={isGalleryOpen} />
+            ))}
+          </GridContainer>
+          {(hasNextPage || hasNextPageOrdinals) && (
+            <LoadMoreButtonContainer>
+              {isFetchingNextPage || isFetchingNextPageOrdinals ? (
+                <MoonLoader color="white" size={30} />
+              ) : (
+                <LoadMoreButton onClick={onLoadMoreButtonClick}>{t('LOAD_MORE')}</LoadMoreButton>
+              )}
+            </LoadMoreButtonContainer>
           )}
-        </LoadMoreButtonContainer>
-        )}
-      </>
-    )),
+        </>
+      ),
     [ordinals, nfts],
   );
 
@@ -330,7 +408,9 @@ function NftDashboard() {
 
   return (
     <>
-      {isOrdinalReceiveAlertVisible && <ShowOrdinalReceiveAlert onOrdinalReceiveAlertClose={onOrdinalReceiveAlertClose} />}
+      {isOrdinalReceiveAlertVisible && (
+        <ShowOrdinalReceiveAlert onOrdinalReceiveAlertClose={onOrdinalReceiveAlertClose} />
+      )}
       {showActivateOrdinalsAlert && (
         <AlertMessage
           title={t('ACTIVATE_ORDINALS')}
@@ -344,51 +424,69 @@ function NftDashboard() {
       )}
       <AccountHeaderComponent disableMenuOption={isGalleryOpen} />
       <Container>
-        <CollectibleContainer>
-          {isGalleryOpen ? (
-            <GalleryCollectiblesHeadingText>{t('COLLECTIBLES')}</GalleryCollectiblesHeadingText>
-          ) : (
-            <CollectiblesHeadingText>{t('COLLECTIBLES')}</CollectiblesHeadingText>
-          )}
-          {isLoading ? (
-            <BarLoaderContainer>
-              <BarLoader loaderSize={LoaderSize.LARGE} />
-            </BarLoaderContainer>
-          ) : (
-            <CollectiblesValueText>{`${totalNfts} ${t('ITEMS')}`}</CollectiblesValueText>
-          )}
-          {!isGalleryOpen && (
-            <WebGalleryButton onClick={openInGalleryView}>
-              <>
-                <ButtonImage src={SquaresFour} />
-                <WebGalleryButtonText>{t('WEB_GALLERY')}</WebGalleryButtonText>
-              </>
-            </WebGalleryButton>
-          )}
-        </CollectibleContainer>
-        <ButtonContainer>
-          <ReceiveButtonContainer>
-            <ActionButton src={ArrowDownLeft} text={t('RECEIVE')} onPress={onReceiveModalOpen} />
-          </ReceiveButtonContainer>
-          {openReceiveModal && (
-            <ReceiveNftContainer>
-              <ReceiveNftModal
-                visible={openReceiveModal}
-                isGalleryOpen={isGalleryOpen}
-                onClose={onReceiveModalClose}
-                setOrdinalReceiveAlert={onOrdinalReceiveAlertOpen}
-              />
-            </ReceiveNftContainer>
-          )}
-          {/* <ShareButtonContainer>
+        <Dashboard>
+          <CollectibleContainer>
+            {isGalleryOpen ? (
+              <GalleryCollectiblesHeadingText>{t('COLLECTIBLES')}</GalleryCollectiblesHeadingText>
+            ) : (
+              <CollectiblesHeading>
+                <CollectiblesHeadingText>{t('VALUE')}</CollectiblesHeadingText>
+                <FiatPill>{fiatCurrency}</FiatPill>
+              </CollectiblesHeading>
+            )}
+            {icon && <img src={icon} alt="nft-dashboard" />}
+            {isLoading ? (
+              <BarLoaderContainer>
+                <BarLoader loaderSize={LoaderSize.LARGE} />
+              </BarLoaderContainer>
+            ) : (
+              <CollectibleRowContainer>
+                <CollectiblesValueTextContainer>
+                  <CollectiblesValueText>{`${totalNfts}`}</CollectiblesValueText>
+                  <CollectibleType>{t('ITEMS')}</CollectibleType>
+                </CollectiblesValueTextContainer>
+                <ButtonContainer>
+                  <ReceiveButtonContainer>
+                    <ActionButton
+                      inDashboard
+                      src={Receive}
+                      text={t('RECEIVE')}
+                      onPress={onReceiveModalOpen}
+                    />
+                  </ReceiveButtonContainer>
+                  {openReceiveModal && (
+                    <ReceiveNftContainer>
+                      <ReceiveNftModal
+                        visible={openReceiveModal}
+                        isGalleryOpen={isGalleryOpen}
+                        onClose={onReceiveModalClose}
+                        setOrdinalReceiveAlert={onOrdinalReceiveAlertOpen}
+                      />
+                    </ReceiveNftContainer>
+                  )}
+                  {/* <ShareButtonContainer>
             <ActionButton src={ShareNetwork} text={t('SHARE')} onPress={onSharePress} transparent />
           </ShareButtonContainer> */}
-          <ShareDialogeContainer>
-            {showShareNftOptions && (
-              <ShareDialog url={`${GAMMA_URL}${stxAddress}`} onCrossClick={onCrossPress} />
+                  <ShareDialogeContainer>
+                    {showShareNftOptions && (
+                      <ShareDialog url={`${GAMMA_URL}${stxAddress}`} onCrossClick={onCrossPress} />
+                    )}
+                  </ShareDialogeContainer>
+                </ButtonContainer>
+              </CollectibleRowContainer>
             )}
-          </ShareDialogeContainer>
-        </ButtonContainer>
+          </CollectibleContainer>
+        </Dashboard>
+        {/* {!isGalleryOpen && (
+          <WebGalleryButton onClick={openInGalleryView}>
+            <>
+              <ButtonImage src={SquaresFour} />
+              <WebGalleryButtonText>{t('WEB_GALLERY')}</WebGalleryButtonText>
+            </>
+          </WebGalleryButton>
+        )} */}
+      </Container>
+      <NftListViewContainer>
         {isLoading || isLoadingOrdinals ? (
           <LoaderContainer>
             <MoonLoader color="white" size={30} />
@@ -396,8 +494,7 @@ function NftDashboard() {
         ) : (
           <NftListView />
         )}
-      </Container>
-
+      </NftListViewContainer>
       {!isGalleryOpen && (
         <BottomBarContainer>
           <BottomTabBar tab="nft" />

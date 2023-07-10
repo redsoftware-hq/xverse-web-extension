@@ -17,7 +17,7 @@ interface Props {
 }
 
 const ReceiveCard = styled.div((props) => ({
-  background: props.theme.colors.background.elevation3,
+  background: props.theme.colors.background.darkbg,
   borderRadius: 12,
   width: 328,
   height: 104,

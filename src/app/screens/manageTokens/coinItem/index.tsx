@@ -111,7 +111,7 @@ function CoinItem({
           )}
         </CoinContainer>
         <CustomSwitch
-          onColor={Theme.colors.purple_main}
+          onColor={Theme.colors.action.classic}
           offColor={Theme.colors.background.elevation3}
           onChange={toggleSwitch}
           checked={isEnabled!}
