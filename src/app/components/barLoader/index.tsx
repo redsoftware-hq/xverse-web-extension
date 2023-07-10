@@ -3,20 +3,25 @@ import ContentLoader from 'react-content-loader';
 import styled from 'styled-components';
 import Theme from 'theme';
 
-function getHeight(loaderSize?: LoaderSize) {
-  switch (loaderSize) {
-    case LoaderSize.SMALLEST:
-      return 10;
-    case LoaderSize.SMALL:
-      return 15;
-    case LoaderSize.MEDIUM:
-      return 25;
-    case LoaderSize.LARGE:
-      return 35;
-    default:
-      return 15;
-  }
+interface Props {
+  loaderSize?: LoaderSize;
+  forDashboard?: boolean;
 }
+function BarLoader({ loaderSize, forDashboard }: Props) {
+  function getHeight() {
+    switch (loaderSize) {
+      case LoaderSize.SMALLEST:
+        return 10;
+      case LoaderSize.SMALL:
+        return 15;
+      case LoaderSize.MEDIUM:
+        return 25;
+      case LoaderSize.LARGE:
+        return 35;
+      default:
+        return 15;
+    }
+  }
 
 function getWidth(loaderSize?: LoaderSize) {
   switch (loaderSize) {
@@ -53,7 +58,9 @@ function BarLoader({ loaderSize }: { loaderSize?: LoaderSize }) {
       speed={1}
       interval={0.1}
       viewBox="0 0 380 40"
-      backgroundColor={Theme.colors.elevation3}
+      backgroundColor={
+        forDashboard ? Theme.colors.action.classic : Theme.colors.background.elevation3
+      }
       foregroundColor={Theme.colors.grey}
     >
       <rect

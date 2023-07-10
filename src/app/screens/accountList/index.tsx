@@ -124,6 +124,8 @@ function AccountList(): JSX.Element {
         {displayedAccountsList.map((account) => (
           <div key={account.btcAddress}>
             <AccountRow
+              key={account.stxAddress}
+              disableMenuOption
               account={account}
               isSelected={isAccountSelected(account)}
               onAccountSelected={handleAccountSelect}

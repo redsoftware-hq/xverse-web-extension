@@ -9,8 +9,8 @@ import 'react-tooltip/dist/react-tooltip.css';
 import styled from 'styled-components';
 
 const ReceiveCard = styled.div((props) => ({
-  background: props.theme.colors.background.elevation6_600,
-  borderRadius: props.theme.radius(2),
+  background: props.theme.colors.background.darkbg,
+  borderRadius: 12,
   width: 328,
   height: 104,
   padding: props.theme.spacing(8),

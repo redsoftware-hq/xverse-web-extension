@@ -29,7 +29,7 @@ const RowContainer = styled.div((props) => ({
   alignItems: 'center',
   width: '100%',
   height: 64,
-  background: `linear-gradient(rgba(0, 0, 0, 0.9))`,
+  background: props.theme.colors.background.navigation,
   justifyContent: 'space-between',
   paddingLeft: props.theme.spacing(20),
   borderRadius: props.theme.radius(2),

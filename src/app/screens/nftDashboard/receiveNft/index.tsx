@@ -1,4 +1,6 @@
-import plusIcon from '@assets/img/dashboard/plus.svg';
+/* eslint-disable react/jsx-no-useless-fragment */
+import BottomModal from '@components/bottomModal';
+import { useTranslation } from 'react-i18next';
 import Cross from '@assets/img/dashboard/X.svg';
 import ordinalsIcon from '@assets/img/nftDashboard/ordinals_icon.svg';
 import stacksIcon from '@assets/img/nftDashboard/stacks_icon.svg';
@@ -184,45 +186,25 @@ function ReceiveNftModal({ visible, onClose, isGalleryOpen, setOrdinalReceiveAle
     </ColumnContainer>
   );
 
-  const verifyOrViewAddresses = (
-    <VerifyOrViewContainer>
-      <VerifyButtonContainer>
-        <ActionButton
-          text={t('VERIFY_ADDRESS_ON_LEDGER')}
-          onPress={
-            !stxAddress
-              ? async () => {
-                  await chrome.tabs.create({
-                    url: chrome.runtime.getURL(`options.html#/verify-ledger?currency=ORD`),
-                  });
-                }
-              : handleVerifyAddresses
-          }
-        />
-      </VerifyButtonContainer>
-      <ActionButton transparent text={t('VIEW_ADDRESS')} onPress={handleReceiveModalOpen} />
-    </VerifyOrViewContainer>
-  );
-
-  return isGalleryOpen ? (
+  return (
     <>
-      <RowContainer>
-        <Text>{t('RECEIVE_NFT')}</Text>
-        <ButtonImage onClick={handleReceiveModalClose}>
-          <img src={Cross} alt="cross" />
-        </ButtonImage>
-      </RowContainer>
-      {isReceivingAddressesVisible ? receiveContent : verifyOrViewAddresses}
+      {isGalleryOpen ? (
+        <>
+          <RowContainer>
+            <Text>{t('RECEIVE_NFT')}</Text>
+            <ButtonImage onClick={onClose}>
+              <img src={Cross} alt="cross" />
+            </ButtonImage>
+          </RowContainer>
+          {receiveContent}
+        </>
+      ) : (
+        <BottomModal visible={visible} header={t('RECEIVE_NFT')} onClose={onClose}>
+          {receiveContent}
+        </BottomModal>
+      )}
     </>
-  ) : (
-    <UpdatedBottomModal
-      visible={visible}
-      header={t('RECEIVE_NFT')}
-      onClose={handleReceiveModalClose}
-    >
-      {isReceivingAddressesVisible ? receiveContent : verifyOrViewAddresses}
-    </UpdatedBottomModal>
-  );
+    );
 }
 
 export default ReceiveNftModal;

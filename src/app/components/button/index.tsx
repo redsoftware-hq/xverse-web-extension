@@ -6,6 +6,7 @@ import styled from 'styled-components';
 interface ButtonProps {
   disabled?: boolean;
   warning?: boolean;
+  inDashboard?: boolean;
 }
 
 const Button = styled.button<ButtonProps>((props) => ({
@@ -56,11 +57,9 @@ interface TextProps {
   warning?: boolean;
 }
 
-const ButtonText = styled.h1<TextProps>((props) => ({
+const ButtonText = styled.span<TextProps>((props) => ({
   ...props.theme.bold_tile_text,
-  color: `${
-    props.warning ? props.theme.colors.background.elevationZero : props.theme.colors.white[0]
-  }`,
+  color: `${props.theme.colors.white[0]}`,
   textAlign: 'center',
 }));
 
@@ -76,11 +75,26 @@ const ButtonImage = styled.img((props) => ({
   transform: 'all',
 }));
 
-const ButtonIconContainer = styled.div((props) => ({
-  display: 'flex',
+const AnimatedDashboardButtonText = styled.h1((props) => ({
+  ...props.theme.bold_tile_text,
+  fontFamily: 'MontRegular',
+  fontSize: 14,
+  color: props.theme.colors.white[0],
+  textAlign: 'center',
+}));
+
+const AnimatedDashboardButton = styled.button((props) => ({
+  background: props.theme.colors.background.modalBackdrop,
+  display: 'inline-flex',
+  flexDirection: 'row',
   justifyContent: 'center',
   alignItems: 'center',
-  marginRight: props.theme.spacing(3),
+  paddingLeft: props.theme.spacing(8),
+  paddingRight: props.theme.spacing(8),
+  paddingBottom: props.theme.spacing(4),
+  paddingTop: props.theme.spacing(4),
+  borderRadius: props.theme.radius(2),
+  transition: 'all 0.2s ease',
 }));
 
 interface Props {
@@ -92,6 +106,7 @@ interface Props {
   processing?: boolean;
   disabled?: boolean;
   transparent?: boolean;
+  inDashboard?: boolean;
   warning?: boolean;
   hoverDialogId?: string;
 }
@@ -106,17 +121,35 @@ function ActionButton({
   disabled = false,
   transparent,
   warning,
-  hoverDialogId,
+  inDashboard,
 }: Props) {
   const handleOnPress = () => {
     if (!disabled) {
       onPress();
     }
   };
-  
+
+  if (inDashboard) {
+    return (
+      <AnimatedDashboardButton onClick={handleOnPress} disabled={disabled}>
+        {processing ? (
+          <MoonLoader color="white" size={10} />
+        ) : (
+          <>
+            {src && <ButtonImage src={src} />}
+            <AnimatedDashboardButtonText>{text}</AnimatedDashboardButtonText>
+          </>
+        )}
+      </AnimatedDashboardButton>
+    );
+  }
+
   if (transparent) {
     return (
-      <AnimatedTransparentButton onClick={handleOnPress} disabled={disabled}>
+      <AnimatedTransparentButton
+        onClick={handleOnPress}
+        disabled={disabled}
+      >
         {processing ? (
           <MoonLoader color="white" size={10} />
         ) : (

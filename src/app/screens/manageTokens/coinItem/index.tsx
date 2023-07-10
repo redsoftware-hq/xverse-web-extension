@@ -110,7 +110,7 @@ function CoinItem({ coin, disabled, toggled, enabled, showDivider }: Props) {
           )}
         </CoinContainer>
         <CustomSwitch
-          onColor={Theme.colors.orange_main}
+          onColor={Theme.colors.action.classic}
           offColor={Theme.colors.background.elevation3}
           onChange={toggleSwitch}
           checked={isEnabled!}

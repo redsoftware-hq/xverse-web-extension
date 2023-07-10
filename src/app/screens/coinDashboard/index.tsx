@@ -28,9 +28,11 @@ const Container = styled.div((props) => ({
 const TokenContractContainer = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'column',
-  paddingLeft: props.theme.spacing(8),
-  paddingRight: props.theme.spacing(8),
-  marginTop: props.theme.spacing(16),
+  paddingLeft: 16,
+  paddingRight: 16,
+  paddingTop: props.theme.spacing(16),
+  paddingBottom: props.theme.spacing(42),
+  background: props.theme.colors.background.darkbg,
   h1: {
     ...props.theme.typography.body_medium_m,
     color: props.theme.colors.white_400,
@@ -54,7 +56,9 @@ const TokenContractAddress = styled.p((props) => ({
 const FtInfoContainer = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'row',
-  borderTop: `1px solid ${props.theme.colors.elevation2}`,
+  background: props.contractSelected ? props.theme.colors.background.darkbg : 'transparent',
+  borderTopLeftRadius: '24px',
+  borderTopRightRadius: '24px',
   paddingTop: props.theme.spacing(12),
   marginTop: props.theme.spacing(16),
   paddingLeft: props.theme.spacing(8),
@@ -142,25 +146,15 @@ export default function CoinDashboard() {
     setShowFtContractDetails(false);
   };
 
-  const formatAddress = (addr: string): string =>
-    addr ? `${addr.substring(0, 20)}...${addr.substring(addr.length - 20, addr.length)}` : '';
-
-  return (
-    <>
-      <TopRow title="" onClick={handleBack} />
-      <Container>
-        <CoinHeader coin={coin as CurrencyTypes} fungibleToken={ft || brc20Ft} />
-        {ft && (
-          <FtInfoContainer>
-            <Button isSelected={!showFtContractDetails} onClick={onTransactionsClick}>
-              {t('TRANSACTIONS')}
-            </Button>
-            <Button onClick={onContractClick} isSelected={showFtContractDetails}>
-              {t('CONTRACT')}
-            </Button>
-          </FtInfoContainer>
-        )}
-        {ft && showFtContractDetails ? (
+  function formatAddress(addr: string): string {
+    return addr
+      ? `${addr.substring(0, 20)}...${addr.substring(addr.length - 20, addr.length)}`
+      : '';
+  }
+  const showContent = () => {
+    if (ft) {
+      if (showFtContractDetails) {
+        return (
           <TokenContractContainer>
             <h1>{t('FT_CONTRACT_PREFIX')}</h1>
             <ContractAddressCopyButton onClick={handleCopyContractAddress}>
@@ -175,13 +169,40 @@ export default function CoinDashboard() {
               <ShareIcon src={linkIcon} alt="link" />
             </ContractDeploymentButton>
           </TokenContractContainer>
-        ) : (
-          <TransactionsHistoryList
-            coin={coin as CurrencyTypes}
-            txFilter={`${ft?.principal}::${ft?.assetName}`}
-            brc20Token={brc20FtName}
-          />
+        );
+      }
+    } else if (brc20FtName) {
+      return (
+        <TransactionHistoryContainer>
+          <h1>{t('TRANSACTION_HISTORY_TITLE')}</h1>
+          <h2>{`${t('COMING_SOON')}!`}</h2>
+        </TransactionHistoryContainer>
+      );
+    }
+    return (
+      <TransactionsHistoryList
+        coin={coin as CurrencyTypes}
+        txFilter={`${ft?.principal}::${ft?.assetName}`}
+      />
+    );
+  };
+
+  return (
+    <>
+      <TopRow title="" onClick={handleBack} />
+      <Container>
+        <CoinHeader coin={coin as CurrencyTypes} fungibleToken={ft || brc20Ft} />
+        {ft && (
+          <FtInfoContainer contractSelected={showFtContractDetails}>
+            <Button isSelected={!showFtContractDetails} onClick={onTransactionsClick}>
+              {t('TRANSACTIONS')}
+            </Button>
+            <Button onClick={onContractClick} isSelected={showFtContractDetails}>
+              {t('CONTRACT')}
+            </Button>
+          </FtInfoContainer>
         )}
+        {showContent()}
       </Container>
       <BottomBar tab="dashboard" />
     </>

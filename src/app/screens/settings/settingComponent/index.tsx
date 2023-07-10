@@ -116,38 +116,31 @@ function SettingComponent({
   const theme = useTheme();
 
   return (
-    <Wrapper>
-      <ColumnContainer>
-        {title && <TitleText>{title}</TitleText>}
-
-        <Button
-          onClick={onClick}
-          border={showDivider ? '1px solid rgb(76,81,135,0.3)' : 'transparent'}
+    <ColumnContainer>
+      {title && <TitleText>{title}</TitleText>}
+      <Button
+        onClick={onClick}
+        border={showDivider ? '1px solid rgb(76,81,135,0.3)' : 'transparent'}
+      >
+        <ComponentText
+          textColor={showWarningTitle ? theme.colors.feedback.error : theme.colors.white['200']}
         >
-          <Column>
-            <ComponentText
-              textColor={showWarningTitle ? theme.colors.feedback.error : theme.colors.white['200']}
-            >
-              {text}
-            </ComponentText>
-            {description && <DescriptionText>{description}</DescriptionText>}
-          </Column>
-          {textDetail && <ComponentDescriptionText>{textDetail}</ComponentDescriptionText>}
-          {icon && <img src={icon} alt="arrow icon" />}
-          {toggle && toggleFunction && (
-            <CustomSwitch
-              onColor={theme.colors.orange_main}
-              offColor={theme.colors.elevation3}
-              onChange={toggleFunction}
-              checked={toggleValue ?? false}
-              uncheckedIcon={false}
-              checkedIcon={false}
-            />
-          )}
-        </Button>
-      </ColumnContainer>
-      {disabled && <DisabledOverlay />}
-    </Wrapper>
+          {text}
+        </ComponentText>
+        {textDetail && <ComponentDescriptionText>{textDetail}</ComponentDescriptionText>}
+        {icon && <img src={icon} alt="arrow icon" />}
+        {toggle && toggleFunction && (
+        <CustomSwitch
+          onColor={theme.colors.action.classic}
+          offColor={theme.colors.background.elevation3}
+          onChange={toggleFunction}
+          checked={toggleValue ?? false}
+          uncheckedIcon={false}
+          checkedIcon={false}
+        />
+        )}
+      </Button>
+    </ColumnContainer>
   );
 }
 

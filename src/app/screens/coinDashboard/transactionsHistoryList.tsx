@@ -30,7 +30,7 @@ const ListItemsContainer = styled.div((props)=>({
   flex: 1,
   borderTopLeftRadius: '24px',
   borderTopRightRadius: '24px',
-  background: '#0E1015',
+  background: props.theme.colors.background.darkbg,
 }));
 
 const ListHeader = styled.h1((props) => ({
