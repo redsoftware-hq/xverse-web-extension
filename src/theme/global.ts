@@ -84,6 +84,7 @@ const GlobalStyle = createGlobalStyle`
   }
   html {
     box-sizing: border-box;
+    background: radial-gradient(157.22% 121.91% at 17.22% 10.50%, #0D0E12 0%, #000 75.87%);;
   }
   * {
   margin: 0;
