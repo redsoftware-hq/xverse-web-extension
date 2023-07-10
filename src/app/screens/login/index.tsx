@@ -82,11 +82,11 @@ const PasswordInputContainer = styled.div((props) => ({
   marginTop: props.theme.spacing(2),
   marginBottom: props.theme.spacing(3),
   ':hover': {
-    border : `1px solid ${props.theme.colors.action.classic}`
+    border: `1px solid ${props.theme.colors.action.classic}`,
   },
   ':focus': {
-    border : `1px solid ${props.theme.colors.action.classic}`
-  }
+    border: `1px solid ${props.theme.colors.action.classic}`,
+  },
 }));
 
 const PasswordInput = styled.input((props) => ({
@@ -239,6 +239,9 @@ function Login(): JSX.Element {
                 <img src={isPasswordVisible ? Eye : EyeSlash} alt="show-password" height={24} />
               </Button>
             </PasswordInputContainer>
+            <ForgotPasswordButton onClick={handleForgotPassword}>
+              {t('FORGOT_PASSWORD_BUTTON')}
+            </ForgotPasswordButton>
             {error && <ErrorMessage>{error}</ErrorMessage>}
             <ButtonContainer>
               <ActionButton
@@ -247,9 +250,6 @@ function Login(): JSX.Element {
                 processing={isVerifying}
               />
             </ButtonContainer>
-            {/* <ForgotPasswordButton onClick={handleForgotPassword}>
-              {t('FORGOT_PASSWORD_BUTTON')}
-            </ForgotPasswordButton> */}
           </ContentContainer>
         </ScreenContainer>
       ) : (
