@@ -9,16 +9,16 @@ import { CurrencyTypes } from '@utils/constants';
 import { getExplorerUrl } from '@utils/helper';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import styled from 'styled-components';
+import { getExplorerUrl } from '@utils/helper';
+import CopyButton from '@components/copyButton';
+import { FungibleToken } from '@secretkeylabs/xverse-core';
+import StepperNavigator from '@components/stepperNavigator';
 import CoinHeader from './coinHeader';
 import TransactionsHistoryList from './transactionsHistoryList';
-import StepperNavigator from '@components/stepperNavigator';
 
 const Container = styled.div((props) => ({
   display: 'flex',
   flex: 1,
-  marginTop: props.theme.spacing(4),
   flexDirection: 'column',
   overflowY: 'auto',
   '&::-webkit-scrollbar': {
@@ -29,8 +29,8 @@ const Container = styled.div((props) => ({
 const TokenContractContainer = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'column',
-  paddingLeft: 16,
-  paddingRight: 16,
+  paddingLeft: 20,
+  paddingRight: 20,
   paddingTop: props.theme.spacing(16),
   paddingBottom: props.theme.spacing(42),
   background: props.theme.colors.background.darkbg,
@@ -91,7 +91,12 @@ const ContractDeploymentButton = styled.button((props) => ({
   },
 }));
 
-const Button = styled.button<{
+const StepperContainer = styled.div({
+  marginTop: 4,
+})
+
+
+interface ButtonProps {
   isSelected: boolean;
 }>((props) => ({
   ...props.theme.typography.body_bold_l,
@@ -194,7 +199,9 @@ export default function CoinDashboard() {
       <AccountHeaderComponent />
       <Container>
         <CoinHeader coin={coin as CurrencyTypes} fungibleToken={ft || brc20Ft} />
-        <StepperNavigator />
+        <StepperContainer>
+          <StepperNavigator />
+        </StepperContainer>
         {ft && (
           <FtInfoContainer contractSelected={showFtContractDetails}>
             <Button isSelected={!showFtContractDetails} onClick={onTransactionsClick}>

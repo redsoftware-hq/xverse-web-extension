@@ -1,8 +1,10 @@
+/* eslint-disable no-nested-ternary */
 import TokenImage from '@components/tokenImage';
 import Receive from '@assets/img/dashboard/recieve.svg';
 import Send from '@assets/img/dashboard/send.svg';
 import Lock from '@assets/img/transactions/Lock.svg';
 import Buy from '@assets/img/dashboard/buy.svg';
+import SwapCoin from '@assets/img/dashboard/convert_coin.svg';
 import useWalletSelector from '@hooks/useWalletSelector';
 import { FungibleToken, microstacksToStx, satsToBtc } from '@secretkeylabs/xverse-core';
 import { currencySymbolMap } from '@secretkeylabs/xverse-core/types/currency';
@@ -24,8 +26,8 @@ interface CoinBalanceProps {
 const Container = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'column',
-  paddingLeft: props.theme.spacing(8),
-  paddingRight: props.theme.spacing(8),
+  paddingLeft: props.theme.spacing(10),
+  paddingRight: props.theme.spacing(10),
 }));
 
 const RowContainer = styled.div((props) => ({
@@ -33,7 +35,12 @@ const RowContainer = styled.div((props) => ({
   flexDirection: 'row',
   justifyContent: 'right',
   alignItems: 'center',
-  marginTop: props.theme.spacing(2),
+  marginTop: props.theme.spacing(11),
+  ...props.theme.headline_category_s,
+  fontSize: 18,
+  fontWeight: 700,
+  fontFamily: 'MontRegular',
+  color: props.theme.colors.dashboard.text,
 }));
 
 const ProtocolText = styled.p((props) => ({
@@ -55,23 +62,22 @@ const BalanceInfoContainer = styled.div((props) => ({
   borderRadius: props.theme.radius(2),
   background: props.theme.colors.action.classic,
   justifyContent: 'space-between',
-  paddingLeft: props.theme.spacing(8),
-  paddingBottom: props.theme.spacing(8),
-  paddingRight: props.theme.spacing(8),
-  marginTop: props.theme.spacing(10),
+  paddingLeft: props.theme.spacing(12),
+  paddingBottom: props.theme.spacing(9),
+  paddingRight: props.theme.spacing(12),
 }));
 
 const BalanceValuesContainer = styled.div({
   display: 'flex',
   flexDirection: 'row',
-  justifyContent: 'space-around',
+  justifyContent: 'space-between',
   alignItems: 'center',
 });
 
 const CoinBalanceText = styled.h1((props) => ({
   ...props.theme.headline_l,
-  fontSize: '1.5rem',
-  color: props.theme.colors.white_0,
+  ...props.theme.headline_xl,
+  color: props.theme.colors.white['0'],
   textAlign: 'center',
 }));
 
@@ -85,7 +91,7 @@ const FiatAmountText = styled.h1((props) => ({
 
 const BalanceTitleText = styled.h1((props) => ({
   ...props.theme.body_medium_m,
-  fontSize: 16,
+  fontSize: 18,
   color: props.theme.colors.dashboard.text,
   textAlign: 'center',
   // marginTop: props.theme.spacing(4),
@@ -95,14 +101,14 @@ const RowButtonContainer = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'row',
   justifyContent: 'center',
-  marginTop: props.theme.spacing(11),
+  marginTop: props.theme.spacing(10),
 }));
 
 const ButtonContainer = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'column',
   position: 'relative',
-  marginRight: props.theme.spacing(12),
+  marginRight: props.theme.spacing(10),
 }));
 
 const RecieveButtonContainer = styled.div({
@@ -407,12 +413,14 @@ export default function CoinHeader(props: CoinBalanceProps) {
                   onPress={() => navigate(`/receive/${coin}`)}
                 />
               </ButtonContainer>
-              <SmallActionButton
-                isOpaque
-                isRound
-                src={Buy}
-                onPress={() => navigate(`/buy/${coin}`)}
-              />
+              <ButtonContainer>
+                <SmallActionButton
+                  isOpaque
+                  isRound
+                  src={Buy}
+                  onPress={() => navigate(`/buy/${coin}`)}
+                />
+              </ButtonContainer>
             </>
           ) : (
             <RecieveButtonContainer>
@@ -424,6 +432,14 @@ export default function CoinHeader(props: CoinBalanceProps) {
               />
             </RecieveButtonContainer>
           )}
+          {coin === 'BTC' || coin === 'STX' ? (
+            <SmallActionButton
+              isOpaque
+              isRound
+              src={SwapCoin}
+              onPress={() => console.log('transfer')}
+            />
+          ) : null}
         </RowButtonContainer>
       </BalanceInfoContainer>
       {renderStackingBalances()}

@@ -1,15 +1,13 @@
-import BtcTransactionHistoryItem from '@components/transactions/btcTransaction';
-import StxTransactionHistoryItem from '@components/transactions/stxTransaction';
-import useTransactions from '@hooks/queries/useTransactions';
-import { animated, config, useSpring } from '@react-spring/web';
+/* eslint-disable no-nested-ternary */
+import styled from 'styled-components';
 import { BtcTransactionData } from '@secretkeylabs/xverse-core/types';
 import {
   AddressTransactionWithTransfers,
   MempoolTransaction,
   PostConditionFungible,
 } from '@stacks/stacks-blockchain-api-types';
-import { CurrencyTypes } from '@utils/constants';
-import { formatDate } from '@utils/date';
+import { useMemo } from 'react';
+import { animated, config, useSpring } from '@react-spring/web';
 import {
   isAddressTransactionWithTransfers,
   isBrc20Transaction,
@@ -23,8 +21,8 @@ import { useTranslation } from 'react-i18next';
 import { MoonLoader } from 'react-spinners';
 import styled from 'styled-components';
 
-const ListItemsContainer = styled.div((props)=>({
-  marginTop: props.theme.spacing(15),
+const ListItemsContainer = styled.div((props) => ({
+  marginTop: props.theme.spacing(8),
   display: 'flex',
   flexDirection: 'column',
   flex: 1,
@@ -34,12 +32,10 @@ const ListItemsContainer = styled.div((props)=>({
 }));
 
 const ListHeader = styled.h1((props) => ({
-  marginTop: props.theme.spacing(10),
-  marginBottom: props.theme.spacing(12),
-  marginLeft: props.theme.spacing(8),
-  marginRight: props.theme.spacing(8),
+  margin: props.theme.spacing(10),
   color: props.theme.colors.action.classic,
-  ...props.theme.headline_s,
+  fontFamily: 'MontBold',
+  fontSize: '20px',
 }));
 
 const LoadingContainer = styled.div({
@@ -99,28 +95,29 @@ const sortTransactionsByBlockHeight = (transactions: BtcTransactionData[]) =>
 
 const groupBtcTxsByDate = (
   transactions: BtcTransactionData[],
-): { [x: string]: BtcTransactionData[] } => {
-  const pendingTransactions: BtcTransactionData[] = [];
-  const processedTransactions: { [x: string]: BtcTransactionData[] } = {};
-
-  transactions.forEach((transaction) => {
-    const txDate = formatDate(new Date(transaction.seenTime));
-    if (transaction.txStatus === 'pending') {
-      pendingTransactions.push(transaction);
-    } else {
-      if (!processedTransactions[txDate]) processedTransactions[txDate] = [transaction];
-      else processedTransactions[txDate].push(transaction);
-
-      sortTransactionsByBlockHeight(processedTransactions[txDate]);
-    }
-  });
-  sortTransactionsByBlockHeight(pendingTransactions);
-  if (pendingTransactions.length > 0) {
-    const result = { Pending: pendingTransactions, ...processedTransactions };
-    return result;
-  }
-  return processedTransactions;
-};
+): { [x: string]: BtcTransactionData[] } =>
+  transactions.reduce(
+    (all: { [x: string]: BtcTransactionData[] }, transaction: BtcTransactionData) => {
+      const txDate = formatDate(new Date(transaction.seenTime));
+      if (!all[txDate]) {
+        if (transaction.txStatus === 'pending') {
+          all.Pending = [transaction];
+        } else {
+          all[txDate] = [transaction];
+        }
+      } else {
+        all[txDate].push(transaction);
+        all[txDate].sort((txA, txB) => {
+          if (txB.blockHeight > txA.blockHeight) {
+            return 1;
+          }
+          return -1;
+        });
+      }
+      return all;
+    },
+    {},
+  );
 
 const groupedTxsByDateMap = (txs: (AddressTransactionWithTransfers | MempoolTransaction)[]) =>
   txs.reduce(
@@ -130,9 +127,7 @@ const groupedTxsByDateMap = (txs: (AddressTransactionWithTransfers | MempoolTran
     ) => {
       const date = formatDate(
         new Date(
-          isAddressTransactionWithTransfers(transaction) && transaction.tx?.burn_block_time_iso
-            ? transaction.tx.burn_block_time_iso
-            : Date.now(),
+          transaction.tx?.burn_block_time_iso ? transaction.tx.burn_block_time_iso : Date.now(),
         ),
       );
       if (!all[date]) {
@@ -152,17 +147,13 @@ const filterTxs = (
   txs.filter((atx) => {
     const tx = isAddressTransactionWithTransfers(atx) ? atx.tx : atx;
     const acceptedTypes = tx.tx_type === 'contract_call';
-    const ftTransfers = atx && isAddressTransactionWithTransfers(atx) ? atx.ft_transfers || [] : [];
-    const nftTransfers =
-      atx && isAddressTransactionWithTransfers(atx) ? atx.nft_transfers || [] : [];
-    const fungibleTokenPostCondition = tx?.post_conditions[0] as PostConditionFungible;
-    const contractFromPostCondition = `${fungibleTokenPostCondition?.asset?.contract_address}.${fungibleTokenPostCondition?.asset?.contract_name}::${fungibleTokenPostCondition?.asset?.asset_name}`;
     return (
       acceptedTypes &&
-      (ftTransfers.filter((transfer) => transfer.asset_identifier.includes(filter)).length > 0 ||
-        nftTransfers.filter((transfer) => transfer.asset_identifier.includes(filter)).length > 0 ||
-        tx?.contract_call?.contract_id === filter ||
-        (contractFromPostCondition && contractFromPostCondition === filter))
+      ((atx?.ft_transfers || []).filter((transfer) => transfer.asset_identifier.includes(filter))
+        .length > 0 ||
+        (atx?.nft_transfers || []).filter((transfer) => transfer.asset_identifier.includes(filter))
+          .length > 0 ||
+        tx?.contract_call?.contract_id === filter)
     );
   });
 
@@ -204,7 +195,13 @@ export default function TransactionsHistoryList(props: TransactionsHistoryListPr
 
   return (
     <ListItemsContainer>
-      <ListHeader>{t('TRANSACTION_HISTORY_TITLE')}</ListHeader>
+      <ListHeader>
+        {coin === 'BTC'
+          ? `Bitcoin ${t('TRANSACTIONS_TITLE')}`
+          : coin === 'STX'
+          ? `STX ${t('TRANSACTIONS_TITLE')}`
+          : `All ${t('TRANSACTIONS_TITLE')}`}
+      </ListHeader>
       {groupedTxs &&
         !isLoading &&
         Object.keys(groupedTxs).map((group) => (

@@ -50,6 +50,7 @@ import ShowOrdinalReceiveAlert from '@components/showOrdinalReceiveAlert';
 import Steps from '@components/steps';
 import { useStepperContext } from '@stores/stepper';
 import StepperNavigator from '@components/stepperNavigator';
+import TransactionsHistoryList from '@screens/coinDashboard/transactionsHistoryList';
 import BalanceCard from './balanceCard';
 
 const Container = styled.div`
@@ -116,14 +117,14 @@ const AvailableCoins = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'column',
   fontSize: '20px',
-  color: 'rgba(255, 165, 137, 1)'
+  color: 'rgba(255, 165, 137, 1)',
 }));
 
 const Coins = styled.div((props) => ({
   ...props.theme.mont_headline_normal,
   lineHeight: '32px',
   color: 'white',
-}))
+}));
 
 const Button = styled.button((props) => ({
   display: 'flex',
@@ -238,7 +239,7 @@ function Home() {
   const theme = useTheme();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  
+
   const [openReceiveModal, setOpenReceiveModal] = useState(false);
   const [openSendModal, setOpenSendModal] = useState(false);
   const [openBuyModal, setOpenBuyModal] = useState(false);
@@ -400,8 +401,6 @@ function Home() {
     }
   };
 
-  
-
   const onOrdinalsReceivePress = () => {
     navigate('/receive/ORD');
   };
@@ -535,7 +534,9 @@ function Home() {
           </RowButtonContainer> */}
 
           <TokenListButtonContainer>
-            <AvailableCoins><Coins>2</Coins> coins</AvailableCoins>
+            <AvailableCoins>
+              <Coins>2</Coins> coins
+            </AvailableCoins>
             <Button onClick={handleManageTokenListOnClick}>
               <ButtonImage src={AddCoin} />
               <ButtonText>{t('ADD_COIN')}</ButtonText>
@@ -569,8 +570,9 @@ function Home() {
           loadingWalletData={loadingStxWalletData || loadingBtcWalletData}
         />
       </Container>
-      <StepperNavigator/>
-      <ListContainer>
+      <StepperNavigator />
+      <TransactionsHistoryList coin="FT" txFilter={null} />
+      {/* <ListContainer>
         <ColumnContainer>
           <TokenTile
             title={t('BITCOIN')}
@@ -614,33 +616,7 @@ function Home() {
             />
           ))}
         </CoinContainer>
-
-        <BottomModal visible={openReceiveModal} header={t('RECEIVE')} onClose={onReceiveModalClose}>
-          {receiveContent}
-        </BottomModal>
-
-        <CoinSelectModal
-          onSelectBitcoin={onBtcSendClick}
-          onSelectStacks={onStxSendClick}
-          onClose={onSendModalClose}
-          onSelectCoin={onSendFtSelect}
-          visible={openSendModal}
-          coins={getCoinsList()}
-          title={t('SEND')}
-          loadingWalletData={loadingStxWalletData || loadingBtcWalletData}
-        />
-
-        <CoinSelectModal
-          onSelectBitcoin={onBuyBtcClick}
-          onSelectStacks={onBuyStxClick}
-          onClose={onBuyModalClose}
-          onSelectCoin={onBuyModalClose}
-          visible={openBuyModal}
-          coins={[]}
-          title={t('BUY')}
-          loadingWalletData={loadingStxWalletData || loadingBtcWalletData}
-        />
-      </Container>
+      </ListContainer> */}
       <BottomBar tab="dashboard" />
 
       <BottomModal

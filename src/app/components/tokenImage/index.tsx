@@ -20,10 +20,10 @@ export interface TokenImageProps {
   round?: boolean;
 }
 
-const TickerImage = styled.img<{ size?: number; round?: boolean }>((props) => ({
-  height: props.size ?? 44,
-  width: props.size ?? 44,
-  borderRadius: props.round ? '50%' : 'none',
+const TickerImage = styled.img<ImageProps>((props) => ({
+  height: props.isSmallSize ? 32 : 56,
+  width: props.isSmallSize ? 32 : 56,
+  borderRadius: 30,
 }));
 
 const LoaderImageContainer = styled.div({
