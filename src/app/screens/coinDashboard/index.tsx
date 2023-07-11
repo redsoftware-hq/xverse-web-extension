@@ -1,4 +1,5 @@
 import TopRow from '@components/topRow';
+import AccountHeaderComponent from '@components/accountHeader';
 import BottomBar from '@components/tabBar';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import useWalletSelector from '@hooks/useWalletSelector';
@@ -13,6 +14,7 @@ import CopyButton from '@components/copyButton';
 import { FungibleToken } from '@secretkeylabs/xverse-core';
 import CoinHeader from './coinHeader';
 import TransactionsHistoryList from './transactionsHistoryList';
+import StepperNavigator from '@components/stepperNavigator';
 
 const Container = styled.div((props) => ({
   display: 'flex',
@@ -211,9 +213,11 @@ export default function CoinDashboard() {
 
   return (
     <>
-      <TopRow title="" onClick={handleBack} />
+      {/* <TopRow title="" onClick={handleBack} /> */}
+      <AccountHeaderComponent />
       <Container>
         <CoinHeader coin={coin as CurrencyTypes} fungibleToken={ft || brc20Ft} />
+        <StepperNavigator />
         {ft && (
           <FtInfoContainer contractSelected={showFtContractDetails}>
             <Button isSelected={!showFtContractDetails} onClick={onTransactionsClick}>

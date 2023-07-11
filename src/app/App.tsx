@@ -5,6 +5,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { queryClient } from '@utils/query';
 import { Toaster } from 'react-hot-toast';
 import { Provider } from 'react-redux';
+import { StepperProvider } from '@stores/stepper';
 import { RouterProvider } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/integration/react';
 import { ThemeProvider } from 'styled-components';
@@ -21,6 +22,7 @@ function App(): JSX.Element {
       <QueryClientProvider client={queryClient}>
         <ReactQueryDevtools initialIsOpen={false} />
         <Provider store={rootStore.store}>
+          <StepperProvider>
           <PersistGate persistor={rootStore.persistedStore} loading={<LoadingScreen />}>
             <SessionGuard>
               <ThemeProvider theme={Theme}>
@@ -29,6 +31,7 @@ function App(): JSX.Element {
               </ThemeProvider>
             </SessionGuard>
           </PersistGate>
+          </StepperProvider>
         </Provider>
       </QueryClientProvider>
     </>
