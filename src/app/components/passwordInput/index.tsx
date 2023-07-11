@@ -1,6 +1,6 @@
 import Eye from '@assets/img/createPassword/Eye.svg';
 import EyeSlash from '@assets/img/createPassword/EyeSlash.svg';
-import PasswordIcon from '@assets/img/createPassword/New_Password.svg';
+import PasswordIcon from '@assets/img/Graphic (1).svg';
 import { useEffect, useState } from 'react';
 import ActionButton from '@components/button';
 import { animated, useTransition } from '@react-spring/web';
