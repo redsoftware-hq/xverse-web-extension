@@ -16,7 +16,7 @@ function BarLoader({ loaderSize, forDashboard }: Props) {
       case LoaderSize.MEDIUM:
         return 25;
       case LoaderSize.LARGE:
-        return 35;
+        return 40;
       default:
         return 15;
     }
@@ -31,7 +31,7 @@ function BarLoader({ loaderSize, forDashboard }: Props) {
       case LoaderSize.MEDIUM:
         return 250;
       case LoaderSize.LARGE:
-        return 300;
+        return 370;
       default:
         return 100;
     }
