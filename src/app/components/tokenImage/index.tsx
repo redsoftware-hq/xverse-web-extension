@@ -24,8 +24,8 @@ interface TextProps {
 }
 
 const TickerImage = styled.img<ImageProps>((props) => ({
-  height: props.isSmallSize ? 32 : 44,
-  width: props.isSmallSize ? 32 : 44,
+  height: props.isSmallSize ? 32 : 56,
+  width: props.isSmallSize ? 32 : 56,
   borderRadius: 30,
 }));
 

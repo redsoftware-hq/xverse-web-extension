@@ -53,8 +53,14 @@ function StepperNavigator() {
 
   const handlePreviousDashboard = (e) => {
     e.preventDefault();
-    if (currentActiveIndex > 0) {
-      goToPreviousStep();
+    if (currentActiveIndex === 1) {
+      goToHome();
+      navigate('/');
+    } else if (currentActiveIndex > 1) {
+      handleTokenPressed({
+        coin: stepsData[currentActiveIndex - 1] as CurrencyTypes,
+      });
+      goToPreviousStep()
     }
   };
 

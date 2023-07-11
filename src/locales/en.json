@@ -427,6 +427,7 @@
     "RECEIVE_COIN_BUTTON": "Receive",
     "BUY_COIN_BUTTON": "Buy",
     "TRANSACTION_HISTORY_TITLE": "Transaction history",
+    "TRANSACTIONS_TITLE": "Transactions",
     "TRANSACTIONS_LIST_EMPTY": "No transactions found.",
     "TRANSACTION_SENT": "Sent",
     "TRANSACTION_RECEIVED": "Received",
