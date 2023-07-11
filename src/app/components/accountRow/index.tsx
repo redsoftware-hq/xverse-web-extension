@@ -107,7 +107,6 @@ const OptionsButton = styled.button({
 });
 
 const CopyButton = styled.button`
-  opacity: 0.6;
   color: #ffffff;
   margin-top: 3px;
   /* margin-right: 10px; */
