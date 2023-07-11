@@ -11,7 +11,8 @@ import useWalletSelector from '@hooks/useWalletSelector';
 // import OptionsDialog from './optionsDialog';
 
 const SelectedAccountContainer = styled.div((props) => ({
-  padding: '5%',
+  padding: '20px',
+  paddingBottom: '16px',
   // paddingRight: '3%',
   display: 'flex',
   flexDirection: 'row',
