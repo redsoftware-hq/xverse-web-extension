@@ -17,26 +17,26 @@ function BarLoader({ loaderSize, forDashboard }: Props) {
       case LoaderSize.MEDIUM:
         return 25;
       case LoaderSize.LARGE:
-        return 35;
+        return 40;
       default:
         return 15;
     }
   }
 
-function getWidth(loaderSize?: LoaderSize) {
-  switch (loaderSize) {
-    case LoaderSize.SMALLEST:
-      return 120;
-    case LoaderSize.SMALL:
-      return 150;
-    case LoaderSize.MEDIUM:
-      return 250;
-    case LoaderSize.LARGE:
-      return 300;
-    default:
-      return 100;
+  function getWidth() {
+    switch (loaderSize) {
+      case LoaderSize.SMALLEST:
+        return 120;
+      case LoaderSize.SMALL:
+        return 150;
+      case LoaderSize.MEDIUM:
+        return 250;
+      case LoaderSize.LARGE:
+        return 370;
+      default:
+        return 100;
+    }
   }
-}
 
 function getRadius(loaderSize?: LoaderSize) {
   switch (loaderSize) {

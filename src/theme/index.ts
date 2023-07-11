@@ -303,10 +303,17 @@ const Theme = {
     fontSize: 34,
     letterSpacing: 0.02,
   },
-
-  /**
-   * @deprecated use theme.typography
-   */
+  mont_headline_normal: {
+    fontFamily: 'MontRegular',
+    fontSize: 40,
+  },
+  mont_headline_bold: {
+    fontFamily: 'MontSemiBold',
+    fontSize: 40,
+  },
+  mont_light: {
+    fontFamily: 'MontLight',
+  },
   headline_m: {
     fontFamily: 'IBMPlexSans-Bold',
     fontStyle: 'normal',

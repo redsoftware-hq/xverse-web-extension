@@ -10,8 +10,6 @@ const StepperContainer = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'row',
   justifyContent: 'center',
-  marginTop: props.theme.spacing(6),
-  marginBottom: props.theme.spacing(6),
 }));
 
 const Button = styled.button((props) => ({
@@ -28,7 +26,7 @@ function StepperNavigator() {
     dispatchStep,
   } = useStepperContext();
   const navigate = useNavigate();
-  const stepsData = ['BTC', 'STX'];
+  const stepsData = ['HOME', 'BTC', 'STX'];
 
   const handleTokenPressed = (token: {
     coin: CurrencyTypes;
@@ -53,24 +51,21 @@ function StepperNavigator() {
     dispatchStep({ type: 'HOME' });
   };
 
-  const handlePreviousDashboard = () => {
-    goToPreviousStep();
-    navigate(-1);
+  const handlePreviousDashboard = (e) => {
+    e.preventDefault();
+    if (currentActiveIndex > 0) {
+      goToPreviousStep();
+    }
   };
 
-  const handleNextDashboard = () => {
-    goToNextStep();
-    if (currentActiveIndex === 0) {
+  const handleNextDashboard = (e) => {
+    e.preventDefault();
+    if (currentActiveIndex < stepsData.length - 1) {
       handleTokenPressed({
-        coin: stepsData[0] as CurrencyTypes,
+        coin: stepsData[currentActiveIndex + 1] as CurrencyTypes,
       });
-    }
-    if (currentActiveIndex === 1) {
-      handleTokenPressed({
-        coin: stepsData[1] as CurrencyTypes,
-      });
-    }
-    if (currentActiveIndex > 1) {
+      goToNextStep();
+    } else {
       goToHome();
       navigate('/');
     }

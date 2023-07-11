@@ -46,7 +46,7 @@ const BalanceAmountText = styled.h1((props) => ({
 const BarLoaderContainer = styled.div((props) => ({
   display: 'flex',
   maxWidth: 300,
-  marginTop: props.theme.spacing(5),
+  height: 56,
 }));
 
 const CurrencyCard = styled.div((props) => ({
