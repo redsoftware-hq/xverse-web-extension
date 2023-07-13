@@ -62,6 +62,7 @@ const Subtitle = styled.h2((props) => ({
   ...props.theme.bold_tile_text,
   color: props.theme.colors.white[0],
   marginTop: props.theme.spacing(8),
+  marginBottom: props.theme.spacing(8),
   textAlign: 'center',
 }));
 
