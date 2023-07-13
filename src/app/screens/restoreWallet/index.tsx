@@ -37,13 +37,13 @@ const PasswordContainer = styled.div((props) => ({
 function RestoreWallet(): JSX.Element {
   const { t } = useTranslation('translation');
   const { restoreWallet } = useWalletReducer();
-  const [isRestoring, setIsRestoring] = useState(false);
-  const [currentStepIndex, setCurrentStepIndex] = useState(0);
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [seedPhrase, setSeedPhrase] = useState('');
-  const [seedError, setSeedError] = useState('');
-  const [error, setError] = useState('');
+  const [isRestoring, setIsRestoring] = useState<boolean>(false);
+  const [currentStepIndex, setCurrentStepIndex] = useState<number>(0);
+  const [password, setPassword] = useState<string>('');
+  const [confirmPassword, setConfirmPassword] = useState<string>('');
+  const [seedPhrase, setSeedPhrase] = useState<string[]>(new Array(12).fill(''));
+  const [seedError, setSeedError] = useState<string>('');
+  const [error, setError] = useState<string>('');
   const navigate = useNavigate();
   const { disableWalletExistsGuard } = useWalletExistsContext();
 
@@ -66,7 +66,7 @@ function RestoreWallet(): JSX.Element {
   }
 
   const onSeedPhraseContinue = () => {
-    const seed = cleanMnemonic(seedPhrase);
+    const seed = seedPhrase.map(e => e.trim()).join(' ');
     if (validateMnemonic(seed)) {
       setSeedError('');
       setCurrentStepIndex(1);
@@ -86,7 +86,7 @@ function RestoreWallet(): JSX.Element {
 
       disableWalletExistsGuard?.();
 
-      const seed = cleanMnemonic(seedPhrase);
+      const seed = seedPhrase.map(e => e.trim()).join(' ');
       await restoreWallet(seed, password);
       setIsRestoring(false);
 
