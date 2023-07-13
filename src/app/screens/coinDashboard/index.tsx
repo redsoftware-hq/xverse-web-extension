@@ -113,7 +113,7 @@ const ContractDeploymentButton = styled.button((props) => ({
 }));
 
 const StepperContainer = styled.div({
-  marginTop: 4,
+  marginTop: 10,
 })
 
 

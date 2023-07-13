@@ -4,7 +4,7 @@ import Extension from '@assets/img/createWalletSuccess/extension.svg';
 import Logo from '@assets/img/createWalletSuccess/logo.svg';
 import Pin from '@assets/img/createWalletSuccess/pin.svg';
 import ActionButton from '@components/button';
-import Steps from '@components/steps';
+import Stepper from '@components/steps2';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
@@ -122,7 +122,7 @@ function CreateWalletSuccess(): JSX.Element {
         <Subtitle>
           {action === 'restore' ? t('RESTORE_SCREEN_SUBTITLE') : steps[activeIndex].subtitle}
         </Subtitle>
-        {action === 'restore' ? null : <Steps data={steps} activeIndex={activeIndex} />}
+        {action === 'restore' ? null : <Stepper data={steps} activeIndex={activeIndex} width={100}/>}
       </ContentContainer>
       <ButtonContainer>
         <ActionButton onPress={handleOpenWallet} text={t('CLOSE_TAB')} />
