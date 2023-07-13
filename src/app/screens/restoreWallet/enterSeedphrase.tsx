@@ -24,8 +24,8 @@ const ButtonContainer = styled.div((props) => ({
 }));
 
 interface Props {
-  seed: string;
-  setSeed: (seed: string) => void;
+  seed: string[];
+  setSeed: (seed: string[]) => void;
   onContinue: () => void;
   seedError: string;
   setSeedError: (err: string) => void;
@@ -48,7 +48,7 @@ function EnterSeedPhrase(props: Props): JSX.Element {
         setSeedError={setSeedError}
       />
       <ButtonContainer>
-        <ActionButton onPress={onContinue} disabled={seed === ''} text={t('CONTINUE_BUTTON')} />
+        <ActionButton onPress={onContinue} disabled={seed.map(e => e.trim()).join(' ') === ''} text={t('CONTINUE_BUTTON')} />
       </ButtonContainer>
     </Container>
   );
