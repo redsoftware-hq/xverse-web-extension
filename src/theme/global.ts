@@ -12,6 +12,7 @@ import DMSansRegular from '../assets/fonts/DMSans-Regular.ttf';
 import MontRegular from '../assets/fonts/Mont-Regular.otf';
 import MontBold from '../assets/fonts/Mont-Bold.otf';
 import MontSemiBold from '../assets/fonts/Mont-SemiBold.otf';
+import MontLight from '../assets/fonts/Mont-Light.otf';
 
 const GlobalStyle = createGlobalStyle`
   @font-face{
@@ -82,8 +83,14 @@ const GlobalStyle = createGlobalStyle`
     src: url(${MontSemiBold});
     font-display: block;
   }
+  @font-face{
+    font-family: 'MontLight';
+    src: url(${MontLight});
+    font-display: block;
+  }
   html {
     box-sizing: border-box;
+    background: radial-gradient(157.22% 121.91% at 17.22% 10.50%, #0D0E12 0%, #000 75.87%);;
   }
   * {
   margin: 0;

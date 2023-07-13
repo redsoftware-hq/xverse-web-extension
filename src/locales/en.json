@@ -16,7 +16,7 @@
     "ONBOARDING_CONTINUE_BUTTON": "Continue"
   },
   "DASHBOARD_SCREEN": {
-    "TOTAL_BALANCE": "balance",
+    "TOTAL_BALANCE": "Balance",
     "BITCOIN": "Bitcoin",
     "STACKS": "Stacks",
     "ACCOUNT_NAME": "Account",
@@ -271,6 +271,7 @@
     "IN_PROGRESS": "In progress"
   },
   "NFT_DASHBOARD_SCREEN": {
+    "VALUE":"Value",
     "COLLECTIBLES": "Number of collectibles",
     "NO_COLLECTIBLES": "No collectibles yet",
     "LOAD_MORE": "Load more",
@@ -426,6 +427,7 @@
     "RECEIVE_COIN_BUTTON": "Receive",
     "BUY_COIN_BUTTON": "Buy",
     "TRANSACTION_HISTORY_TITLE": "Transaction history",
+    "TRANSACTIONS_TITLE": "Transactions",
     "TRANSACTIONS_LIST_EMPTY": "No transactions found.",
     "TRANSACTION_SENT": "Sent",
     "TRANSACTION_RECEIVED": "Received",

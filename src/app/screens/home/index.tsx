@@ -39,15 +39,17 @@ import {
 } from '@stores/wallet/actions/actionCreators';
 import ShowBtcReceiveAlert from '@components/showBtcReceiveAlert';
 import ShowOrdinalReceiveAlert from '@components/showOrdinalReceiveAlert';
+import Steps from '@components/steps';
+import { useStepperContext } from '@stores/stepper';
+import StepperNavigator from '@components/stepperNavigator';
+import TransactionsHistoryList from '@screens/coinDashboard/transactionsHistoryList';
 import BalanceCard from './balanceCard';
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  flex: 1;
-  margin-left: 16px;
-  margin-right: 16px;
-  overflow-y: auto;
+  margin-left: 20px;
+  margin-right: 20px;
   &::-webkit-scrollbar {
     display: none;
   }
@@ -60,10 +62,21 @@ const Dashboard = styled.div((props) => ({
   background: props.theme.colors.action.classic,
   alignItems: 'space-between',
   justifyContent: 'space-between',
-  paddingLeft: props.theme.spacing(8),
+  paddingLeft: props.theme.spacing(12),
   paddingBottom: props.theme.spacing(8),
-  paddingRight: props.theme.spacing(8),
-  marginTop: props.theme.spacing(10),
+  paddingRight: props.theme.spacing(12),
+}));
+const ListContainer = styled.div((props) => ({
+  display: 'flex',
+  background: props.theme.colors.background.darkbg,
+  flexDirection: 'column',
+  alignItems: 'space-between',
+  justifyContent: 'space-between',
+  overflowY: 'auto',
+  borderTopLeftRadius: '24px',
+  borderTopRightRadius: '24px',
+  marginTop: props.theme.spacing(8),
+  padding: props.theme.spacing(10),
 }));
 
 const ColumnContainer = styled.div((props) => ({
@@ -71,7 +84,6 @@ const ColumnContainer = styled.div((props) => ({
   flexDirection: 'column',
   alignItems: 'space-between',
   justifyContent: 'space-between',
-  marginTop: props.theme.spacing(12),
 }));
 
 const ReceiveContainer = styled.div((props) => ({
@@ -90,12 +102,25 @@ const CoinContainer = styled.div({
   justifyContent: 'space-between',
 });
 
-const AvailableCoins = styled.div({
+const StepperContainer = styled.div({
+  marginTop: 10,
+})
+
+
+const AvailableCoins = styled.div((props) => ({
+  ...props.theme.mont_light,
   display: 'flex',
   flexDirection: 'column',
-  alignItems: 'space-between',
-  justifyContent: 'space-between',
-});
+  fontSize: '20px',
+  color: 'rgba(255, 165, 137, 1)',
+}));
+
+const Coins = styled.div((props) => ({
+  ...props.theme.mont_headline_normal,
+  lineHeight: '32px',
+  color: 'white',
+}));
+
 const Button = styled.button((props) => ({
   display: 'flex',
   flexDirection: 'row',
@@ -108,13 +133,14 @@ const Button = styled.button((props) => ({
   paddingBottom: props.theme.spacing(3),
   paddingLeft: props.theme.spacing(7),
   paddingRight: props.theme.spacing(7),
+  height: props.theme.spacing(20),
 }));
 
 const ButtonText = styled.div((props) => ({
   ...props.theme.body_xs,
   fontWeight: 700,
   fontFamily: 'MontRegular',
-  fontSize:'14px',
+  fontSize: '14px',
   color: props.theme.colors.white['0'],
   textAlign: 'center',
 }));
@@ -125,20 +151,20 @@ const ButtonImage = styled.img((props) => ({
   transform: 'all',
 }));
 
-const RowButtonContainer = styled.div((props) => ({
-  display: 'flex',
-  flexDirection: 'row',
-  marginTop: props.theme.spacing(11),
-}));
+// const RowButtonContainer = styled.div((props) => ({
+//   display: 'flex',
+//   flexDirection: 'row',
+//   marginTop: props.theme.spacing(11),
+// }));
 
-const ButtonContainer = styled.div((props) => ({
-  marginRight: props.theme.spacing(11),
-}));
+// const ButtonContainer = styled.div((props) => ({
+//   marginRight: props.theme.spacing(11),
+// }));
 
 const TokenListButtonContainer = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'row',
-  justifyContent: 'center',
+  justifyContent: 'space-between',
   marginTop: props.theme.spacing(6),
   // marginBottom: props.theme.spacing(22),
 }));
@@ -159,6 +185,7 @@ function Home() {
   });
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const [openReceiveModal, setOpenReceiveModal] = useState(false);
   const [openSendModal, setOpenSendModal] = useState(false);
   const [openBuyModal, setOpenBuyModal] = useState(false);
@@ -275,7 +302,7 @@ function Home() {
 
   const handleTokenPressed = (token: {
     coin: CurrencyTypes;
-    ft: string | undefined;
+    ft?: string | undefined;
     brc20Ft?: string;
   }) => {
     if (token.brc20Ft) {
@@ -320,7 +347,7 @@ function Home() {
   );
   return (
     <>
-      <AccountHeaderComponent />
+      <AccountHeaderComponent onReceiveModalOpen={onReceiveModalOpen} />
       {isBtcReceiveAlertVisible && (
         <ShowBtcReceiveAlert onReceiveAlertClose={onReceiveAlertClose} />
       )}
@@ -352,58 +379,15 @@ function Home() {
           </RowButtonContainer> */}
 
           <TokenListButtonContainer>
-            <AvailableCoins>{}</AvailableCoins>
+            <AvailableCoins>
+              <Coins>2</Coins> coins
+            </AvailableCoins>
             <Button onClick={handleManageTokenListOnClick}>
               <ButtonImage src={AddCoin} />
               <ButtonText>{t('ADD_COIN')}</ButtonText>
             </Button>
           </TokenListButtonContainer>
         </Dashboard>
-
-        <ColumnContainer>
-          <TokenTile
-            title={t('BITCOIN')}
-            currency="BTC"
-            icon={IconBitcoin}
-            loading={loadingBtcWalletData || refetchingBtcWalletData}
-            underlayColor={Theme.colors.background.elevation1}
-            onPress={handleTokenPressed}
-          />
-          <TokenTile
-            title={t('STACKS')}
-            currency="STX"
-            icon={IconStacks}
-            loading={loadingStxWalletData || refetchingStxWalletData}
-            underlayColor={Theme.colors.background.elevation1}
-            onPress={handleTokenPressed}
-          />
-        </ColumnContainer>
-
-        <CoinContainer>
-          {
-          coinsList
-            ?.filter((ft) => ft.visible)
-            .map((coin) => (
-              <TokenTile
-                title={coin.name}
-                currency="FT"
-                loading={loadingCoinData || refetchingCoinData}
-                underlayColor={Theme.colors.background.elevation1}
-                fungibleToken={coin}
-                onPress={handleTokenPressed}
-              />
-            ))}
-          {brcCoinsList?.map((coin) => (
-            <TokenTile
-              title={coin.name}
-              currency="brc20"
-              loading={loadingBtcCoinData || refetchingBtcCoinData}
-              underlayColor={Theme.colors.background.elevation1}
-              fungibleToken={coin}
-              onPress={handleTokenPressed}
-            />
-          ))}
-        </CoinContainer>
 
         <BottomModal visible={openReceiveModal} header={t('RECEIVE')} onClose={onReceiveModalClose}>
           {receiveContent}
@@ -431,6 +415,55 @@ function Home() {
           loadingWalletData={loadingStxWalletData || loadingBtcWalletData}
         />
       </Container>
+      <StepperContainer>
+          <StepperNavigator />
+        </StepperContainer>
+      <TransactionsHistoryList coin="FT" txFilter={null} />
+      {/* <ListContainer>
+        <ColumnContainer>
+          <TokenTile
+            title={t('BITCOIN')}
+            currency="BTC"
+            icon={IconBitcoin}
+            loading={loadingBtcWalletData || refetchingBtcWalletData}
+            underlayColor={Theme.colors.background.elevation1}
+            onPress={handleTokenPressed}
+          />
+          <TokenTile
+            title={t('STACKS')}
+            currency="STX"
+            icon={IconStacks}
+            loading={loadingStxWalletData || refetchingStxWalletData}
+            underlayColor={Theme.colors.background.elevation1}
+            onPress={handleTokenPressed}
+          />
+        </ColumnContainer>
+
+        <CoinContainer>
+          {coinsList
+            ?.filter((ft) => ft.visible)
+            .map((coin) => (
+              <TokenTile
+                title={coin.name}
+                currency="FT"
+                loading={loadingCoinData || refetchingCoinData}
+                underlayColor={Theme.colors.background.elevation1}
+                fungibleToken={coin}
+                onPress={handleTokenPressed}
+              />
+            ))}
+          {brcCoinsList?.map((coin) => (
+            <TokenTile
+              title={coin.name}
+              currency="brc20"
+              loading={loadingBtcCoinData || refetchingBtcCoinData}
+              underlayColor={Theme.colors.background.elevation1}
+              fungibleToken={coin}
+              onPress={handleTokenPressed}
+            />
+          ))}
+        </CoinContainer>
+      </ListContainer> */}
       <BottomBar tab="dashboard" />
     </>
   );

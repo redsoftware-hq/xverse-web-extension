@@ -20,7 +20,9 @@ const Theme = {
     }
     ,
     background: {
+      figmaBg:'radial-gradient(157.22% 121.91% at 17.22% 10.50%, #0D0E12 0%, #000 75.87%)',
       darkbg: '#0E1015',
+      navigation: 'radial-gradient(157.22% 121.91% at 17.22% 10.50%, #0D0E12 0%, #000 75.87%)',
       'elevation-1': '#070A13',
       elevationDarkGradient: `radial-gradient(85.58% 229.24% at 89.79% 22.85%, rgba(56, 60, 78, 0.2) 0%, rgba(13, 14, 18, 0.2) 100%),
               linear-gradient(154.76deg, rgba(168, 185, 244, 0.12) 15.61%, rgba(168, 185, 244, 0.06) 62.02%);`,
@@ -140,6 +142,17 @@ const Theme = {
     fontWeight: '700',
     fontSize: 34,
     letterSpacing: 0.02,
+  },
+  mont_headline_normal: {
+    fontFamily: 'MontRegular',
+    fontSize: 40,
+  },
+  mont_headline_bold: {
+    fontFamily: 'MontSemiBold',
+    fontSize: 40,
+  },
+  mont_light: {
+    fontFamily: 'MontLight',
   },
   headline_m: {
     fontFamily: 'IBMPlexSans-Bold',

@@ -52,7 +52,7 @@ interface VerifySeedProps {
 }
 
 export default function VerifySeed(props: VerifySeedProps): JSX.Element {
-  const [seedInput, setSeedInput] = useState<string>('');
+  const [seedInput, setSeedInput] = useState<string[]>(new Array(12).fill(''));
   const [err, setErr] = useState('');
   const { t } = useTranslation('translation', { keyPrefix: 'BACKUP_WALLET_SCREEN' });
   const { onBack, onVerifySuccess, seedPhrase } = props;
@@ -60,7 +60,7 @@ export default function VerifySeed(props: VerifySeedProps): JSX.Element {
   const cleanMnemonic = (rawSeed: string): string => rawSeed.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim();
 
   const handleVerify = () => {
-    if (seedPhrase === cleanMnemonic(seedInput)) {
+    if (seedPhrase === seedInput.map(e => e.trim()).join(' ')) {
       onVerifySuccess();
     } else {
       setErr('Seedphrase does not match');
@@ -82,7 +82,7 @@ export default function VerifySeed(props: VerifySeedProps): JSX.Element {
           <ActionButton
             text={t('SEED_PHRASE_VIEW_CONTINUE')}
             onPress={handleVerify}
-            disabled={seedInput === ''}
+            disabled={seedInput.map(e => e.trim()).join(' ') === ''}
           />
         </ButtonContainer>
       </ButtonsContainer>

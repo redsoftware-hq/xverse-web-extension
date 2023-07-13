@@ -13,14 +13,16 @@ const RowContainer = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'row',
   justifyContent: 'flex-end',
+  alignItems: 'center',
   marginTop: props.theme.spacing(11),
 }));
 
 const BalanceHeadingText = styled.h1((props) => ({
   ...props.theme.headline_category_s,
+   fontSize: 18,
+  fontWeight: 700,
   fontFamily: 'MontRegular',
   color: props.theme.colors.dashboard.text,
-  textTransform: 'uppercase',
 }));
 
 const CurrencyText = styled.h1((props) => ({
@@ -44,7 +46,7 @@ const BalanceAmountText = styled.h1((props) => ({
 const BarLoaderContainer = styled.div((props) => ({
   display: 'flex',
   maxWidth: 300,
-  marginTop: props.theme.spacing(5),
+  height: 56,
 }));
 
 const CurrencyCard = styled.div((props) => ({
@@ -89,7 +91,7 @@ function BalanceCard(props: BalanceCardProps) {
       </RowContainer>
       {isLoading ? (
         <BarLoaderContainer>
-          <BarLoader loaderSize={LoaderSize.LARGE} />
+          <BarLoader loaderSize={LoaderSize.LARGE} forDashboard/>
         </BarLoaderContainer>
       ) : (
         <BalanceAmountContainer>

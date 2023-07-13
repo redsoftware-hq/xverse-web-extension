@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import styled, { useTheme } from 'styled-components';
 import Eye from '@assets/img/createPassword/Eye.svg';
 import EyeSlash from '@assets/img/createPassword/EyeSlash.svg';
-import PasswordIcon from '@assets/img/createPassword/New_Password.svg';
+import PasswordIcon from '@assets/img/Graphic (1).svg';
 import { useEffect, useState } from 'react';
 import ActionButton from '@components/button';
 import { animated, useTransition } from '@react-spring/web';
@@ -57,7 +57,7 @@ const PasswordInputContainer = styled.div<PasswordInputContainerProps>((props) =
   alignItems: 'center',
   width: '100%',
   border: `1px solid ${
-    props.hasError ? 'rgba(211, 60, 60, 0.3)' : props.theme.colors.action.classic
+    props.hasError ? 'rgba(211, 60, 60, 0.3)' : props.theme.colors.background.elevation1
   }`,
   backgroundColor: props.theme.colors.background['elevation-1'],
   borderRadius: props.theme.radius(2),

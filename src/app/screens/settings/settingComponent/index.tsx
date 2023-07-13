@@ -98,7 +98,7 @@ function SettingComponent({
         {icon && <img src={icon} alt="arrow icon" />}
         {toggle && toggleFunction && (
         <CustomSwitch
-          onColor={theme.colors.purple_main}
+          onColor={theme.colors.action.classic}
           offColor={theme.colors.background.elevation3}
           onChange={toggleFunction}
           checked={toggleValue ?? false}

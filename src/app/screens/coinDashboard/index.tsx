@@ -1,4 +1,5 @@
 import TopRow from '@components/topRow';
+import AccountHeaderComponent from '@components/accountHeader';
 import BottomBar from '@components/tabBar';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import useWalletSelector from '@hooks/useWalletSelector';
@@ -11,13 +12,13 @@ import { useTranslation } from 'react-i18next';
 import { getExplorerUrl } from '@utils/helper';
 import CopyButton from '@components/copyButton';
 import { FungibleToken } from '@secretkeylabs/xverse-core';
+import StepperNavigator from '@components/stepperNavigator';
 import CoinHeader from './coinHeader';
 import TransactionsHistoryList from './transactionsHistoryList';
 
 const Container = styled.div((props) => ({
   display: 'flex',
   flex: 1,
-  marginTop: props.theme.spacing(4),
   flexDirection: 'column',
   overflowY: 'auto',
   '&::-webkit-scrollbar': {
@@ -28,9 +29,11 @@ const Container = styled.div((props) => ({
 const TokenContractContainer = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'column',
-  paddingLeft: 16,
-  paddingRight: 16,
-  marginTop: props.theme.spacing(16),
+  paddingLeft: 20,
+  paddingRight: 20,
+  paddingTop: props.theme.spacing(16),
+  paddingBottom: props.theme.spacing(42),
+  background: props.theme.colors.background.darkbg,
   h1: {
     ...props.theme.body_medium_m,
     color: props.theme.colors.white[400],
@@ -75,7 +78,9 @@ const TokenContractAddress = styled.p((props) => ({
 const FtInfoContainer = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'row',
-  borderTop: `1px solid ${props.theme.colors.background.elevation2}`,
+  background: props.contractSelected ? props.theme.colors.background.darkbg : 'transparent',
+  borderTopLeftRadius: '24px',
+  borderTopRightRadius: '24px',
   paddingTop: props.theme.spacing(12),
   marginTop: props.theme.spacing(16),
   paddingLeft: props.theme.spacing(8),
@@ -106,6 +111,11 @@ const ContractDeploymentButton = styled.button((props) => ({
     marginLeft: props.theme.spacing(3),
   },
 }));
+
+const StepperContainer = styled.div({
+  marginTop: 10,
+})
+
 
 interface ButtonProps {
   isSelected: boolean;
@@ -143,7 +153,7 @@ export default function CoinDashboard() {
   };
 
   const ft = coinsList?.find((ftCoin) => ftCoin.principal === ftAddress);
-  let brc20Ft : FungibleToken | undefined;
+  let brc20Ft: FungibleToken | undefined;
   if (brc20FtName) {
     brc20Ft = brcCoinsList?.find((brc20FtCoin) => brc20FtCoin.name === brc20FtName);
   }
@@ -165,7 +175,9 @@ export default function CoinDashboard() {
   };
 
   function formatAddress(addr: string): string {
-    return addr ? `${addr.substring(0, 20)}...${addr.substring(addr.length - 20, addr.length)}` : '';
+    return addr
+      ? `${addr.substring(0, 20)}...${addr.substring(addr.length - 20, addr.length)}`
+      : '';
   }
   const showContent = () => {
     if (ft) {
@@ -174,13 +186,10 @@ export default function CoinDashboard() {
           <TokenContractContainer>
             <h1>{t('FT_CONTRACT_PREFIX')}</h1>
             <ContractAddressCopyButton onClick={handleCopyContractAddress}>
-              <TokenContractAddress>
-                {formatAddress(ft?.principal as string)}
-              </TokenContractAddress>
+              <TokenContractAddress>{formatAddress(ft?.principal as string)}</TokenContractAddress>
               <CopyButtonContainer>
                 <CopyButton text={ft?.principal as string} />
               </CopyButtonContainer>
-
             </ContractAddressCopyButton>
             <ContractDeploymentButton onClick={openContractDeployment}>
               {t('OPEN_FT_CONTRACT_DEPLOYMENT')}
@@ -198,22 +207,34 @@ export default function CoinDashboard() {
         </TransactionHistoryContainer>
       );
     }
-    return <TransactionsHistoryList coin={coin as CurrencyTypes} txFilter={`${ft?.principal}::${ft?.assetName}`} />;
+    return (
+      <TransactionsHistoryList
+        coin={coin as CurrencyTypes}
+        txFilter={`${ft?.principal}::${ft?.assetName}`}
+      />
+    );
   };
 
   return (
     <>
-      <TopRow title="" onClick={handleBack} />
+      {/* <TopRow title="" onClick={handleBack} /> */}
+      <AccountHeaderComponent />
       <Container>
         <CoinHeader coin={coin as CurrencyTypes} fungibleToken={ft || brc20Ft} />
+        <StepperContainer>
+          <StepperNavigator />
+        </StepperContainer>
         {ft && (
-          <FtInfoContainer>
-            <Button isSelected={!showFtContractDetails} onClick={onTransactionsClick}>{t('TRANSACTIONS')}</Button>
-            <Button onClick={onContractClick} isSelected={showFtContractDetails}>{t('CONTRACT')}</Button>
+          <FtInfoContainer contractSelected={showFtContractDetails}>
+            <Button isSelected={!showFtContractDetails} onClick={onTransactionsClick}>
+              {t('TRANSACTIONS')}
+            </Button>
+            <Button onClick={onContractClick} isSelected={showFtContractDetails}>
+              {t('CONTRACT')}
+            </Button>
           </FtInfoContainer>
         )}
         {showContent()}
-
       </Container>
       <BottomBar tab="dashboard" />
     </>

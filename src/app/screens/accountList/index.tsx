@@ -101,6 +101,7 @@ function AccountList(): JSX.Element {
           <>
             <AccountRow
               key={account.stxAddress}
+              disableMenuOption
               account={account}
               isSelected={isAccountSelected(account)}
               onAccountSelected={handleAccountSelect}

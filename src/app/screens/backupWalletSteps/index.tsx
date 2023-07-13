@@ -124,8 +124,8 @@ export default function BackupWalletSteps(): JSX.Element {
 
   return (
     <Container>
-      <Steps data={backupSteps} withLabel activeIndex={3} />
-      {backupSteps[3]}
+      <Steps data={backupSteps} withLabel activeIndex={currentActiveIndex} />
+      {backupSteps[currentActiveIndex]}
     </Container>
   );
 }
