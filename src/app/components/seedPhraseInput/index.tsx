@@ -1,33 +1,38 @@
-import { Eye, EyeSlash } from '@phosphor-icons/react';
-import React, { useEffect, useRef, useState } from 'react';
+/* eslint-disable react/no-array-index-key */
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 
-const Label = styled.label`
-  ${(props) => props.theme.body_medium_m};
-  display: block;
-  margin-bottom: ${(props) => props.theme.spacing(4)}px;
-`;
-
-
+const InputContainer = styled.div({
+  display: 'flex',
+  flexDirection: 'column',
+});
 
 interface ContainerProps {
   error: boolean;
 }
 
-const SeedphraseInput = styled.textarea<ContainerProps>((props) => ({
+const SeedphraseInputContainer = styled.div((props) => ({
+  display: 'flex',
+  gap: props.theme.spacing(2),
+  marginTop: props.theme.spacing(4),
+}));
+
+const SeedphraseInput = styled.input<ContainerProps>((props) => ({
   ...props.theme.body_medium_m,
   backgroundColor: props.theme.colors.background.elevation0,
   color: props.theme.colors.white['0'],
-  width: '100%',
+  width: '33%',
   resize: 'none',
-  minHeight: 140,
-  padding: props.theme.spacing(8),
-  border: props.error ? `1px solid ${props.theme.colors.feedback.error_700}` : `1px solid ${props.theme.colors.background.elevation3}`,
+  height: 35,
+  padding: props.theme.spacing(4),
+  border: props.error
+    ? `1px solid ${props.theme.colors.feedback.error_700}`
+    : `1px solid ${props.theme.colors.background.elevation1}`,
   outline: 'none',
   borderRadius: props.theme.radius(1),
   ':focus-within': {
-    border: `1px solid ${props.theme.colors.background.elevation6}`,
+    border: `1px solid ${props.theme.colors.action.classic}`,
   },
 }));
 const ErrorMessage = styled.h2((props) => ({
@@ -38,65 +43,39 @@ const ErrorMessage = styled.h2((props) => ({
 }));
 
 interface SeedPhraseInputProps {
-  seed: string;
-  onSeedChange: (seed: string) => void;
+  seed: string[];
+  onSeedChange: (seed: string[]) => void;
   seedError: string;
   setSeedError: (err: string) => void;
 }) {
   const { t } = useTranslation('translation', { keyPrefix: 'RESTORE_WALLET_SCREEN' });
-  const [seedInputValues, setSeedInputValues] = useState([...seedInit]);
-  const [show24Words, setShow24Words] = useState(false);
-  const inputsRef = useRef<(HTMLInputElement | null)[]>([]);
+  const { onSeedChange, seed, seedError, setSeedError } = props;
 
-  const handleKeyDownInput = (index: number) => (event: React.KeyboardEvent<HTMLInputElement>) => {
-    // disable common special characters
-    // eslint-disable-next-line no-useless-escape
-    if (event.key.match(/^[!-\/:-@[-`{-~]$/)) {
-      event.preventDefault();
-    }
-    // focus next input on space key
-    if (event.key === ' ') {
-      inputsRef.current[index + 1]?.focus();
-      event.preventDefault();
-    }
-  };
-
-  const handleChangeInput = (index: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSeedChange = (event: React.FormEvent<HTMLInputElement>, ind: number) => {
     if (seedError) {
       setSeedError('');
     }
-
-    setSeedInputValues((prevSeed) => {
-      prevSeed[index] = event.target.value;
-      return [...prevSeed];
-    });
-  };
-
-  useEffect(() => {
-    const seedPhrase = seedInputValues
-      .slice(0, !show24Words ? 12 : 24)
-      .filter(Boolean)
-      .join(' ');
-    onSeedChange(seedPhrase);
-  }, [seedInputValues, onSeedChange, show24Words]);
-
-  const handleClickShow24Words = () => {
-    setShow24Words((prev) => !prev);
-    setSeedInputValues((prev) => prev.slice(0, 12).concat(seedInit.slice(0, 12)));
+    onSeedChange([...seed.slice(0, ind), event.currentTarget.value, ...seed.slice(ind + 1)]);
   };
 
   return (
     <InputContainer>
-      <SeedphraseInput
-        error={seedError !== ''}
-        value={seed}
-        name="secretKey"
-        placeholder={t('SEED_INPUT_PLACEHOLDER')}
-        onChange={handleSeedChange}
-        spellCheck={false}
-        autoComplete="off"
-        autoCorrect="off"
-      />
+      {[0, 3, 6, 9].map((i) => (
+        <SeedphraseInputContainer key={i}>
+          {[0, 1, 2].map((j) => (
+            <SeedphraseInput
+              error={seedError !== ''}
+              key={i + j}
+              value={seed[i + j]}
+              name={`secretKey${i + j}`}
+              onChange={(e) => handleSeedChange(e, i + j)}
+              spellCheck={false}
+              autoComplete="off"
+              autoCorrect="off"
+            />
+          ))}
+        </SeedphraseInputContainer>
+      ))}
       {seedError ? <ErrorMessage>{seedError}</ErrorMessage> : null}
     </InputContainer>
   );

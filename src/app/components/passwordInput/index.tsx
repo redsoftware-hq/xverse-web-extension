@@ -58,7 +58,7 @@ const PasswordInputContainer = styled.div<PasswordInputContainerProps>((props) =
   alignItems: 'center',
   width: '100%',
   border: `1px solid ${
-    props.hasError ? 'rgba(211, 60, 60, 0.3)' : props.theme.colors.action.classic
+    props.hasError ? 'rgba(211, 60, 60, 0.3)' : props.theme.colors.background.elevation1
   }`,
   backgroundColor: props.theme.colors.background['elevation-1'],
   borderRadius: props.theme.radius(2),

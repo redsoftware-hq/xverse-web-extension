@@ -103,46 +103,21 @@ export default function VerifySeed({
   onBack: () => void;
   onVerifySuccess: () => void;
   seedPhrase: string;
-}) {
-  const { t } = useTranslation('translation', { keyPrefix: 'BACKUP_WALLET_SCREEN' });
+}
+
+export default function VerifySeed(props: VerifySeedProps): JSX.Element {
+  const [seedInput, setSeedInput] = useState<string[]>(new Array(12).fill(''));
   const [err, setErr] = useState('');
-  const [correctCounter, setCorrectCounter] = useState(0);
-  const [quiz, setQuiz] = useState<{ words: string[]; answer: string; nth: string }>({
-    words: [],
-    answer: '',
-    nth: '',
-  });
+  const { t } = useTranslation('translation', { keyPrefix: 'BACKUP_WALLET_SCREEN' });
+  const { onBack, onVerifySuccess, seedPhrase } = props;
 
-  const generateWords = useCallback(() => {
-    const seedWords = seedPhrase.split(' ');
-    const seedPhraseIndex = Math.floor(Math.random() * seedWords.length);
-    const answer = seedWords[seedPhraseIndex];
+  const cleanMnemonic = (rawSeed: string): string => rawSeed.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim();
 
-    const randomWords = generateMnemonic().split(' ');
-
-    // check randomWords doesn't contain our answer already.
-    // only if it doesn't, do we need to insert the answer at a random index.
-    const foundAnswerIndex = randomWords.findIndex((word) => word === answer);
-    if (foundAnswerIndex === -1) {
-      const randomWordsIndex = Math.floor(Math.random() * randomWords.length);
-      randomWords[randomWordsIndex] = answer;
-    }
-
-    const nth = getOrdinal(seedPhraseIndex + 1);
-    setQuiz({ words: randomWords, answer, nth });
-  }, [seedPhrase]);
-
-  useEffect(() => {
-    if (correctCounter >= 3) {
-      return onVerifySuccess();
-    }
-    generateWords();
-  }, [correctCounter, onVerifySuccess, generateWords]);
-
-  const handleClickWord = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (e.currentTarget.value === quiz.answer) {
-      setErr('');
-      return setCorrectCounter((prev) => prev + 1);
+  const handleVerify = () => {
+    if (seedPhrase === seedInput.map(e => e.trim()).join(' ')) {
+      onVerifySuccess();
+    } else {
+      setErr('Seedphrase does not match');
     }
     setErr(t('SEED_PHRASE_INCORRECT'));
   };
@@ -162,7 +137,7 @@ export default function VerifySeed({
           <ActionButton
             text={t('SEED_PHRASE_VIEW_CONTINUE')}
             onPress={handleVerify}
-            disabled={seedInput === ''}
+            disabled={seedInput.map(e => e.trim()).join(' ') === ''}
           />
         </ButtonContainer>
       </ButtonsContainer>
