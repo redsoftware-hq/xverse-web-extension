@@ -1,15 +1,16 @@
-import Steps from '@components/steps';
 import { useStepperContext } from '@stores/stepper';
 import { CurrencyTypes } from '@utils/constants';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import NextIcon from '@assets/img/dashboard/caret-right-solid.svg';
 import PrevIcon from '@assets/img/dashboard/caret-left-solid.svg';
+import Stepper from '@components/steps2';
 
 const StepperContainer = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'row',
   justifyContent: 'center',
+  alignItems: 'center',
 }));
 
 const Button = styled.button((props) => ({
@@ -81,7 +82,7 @@ function StepperNavigator() {
       <Button type="button" onClick={handlePreviousDashboard}>
         <img src={PrevIcon} alt="previous-page" />
       </Button>
-      <Steps data={stepsData} activeIndex={currentActiveIndex} />
+      <Stepper data={stepsData} activeIndex={currentActiveIndex} width={80} />
       <Button type="button" onClick={handleNextDashboard}>
         <img src={NextIcon} alt="next-page" />
       </Button>

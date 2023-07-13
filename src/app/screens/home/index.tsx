@@ -56,7 +56,6 @@ import BalanceCard from './balanceCard';
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  flex: 1;
   margin-left: 20px;
   margin-right: 20px;
   &::-webkit-scrollbar {
@@ -111,6 +110,11 @@ const CoinContainer = styled.div({
   alignItems: 'space-between',
   justifyContent: 'space-between',
 });
+
+const StepperContainer = styled.div({
+  marginTop: 10,
+})
+
 
 const AvailableCoins = styled.div((props) => ({
   ...props.theme.mont_light,
@@ -570,7 +574,9 @@ function Home() {
           loadingWalletData={loadingStxWalletData || loadingBtcWalletData}
         />
       </Container>
-      <StepperNavigator />
+      <StepperContainer>
+          <StepperNavigator />
+        </StepperContainer>
       <TransactionsHistoryList coin="FT" txFilter={null} />
       {/* <ListContainer>
         <ColumnContainer>
