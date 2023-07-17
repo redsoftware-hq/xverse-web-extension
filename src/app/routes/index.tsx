@@ -24,6 +24,7 @@ import Landing from '@screens/landing';
 import LegalLinks from '@screens/legalLinks';
 import Login from '@screens/login';
 import ManageTokens from '@screens/manageTokens';
+import Market from '@screens/market';
 import NftDashboard from '@screens/nftDashboard';
 import NftDetailScreen from '@screens/nftDetail';
 import Onboarding from '@screens/onboarding';
@@ -208,6 +209,14 @@ const router = createHashRouter([
         element: (
           <AuthGuard>
             <Stacking />
+          </AuthGuard>
+        ),
+      },
+      {
+        path: 'market',
+        element: (
+          <AuthGuard>
+            <Market />
           </AuthGuard>
         ),
       },

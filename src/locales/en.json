@@ -456,6 +456,9 @@
     "CONTRACT": "CONTRACT",
     "COMING_SOON": "Coming soon"
   },
+  "MARKET_SCREEN": {
+    "BITCOIN_ASSETS": "Bitcoin Assets"
+  },
   "POST_CONDITION_MESSAGE": {
     "YOU": "You",
     "CONTRACT": "The contract",

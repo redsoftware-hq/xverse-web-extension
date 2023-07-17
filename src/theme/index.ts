@@ -50,6 +50,7 @@ const Theme = {
     grey: '#24252C',
     purple_main: '#5E41C5',
     orange_main: ' #EE7A30',
+    grey1: '#626A82',
   },
   headline_category_m: {
     fontFamily: 'DMSans-Medium',
