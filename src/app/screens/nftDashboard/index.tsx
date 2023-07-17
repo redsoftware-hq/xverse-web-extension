@@ -27,6 +27,7 @@ import AlertMessage from '@components/alertMessage';
 import useAddressInscriptions from '@hooks/queries/ordinals/useAddressInscriptions';
 import useStacksCollectibles from '@hooks/queries/useStacksCollectibles';
 import ShowOrdinalReceiveAlert from '@components/showOrdinalReceiveAlert';
+import { NumericFormat } from 'react-number-format';
 import Nft from './nft';
 import ReceiveNftModal from './receiveNft';
 
@@ -34,8 +35,8 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
-  margin-left: 5%;
-  margin-right: 5%;
+  margin-left: 20px;
+  margin-right: 20px;
   padding-bottom: 5%;
   &::-webkit-scrollbar {
     display: none;
@@ -54,9 +55,9 @@ const Dashboard = styled.div((props) => ({
   background: props.theme.colors.action.classic,
   alignItems: 'space-between',
   justifyContent: 'space-between',
-  paddingLeft: props.theme.spacing(8),
+  paddingLeft: props.theme.spacing(12),
   // paddingBottom: props.theme.spacing(8),
-  paddingRight: props.theme.spacing(8),
+  paddingRight: props.theme.spacing(12),
   // marginTop: props.theme.spacing(10),
 }));
 
@@ -86,7 +87,8 @@ const ReceiveNftContainer = styled.div((props) => ({
 }));
 
 const CollectibleContainer = styled.div((props) => ({
-  marginBottom: props.theme.spacing(12),
+  marginTop: props.theme.spacing(11),
+  marginBottom: props.theme.spacing(8),
 }));
 
 const ButtonContainer = styled.div({
@@ -103,9 +105,12 @@ const ButtonContainer = styled.div({
 //   width: '100%',
 // }));
 
-const ReceiveButtonContainer = styled.div(() => ({
-  width: '100%',
-}));
+const ReceiveButtonContainer = styled.div`
+  button {
+    border-radius: 8px;
+    padding: 8px 20px;
+  }
+`;
 
 // const WebGalleryButton = styled.button((props) => ({
 //   display: 'flex',
@@ -143,8 +148,6 @@ const FiatPill = styled.div((props) => ({
   ...props.theme.headline_category_s,
   color: props.theme.colors.white['0'],
   fontSize: 13,
-  fontWeight: 700,
-  fontFamily: 'MontRegular',
   display: 'flex',
   justifyContent: 'center',
   backgroundColor: props.theme.colors.background.modalBackdrop,
@@ -156,15 +159,13 @@ const FiatPill = styled.div((props) => ({
 const CollectiblesValueTextContainer = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'column',
-  justifyContent: 'flex-start',
-  alignItems: 'center',
 }));
 const CollectibleType = styled.span((props) => ({
   ...props.theme.body_m,
   color: props.theme.colors.dashboard.text,
-  fontSize: 18,
+  fontSize: 20,
   fontWeight: 600,
-  fontFamily: 'MontRegular',
+  fontFamily: 'MontLight',
 }));
 
 const CollectiblesHeading = styled.div((props) => ({
@@ -178,7 +179,8 @@ const CollectibleRowContainer = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'row',
   justifyContent: 'space-between',
-  alignItems: 'flex-end',
+  alignItems: 'center',
+  marginTop: props.theme.spacing(5),
 }));
 
 const CollectiblesHeadingText = styled.h1((props) => ({
@@ -201,7 +203,9 @@ const GalleryCollectiblesHeadingText = styled.h1((props) => ({
 }));
 
 const CollectiblesValueText = styled.h1((props) => ({
-  ...props.theme.headline_xl,
+  ...props.theme.mont_headline_normal,
+  lineHeight: '32px',
+  color: 'white',
 }));
 
 const LoadMoreButtonContainer = styled.div((props) => ({
@@ -255,6 +259,19 @@ const NftListViewContainer = styled.div((props) => ({
     display: 'none',
   },
 }));
+
+const BalanceAmountContainer = styled.div((props) => ({
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent:'space-between',
+  alignItems: 'center',
+}));
+
+const BalanceAmountText = styled.h1((props) => ({
+  ...props.theme.headline_xl,
+  color: props.theme.colors.white['0'],
+}));
+
 
 function NftDashboard() {
   const { t } = useTranslation('translation', { keyPrefix: 'NFT_DASHBOARD_SCREEN' });
@@ -415,60 +432,74 @@ function NftDashboard() {
           onSecondButtonClick={onActivateOrdinalsAlertActivatePress}
         />
       )}
-
-      <AccountHeaderComponent disableMenuOption={isGalleryOpen} showBorderBottom={false} />
+      <AccountHeaderComponent />
       <Container>
         <Dashboard>
           <CollectibleContainer>
-            {isGalleryOpen ? (
+            {/* {isGalleryOpen ? (
               <GalleryCollectiblesHeadingText>{t('COLLECTIBLES')}</GalleryCollectiblesHeadingText>
             ) : (
               <CollectiblesHeading>
                 <CollectiblesHeadingText>{t('VALUE')}</CollectiblesHeadingText>
                 <FiatPill>{fiatCurrency}</FiatPill>
               </CollectiblesHeading>
-            )}
-            {icon && <img src={icon} alt="nft-dashboard" />}
+            )} */}
+            <CollectiblesHeading>
+              <CollectiblesHeadingText>{t('VALUE')}</CollectiblesHeadingText>
+              <FiatPill>{fiatCurrency}</FiatPill>
+            </CollectiblesHeading>
             {isLoading ? (
               <BarLoaderContainer>
                 <BarLoader loaderSize={LoaderSize.LARGE} />
               </BarLoaderContainer>
             ) : (
-              <CollectibleRowContainer>
-                <CollectiblesValueTextContainer>
-                  <CollectiblesValueText>{`${totalNfts}`}</CollectiblesValueText>
-                  <CollectibleType>{t('ITEMS')}</CollectibleType>
-                </CollectiblesValueTextContainer>
-                <ButtonContainer>
-                  <ReceiveButtonContainer>
-                    <ActionButton
-                      inDashboard
-                      src={Receive}
-                      text={t('RECEIVE')}
-                      onPress={onReceiveModalOpen}
+              <BalanceAmountContainer>
+                {icon && <img src={icon} alt="nft-dashboard" />}
+                <BalanceAmountText>
+                  <NumericFormat
+                    value={0}
+                    displayType="text"
+                    prefix="$"
+                    thousandSeparator
+                    renderText={(value: string) => <BalanceAmountText>{value}</BalanceAmountText>}
+                  />
+                </BalanceAmountText>
+              </BalanceAmountContainer>
+            )}
+            <CollectibleRowContainer>
+              <CollectiblesValueTextContainer>
+                <CollectiblesValueText>{`${totalNfts}`}</CollectiblesValueText>
+                <CollectibleType>{t('ITEMS')}</CollectibleType>
+              </CollectiblesValueTextContainer>
+              <ButtonContainer>
+                <ReceiveButtonContainer>
+                  <ActionButton
+                    inDashboard
+                    src={Receive}
+                    text={t('RECEIVE')}
+                    onPress={onReceiveModalOpen}
+                  />
+                </ReceiveButtonContainer>
+                {openReceiveModal && (
+                  <ReceiveNftContainer>
+                    <ReceiveNftModal
+                      visible={openReceiveModal}
+                      isGalleryOpen={isGalleryOpen}
+                      onClose={onReceiveModalClose}
+                      setOrdinalReceiveAlert={onOrdinalReceiveAlertOpen}
                     />
-                  </ReceiveButtonContainer>
-                  {openReceiveModal && (
-                    <ReceiveNftContainer>
-                      <ReceiveNftModal
-                        visible={openReceiveModal}
-                        isGalleryOpen={isGalleryOpen}
-                        onClose={onReceiveModalClose}
-                        setOrdinalReceiveAlert={onOrdinalReceiveAlertOpen}
-                      />
-                    </ReceiveNftContainer>
-                  )}
-                  {/* <ShareButtonContainer>
+                  </ReceiveNftContainer>
+                )}
+                {/* <ShareButtonContainer>
             <ActionButton src={ShareNetwork} text={t('SHARE')} onPress={onSharePress} transparent />
           </ShareButtonContainer> */}
-                  <ShareDialogeContainer>
-                    {showShareNftOptions && (
-                      <ShareDialog url={`${GAMMA_URL}${stxAddress}`} onCrossClick={onCrossPress} />
-                    )}
-                  </ShareDialogeContainer>
-                </ButtonContainer>
-              </CollectibleRowContainer>
-            )}
+                <ShareDialogeContainer>
+                  {showShareNftOptions && (
+                    <ShareDialog url={`${GAMMA_URL}${stxAddress}`} onCrossClick={onCrossPress} />
+                  )}
+                </ShareDialogeContainer>
+              </ButtonContainer>
+            </CollectibleRowContainer>
           </CollectibleContainer>
         </Dashboard>
         {/* {!isGalleryOpen && (
@@ -489,11 +520,9 @@ function NftDashboard() {
           <NftListView />
         )}
       </NftListViewContainer>
-      {!isGalleryOpen && (
-        <BottomBarContainer>
-          <BottomTabBar tab="nft" />
-        </BottomBarContainer>
-      )}
+      <BottomBarContainer>
+        <BottomTabBar tab="nft" />
+      </BottomBarContainer>
     </>
   );
 }
