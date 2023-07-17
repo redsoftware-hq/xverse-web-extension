@@ -113,6 +113,8 @@ export default function VerifySeed(props: VerifySeedProps): JSX.Element {
 
   const cleanMnemonic = (rawSeed: string): string => rawSeed.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim();
 
+  console.log(seedPhrase);
+
   const handleVerify = () => {
     if (seedPhrase === seedInput.map(e => e.trim()).join(' ')) {
       onVerifySuccess();

@@ -193,11 +193,8 @@ const Theme = {
      * @deprecated use lilac
      */
     purple_main: '#5E41C5',
-
-    /**
-     * @deprecated use lilac
-     */
-    orange_main: '#EE7A30',
+    orange_main: ' #EE7A30',
+    grey1: '#626A82',
   },
   headline_category_m: {
     fontFamily: 'DMSans-Medium',

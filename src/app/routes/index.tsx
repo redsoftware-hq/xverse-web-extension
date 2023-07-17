@@ -33,7 +33,7 @@ import VerifyLedger from '@screens/ledger/verifyLedgerAccountAddress';
 import LegalLinks from '@screens/legalLinks';
 import Login from '@screens/login';
 import ManageTokens from '@screens/manageTokens';
-import NftCollection from '@screens/nftCollection';
+import Market from '@screens/market';
 import NftDashboard from '@screens/nftDashboard';
 import SupportedRarities from '@screens/nftDashboard/supportedRarities';
 import NftDetailScreen from '@screens/nftDetail';
@@ -286,6 +286,14 @@ const router = createHashRouter([
         element: (
           <AuthGuard>
             <Stacking />
+          </AuthGuard>
+        ),
+      },
+      {
+        path: 'market',
+        element: (
+          <AuthGuard>
+            <Market />
           </AuthGuard>
         ),
       },
