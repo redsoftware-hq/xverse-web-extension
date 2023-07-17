@@ -25,7 +25,7 @@ const LoaderContainer = styled.div((props) => ({
 
 const ChartContainer = styled.div`
   position: relative;
-  // overflow: hidden;
+  overflow: hidden;
   padding-left: 20px;
   padding-right: 10px;
   .graph-tooltip {
