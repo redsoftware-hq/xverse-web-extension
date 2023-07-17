@@ -380,7 +380,7 @@ function Home() {
 
           <TokenListButtonContainer>
             <AvailableCoins>
-              <Coins>2</Coins> coins
+              <Coins>2</Coins> Coins
             </AvailableCoins>
             <Button onClick={handleManageTokenListOnClick}>
               <ButtonImage src={AddCoin} />

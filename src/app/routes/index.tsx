@@ -308,7 +308,7 @@ const router = createHashRouter([
   },
   {
     path: '/',
-    element: <ExtendedScreenContainer />,
+    element: <ScreenContainer />,
     errorElement: <ErrorBoundary />,
     children: [
       {
