@@ -40,7 +40,8 @@ const BalanceAmountContainer = styled.div((props) => ({
 
 const BalanceAmountText = styled.h1((props) => ({
   ...props.theme.headline_xl,
-  color: props.theme.colors.white_0,
+  fontSize: 40,
+  color: props.theme.colors.white['0'],
 }));
 
 const BarLoaderContainer = styled.div((props) => ({
