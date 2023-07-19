@@ -25,6 +25,7 @@ import LegalLinks from '@screens/legalLinks';
 import Login from '@screens/login';
 import ManageTokens from '@screens/manageTokens';
 import Market from '@screens/market';
+import NewStacking from '@screens/newStacking';
 import NftDashboard from '@screens/nftDashboard';
 import NftDetailScreen from '@screens/nftDetail';
 import Onboarding from '@screens/onboarding';
@@ -208,7 +209,7 @@ const router = createHashRouter([
         path: 'stacking',
         element: (
           <AuthGuard>
-            <Stacking />
+            <NewStacking />
           </AuthGuard>
         ),
       },
