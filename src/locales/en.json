@@ -268,7 +268,11 @@
     "EARN_BTC": "Earn BTC",
     "PENDING_DELEGATION": "Pending delegation",
     "DELEGATED": "Delegated",
-    "IN_PROGRESS": "In progress"
+    "IN_PROGRESS": "In progress",
+    "PILL": "PILL",
+    "REWARDS": "Rewards",
+    "NOT_STACKING": "Not Staking",
+    "TRANSACTIONS": "Staking Transactions"
   },
   "NFT_DASHBOARD_SCREEN": {
     "VALUE":"Value",
@@ -455,6 +459,9 @@
     "TRANSACTIONS": "TRANSACTIONS",
     "CONTRACT": "CONTRACT",
     "COMING_SOON": "Coming soon"
+  },
+  "MARKET_SCREEN": {
+    "BITCOIN_ASSETS": "Bitcoin Assets"
   },
   "POST_CONDITION_MESSAGE": {
     "YOU": "You",

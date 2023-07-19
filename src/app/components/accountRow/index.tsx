@@ -37,9 +37,9 @@ const GradientCircle = styled.button<GradientCircleProps>((props) => ({
 const TopSectionContainer = styled.button((props) => ({
   display: 'flex',
   flexDirection: 'row',
-  justifyContent: 'center',
+  flex: 1, 
+  justifyContent: 'space-between',
   alignItems: 'center',
-  gap: props.theme.spacing(42),
   backgroundColor: 'transparent',
   padding: props.theme.spacing(3),
 }));
@@ -142,12 +142,13 @@ const BitcoinDot = styled.div((props) => ({
   height: 10,
 }));
 
-const ButtonSection = styled.button((props) => ({
+const ButtonSection = styled.div((props) => ({
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'flex-end',
+  justifyContent: 'space-between',
   gap: props.theme.spacing(6),
   background: 'transparent',
+  paddingRight: props.theme.spacing(6),
 }));
 
 const IconButton = styled.button((props) => ({
