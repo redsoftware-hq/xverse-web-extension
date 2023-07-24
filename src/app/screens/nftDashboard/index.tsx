@@ -10,7 +10,6 @@ import { StyledHeading } from '@ui-library/common.styled';
 import Dialog from '@ui-library/dialog';
 import { useTranslation } from 'react-i18next';
 import { StoreState } from '@stores/index';
-import SquaresFour from '@assets/img/nftDashboard/squares_four.svg';
 import icon from '@assets/img/nftDashboard/NFT_dash.svg';
 import Receive from '@assets/img/nftDashboard/buy-crypto.svg';
 import ActionButton from '@components/button';
@@ -100,10 +99,6 @@ const ButtonContainer = styled.div({
   maxWidth: 400,
 }));
 
-// const ShareButtonContainer = styled.div((props) => ({
-//   marginLeft: props.theme.spacing(3),
-//   width: '100%',
-// }));
 
 const ReceiveButtonContainer = styled.div`
   button {
@@ -111,34 +106,6 @@ const ReceiveButtonContainer = styled.div`
     padding: 8px 20px;
   }
 `;
-
-// const WebGalleryButton = styled.button((props) => ({
-//   display: 'flex',
-//   flexDirection: 'row',
-//   justifyContent: 'center',
-//   alignItems: 'center',
-//   borderRadius: props.theme.radius(1),
-//   backgroundColor: 'transparent',
-//   width: '100%',
-//   marginTop: props.theme.spacing(8),
-//   opacity: 0.8,
-//   ':hover': {
-//     opacity: 1,
-//   },
-// }));
-
-// const WebGalleryButtonText = styled.div((props) => ({
-//   ...props.theme.body_xs,
-//   fontWeight: 700,
-//   color: props.theme.colors.white['0'],
-//   textAlign: 'center',
-// }));
-
-// const ButtonImage = styled.img((props) => ({
-//   marginRight: props.theme.spacing(3),
-//   alignSelf: 'center',
-//   transform: 'all',
-// }));
 
 const BottomBarContainer = styled.div((props) => ({
   background: props.theme.colors.background.darkbg,
@@ -436,14 +403,6 @@ function NftDashboard() {
       <Container>
         <Dashboard>
           <CollectibleContainer>
-            {/* {isGalleryOpen ? (
-              <GalleryCollectiblesHeadingText>{t('COLLECTIBLES')}</GalleryCollectiblesHeadingText>
-            ) : (
-              <CollectiblesHeading>
-                <CollectiblesHeadingText>{t('VALUE')}</CollectiblesHeadingText>
-                <FiatPill>{fiatCurrency}</FiatPill>
-              </CollectiblesHeading>
-            )} */}
             <CollectiblesHeading>
               <CollectiblesHeadingText>{t('VALUE')}</CollectiblesHeadingText>
               <FiatPill>{fiatCurrency}</FiatPill>
@@ -490,9 +449,6 @@ function NftDashboard() {
                     />
                   </ReceiveNftContainer>
                 )}
-                {/* <ShareButtonContainer>
-            <ActionButton src={ShareNetwork} text={t('SHARE')} onPress={onSharePress} transparent />
-          </ShareButtonContainer> */}
                 <ShareDialogeContainer>
                   {showShareNftOptions && (
                     <ShareDialog url={`${GAMMA_URL}${stxAddress}`} onCrossClick={onCrossPress} />
@@ -502,14 +458,6 @@ function NftDashboard() {
             </CollectibleRowContainer>
           </CollectibleContainer>
         </Dashboard>
-        {/* {!isGalleryOpen && (
-          <WebGalleryButton onClick={openInGalleryView}>
-            <>
-              <ButtonImage src={SquaresFour} />
-              <WebGalleryButtonText>{t('WEB_GALLERY')}</WebGalleryButtonText>
-            </>
-          </WebGalleryButton>
-        )} */}
       </Container>
       <NftListViewContainer>
         {isLoading || isLoadingOrdinals ? (

@@ -219,11 +219,6 @@ function Market() {
   return (
     <>
       <AccountHeaderComponent />
-      {/* {isStackingLoading && (
-        <LoaderContainer>
-          <MoonLoader color="white" size={30} />
-        </LoaderContainer>
-      ) } */}
 
       {series && headData ? (
         <ChartContainer>
