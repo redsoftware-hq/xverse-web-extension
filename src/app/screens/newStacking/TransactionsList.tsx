@@ -38,7 +38,7 @@ const NoTransactionsContainer = styled.div((props) => ({
 }));
 
 const GroupContainer = styled(animated.div)((props) => ({
-  marginBottom: props.theme.spacing(8),
+  height: '138px',
   overflow: 'auto',
 }));
 
