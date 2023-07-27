@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 import ActionButton from '@components/button';
 import { generateMnemonic } from 'bip39';
 import { useCallback, useEffect, useState } from 'react';
@@ -40,78 +41,70 @@ const TransparentButtonContainer = styled.div((props) => ({
   width: '100%',
 }));
 
-const Heading = styled.h3((props) => ({
-  ...props.theme.body_l,
-  color: props.theme.colors.white_200,
-  marginBottom: props.theme.spacing(16),
+const ButtonContainer = styled.div((props) => ({
+  marginLeft: props.theme.spacing(2),
+  width: '100%',
 }));
 
-const WordGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: ${(props) => props.theme.spacing(5)}px;
-  margin-bottom: ${(props) => props.theme.spacing(12)}px;
-`;
+const PasteSeedButton = styled.button((props) => ({
+  ...props.theme.body_medium_m,
+  color: props.theme.colors.action.classic,
+  borderRadius: props.theme.radius(4),
+  border: `1px solid ${props.theme.colors.action.classic}`,
+  backgroundColor: props.theme.colors.background.lightOrange,
+  height: 30,
+  width: 150,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  position: 'absolute',
+  top: '68%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  img: {
+    marginRight: props.theme.spacing(4),
+  },
+  ':hover': {
+    backgroundColor: props.theme.colors.action.classic,
+    border: `1px solid ${props.theme.colors.action.classic}`,
+    color: props.theme.colors.white[0],
+  },
+  ':focus': {
+    backgroundColor: props.theme.colors.action.classic,
+    border: `1px solid ${props.theme.colors.action.classic}`,
+    color: props.theme.colors.white[0],
+  },
+}));
 
-const WordButton = styled.button`
-  ${(props) => props.theme.body_medium_m};
-  color: ${(props) => props.theme.colors.white_0};
-  background-color: ${(props) => props.theme.colors.elevation3};
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: ${(props) => props.theme.spacing(6)}px;
-  border-radius: ${(props) => props.theme.radius(1)}px;
-  transition: all 0.1s ease;
-  :hover:enabled {
-    opacity: 0.8;
-  }
-  :active:enabled {
-    opacity: 0.6;
-  }
-`;
-
-const NthSpan = styled.span`
-  ${(props) => props.theme.body_bold_l};
-  color: ${(props) => props.theme.colors.white_0};
-`;
-
-const ErrorMessage = styled.p<{ visible: boolean }>`
-  ${(props) => props.theme.body_s};
-  color: ${(props) => props.theme.colors.feedback.error};
-  visibility: ${(props) => (props.visible ? 'initial' : 'hidden')};
-`;
-
-const getOrdinal = (num: number): string => {
-  switch (num) {
-    case 1:
-      return '1st';
-    case 2:
-      return '2nd';
-    case 3:
-      return '3rd';
-    default:
-      return `${num}th`;
-  }
-};
-
-export default function VerifySeed({
-  onBack,
-  onVerifySuccess,
-  seedPhrase,
-}: {
-  onBack: () => void;
+interface VerifySeedProps {
   onVerifySuccess: () => void;
   seedPhrase: string;
+  copy: boolean;
+}
+
+function textToMapValues(inputText: string, arrayLength: number): string[] {
+  // Step 1: Split the input text into individual words
+  const words: string[] = inputText.split(' ');
+
+  // Step 2: Create a list of size `arrayLength`
+  const resultArray: string[] = new Array(arrayLength).fill('');
+
+  // Step 3: Fill the resultArray with words from the input text
+  for (let i = 0; i < words.length && i < arrayLength; i+1) {
+    resultArray[i] = words[i];
+  }
+
+  return resultArray;
 }
 
 export default function VerifySeed(props: VerifySeedProps): JSX.Element {
   const [seedInput, setSeedInput] = useState<string[]>(new Array(12).fill(''));
   const [err, setErr] = useState('');
   const { t } = useTranslation('translation', { keyPrefix: 'BACKUP_WALLET_SCREEN' });
-  const { onBack, onVerifySuccess, seedPhrase } = props;
+  const { onBack, onVerifySuccess, seedPhrase, copy } = props;
 
-  const cleanMnemonic = (rawSeed: string): string => rawSeed.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim();
+  const cleanMnemonic = (rawSeed: string): string =>
+    rawSeed.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim();
 
   const handleVerify = () => {
     if (seedPhrase === seedInput.map(e => e.trim()).join(' ')) {
@@ -121,6 +114,10 @@ export default function VerifySeed(props: VerifySeedProps): JSX.Element {
     }
     setErr(t('SEED_PHRASE_INCORRECT'));
   };
+
+  const handlePaste = async () => {
+    setSeedInput(seedPhrase.split(' '));
+  }
 
   return (
     <Container>
@@ -132,12 +129,13 @@ export default function VerifySeed(props: VerifySeedProps): JSX.Element {
         seedError={err}
         setSeedError={setErr}
       />
+      {copy && <PasteSeedButton onClick={handlePaste}>Paste Seedphrase</PasteSeedButton>}
       <ButtonsContainer>
         <ButtonContainer>
           <ActionButton
             text={t('SEED_PHRASE_VIEW_CONTINUE')}
             onPress={handleVerify}
-            disabled={seedInput.map(e => e.trim()).join(' ') === ''}
+            disabled={seedInput.map((e) => e.trim()).join(' ') === ''}
           />
         </ButtonContainer>
       </ButtonsContainer>
