@@ -1,12 +1,12 @@
 {
-  "name": "Xverse Wallet",
+  "name": "Orange Pill",
   "description": "A Bitcoin Wallet for Web3",
   "manifest_version": 3,
   "options_page": "options.html",
   "action": {
     "default_popup": "popup.html",
     "default_icon": "xverse_icon.png",
-    "default_title": "Xverse Wallet"
+    "default_title": "Orange Pill"
   },
   "chrome_url_overrides": {},
   "background": {
