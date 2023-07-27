@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import Completed from '@assets/img/createWalletSuccess/completed.png';
 import Followup from '@assets/img/createWalletSuccess/completedFollowup.png';
 import Extension from '@assets/img/createWalletSuccess/extension.svg';
@@ -126,10 +127,21 @@ function CreateWalletSuccess(): JSX.Element {
         <Subtitle>
           {action === 'restore' ? t('RESTORE_SCREEN_SUBTITLE') : steps[activeIndex].subtitle}
         </Subtitle>
-        {action === 'restore' ? null : <Stepper data={steps} activeIndex={activeIndex} width={100}/>}
+        {action === 'restore' ? null : (
+          <Stepper data={steps} activeIndex={activeIndex} width={100} />
+        )}
       </ContentContainer>
       <ButtonContainer>
-        <ActionButton onPress={handleOpenWallet} text={t('CLOSE_TAB')} />
+        <ActionButton
+          onPress={handleOpenWallet}
+          text={
+            action === 'restore'
+              ? t('CLOSE_TAB')
+              : activeIndex < steps.length - 1
+              ? t('NEXT')
+              : t('CLOSE_TAB')
+          }
+        />
       </ButtonContainer>
       {action === 'restore' || activeIndex === steps.length - 1 ? (
         <InstructionsContainer>

@@ -415,7 +415,7 @@
     "SEED_PHRASE_VIEW_CONTINUE": "Continue",
     "SEED_PHRASE_VERIFY_HEADING": "Write your seedphrase to confirm you saved it properly.",
     "SEED_PHRASE_VERIFY_BUTTON": "Verify",
-    "SEED_INPUT_LABEL": "Selected Words",
+    "SEED_INPUT_LABEL": "Seedphrase Verification",
     "SEED_PHRASE_BACK_BUTTON": "Back"
   },
   "CREATE_PASSWORD_SCREEN": {
@@ -439,6 +439,7 @@
     "SCREEN_TITLE": "Congratulations!",
     "SCREEN_SUBTITLE": "Your new Bitcoin wallet has successfully been created. Swipe to learn more.",
     "CLOSE_TAB": "Complete",
+    "NEXT": "Next",
     "CLICK": "Click",
     "THEN": "then",
     "OPEN_WALLET": "to open your wallet",
