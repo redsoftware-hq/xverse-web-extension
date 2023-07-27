@@ -90,15 +90,16 @@ export default function BackupWalletSteps(): JSX.Element {
   };
 
   const backupSteps = [
-    <SeedContainer>
+    <SeedContainer key={0}>
       <SeedCheck seedPhrase={seedPhrase} onContinue={handleSeedCheckContinue} />
     </SeedContainer>,
     <VerifySeed
+      key={1}
       onBack={handleVerifySeedBack}
       onVerifySuccess={handleVerifySeedSuccess}
       seedPhrase={seedPhrase}
     />,
-    <PasswordContainer>
+    <PasswordContainer key={2}>
       <PasswordInput
         title={t('CREATE_PASSWORD_TITLE')}
         inputLabel={t('TEXT_INPUT_NEW_PASSWORD_LABEL')}
@@ -109,7 +110,7 @@ export default function BackupWalletSteps(): JSX.Element {
         checkPasswordStrength
       />
     </PasswordContainer>,
-    <PasswordContainer>
+    <PasswordContainer key={3}>
       <PasswordInput
         title={t('CONFIRM_PASSWORD_TITLE')}
         inputLabel={t('TEXT_INPUT_CONFIRM_PASSWORD_LABEL')}
