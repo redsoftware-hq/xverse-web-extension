@@ -5,7 +5,7 @@
   "options_page": "options.html",
   "action": {
     "default_popup": "popup.html",
-    "default_icon": "xverse_icon.png",
+    "default_icon": "pill_logo.png",
     "default_title": "Orange Pill"
   },
   "chrome_url_overrides": {},
@@ -14,7 +14,7 @@
     "type": "module"
   },
   "icons": {
-    "128": "xverse_icon.png"
+    "128": "pill_logo.png"
   },
   "devtools_page": "devtools.html",
   "web_accessible_resources": [{ "resources": ["inpage.js"], "matches": ["*://*/*"] }],
