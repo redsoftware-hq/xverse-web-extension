@@ -19,8 +19,8 @@ const MaskContainer = styled.div((props) => ({
   position: 'absolute',
   height: '100%',
   width: '100%',
-  paddingRight: props.theme.spacing(15),
-  paddingLeft: '11px',
+  paddingRight: props.theme.spacing(10),
+  paddingLeft: '29px',
   paddingTop: props.theme.spacing(15),
   zIndex: 10,
 }));
@@ -31,14 +31,14 @@ const Mask = styled.div((props) => ({
   width: '100%',
   borderRadius: '12px',
   border: '1px solid #1f212b',
-  boxShadow: '#040405 0px 1px 4px, #040405 0px 0px 0px 12px',
+  boxShadow: '#040405 0px 1px 4px, #040405 -8px 0px 0px 12px',
   zIndex: 11,
 }));
 
 const ChartContainer = styled.div`
   position: relative;
   overflow: hidden;
-  padding-left: 10px;
+  margin-left: -8px;
   margin-top: -30px;
   padding-right: 10px;
   margin-bottom: 10px;
@@ -151,10 +151,12 @@ function Market() {
       enabled: false,
     },
     xaxis: {
+      tickAmount: 8,
       type: 'datetime',
       labels: {
         datetimeUTC: false,
         offsetY: -17,
+        hideOverlappingLabels: true,
         formatter: (val: any, timestamp: any) => convertTimestampTo12Hour(timestamp),
         style: {
           colors: '#fff',
