@@ -15,12 +15,24 @@ const USDollar = new Intl.NumberFormat('en-US', {
   currency: 'USD',
 });
 
-const LoaderContainer = styled.div((props) => ({
-  display: 'flex',
-  flex: 1,
-  justifyContent: 'center',
-  alignItems: 'center',
-  marginTop: props.theme.spacing(12),
+const MaskContainer = styled.div((props) => ({
+  position: 'absolute',
+  height: '100%',
+  width: '100%',
+  paddingRight: props.theme.spacing(15),
+  paddingLeft: '11px',
+  paddingTop: props.theme.spacing(15),
+  zIndex: 10,
+}));
+
+const Mask = styled.div((props) => ({
+  position: 'relative',
+  height: '100%',
+  width: '100%',
+  borderRadius: '12px',
+  border: '1px solid #1f212b',
+  boxShadow: '#040405 0px 1px 4px, #040405 0px 0px 0px 12px',
+  zIndex: 11,
 }));
 
 const ChartContainer = styled.div`
@@ -160,8 +172,8 @@ function Market() {
         style: {
           fontSize: '11px',
           fontFamily: 'MontRegular',
-        }
-      }
+        },
+      },
     },
     colors: ['#D23403'],
     yaxis: {
@@ -254,6 +266,10 @@ function Market() {
 
       {series && headData ? (
         <ChartContainer>
+          <MaskContainer>
+            <Mask />
+          </MaskContainer>
+
           <MarketCapDetails
             isMarketCap={currentActiveIndex === 0}
             value={headData[currentActiveIndex]?.value}
