@@ -6,6 +6,7 @@ interface StepperProps {
   data: any[];
   activeIndex: number;
   width: number;
+  onClick: (e: any) => void;
 }
 
 const Step = styled.div<{ isCurrentStep: boolean; length: number; index: number }>`
@@ -21,11 +22,12 @@ const StepperLine = styled.div<{ width: number }>`
   border-radius: 20px;
   align-items: center;
   padding: 0 8px;
+  cursor: pointer;
 `;
 
-function Stepper({ data, activeIndex, width }: StepperProps) {
+function Stepper({ data, activeIndex, width, onClick }: StepperProps) {
   return (
-    <StepperLine width={width}>
+    <StepperLine width={width} onClick={onClick}>
       {data.map((_, i) => (
         <Step key={i} isCurrentStep={i === activeIndex} index={i} length={data.length} />
       ))}
