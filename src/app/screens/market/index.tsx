@@ -15,19 +15,33 @@ const USDollar = new Intl.NumberFormat('en-US', {
   currency: 'USD',
 });
 
-const LoaderContainer = styled.div((props) => ({
-  display: 'flex',
-  flex: 1,
-  justifyContent: 'center',
-  alignItems: 'center',
-  marginTop: props.theme.spacing(12),
+const MaskContainer = styled.div((props) => ({
+  position: 'absolute',
+  height: '100%',
+  width: '100%',
+  paddingRight: props.theme.spacing(10),
+  paddingLeft: '29px',
+  paddingTop: props.theme.spacing(15),
+  zIndex: 10,
+}));
+
+const Mask = styled.div((props) => ({
+  position: 'relative',
+  height: '100%',
+  width: '100%',
+  borderRadius: '12px',
+  border: '1px solid #1f212b',
+  boxShadow: '#040405 0px 1px 4px, #040405 -8px 0px 0px 12px',
+  zIndex: 11,
 }));
 
 const ChartContainer = styled.div`
   position: relative;
   overflow: hidden;
-  padding-left: 20px;
+  margin-left: -8px;
+  margin-top: -30px;
   padding-right: 10px;
+  margin-bottom: 10px;
   .graph-tooltip {
     color: black;
   }
@@ -54,7 +68,7 @@ const ItemTitle = styled.p((props) => ({
   paddingRight: props.theme.spacing(7),
 }));
 
-function convertTimestampTo12Hour(timestamp) {
+function convertTimestampTo12HourWithMinutes(timestamp) {
   const date = new Date(timestamp);
   let hours: any = date.getHours();
   let minutes: any = date.getMinutes();
@@ -75,6 +89,27 @@ function convertTimestampTo12Hour(timestamp) {
   minutes = minutes.toString().padStart(2, '0');
 
   return `${hours}:${minutes} ${period}`;
+}
+
+function convertTimestampTo12Hour(timestamp) {
+  const date = new Date(timestamp);
+  let hours: any = date.getHours();
+  let period = 'am';
+
+  if (hours >= 12) {
+    period = 'pm';
+    if (hours > 12) {
+      hours -= 12;
+    }
+  }
+
+  if (hours === 0) {
+    hours = 12;
+  }
+
+  hours = hours.toString();
+
+  return `${hours}${period}`;
 }
 
 function MarketCapDetails({ isMarketCap, value, percentages }: any) {
@@ -109,20 +144,36 @@ function Market() {
     stroke: {
       show: true,
       curve: 'smooth',
-      colors: ['#D23403'], // Red color
+      colors: ['#D23403'],
       width: 3,
     },
     dataLabels: {
       enabled: false,
     },
     xaxis: {
+      tickAmount: 8,
       type: 'datetime',
-      offsetY: -30,
       labels: {
         datetimeUTC: false,
+        offsetY: -17,
+        hideOverlappingLabels: true,
         formatter: (val: any, timestamp: any) => convertTimestampTo12Hour(timestamp),
         style: {
           colors: '#fff',
+          fontFamily: 'MontRegular',
+        },
+      },
+      axisTicks: {
+        show: false,
+      },
+      axisBorder: {
+        show: false,
+      },
+      tooltip: {
+        offsetY: -30,
+        style: {
+          fontSize: '11px',
+          fontFamily: 'MontRegular',
         },
       },
     },
@@ -131,19 +182,13 @@ function Market() {
       show: false,
     },
     fill: {
-      type: 'gradient',
+      type: 'solid',
       colors: ['#D23403'],
-      gradient: {
-        opacityFrom: 0.8,
-        opacityTo: 0.7,
-      },
+      opacity: 0.31,
     },
     grid: {
-      borderColor: '#272A44',
+      borderColor: '#1f212b',
       position: 'back',
-      padding: {
-        left: -30,
-      },
       xaxis: {
         lines: {
           show: true,
@@ -155,17 +200,18 @@ function Market() {
         },
       },
       row: {
-        colors: ['#272A44'],
-        opacity: 0.5,
+        colors: ['#101116'],
       },
     },
     tooltip: {
       cssClass: 'graph-tooltip',
       x: {
+        formatter: (timestamp: any) => convertTimestampTo12HourWithMinutes(timestamp),
         show: false,
       },
       style: {
         fontSize: '14px',
+        fontFamily: 'MontLight',
       },
       marker: {
         show: false,
@@ -222,12 +268,16 @@ function Market() {
 
       {series && headData ? (
         <ChartContainer>
+          <MaskContainer>
+            <Mask />
+          </MaskContainer>
+
           <MarketCapDetails
             isMarketCap={currentActiveIndex === 0}
             value={headData[currentActiveIndex]?.value}
             percentages={headData[currentActiveIndex]?.percentages}
           />
-          <Chart options={options as any} series={series} type="area" />
+          <Chart options={options as any} series={series} type="area" height={240} />
         </ChartContainer>
       ) : null}
       {headData && (

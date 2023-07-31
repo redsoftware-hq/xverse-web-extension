@@ -138,7 +138,7 @@ var options = {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: path.join(SRC_ROOT_PATH, 'assets/img/xverse_icon.png'),
+          from: path.join(SRC_ROOT_PATH, 'assets/img/pill_logo.png'),
           to: BUILD_ROOT_PATH,
         },
       ],

@@ -28,17 +28,19 @@ interface SeedCheckPros {
   onContinue: () => void;
   seedPhrase: string;
   showButton?: boolean;
+  copy?: boolean
+  setCopy?: (copy: boolean) => void
 }
 
 export default function SeedCheck(props: SeedCheckPros): JSX.Element {
   const { t } = useTranslation('translation', { keyPrefix: 'BACKUP_WALLET_SCREEN' });
-  const { onContinue, seedPhrase, showButton = true } = props;
+  const { onContinue, seedPhrase, showButton = true, copy, setCopy } = props;
   const [isVisible, setIsVisible] = useState<boolean>(false);
   return (
     <Container>
       <Heading>{t('SEED_PHRASE_VIEW_LABEL')}</Heading>
       <Description>{t('SEED_PHRASE_VIEW_HEADING')}</Description>
-      <SeedphraseView seedPhrase={seedPhrase} isVisible={isVisible} setIsVisible={setIsVisible} />
+      <SeedphraseView seedPhrase={seedPhrase} isVisible={isVisible} setIsVisible={setIsVisible} copy={copy} setCopy={setCopy}/>
       {showButton && <ActionButton disabled={!isVisible} onPress={onContinue} text={t('SEED_PHRASE_VIEW_CONTINUE')}/>}
 
     </Container>
