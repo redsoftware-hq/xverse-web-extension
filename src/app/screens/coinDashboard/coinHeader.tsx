@@ -314,7 +314,9 @@ export default function CoinHeader(props: CoinBalanceProps) {
             value={getBalanceAmount()}
             displayType="text"
             thousandSeparator
-            renderText={(value: string) => <CoinBalanceText>{`${value}`}</CoinBalanceText>}
+            renderText={(value: string) => (
+              <CoinBalanceText>{`${Number(value).toFixed(4)}`}</CoinBalanceText>
+            )}
           />
           {/* <NumericFormat
             value={getFiatEquivalent()}
@@ -359,14 +361,14 @@ export default function CoinHeader(props: CoinBalanceProps) {
               />
             </RecieveButtonContainer>
           )}
-          {coin === 'BTC' || coin === 'STX' ? (
+          {/* {coin === 'BTC' || coin === 'STX' ? (
             <SmallActionButton
               isOpaque
               isRound
               src={SwapCoin}
               onPress={() => console.log('transfer')}
             />
-          ) : null}
+          ) : null} */}
         </RowButtonContainer>
       </BalanceInfoContainer>
       {renderStackingBalances()}

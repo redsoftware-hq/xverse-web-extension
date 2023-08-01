@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import styled, { useTheme } from 'styled-components';
 import Eye from '@assets/img/createPassword/Eye.svg';
 import EyeSlash from '@assets/img/createPassword/EyeSlash.svg';
-import PasswordIcon from '@assets/img/Graphic (1).svg';
+import PasswordIcon from '@assets/img/Graphic (1).png';
 import { useEffect, useState } from 'react';
 import ActionButton from '@components/button';
 import { animated, useTransition } from '@react-spring/web';
@@ -45,7 +45,7 @@ const HeaderContainer = styled.div({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  height: '120px'
+  height: '120px',
 });
 
 interface PasswordInputContainerProps {
@@ -66,11 +66,11 @@ const PasswordInputContainer = styled.div<PasswordInputContainerProps>((props) =
   marginTop: props.theme.spacing(8),
   marginBottom: props.theme.spacing(3),
   ':hover': {
-    border : `1px solid ${props.theme.colors.action.classic}`
+    border: `1px solid ${props.theme.colors.action.classic}`,
   },
   ':focus': {
-    border : `1px solid ${props.theme.colors.action.classic}`
-  }
+    border: `1px solid ${props.theme.colors.action.classic}`,
+  },
 }));
 
 const PasswordInputLabel = styled.h2((props) => ({
@@ -334,14 +334,14 @@ function PasswordInput(props: PasswordInputProps): JSX.Element {
       </PasswordInputContainer>
       {error && <ErrorMessage>{error}</ErrorMessage>}
       <ButtonsContainer stackButtonAlignment={stackButtonAlignment} ifError={error !== ''}>
-          <ActionButton
-            processing={loading}
-            disabled={
-              !enteredPassword || (!!checkPasswordStrength && score <= PasswordStrength.WeakScore)
-            }
-            text={t('CONTINUE_BUTTON')}
-            onPress={handleContinue}
-          />
+        <ActionButton
+          processing={loading}
+          disabled={
+            !enteredPassword || (!!checkPasswordStrength && score <= PasswordStrength.WeakScore)
+          }
+          text={t('CONTINUE_BUTTON')}
+          onPress={handleContinue}
+        />
       </ButtonsContainer>
     </Container>
   );
