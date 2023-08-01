@@ -434,14 +434,14 @@ export default function CoinHeader(props: CoinBalanceProps) {
               />
             </RecieveButtonContainer>
           )}
-          {coin === 'BTC' || coin === 'STX' ? (
+          {/* {coin === 'BTC' || coin === 'STX' ? (
             <SmallActionButton
               isOpaque
               isRound
               src={SwapCoin}
               onPress={() => console.log('transfer')}
             />
-          ) : null}
+          ) : null} */}
         </RowButtonContainer>
       </BalanceInfoContainer>
       {renderStackingBalances()}
