@@ -38,6 +38,7 @@ export default function BackupWalletSteps(): JSX.Element {
   const [currentActiveIndex, setCurrentActiveIndex] = useState<number>(0);
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string>('');
+  const [copy, setCopy] = useState<boolean>(false);
   const [confirmPassword, setConfirmPassword] = useState<string>('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -90,15 +91,17 @@ export default function BackupWalletSteps(): JSX.Element {
   };
 
   const backupSteps = [
-    <SeedContainer>
-      <SeedCheck seedPhrase={seedPhrase} onContinue={handleSeedCheckContinue} />
+    <SeedContainer key={0}>
+      <SeedCheck seedPhrase={seedPhrase} onContinue={handleSeedCheckContinue} copy={copy} setCopy={setCopy}/>
     </SeedContainer>,
     <VerifySeed
+      key={1}
       onBack={handleVerifySeedBack}
       onVerifySuccess={handleVerifySeedSuccess}
       seedPhrase={seedPhrase}
+      copy={copy}
     />,
-    <PasswordContainer>
+    <PasswordContainer key={2}>
       <PasswordInput
         title={t('CREATE_PASSWORD_TITLE')}
         inputLabel={t('TEXT_INPUT_NEW_PASSWORD_LABEL')}
@@ -109,7 +112,7 @@ export default function BackupWalletSteps(): JSX.Element {
         checkPasswordStrength
       />
     </PasswordContainer>,
-    <PasswordContainer>
+    <PasswordContainer key={3}>
       <PasswordInput
         title={t('CONFIRM_PASSWORD_TITLE')}
         inputLabel={t('TEXT_INPUT_CONFIRM_PASSWORD_LABEL')}

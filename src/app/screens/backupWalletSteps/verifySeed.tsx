@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 import ActionButton from '@components/button';
 import SeedPhraseInput from '@components/seedPhraseInput';
 import { useState } from 'react';
@@ -45,19 +46,66 @@ const ButtonContainer = styled.div((props) => ({
   width: '100%',
 }));
 
+const PasteSeedButton = styled.button((props) => ({
+  ...props.theme.body_medium_m,
+  color: props.theme.colors.action.classic,
+  borderRadius: props.theme.radius(4),
+  border: `1px solid ${props.theme.colors.action.classic}`,
+  backgroundColor: props.theme.colors.background.lightOrange,
+  height: 30,
+  width: 150,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  position: 'absolute',
+  top: '68%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  img: {
+    marginRight: props.theme.spacing(4),
+  },
+  ':hover': {
+    backgroundColor: props.theme.colors.action.classic,
+    border: `1px solid ${props.theme.colors.action.classic}`,
+    color: props.theme.colors.white[0],
+  },
+  ':focus': {
+    backgroundColor: props.theme.colors.action.classic,
+    border: `1px solid ${props.theme.colors.action.classic}`,
+    color: props.theme.colors.white[0],
+  },
+}));
+
 interface VerifySeedProps {
   onVerifySuccess: () => void;
   onBack: () => void;
   seedPhrase: string;
+  copy: boolean;
+}
+
+function textToMapValues(inputText: string, arrayLength: number): string[] {
+  // Step 1: Split the input text into individual words
+  const words: string[] = inputText.split(' ');
+
+  // Step 2: Create a list of size `arrayLength`
+  const resultArray: string[] = new Array(arrayLength).fill('');
+
+  // Step 3: Fill the resultArray with words from the input text
+  for (let i = 0; i < words.length && i < arrayLength; i+1) {
+    resultArray[i] = words[i];
+  }
+
+  return resultArray;
 }
 
 export default function VerifySeed(props: VerifySeedProps): JSX.Element {
   const [seedInput, setSeedInput] = useState<string[]>(new Array(12).fill(''));
   const [err, setErr] = useState('');
   const { t } = useTranslation('translation', { keyPrefix: 'BACKUP_WALLET_SCREEN' });
-  const { onBack, onVerifySuccess, seedPhrase } = props;
+  const { onBack, onVerifySuccess, seedPhrase, copy } = props;
 
-  const cleanMnemonic = (rawSeed: string): string => rawSeed.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim();
+  const cleanMnemonic = (rawSeed: string): string =>
+    rawSeed.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim();
 
   const handleVerify = () => {
     if (seedPhrase === seedInput.map(e => e.trim()).join(' ')) {
@@ -66,6 +114,10 @@ export default function VerifySeed(props: VerifySeedProps): JSX.Element {
       setErr('Seedphrase does not match');
     }
   };
+
+  const handlePaste = async () => {
+    setSeedInput(seedPhrase.split(' '));
+  }
 
   return (
     <Container>
@@ -77,12 +129,13 @@ export default function VerifySeed(props: VerifySeedProps): JSX.Element {
         seedError={err}
         setSeedError={setErr}
       />
+      {copy && <PasteSeedButton onClick={handlePaste}>Paste Seedphrase</PasteSeedButton>}
       <ButtonsContainer>
         <ButtonContainer>
           <ActionButton
             text={t('SEED_PHRASE_VIEW_CONTINUE')}
             onPress={handleVerify}
-            disabled={seedInput.map(e => e.trim()).join(' ') === ''}
+            disabled={seedInput.map((e) => e.trim()).join(' ') === ''}
           />
         </ButtonContainer>
       </ButtonsContainer>

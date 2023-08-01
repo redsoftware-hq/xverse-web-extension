@@ -2,8 +2,6 @@ import { useStepperContext } from '@stores/stepper';
 import { CurrencyTypes } from '@utils/constants';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import NextIcon from '@assets/img/dashboard/caret-right-solid.svg';
-import PrevIcon from '@assets/img/dashboard/caret-left-solid.svg';
 import Stepper from '@components/steps2';
 
 const StepperContainer = styled.div((props) => ({
@@ -11,15 +9,10 @@ const StepperContainer = styled.div((props) => ({
   flexDirection: 'row',
   justifyContent: 'center',
   alignItems: 'center',
+  marginTop: props.theme.spacing(8),
 }));
 
-const Button = styled.button((props) => ({
-  diisplay: 'flex',
-  flexDirection: 'row',
-  justifyContent: 'center',
-  alignItems: 'center',
-  background: 'none',
-}));
+
 
 function StepperNavigator() {
   const {
@@ -40,29 +33,12 @@ function StepperNavigator() {
       navigate(`/coinDashboard/${token.coin}?ft=${token.ft}`);
     }
   };
-  const goToPreviousStep = () => {
-    dispatchStep({ type: 'PREV_STEP' });
-  };
-
   const goToNextStep = () => {
     dispatchStep({ type: 'NEXT_STEP' });
   };
 
   const goToHome = () => {
     dispatchStep({ type: 'HOME' });
-  };
-
-  const handlePreviousDashboard = (e) => {
-    e.preventDefault();
-    if (currentActiveIndex === 1) {
-      goToHome();
-      navigate('/');
-    } else if (currentActiveIndex > 1) {
-      handleTokenPressed({
-        coin: stepsData[currentActiveIndex - 1] as CurrencyTypes,
-      });
-      goToPreviousStep()
-    }
   };
 
   const handleNextDashboard = (e) => {
@@ -79,13 +55,7 @@ function StepperNavigator() {
   };
   return (
     <StepperContainer>
-      <Button type="button" onClick={handlePreviousDashboard}>
-        <img src={PrevIcon} alt="previous-page" />
-      </Button>
-      <Stepper data={stepsData} activeIndex={currentActiveIndex} width={80} />
-      <Button type="button" onClick={handleNextDashboard}>
-        <img src={NextIcon} alt="next-page" />
-      </Button>
+      <Stepper data={stepsData} activeIndex={currentActiveIndex} width={80} onClick={handleNextDashboard}/>
     </StepperContainer>
   );
 }
