@@ -37,9 +37,9 @@ const RowContainer = styled.div((props) => ({
   borderRadius: props.theme.radius(1),
   paddingRight: props.theme.spacing(20),
   border: `1px solid #A8B9F433`,
-  ":hover": {
-    background: 'rgba(255, 255, 255, 0.9)'
-  }
+  ':hover': {
+    background: 'rgba(255, 255, 255, 0.9)',
+  },
 }));
 
 const Button = styled.button({
@@ -51,7 +51,9 @@ type Tab = 'dashboard' | 'nft' | 'market' | 'stacking';
 
 interface Props {
   tab: Tab;
+  tab: Tab;
 }
+function BottomTabBar({ tab }: Props) {
 function BottomTabBar({ tab }: Props) {
   const navigate = useNavigate();
   const theme = useTheme();
@@ -79,11 +81,15 @@ function BottomTabBar({ tab }: Props) {
   };
 
   const handleNftButtonClick = () => {
-    if (tab !== 'nft') { navigate('/nft-dashboard'); }
+    if (tab !== 'nft') {
+      navigate('/nft-dashboard');
+    }
   };
 
   const handleMarketButtonClick = () => {
-    if (tab !== 'market') { navigate('/market'); }
+    if (tab !== 'market') {
+      navigate('/market');
+    }
   };
 
   const handleStackingButtonClick = () => {
@@ -94,24 +100,20 @@ function BottomTabBar({ tab }: Props) {
 
   return (
     <Container>
-    <RowContainer>
-      <MovingDiv style={styles} />
-      <Button onClick={handleDashboardButtonClick}>
-        <Wallet
-          color={tab === 'dashboard' ? theme.colors.white_0 : theme.colors.white_600}
-          size="24"
-        />
-      </Button>
-      <Button onClick={handleMarketButtonClick}>
-        <img src={tab === 'market' ? MarketTab : UnselectedMarketTab} alt="market" />
-      </Button>
-      <Button onClick={handleNftButtonClick}>
-        <img src={tab === 'nft' ? NftTab : UnselectedNftTab} alt="nft" />
-      </Button>
-      <Button onClick={handleStackingButtonClick}>
+      <RowContainer>
+        <Button onClick={handleDashboardButtonClick}>
+          <img src={tab === 'dashboard' ? WalletTab : UnselectedWalletTab} alt="dashboard" />
+        </Button>
+        <Button onClick={handleMarketButtonClick}>
+          <img src={tab === 'market' ? MarketTab : UnselectedMarketTab} alt="market" />
+        </Button>
+        <Button onClick={handleNftButtonClick}>
+          <img src={tab === 'nft' ? NftTab : UnselectedNftTab} alt="nft" />
+        </Button>
+        {/* <Button onClick={handleStackingButtonClick}>
         <img src={tab === 'stacking' ? StackingTab : UnselectedStackingTab} alt="stacking" />
-      </Button>
-    </RowContainer>
+      </Button> */}
+      </RowContainer>
     </Container>
   );
 }

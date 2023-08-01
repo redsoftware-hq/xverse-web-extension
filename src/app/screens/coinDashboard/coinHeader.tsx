@@ -387,7 +387,9 @@ export default function CoinHeader(props: CoinBalanceProps) {
             value={getBalanceAmount()}
             displayType="text"
             thousandSeparator
-            renderText={(value: string) => <CoinBalanceText>{`${value}`}</CoinBalanceText>}
+            renderText={(value: string) => (
+              <CoinBalanceText>{`${Number(value).toFixed(4)}`}</CoinBalanceText>
+            )}
           />
           {/* <NumericFormat
             value={getFiatEquivalent()}
