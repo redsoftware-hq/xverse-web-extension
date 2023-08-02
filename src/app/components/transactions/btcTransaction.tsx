@@ -4,10 +4,13 @@ import { getBtcTxStatusUrl } from '@utils/helper';
 import { isBtcTransaction } from '@utils/transactions/transactions';
 import { useCallback } from 'react';
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
+import { StoreState } from '@stores/index';
+import { satsToBtc } from '@secretkeylabs/xverse-core/currency';
+import BigNumber from 'bignumber.js';
 import TransactionAmount from './transactionAmount';
 import TransactionRecipient from './transactionRecipient';
 import TransactionStatusIcon from './transactionStatusIcon';
-import TransactionTitle from './transactionTitle';
 
 interface TransactionHistoryItemProps {
   transaction: BtcTransactionData | Brc20HistoryTransactionData;
@@ -15,6 +18,8 @@ interface TransactionHistoryItemProps {
 
 const TransactionContainer = styled.button((props) => ({
   display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
   width: '100%',
   paddingTop: props.theme.spacing(5),
   paddingBottom: props.theme.spacing(5),
@@ -50,28 +55,84 @@ const TransactionRow = styled.div((props) => ({
   ...props.theme.body_bold_m,
 }));
 
+const TitleContainer = styled.div((props) => ({
+  display: 'flex',
+  flex: 1,
+  alignItems: 'center',
+  gap: props.theme.spacing(3),
+}));
+
+const PriceConatiner = styled.div({
+  display: 'flex',
+  alignItems: 'center',
+});
+
+const HeaderTitle = styled.p((props) => ({
+  ...props.theme.body_medium_m,
+  color: props.theme.colors.grey1,
+  paddingRight: props.theme.spacing(25),
+  textAlign: 'left',
+  padding: 0,
+}));
+
+const HeaderTitleAmount = styled.p((props) => ({
+  ...props.theme.body_medium_m,
+  color: props.theme.colors.grey1,
+  paddingRight: props.theme.spacing(25),
+  textAlign: 'right',
+  padding: 0,
+}));
+
 export default function BtcTransactionHistoryItem(props: TransactionHistoryItemProps) {
   const { transaction } = props;
   const { network } = useWalletSelector();
-  const isBtc = isBtcTransaction(transaction) ? 'BTC' : 'brc20';
+  const { btcFiatRate } = useSelector((state: StoreState) => state.walletState);
+
   const openBtcTxStatusLink = useCallback(() => {
     window.open(getBtcTxStatusUrl(transaction.txid, network), '_blank', 'noopener,noreferrer');
   }, []);
 
+  const currentDate = new Date(transaction.seenTime);
+  const months = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ];
+  const currentMonth = months[currentDate.getMonth()];
+  const currentDateValue = currentDate.getDate();
+
   return (
     <TransactionContainer onClick={openBtcTxStatusLink}>
-      <TransactionStatusIcon transaction={transaction} currency={isBtc} />
-      <TransactionInfoContainer>
-        <TransactionRow>
-          <TransactionTitle transaction={transaction} />
-          <TransactionAmountContainer>
-            <TransactionAmount transaction={transaction} coin={isBtc} />
-          </TransactionAmountContainer>
-        </TransactionRow>
-        <TransactionRow>
+      <TitleContainer>
+        <TransactionStatusIcon transaction={transaction} currency="BTC" />
+        <div>
           <TransactionRecipient transaction={transaction} />
-        </TransactionRow>
-      </TransactionInfoContainer>
+          <HeaderTitle>{`${currentMonth} ${currentDateValue}`}</HeaderTitle>
+        </div>
+      </TitleContainer>
+      <PriceConatiner>
+        <div>
+          <TransactionRow>
+            <TransactionAmountContainer>
+              <TransactionAmount transaction={transaction} coin="BTC" />
+            </TransactionAmountContainer>
+          </TransactionRow>
+          <HeaderTitleAmount>
+            {btcFiatRate &&
+              (btcFiatRate * satsToBtc(BigNumber(transaction.amount)).toNumber()).toFixed(2)}{' '}
+            USD
+          </HeaderTitleAmount>
+        </div>
+      </PriceConatiner>
     </TransactionContainer>
   );
 }

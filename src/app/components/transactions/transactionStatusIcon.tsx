@@ -1,15 +1,8 @@
 import ContractIcon from '@assets/img/transactions/contract.svg';
 import FailedIcon from '@assets/img/transactions/failed.svg';
 import OrdinalsIcon from '@assets/img/transactions/ordinal.svg';
-import PendingIcon from '@assets/img/transactions/pending.svg';
-import ReceiveIcon from '@assets/img/transactions/received.svg';
-import SendIcon from '@assets/img/transactions/sent.svg';
-import {
-  Brc20HistoryTransactionData,
-  BtcTransactionData,
-  StxTransactionData,
-} from '@secretkeylabs/xverse-core';
-import { CurrencyTypes } from '@utils/constants';
+import Send from '@assets/img/dashboard/send.svg';
+import Receive from '@assets/img/dashboard/recieve.svg';
 
 interface TransactionStatusIconPros {
   transaction: StxTransactionData | BtcTransactionData | Brc20HistoryTransactionData;
@@ -21,47 +14,37 @@ function TransactionStatusIcon(props: TransactionStatusIconPros) {
   if (currency === 'STX' || currency === 'FT') {
     const tx = transaction as StxTransactionData;
     if (tx.txStatus === 'abort_by_response' || tx.txStatus === 'abort_by_post_condition') {
-      return <img src={FailedIcon} alt="pending" />;
+      return <img width={32} src={FailedIcon} alt="pending" />;
     }
     if (tx.txType === 'token_transfer' || tx.tokenType === 'fungible') {
       if (tx.txStatus === 'pending') {
-        return <img src={PendingIcon} alt="pending" />;
+        return <img width={32} src={PendingIcon} alt="pending" />;
       }
       if (tx.incoming) {
-        return <img src={ReceiveIcon} alt="received" />;
+        return <img width={32} src={Receive} alt="received" />;
       }
-      return <img src={SendIcon} alt="sent" />;
+      return <img width={32} src={Send} alt="sent" />;
     }
     if (tx.txStatus === 'pending') {
-      return <img src={PendingIcon} alt="pending" />;
+      return <img width={32} src={PendingIcon} alt="pending" />;
     }
-    return <img src={ContractIcon} alt="contract-call" />;
+    return <img width={32} src={ContractIcon} alt="contract-call" />;
   }
   if (currency === 'BTC') {
     const tx = transaction as BtcTransactionData;
+    if (tx.isOrdinal) {
+      return <img width={32} src={OrdinalsIcon} alt="ordinals-transfer" />;
+    }
     if (tx.txStatus === 'pending') {
-      return <img src={PendingIcon} alt="pending" />;
+      return <img width={32} src={PendingIcon} alt="pending" />;
     }
     if (tx.isOrdinal) {
-      return <img src={OrdinalsIcon} alt="ordinals-transfer" />;
+      return <img width={32} src={OrdinalsIcon} alt="ordinals-transfer" />;
     }
     if (tx.incoming) {
-      return <img src={ReceiveIcon} alt="received" />;
+      return <img width={32} src={Receive} alt="received" />;
     }
-    return <img src={SendIcon} alt="sent" />;
-  }
-  if (currency === 'brc20') {
-    const tx = transaction as Brc20HistoryTransactionData;
-    if (tx.txStatus === 'pending') {
-      return <img src={PendingIcon} alt="pending" />;
-    }
-    if (tx.incoming) {
-      return <img src={ReceiveIcon} alt="received" />;
-    }
-    if (tx.operation === 'transfer_send' && !tx.incoming) {
-      return <img src={SendIcon} alt="sent" />;
-    }
-    return <img src={ContractIcon} alt="inscribe-transaction" />;
+    return <img width={32} src={Send} alt="sent" />;
   }
   return <img src={ContractIcon} alt="contract" />;
 }

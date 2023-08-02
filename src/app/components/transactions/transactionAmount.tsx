@@ -55,42 +55,25 @@ export default function TransactionAmount(props: TransactionAmountProps): JSX.El
               <TransactionValue>{`${value} ${getFtTicker(
                 token as FungibleToken,
               )?.toUpperCase()}`}</TransactionValue>
+              <TransactionValue>{`${value} ${getFtTicker(
+                token as FungibleToken,
+              )?.toUpperCase()}`}</TransactionValue>
             )}
           />
         );
       }
     }
   } else if (coin === 'BTC') {
-    const btcTransaction = transaction as BtcTransactionData;
-    const prefix = btcTransaction.incoming ? '' : '-';
-    if (btcTransaction.isOrdinal && btcTransaction.txStatus === 'pending') {
-      return null;
-    }
-    if (!new BigNumber(btcTransaction.amount).isEqualTo(0)) {
+    const prefix = transaction.incoming ? '+' : '-';
+    if (!new BigNumber(transaction.amount).isEqualTo(0)) {
       return (
         <NumericFormat
-          value={satsToBtc(BigNumber(btcTransaction.amount)).toString()}
+          value={satsToBtc(BigNumber(transaction.amount)).toString()}
           displayType="text"
           thousandSeparator
           prefix=""
           renderText={(value: string) => (
             <TransactionValue>{`${prefix}${value} BTC`}</TransactionValue>
-          )}
-        />
-      );
-    }
-  } else if (coin === 'brc20') {
-    const brc20Transaction = transaction as Brc20HistoryTransactionData;
-    const prefix = brc20Transaction.incoming ? '' : '-';
-    if (!new BigNumber(brc20Transaction.amount).isEqualTo(0)) {
-      return (
-        <NumericFormat
-          value={BigNumber(brc20Transaction.amount).toString()}
-          displayType="text"
-          thousandSeparator
-          prefix=""
-          renderText={(value: string) => (
-            <TransactionValue>{`${prefix}${value} ${brc20Transaction.ticker.toUpperCase()}`}</TransactionValue>
           )}
         />
       );

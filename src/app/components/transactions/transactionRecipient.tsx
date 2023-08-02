@@ -7,9 +7,10 @@ import { isBrc20Transaction } from '@utils/transactions/transactions';
 import styled from 'styled-components';
 
 const RecipientAddress = styled.p((props) => ({
-  ...props.theme.body_xs,
-  color: props.theme.colors.white_400,
-  textAlign: 'left',
+  ...props.theme.body_medium_m,
+  fontSize: '16px',
+  color: props.theme.colors.white[0],
+  paddingRight: props.theme.spacing(7),
 }));
 
 interface TransactionRecipientProps {

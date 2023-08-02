@@ -206,14 +206,17 @@ export default function TransactionsHistoryList(props: TransactionsHistoryListPr
         !isLoading &&
         Object.keys(groupedTxs).map((group) => (
           <GroupContainer style={styles}>
-            <SectionHeader>
-              <SectionTitle>{group}</SectionTitle>
-              <SectionSeparator />
-            </SectionHeader>
+            {/* <SectionHeader> */}
+            {/* <SectionTitle>{group}</SectionTitle> */}
+            <SectionSeparator />
+            {/* </SectionHeader> */}
             {groupedTxs[group].map((transaction) => {
               if (isBtcTransaction(transaction) || isBrc20Transaction(transaction)) {
                 return (
-                  <BtcTransactionHistoryItem transaction={transaction} key={transaction.txid} />
+                  <>
+                    <BtcTransactionHistoryItem transaction={transaction} key={transaction.txid} />
+                    <SectionSeparator />
+                  </>
                 );
               }
               return (
