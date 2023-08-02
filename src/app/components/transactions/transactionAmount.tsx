@@ -51,14 +51,16 @@ export default function TransactionAmount(props: TransactionAmountProps): JSX.El
             thousandSeparator
             prefix={prefix}
             renderText={(value: string) => (
-              <TransactionValue>{`${value} ${getFtTicker(token as FungibleToken)?.toUpperCase()}`}</TransactionValue>
+              <TransactionValue>{`${value} ${getFtTicker(
+                token as FungibleToken,
+              )?.toUpperCase()}`}</TransactionValue>
             )}
           />
         );
       }
     }
   } else if (coin === 'BTC') {
-    const prefix = transaction.incoming ? '' : '-';
+    const prefix = transaction.incoming ? '+' : '-';
     if (!new BigNumber(transaction.amount).isEqualTo(0)) {
       return (
         <NumericFormat
@@ -67,7 +69,7 @@ export default function TransactionAmount(props: TransactionAmountProps): JSX.El
           thousandSeparator
           prefix=""
           renderText={(value: string) => (
-            <TransactionValue>{`${prefix}${value} BTC`}</TransactionValue>
+            <TransactionValue>{`${prefix}${Number(value).toFixed(4)} BTC`}</TransactionValue>
           )}
         />
       );
