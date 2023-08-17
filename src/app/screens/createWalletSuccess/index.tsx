@@ -19,7 +19,7 @@ const InstructionsContainer = styled.div((props) => ({
   top: 20,
   right: 30,
   height: 127,
-  width: 278,
+  width: 300,
   backgroundColor: 'rgba(39, 42, 68, 0.4)',
   border: `1px solid ${props.theme.colors.background.elevation3}`,
   borderRadius: 12,
