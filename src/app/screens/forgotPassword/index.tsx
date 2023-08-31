@@ -1,5 +1,5 @@
 import BackHeader from '@components/backHeader';
-import CheckBox from '@components/checkBox';
+import CustomSwitchSlider from '@components/customSwitch';
 import useWalletReducer from '@hooks/useWalletReducer';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -29,7 +29,7 @@ const ButtonsContainer = styled.div((props) => ({
   display: 'flex',
   marginTop: props.theme.spacing(16),
   alignItems: 'center',
-  justifyContent: 'space-between',
+  justifyContent: 'center',
 }));
 
 const ResetButton = styled.button((props) => ({
@@ -38,27 +38,28 @@ const ResetButton = styled.button((props) => ({
   justifyContent: 'center',
   alignItems: 'center',
   borderRadius: props.theme.radius(1),
-  backgroundColor: props.theme.colors.feedback.error,
+  backgroundColor: props.theme.colors.action.classic,
   color: props.theme.colors.white['0'],
-  width: '48%',
+  textTransform:'uppercase',
+  width: '100%',
   height: 44,
   '&:disabled': {
     opacity: 0.6,
   },
 }));
-
-const CancelButton = styled.button((props) => ({
-  display: 'flex',
-  flexDirection: 'row',
-  justifyContent: 'center',
-  alignItems: 'center',
-  borderRadius: props.theme.radius(1),
-  backgroundColor: props.theme.colors.background.elevation0,
-  border: `1px solid ${props.theme.colors.background.elevation2}`,
+const SliderContainer = styled.div((props) => ({
+  ...props.theme.body_medium_m,
   color: props.theme.colors.white['0'],
-  width: '48%',
-  height: 44,
+  display: 'flex',
+  alignItems: 'center',
+  label: {
+    marginLeft: props.theme.spacing(5),
+  },
+  '> input, > label': {
+    cursor: 'pointer',
+  },
 }));
+
 
 function ForgotPassword(): JSX.Element {
   const { t } = useTranslation('translation', { keyPrefix: 'FORGOT_PASSWORD_SCREEN' });
@@ -82,19 +83,19 @@ function ForgotPassword(): JSX.Element {
   return (
     <Container>
       <BackHeader headerText={t('TITLE')} onPressBack={onBack} />
-      <Paragraph>{t('PARAGRAPH1')}</Paragraph>
-      <Paragraph>{t('PARAGRAPH2')}</Paragraph>
+      <Paragraph>{t('PARAGRAPH')}</Paragraph>
       <BottomContainer>
-        <CheckBox
-          checkBoxLabel={t('BACKUP_CHECKBOX_LABEL')}
-          isChecked={hasBackedUp}
-          checkBoxId="backup"
-          onCheck={handleToggleBackUp}
-        />
+        <SliderContainer>
+          <CustomSwitchSlider
+            id="backup"
+            toggleFunction={handleToggleBackUp}
+            toggleValue={hasBackedUp}
+          />
+          <label htmlFor="backup">{t('BACKUP_CHECKBOX_LABEL')}</label>
+        </SliderContainer>
         <ButtonsContainer>
-          <CancelButton onClick={onBack}>Cancel</CancelButton>
           <ResetButton disabled={!hasBackedUp} onClick={handleResetWallet}>
-            Reset
+            Reset Wallet
           </ResetButton>
         </ButtonsContainer>
       </BottomContainer>
