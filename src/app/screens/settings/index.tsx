@@ -5,9 +5,7 @@ import XverseLogo from '@assets/img/settings/logo.svg';
 import ArrowIcon from '@assets/img/settings/arrow.svg';
 import ArrowSquareOut from '@assets/img/arrow_square_out.svg';
 import BottomBar from '@components/tabBar';
-import {
-  PRIVACY_POLICY_LINK, TERMS_LINK, SUPPORT_LINK,
-} from '@utils/constants';
+import { PRIVACY_POLICY_LINK, TERMS_LINK, SUPPORT_LINK } from '@utils/constants';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import PasswordInput from '@components/passwordInput';
@@ -17,6 +15,8 @@ import { ChangeActivateOrdinalsAction } from '@stores/wallet/actions/actionCreat
 import useNonOrdinalUtxos from '@hooks/useNonOrdinalUtxo';
 import ResetWalletPrompt from '../../components/resetWallet';
 import SettingComponent from './settingComponent';
+import TopRow from '@components/topRow';
+import Paragraph from '@components/paragraph';
 
 declare const VERSION: string;
 
@@ -46,9 +46,8 @@ const ResetWalletContainer = styled.div((props) => ({
   paddingTop: props.theme.spacing(50),
 }));
 
-const LogoContainer = styled.div((props) => ({
+const Divider = styled.div((props) => ({
   padding: props.theme.spacing(11),
-  borderBottom: `1px solid ${props.theme.colors.background.elevation3}`,
 }));
 
 function Setting() {
@@ -58,15 +57,11 @@ function Setting() {
   const [password, setPassword] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
-  const {
-    fiatCurrency, network, hasActivatedOrdinalsKey,
-  } = useWalletSelector();
+  const { fiatCurrency, network, hasActivatedOrdinalsKey } = useWalletSelector();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { unlockWallet, resetWallet } = useWalletReducer();
-  const {
-    unspentUtxos,
-  } = useNonOrdinalUtxos();
+  const { unspentUtxos } = useNonOrdinalUtxos();
 
   const openTermsOfService = () => {
     window.open(TERMS_LINK);
@@ -80,6 +75,9 @@ function Setting() {
     window.open(SUPPORT_LINK);
   };
 
+  const handleBackButtonClick = () => {
+    navigate('/');
+  };
   const openFiatCurrencyScreen = () => {
     navigate('/fiat-currency');
   };
@@ -164,12 +162,10 @@ function Setting() {
           />
         </ResetWalletContainer>
       )}
-      <LogoContainer>
-        <img src={XverseLogo} alt="xverse logo" />
-      </LogoContainer>
+      <TopRow title={t('MAIN_TILE')} onClick={handleBackButtonClick} />
+      <Paragraph content={t('CONTENT')}/>
       <Container>
         <SettingComponent
-          title={t('GENERAL')}
           text={t('CURRENCY')}
           onClick={openFiatCurrencyScreen}
           textDetail={fiatCurrency}
@@ -181,7 +177,6 @@ function Setting() {
           textDetail={network.type}
         />
         <SettingComponent
-          title={t('SECURITY')}
           text={t('UPDATE_PASSWORD')}
           onClick={openUpdatePasswordScreen}
           icon={ArrowIcon}
@@ -205,7 +200,6 @@ function Setting() {
           showWarningTitle
         />
         <SettingComponent
-          title={t('ORDINALS')}
           text={t('ACTIVATE_ORDINAL_NFTS')}
           toggle
           toggleFunction={switchActivateOrdinalState}
@@ -218,34 +212,13 @@ function Setting() {
           icon={ArrowIcon}
           showDivider
         />
-        <SettingComponent
-          title={t('ABOUT')}
-          text={t('TERMS_OF_SERVICE')}
-          onClick={openTermsOfService}
-          icon={ArrowSquareOut}
-          showDivider
-        />
-        <SettingComponent
-          text={t('PRIVACY_POLICY')}
-          onClick={openPrivacyPolicy}
-          icon={ArrowSquareOut}
-          showDivider
-        />
-        <SettingComponent
-          text={t('SUPPORT_CENTER')}
-          onClick={openSupport}
-          icon={ArrowSquareOut}
-          showDivider
-        />
-        <SettingComponent text={`${t('VERSION')}`} textDetail={`${VERSION} (Beta)`} />
+        <Divider/>
         <ResetWalletPrompt
           showResetWalletPrompt={showResetWalletPrompt}
           onResetWalletPromptClose={onResetWalletPromptClose}
           openResetWalletScreen={openResetWalletScreen}
         />
       </Container>
-
-      <BottomBar tab="settings" />
     </>
   );
 }
