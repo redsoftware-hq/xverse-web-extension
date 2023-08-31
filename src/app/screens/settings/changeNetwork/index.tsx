@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import NetworkRow from './networkRow';
+import Paragraph from '@components/paragraph';
 
 const Container = styled.div`
   display: flex;
@@ -168,6 +169,7 @@ function ChangeNetworkScreen() {
   return (
     <>
       <TopRow title={t('NETWORK')} onClick={handleBackButtonClick} />
+      <Paragraph content={t('NETWORK_CONTENT')} />
       <Container>
         <NetworkRow
           network={initialNetworksList[0]}
@@ -181,7 +183,7 @@ function ChangeNetworkScreen() {
           onNetworkSelected={onNetworkSelected}
           showDivider={false}
         />
-        <NodeInputHeader>
+        {/* <NodeInputHeader>
           <NodeText>{t('NODE')}</NodeText>
           <NodeResetButton onClick={onResetStacks}>Reset URL</NodeResetButton>
         </NodeInputHeader>
@@ -202,7 +204,7 @@ function ChangeNetworkScreen() {
             <img width={22} height={22} src={Cross} alt="cross" />
           </Button>
         </InputContainer>
-        <ErrorMessage>{btcURLError}</ErrorMessage>
+        <ErrorMessage>{btcURLError}</ErrorMessage> */}
       </Container>
       <ButtonContainer>
         <ActionButton
@@ -212,8 +214,6 @@ function ChangeNetworkScreen() {
           disabled={isChangingNetwork}
         />
       </ButtonContainer>
-
-      <BottomBar tab="settings" />
     </>
   );
 }

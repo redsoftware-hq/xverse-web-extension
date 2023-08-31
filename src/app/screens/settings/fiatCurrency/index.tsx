@@ -9,6 +9,7 @@ import { ChangeFiatCurrencyAction } from '@stores/wallet/actions/actionCreators'
 import { SupportedCurrency } from '@secretkeylabs/xverse-core';
 import { currencyList } from '../../../utils/currency';
 import CurrencyRow from './currencyRow';
+import Paragraph from '@components/paragraph';
 
 const Container = styled.div`
   display: flex;
@@ -44,6 +45,7 @@ function FiatCurrencyScreen() {
   return (
     <>
       <TopRow title={t('CURRENCY')} onClick={handleBackButtonClick} />
+      <Paragraph content={t('CURRENCY_CONTENT')}/>
       <Container>
         {currencyList.map((coin, index) => (
           <CurrencyRow
@@ -55,7 +57,6 @@ function FiatCurrencyScreen() {
           />
         ))}
       </Container>
-      <BottomBar tab="settings" />
     </>
   );
 }

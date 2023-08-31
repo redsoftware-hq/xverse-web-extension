@@ -3,15 +3,8 @@ import ArrowIcon from '@assets/img/settings/arrow.svg';
 import XverseLogo from '@assets/img/settings/logo.svg';
 import PasswordInput from '@components/passwordInput';
 import BottomBar from '@components/tabBar';
-import useSeedVault from '@hooks/useSeedVault';
-import useWalletReducer from '@hooks/useWalletReducer';
-import useWalletSelector from '@hooks/useWalletSelector';
-import {
-  ChangeActivateOrdinalsAction,
-  ChangeActivateRareSatsAction,
-} from '@stores/wallet/actions/actionCreators';
-import { PRIVACY_POLICY_LINK, SUPPORT_LINK, TERMS_LINK } from '@utils/constants';
-import { isInOptions, isLedgerAccount } from '@utils/helper';
+import { PRIVACY_POLICY_LINK, TERMS_LINK, SUPPORT_LINK } from '@utils/constants';
+import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
@@ -19,6 +12,8 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import ResetWalletPrompt from '../../components/resetWallet';
 import SettingComponent from './settingComponent';
+import TopRow from '@components/topRow';
+import Paragraph from '@components/paragraph';
 
 declare const VERSION: string;
 
@@ -48,9 +43,8 @@ const ResetWalletContainer = styled.div((props) => ({
   paddingTop: props.theme.spacing(50),
 }));
 
-const LogoContainer = styled.div((props) => ({
+const Divider = styled.div((props) => ({
   padding: props.theme.spacing(11),
-  borderBottom: `1px solid ${props.theme.colors.elevation3}`,
 }));
 
 function Setting() {
@@ -60,17 +54,11 @@ function Setting() {
   const [password, setPassword] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
-  const {
-    fiatCurrency,
-    network,
-    hasActivatedOrdinalsKey,
-    hasActivatedRareSatsKey,
-    selectedAccount,
-  } = useWalletSelector();
+  const { fiatCurrency, network, hasActivatedOrdinalsKey } = useWalletSelector();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { resetWallet } = useWalletReducer();
-  const { unlockVault } = useSeedVault();
+  const { unlockWallet, resetWallet } = useWalletReducer();
+  const { unspentUtxos } = useNonOrdinalUtxos();
 
   const openTermsOfService = () => {
     window.open(TERMS_LINK);
@@ -84,6 +72,9 @@ function Setting() {
     window.open(SUPPORT_LINK);
   };
 
+  const handleBackButtonClick = () => {
+    navigate('/');
+  };
   const openFiatCurrencyScreen = () => {
     navigate('/fiat-currency');
   };
@@ -176,12 +167,10 @@ function Setting() {
           />
         </ResetWalletContainer>
       )}
-      <LogoContainer>
-        <img src={XverseLogo} alt="xverse logo" />
-      </LogoContainer>
+      <TopRow title={t('MAIN_TILE')} onClick={handleBackButtonClick} />
+      <Paragraph content={t('CONTENT')}/>
       <Container>
         <SettingComponent
-          title={t('GENERAL')}
           text={t('CURRENCY')}
           onClick={openFiatCurrencyScreen}
           textDetail={fiatCurrency}
@@ -202,7 +191,6 @@ function Setting() {
         )}
 
         <SettingComponent
-          title={t('SECURITY')}
           text={t('UPDATE_PASSWORD')}
           onClick={openUpdatePasswordScreen}
           icon={ArrowIcon}
@@ -226,7 +214,6 @@ function Setting() {
           showWarningTitle
         />
         <SettingComponent
-          title={t('ADVANCED')}
           text={t('ACTIVATE_ORDINAL_NFTS')}
           toggle
           toggleFunction={switchActivateOrdinalState}
@@ -238,16 +225,6 @@ function Setting() {
           onClick={onRestoreFundClick}
           icon={ArrowIcon}
           showDivider
-          disabled={!hasActivatedOrdinalsKey}
-        />
-
-        <SettingComponent
-          text={t('ENABLE_RARE_SATS')}
-          description={t('ENABLE_RARE_SATS_DETAIL')}
-          toggle
-          toggleFunction={switchActivateRareSatsState}
-          toggleValue={hasActivatedRareSatsKey}
-          disabled={!hasActivatedOrdinalsKey}
         />
         <SettingComponent
           title={t('ABOUT')}
@@ -275,8 +252,6 @@ function Setting() {
           openResetWalletScreen={openResetWalletScreen}
         />
       </Container>
-
-      <BottomBar tab="settings" />
     </>
   );
 }

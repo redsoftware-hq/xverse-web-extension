@@ -1,5 +1,7 @@
 import Switch from 'react-switch';
 import styled, { useTheme } from 'styled-components';
+import Switch from 'react-switch';
+import BottomTabBar from '@components/tabBar';
 
 interface ButtonProps {
   border: string;
@@ -23,18 +25,22 @@ const CustomSwitch = styled(Switch)`
 const Button = styled.button<ButtonProps>((props) => ({
   display: 'flex',
   flexDirection: 'row',
+  padding: '16px 32px 16px 24px;',
+  justifyContent: 'space-between',
+  gap: props.theme.spacing(8),
   alignItems: 'center',
-  background: 'transparent',
-  justifyContent: 'flex-start',
-  marginTop: props.theme.spacing(6),
-  paddingBottom: props.theme.spacing(8),
-  borderBottom: props.border,
+  borderRadius: props.theme.radius(1),
+  border: '1px solid rgba(168, 185, 244, 0.20)',
+  background:
+    'radial-gradient(489.09% 91.61% at 89.79% 22.85%, rgba(56, 60, 78, 0.20) 0%, rgba(13, 14, 18, 0.20) 100%)',
+  marginTop: props.theme.spacing(6),  
 }));
 
 const ColumnContainer = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'column',
   paddingLeft: props.theme.spacing(8),
+  
   paddingRight: props.theme.spacing(8),
 }));
 
@@ -47,7 +53,7 @@ const TitleText = styled.h1((props) => ({
 
 const ComponentText = styled.h1<TitleProps>((props) => ({
   ...props.theme.body_m,
-  paddingTop: props.theme.spacing(8),
+ 
   color: props.textColor,
   flex: 1,
   textAlign: 'left',
@@ -55,16 +61,8 @@ const ComponentText = styled.h1<TitleProps>((props) => ({
 
 const ComponentDescriptionText = styled.h1((props) => ({
   ...props.theme.body_bold_m,
-  paddingTop: props.theme.spacing(8),
-  color: props.theme.colors.white_0,
-}));
 
-const DescriptionText = styled.p((props) => ({
-  ...props.theme.body_m,
-  marginTop: props.theme.spacing(2),
-  color: props.theme.colors.white_400,
-  textAlign: 'left',
-  paddingRight: props.theme.spacing(8),
+  color: props.theme.colors.white['0'],
 }));
 
 const Column = styled.div((props) => ({

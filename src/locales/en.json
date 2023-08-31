@@ -685,14 +685,13 @@
     "INCORRECT_PASSWORD_ERROR": "Incorrect password"
   },
   "SETTING_SCREEN": {
+    "MAIN_TILE":"Settings",
+    "CONTENT":"Adjust your wallet settings for a more personalized experience below.",
     "GENERAL": "General",
     "CURRENCY": "Fiat Currency",
-    "PRIVACY_PREFERENCES": {
-      "TITLE": "Privacy Preferences",
-      "DESCRIPTION": "Help improve the app experience, by allowing Xverse to collect anonymized usage data. This data cannot be used to identify your wallet individually.",
-      "AUTHORIZE_DATA_COLLECTION": "Authorize data collection"
-    },
+    "CURRENCY_CONTENT":"Easily switch between various fiat currencies by selecting the currency below.",
     "NETWORK": "Network",
+    "NETWORK_CONTENT":"Easily switch between MainNet and Testnet by selecting the below.",
     "SECURITY": "Security",
     "UPDATE_PASSWORD": "Update Password",
     "BACKUP_WALLET": "Backup Wallet",
