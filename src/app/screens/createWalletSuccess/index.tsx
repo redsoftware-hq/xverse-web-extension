@@ -2,7 +2,7 @@
 import Completed from '@assets/img/createWalletSuccess/completed.png';
 import Followup from '@assets/img/createWalletSuccess/completedFollowup.png';
 import Extension from '@assets/img/createWalletSuccess/extension.svg';
-import Logo from '@assets/img/createWalletSuccess/logo.svg';
+import Logo from '@assets/img/createWalletSuccess/logo.png';
 import Pin from '@assets/img/createWalletSuccess/pin.svg';
 import ActionButton from '@components/button';
 import Stepper from '@components/steps2';
@@ -155,7 +155,7 @@ function CreateWalletSuccess(): JSX.Element {
           </RowContainer>
           <RowContainer>
             <InstructionsText>{`3. ${t('CLICK')}`}</InstructionsText>
-            <Image src={Logo} />
+            <Image src={Logo} width='20px'/>
             <InstructionsText>{t('OPEN_WALLET')}</InstructionsText>
           </RowContainer>
         </InstructionsContainer>

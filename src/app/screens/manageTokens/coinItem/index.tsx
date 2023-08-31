@@ -35,8 +35,12 @@ const CoinIcon = styled.img((props) => ({
 const CustomSwitch = styled(Switch)`
   .react-switch-handle {
     background-color: ${({ checked }) =>
-      checked ? '#FFFFFF' : 'rgba(255, 255, 255, 0.2)'} !important;
-    border: ${({ checked }) => (checked ? '' : '4px solid rgba(255, 255, 255, 0.2)')} !important;
+      checked ? '#E12828  ' : 'rgba(210, 52, 3, 0.20)'} !important;
+    border: ${({ checked }) => (checked ? '' : '1px solid #D23403')} !important;
+    border-radius: 15px;
+  }
+  .react-switch-bg {
+    background-color: rgba(210, 52, 3, 0.2);
   }
 `;
 
@@ -110,8 +114,8 @@ function CoinItem({ coin, disabled, toggled, enabled, showDivider }: Props) {
           )}
         </CoinContainer>
         <CustomSwitch
-          onColor={Theme.colors.action.classic}
-          offColor={Theme.colors.background.elevation3}
+          onColor={Theme.colors.background.sliderBg}
+          offColor={Theme.colors.background.sliderBg}
           onChange={toggleSwitch}
           checked={isEnabled!}
           uncheckedIcon={false}
