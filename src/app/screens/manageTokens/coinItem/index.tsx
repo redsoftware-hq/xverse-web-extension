@@ -12,6 +12,12 @@ const RowContainer = styled.div((props) => ({
   flexDirection: 'row',
   alignItems: 'center',
   justifyContent: 'space-between',
+  padding: '13px 22px 13px 24px;',
+  gap: props.theme.spacing(8),
+  borderRadius: props.theme.radius(1),
+  border: '1px solid rgba(168, 185, 244, 0.20)',
+  background:
+    'radial-gradient(489.09% 91.61% at 89.79% 22.85%, rgba(56, 60, 78, 0.20) 0%, rgba(13, 14, 18, 0.20) 100%)',
   marginTop: props.theme.spacing(11),
 }));
 
@@ -100,13 +106,13 @@ function CoinItem({ coin, disabled, toggled, enabled, showDivider }: Props) {
     <>
       <RowContainer>
         <CoinContainer>
-          {coin.image ? (
+          {/* {coin.image ? (
             <CoinIcon src={coin.image} />
           ) : (
             <TickerIconContainer color={background}>
               <TickerText>{getFtTicker()}</TickerText>
             </TickerIconContainer>
-          )}
+          )} */}
           {isEnabled ? (
             <SelectedCoinTitleText>{coin.name}</SelectedCoinTitleText>
           ) : (
@@ -123,7 +129,7 @@ function CoinItem({ coin, disabled, toggled, enabled, showDivider }: Props) {
           disabled={disabled}
         />
       </RowContainer>
-      {showDivider ? <Seperator /> : <BottomContainer />}
+      {!showDivider && <BottomContainer />}
     </>
   );
 }

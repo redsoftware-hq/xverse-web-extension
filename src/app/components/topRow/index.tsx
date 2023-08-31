@@ -1,41 +1,27 @@
 import styled from 'styled-components';
 import ArrowLeft from '@assets/img/dashboard/arrow_left.svg';
+import BackButton from '@components/backButton';
 
 const TopSectionContainer = styled.div((props) => ({
   display: 'flex',
   minHeight: 18,
   marginTop: props.theme.spacing(11),
   marginLeft: props.theme.spacing(8),
-  flexDirection: 'row',
+  flexDirection: 'column',
   justifyContent: 'center',
-  alignItems: 'center',
+  gap:'10px',
+  alignItems: 'flex-start',
   position: 'relative',
 }));
 
 const HeaderText = styled.h1((props) => ({
-  ...props.theme.body_bold_m,
+  fontFamily: 'MontBold',
+  fontSize: '32px',
+  color: props.theme.colors.action.classic,
+  textAlign: 'center',
   paddingRight: props.theme.spacing(10),
 }));
 
-const BackButton = styled.button({
-  display: 'flex',
-  justifyContent: 'flex-start',
-  backgroundColor: 'transparent',
-  padding: 5,
-  position: 'absolute',
-  left: 0,
-});
-
-const AnimatedBackButton = styled(BackButton)`
-:hover {
-  background: ${(props) => props.theme.colors.white[900]};
-  border-radius: 24px;
-}
-:focus {
-  background: ${(props) => props.theme.colors.white[850]};
-  border-radius: 24px;
-}
-`;
 
 interface Props {
   title: string;
@@ -45,9 +31,7 @@ interface Props {
 function TopRow({ title, onClick }: Props) {
   return (
     <TopSectionContainer>
-      <AnimatedBackButton onClick={onClick}>
-        <img src={ArrowLeft} alt="back button" />
-      </AnimatedBackButton>
+      <BackButton handleClick={onClick}/>
       <HeaderText>{title}</HeaderText>
     </TopSectionContainer>
   );

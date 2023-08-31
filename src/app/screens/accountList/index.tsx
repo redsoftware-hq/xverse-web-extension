@@ -10,6 +10,7 @@ import Seperator from '@components/seperator';
 import { Account } from '@secretkeylabs/xverse-core/types';
 import useWalletSelector from '@hooks/useWalletSelector';
 import useWalletReducer from '@hooks/useWalletReducer';
+import Paragraph from '@components/paragraph';
 
 const Container = styled.div`
   display: flex;
@@ -22,34 +23,60 @@ const Container = styled.div`
 const RowContainer = styled.button((props) => ({
   display: 'flex',
   flexDirection: 'row',
+  justifyContent:'center',
   alignItems: 'center',
   background: 'transparent',
   marginTop: props.theme.spacing(8),
+  paddingLeft: props.theme.spacing(4),
+  paddingRight: props.theme.spacing(10),
 }));
 
 const AccountContainer = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'column',
-  paddingLeft: props.theme.spacing(11),
-  paddingRight: props.theme.spacing(11),
-  marginBottom: props.theme.spacing(11),
+  paddingLeft: props.theme.spacing(4),
+  gap:'10px',
+  paddingRight: props.theme.spacing(4),
 }));
 
-const AddAccountContainer = styled.div((props) => ({
+
+const Button = styled.button<{ disabled?: boolean }>((props) => ({
+  ...props.theme.body_medium_m,
+  color: props.theme.colors.action.classic,
+  borderRadius: props.theme.radius(4),
+  border: `1px solid ${props.theme.colors.action.classic}`,
+  backgroundColor: props.theme.colors.background.lightOrange,
+  height: 30,
+  width: 150,
   display: 'flex',
-  height: 40,
-  width: 40,
-  borderRadius: 25,
-  justifyContent: 'center',
   alignItems: 'center',
-  backgroundColor: props.theme.colors.background.elevation1,
-  marginRight: props.theme.spacing(8),
+  justifyContent: 'center',
+  img: {
+    marginRight: props.theme.spacing(4),
+  },
+  ':hover': {
+    backgroundColor: !props.disabled
+      ? props.theme.colors.action.classic
+      : props.theme.colors.background.lightOrange,
+    border: `1px solid ${
+      !props.disabled ? props.theme.colors.action.classic : props.theme.colors.action.classic
+    }`,
+    color: !props.disabled ? props.theme.colors.white[0] : props.theme.colors.action.classic,
+  },
+  ':focus': {
+    backgroundColor: !props.disabled
+      ? props.theme.colors.action.classic
+      : props.theme.colors.background.lightOrange,
+    border: `1px solid ${
+      !props.disabled ? props.theme.colors.action.classic : props.theme.colors.action.classic
+    }`,
+    color: !props.disabled ? props.theme.colors.white[0] : props.theme.colors.action.classic,
+  },
+  ':disabled': {
+    opacity: 0.5,
+    cursor: 'not-allowed',
+  },
 }));
-
-const ButtonImage = styled.img({
-  alignSelf: 'center',
-  transform: 'all',
-});
 
 const AddAccountText = styled.h1((props) => ({
   ...props.theme.body_m,
@@ -61,9 +88,7 @@ function AccountList(): JSX.Element {
   const { t } = useTranslation('translation', { keyPrefix: 'ACCOUNT_SCREEN' });
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const {
-    network, accountsList, selectedAccount,
-  } = useWalletSelector();
+  const { network, accountsList, selectedAccount } = useWalletSelector();
   const { createAccount } = useWalletReducer();
 
   const handleAccountSelect = (account: Account) => {
@@ -95,25 +120,23 @@ function AccountList(): JSX.Element {
 
   return (
     <Container>
-      <TopRow title={t('CHANGE_ACCOUNT')} onClick={handleBackButtonClick} />
+      <TopRow title={t('ADD_ACCOUNT')} onClick={handleBackButtonClick} />
       <AccountContainer>
+        <Paragraph content={t('CONTENT')}/>
         {accountsList.map((account) => (
-          <>
-            <AccountRow
-              key={account.stxAddress}
-              disableMenuOption
-              account={account}
-              isSelected={isAccountSelected(account)}
-              onAccountSelected={handleAccountSelect}
-            />
-            <Seperator />
-          </>
+          <AccountRow
+            forAccountManagement
+            key={account.stxAddress}
+            disableMenuOption
+            account={account}
+            isSelected={isAccountSelected(account)}
+            onAccountSelected={handleAccountSelect}
+          />
         ))}
         <RowContainer onClick={async () => onCreateAccount()}>
-          <AddAccountContainer>
-            <ButtonImage src={Plus} />
-          </AddAccountContainer>
-          <AddAccountText>{t('NEW_ACCOUNT')}</AddAccountText>
+          <Button>
+            <AddAccountText>{t('NEW_ACCOUNT')}</AddAccountText>
+          </Button>
         </RowContainer>
       </AccountContainer>
     </Container>
