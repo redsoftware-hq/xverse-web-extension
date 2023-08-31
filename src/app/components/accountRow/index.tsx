@@ -32,7 +32,7 @@ const TopSectionContainer = styled.div<{ disableClick?: boolean }>((props) => ({
   position: 'relative',
   display: 'flex',
   flexDirection: 'row',
-  flex: 1, 
+  flex: 1,
   justifyContent: 'space-between',
   alignItems: 'center',
   backgroundColor: 'transparent',
@@ -44,14 +44,13 @@ const CurrentAccountContainer = styled.div((props) => ({
   flexDirection: 'row',
   paddingLeft: props.theme.spacing(6),
 }));
-
-const CurrentAccountTextContainer = styled.div((props) => ({
+const CurrentAccountContainerList = styled.div((props) => ({
   display: 'flex',
-  flexDirection: 'row',
-  alignItems: 'center',
-  gap: props.theme.spacing(4),
+  flexDirection: 'column',
+  paddingLeft: props.theme.spacing(6),
+  paddingRight: props.theme.spacing(6),
+  paddingBottom: props.theme.spacing(6),
 }));
-
 const CurrentSelectedAccountText = styled.h1((props) => ({
   ...props.theme.body_bold_m,
   color: props.theme.colors.white_0,
@@ -72,6 +71,15 @@ const CurrentAccountDetailText = styled.h1((props) => ({
   color: props.theme.colors.white['400'],
   marginTop: props.theme.spacing(1),
 }));
+const GrayedOutText = styled.h1((props) => ({
+  ...props.theme.body_m,
+  fontFamily: 'MontRegular',
+  fontWeight: 600,
+  fontSize: 20,
+  textAlign: 'start',
+  color: props.theme.colors.white['400'],
+  marginTop: props.theme.spacing(1),
+}));
 
 const AccountSection = styled.div((props) => ({
   display: 'flex',
@@ -81,7 +89,18 @@ const AccountSection = styled.div((props) => ({
   alignItems: 'center',
   backgroundColor: 'transparent',
 }));
-
+const AccountSectionBar = styled.div((props) => ({
+  display: 'flex',
+  flexDirection: 'row',
+  padding: '8px 22px',
+  justifyContent: 'center',
+  gap: props.theme.spacing(8),
+  alignItems: 'center',
+  borderRadius: props.theme.radius(1),
+  border: '1px solid rgba(168, 185, 244, 0.20)',
+  background:
+    'radial-gradient(489.09% 91.61% at 89.79% 22.85%, rgba(56, 60, 78, 0.20) 0%, rgba(13, 14, 18, 0.20) 100%)',
+}));
 const BarLoaderContainer = styled.div((props) => ({
   width: 200,
   paddingTop: props.theme.spacing(2),
@@ -169,6 +188,7 @@ interface Props {
   onAccountSelected: (account: Account) => void;
   handleSettingsSelect?: () => void;
   onReceiveModalOpen?: () => void;
+  forAccountManagement: boolean;
 }
 interface DisplayAddressProps {
   account: Account | null;
@@ -230,6 +250,7 @@ function AccountRow({
   allowCopyAddress,
   onReceiveModalOpen,
   showOrdinalAddress,
+  forAccountManagement = false,
 }: Props) {
   // const { t } = useTranslation('translation', { keyPrefix: 'DASHBOARD_SCREEN' });
   const { showBtcReceiveAlert } = useWalletSelector();
@@ -306,24 +327,30 @@ function AccountRow({
       </AddressContainer>
     </RowContainer>
   );
+  const getAccountDetails = (grayedOut) => {
+    const input = getAddressDetail(account!);
+    const accountDetails = input.split('/');
+    return grayedOut ? accountDetails[1] : accountDetails[0];
+  };
 
-  return (
+  return forAccountManagement ? (
+    <CurrentAccountContainerList>
+      {!account ? (
+        <BarLoaderContainer>
+          <BarLoader loaderSize={LoaderSize.LARGE} />
+          <BarLoader loaderSize={LoaderSize.MEDIUM} />
+        </BarLoaderContainer>
+      ) : (
+        <AccountSectionBar onClick={onClick}>
+          <CurrentUnSelectedAccountText>{getAccountDetails(false)}</CurrentUnSelectedAccountText>
+          <GrayedOutText>/</GrayedOutText>
+          <GrayedOutText>{getAccountDetails(true)}</GrayedOutText>
+        </AccountSectionBar>
+      )}
+    </CurrentAccountContainerList>
+  ) : (
     <TopSectionContainer>
-      {/* <GradientCircle
-        firstGradient={gradient[0]}
-        secondGradient={gradient[1]}
-        thirdGradient={gradient[2]}
-        onClick={onClick}
-      /> */}
       <CurrentAccountContainer>
-        {/* {account
-          && (isSelected ? (
-            <Button onClick={onClick}>
-              <CurrentSelectedAccountText>{getName()}</CurrentSelectedAccountText>
-            </Button>
-          ) : (
-            <CurrentUnSelectedAccountText>{getName()}</CurrentUnSelectedAccountText>
-          ))} */}
         {!account ? (
           <BarLoaderContainer>
             <BarLoader loaderSize={LoaderSize.LARGE} />
@@ -333,6 +360,7 @@ function AccountRow({
           <AccountSection>
             <CurrentUnSelectedAccountText onClick={onClick}>
               {getTruncatedAddress(account?.btcAddress!)}
+              {/* {getAddressDetail(account!)} */}
             </CurrentUnSelectedAccountText>
           </AccountSection>
         )}

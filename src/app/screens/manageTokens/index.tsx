@@ -7,6 +7,7 @@ import CoinItem from '@screens/manageTokens/coinItem';
 import TopRow from '@components/topRow';
 import { StoreState } from '@stores/index';
 import { FetchUpdatedVisibleCoinListAction } from '@stores/wallet/actions/actionCreators';
+import Paragraph from '@components/paragraph';
 
 const TokenContainer = styled.div`
   display: flex;
@@ -19,11 +20,15 @@ const TokenContainer = styled.div`
   }
 `;
 
-const Container = styled.div({
+const Container = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'column',
+  gap: '12px',
   overflow: 'hidden',
-});
+  paddingTop: props.theme.spacing(10),
+  paddingLeft: props.theme.spacing(6),
+  paddingRight: props.theme.spacing(6),
+}));
 
 function ManageTokens() {
   const { t } = useTranslation('translation', { keyPrefix: 'TOKEN_SCREEN' });
@@ -68,6 +73,7 @@ function ManageTokens() {
   return (
     <Container>
       <TopRow title={t('ADD_COINS')} onClick={handleBackButtonClick} />
+      <Paragraph content={t('CONTENT')} />
       <TokenContainer>
         {coins?.map((coin, index) => (
           <CoinItem

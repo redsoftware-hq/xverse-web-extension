@@ -218,12 +218,13 @@
     }
   },
   "TOKEN_SCREEN": {
-    "ADD_COINS": "Manage tokens"
+    "ADD_COINS": "Add Coin",
+    "CONTENT":"Add support for more tokens to your Orange Pill wallet by enabling them below."
   },
   "ACCOUNT_SCREEN": {
-    "CHANGE_ACCOUNT": "Change account",
-    "NEW_ACCOUNT": "Create a new account",
-    "LEDGER_ACCOUNT": "Connect hardware wallet"
+    "ADD_ACCOUNT": "Add Address",
+    "NEW_ACCOUNT": "Add new address",
+    "CONTENT":"Add new wallet addresses by simply tapping the add button below."
   },
   "RECEIVE": {
     "RECEIVE": "Receive",
