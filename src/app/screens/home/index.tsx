@@ -419,7 +419,7 @@ function Home() {
         <StepperNavigator/>
       </StepperContainer>
       <TransactionsHistoryList coin="FT" txFilter={null} />
-      <ListContainer>
+      {/* <ListContainer>
         <ColumnContainer>
           <TokenTile
             title={t('BITCOIN')}
@@ -463,7 +463,7 @@ function Home() {
             />
           ))}
         </CoinContainer>
-      </ListContainer>
+      </ListContainer> */}
       <BottomBar tab="dashboard" />
     </>
   );
