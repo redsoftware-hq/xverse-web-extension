@@ -1,7 +1,10 @@
 import styled from 'styled-components';
 import IconBitcoin from '@assets/img/dashboard/NewBitcoin_icon.svg';
 import IconStacks from '@assets/img/dashboard/stack_icon.svg';
-import Default from '@assets/img/dashboard/Wallet.svg'
+import IconUsdc from '@assets/img/dashboard/usdc.svg';
+import IconUsdt from '@assets/img/dashboard/usdt.svg';
+import IconWbtc from '@assets/img/dashboard/wbtc.svg';
+import Default from '@assets/img/dashboard/Wallet.svg';
 import { useCallback } from 'react';
 import BarLoader from '@components/barLoader';
 import { FungibleToken } from '@secretkeylabs/xverse-core';
@@ -48,14 +51,20 @@ const TickerIconText = styled.h1((props) => ({
   fontSize: 13,
 }));
 
-export default function TokenImage({
-  token,
-  loading,
-  fungibleToken,
-  size,
-  loaderSize,
-  round,
-}: TokenImageProps) {
+export default function TokenImage(props: TokenImageProps) {
+  const { token, loading, fungibleToken, isSmallSize } = props;
+  const getImageSourceForFt = () => {
+    switch (fungibleToken?.ticker) {
+      case 'sUSDT':
+        return IconUsdt;
+      case 'xBTC':
+        return IconWbtc;
+      case 'xUSD':
+        return IconUsdc;
+      default:
+        return fungibleToken?.image;
+    }
+  };
   const getCoinIcon = useCallback(() => {
     if (token === 'STX') {
       return IconStacks;
@@ -69,7 +78,8 @@ export default function TokenImage({
   if (fungibleToken) {
     if (!loading) {
       if (fungibleToken?.image) {
-        return <TickerImage size={size} src={fungibleToken.image} />;
+        const Imgsrc = getImageSourceForFt();
+        return <TickerImage isSmallSize={isSmallSize} src={Imgsrc} />;
       }
       let ticker = fungibleToken?.ticker;
       if (!ticker && fungibleToken?.name) {
@@ -89,5 +99,6 @@ export default function TokenImage({
       </LoaderImageContainer>
     );
   }
-  return <TickerImage size={size} src={getCoinIcon()} round={round} />;
+
+  return <TickerImage isSmallSize={isSmallSize} src={getCoinIcon()} />;
 }

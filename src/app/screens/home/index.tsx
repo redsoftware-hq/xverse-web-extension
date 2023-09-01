@@ -397,6 +397,7 @@ function Home() {
     ft?: string | undefined;
     brc20Ft?: string;
   }) => {
+    console.log(token);
     if (token.brc20Ft) {
       navigate(`/coinDashboard/${token.coin}?brc20ft=${token.brc20Ft}`);
     } else {
@@ -577,7 +578,7 @@ function Home() {
         <StepperNavigator/>
       </StepperContainer>
       <TransactionsHistoryList coin="FT" txFilter={null} />
-      {/* <ListContainer>
+      <ListContainer>
         <ColumnContainer>
           <TokenTile
             title={t('BITCOIN')}
@@ -621,7 +622,7 @@ function Home() {
             />
           ))}
         </CoinContainer>
-      </ListContainer> */}
+      </ListContainer>
       <BottomBar tab="dashboard" />
 
       <BottomModal

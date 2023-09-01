@@ -13,7 +13,11 @@ const StepperContainer = styled.div((props) => ({
   alignItems: 'center',
   marginTop: props.theme.spacing(8),
 }));
-
+type Token = {
+  coin: CurrencyTypes | undefined;
+  ft?: string | undefined;
+  brc20Ft?: string | Boolean;
+};
 function StepperNavigator() {
   const {
     state: { currentActiveIndex },
@@ -23,19 +27,14 @@ function StepperNavigator() {
   const [stepsData, setStepsData] = useState(['HOME', 'BTC', 'STX']);
   const { coinsList, brcCoinsList } = useWalletSelector();
   useEffect(() => {
-    const userSelectedCoins: any = coinsList
-      ?.filter((ft) => ft.visible)
-      .map((coin) => coin.ticker);
+    const userSelectedCoins: any = coinsList?.filter((ft) => ft.visible).map((coin) => coin.ticker);
+    console.log(coinsList?.filter((ft) => ft.visible).map((coin) => coin));
     if (userSelectedCoins?.length !== 0) {
       setStepsData(['HOME', 'BTC', 'STX'].concat(userSelectedCoins));
     }
   }, []);
 
-  const handleTokenPressed = (token: {
-    coin: CurrencyTypes;
-    ft?: string | undefined;
-    brc20Ft?: string;
-  }) => {
+  const handleTokenPressed = (token: Token) => {
     if (token.brc20Ft) {
       navigate(`/coinDashboard/${token.coin}?brc20ft=${token.brc20Ft}`);
     } else {
@@ -52,10 +51,36 @@ function StepperNavigator() {
 
   const handleNextDashboard = (e: { preventDefault: () => void }) => {
     e.preventDefault();
+    const token: Token = {
+      coin: undefined,
+      ft: undefined,
+      brc20Ft: false,
+    };
     if (currentActiveIndex < stepsData.length - 1) {
-      handleTokenPressed({
-        coin: stepsData[currentActiveIndex + 1] as CurrencyTypes,
-      });
+      switch (stepsData[currentActiveIndex + 1]) {
+        case 'BTC':
+          token.coin = 'BTC' as CurrencyTypes;
+          token.ft = undefined;
+          token.brc20Ft = false;
+          break;
+        case 'STX':
+          token.coin = 'STX' as CurrencyTypes;
+          token.ft = undefined;
+          token.brc20Ft = false;
+          break;
+        default: {
+          const fungibleToken = coinsList?.find(
+            (item) => item.ticker === stepsData[currentActiveIndex + 1],
+          );
+          if (fungibleToken) {
+            token.coin = 'FT';
+            token.ft = fungibleToken.principal;
+            token.brc20Ft = !fungibleToken?.principal && fungibleToken?.name;
+          }
+          break;
+        }
+      }
+      handleTokenPressed(token);
       goToNextStep();
     } else {
       goToHome();
