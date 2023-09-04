@@ -16,10 +16,9 @@ import {
   isBtcTransactionArr,
   Tx,
 } from '@utils/transactions/transactions';
-import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { MoonLoader } from 'react-spinners';
-import styled from 'styled-components';
+import BtcTransactionHistoryItem from '@components/transactions/btcTransaction';
+import StxTransactionHistoryItem from '@components/transactions/stxTransaction';
+import { FungibleToken } from '@secretkeylabs/xverse-core';
 
 const ListItemsContainer = styled.div((props) => ({
   marginTop: props.theme.spacing(8),
@@ -81,6 +80,7 @@ const SectionTitle = styled.p((props) => ({
 
 interface TransactionsHistoryListProps {
   coin: CurrencyTypes;
+  ft?: FungibleToken,
   txFilter: string | null;
   brc20Token: string | null;
 }
@@ -158,11 +158,8 @@ const filterTxs = (
   });
 
 export default function TransactionsHistoryList(props: TransactionsHistoryListProps) {
-  const { coin, txFilter, brc20Token } = props;
-  const { data, isLoading, isFetching, error } = useTransactions(
-    (coin as CurrencyTypes) || 'STX',
-    brc20Token,
-  );
+  const { coin, txFilter, ft } = props;
+  const { data, isLoading, isFetching } = useTransactions((coin as CurrencyTypes) || 'STX');
   const styles = useSpring({
     config: { ...config.stiff },
     from: { opacity: 0 },
@@ -192,15 +189,24 @@ export default function TransactionsHistoryList(props: TransactionsHistoryListPr
 
     return groupedTxsByDateMap(data as (AddressTransactionWithTransfers | MempoolTransaction)[]);
   }, [data, isLoading, isFetching]);
+  
+  const getListHeader = ()=> {
+    if(coin){
+      switch(coin) {
+        case 'BTC':
+        return `Bitcoin ${t('TRANSACTIONS_TITLE')}`;
+      case 'STX':
+        return `STX ${t('TRANSACTIONS_TITLE')}`;
+      default:
+        return `${ft?.name ? ft.name : 'All'} ${t('TRANSACTIONS_TITLE')}`;
+      }
+    }
+  }
 
   return (
     <ListItemsContainer>
       <ListHeader>
-        {coin === 'BTC'
-          ? `Bitcoin ${t('TRANSACTIONS_TITLE')}`
-          : coin === 'STX'
-          ? `STX ${t('TRANSACTIONS_TITLE')}`
-          : `All ${t('TRANSACTIONS_TITLE')}`}
+        {getListHeader()}
       </ListHeader>
       {groupedTxs &&
         !isLoading &&

@@ -57,16 +57,10 @@ const initialWalletState: WalletState = {
   feeMultipliers: null,
   networkAddress: undefined,
   btcApiUrl: '',
-  hasActivatedOrdinalsKey: undefined,
-  hasActivatedRareSatsKey: undefined,
-  rareSatsNoticeDismissed: undefined,
+  hasActivatedOrdinalsKey: true,
   showBtcReceiveAlert: true,
   showOrdinalReceiveAlert: true,
-  showDataCollectionAlert: true,
-  accountType: 'software',
-  accountName: undefined,
-  walletLockPeriod: WalletSessionPeriods.STANDARD,
-  isUnlocked: false,
+  walletLockPeriod: WalletSessionPeriods.LONG,
 };
 
 const walletReducer = (

@@ -6,7 +6,7 @@ import TopRow from '@components/topRow';
 import BottomBar from '@components/tabBar';
 import SeedCheck from '@screens/backupWalletSteps/seedCheck';
 import styled from 'styled-components';
-import useSeedVault from '@hooks/useSeedVault';
+import BackButton from '@components/backButton';
 
 const Container = styled.div`
   display: flex;
@@ -32,7 +32,7 @@ const EnterPasswordContainer = styled.div((props) => ({
   background: 'rgba(25, 25, 48, 0.5)',
   backdropFilter: 'blur(16px)',
   padding: 16,
-  paddingTop: props.theme.spacing(40),
+  paddingTop: props.theme.spacing(16),
 }));
 
 const SeedphraseContainer = styled.div((props) => ({
@@ -42,6 +42,7 @@ const SeedphraseContainer = styled.div((props) => ({
 function BackupWalletScreen() {
   const { t } = useTranslation('translation');
   const [password, setPassword] = useState<string>('');
+  const [copy, setCopy] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [showSeed, setShowSeed] = useState<boolean>(false);
@@ -84,6 +85,7 @@ function BackupWalletScreen() {
       <Container>
         {!showSeed && (
           <EnterPasswordContainer>
+            <BackButton handleClick={() => navigate(-1)} />
             <PasswordInput
               title={t('SETTING_SCREEN.BACKUP_WALLET_UNLOCK_SEED')}
               inputLabel={t('SETTING_SCREEN.PASSWORD')}
@@ -99,11 +101,10 @@ function BackupWalletScreen() {
         )}
         <SeedphraseContainer>
           {showSeed && (
-            <SeedCheck showButton={false} seedPhrase={seed} onContinue={goToSettingScreen} />
+            <SeedCheck showButton={false} seedPhrase={seedPhrase} onContinue={goToSettingScreen} copy={copy} setCopy={setCopy}/>
           )}
         </SeedphraseContainer>
       </Container>
-      <BottomBar tab="settings" />
     </>
   );
 }

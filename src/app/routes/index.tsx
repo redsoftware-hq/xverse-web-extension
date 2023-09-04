@@ -61,7 +61,8 @@ import ChangeNetworkScreen from '@screens/settings/changeNetwork';
 import ChangePasswordScreen from '@screens/settings/changePassword';
 import FiatCurrencyScreen from '@screens/settings/fiatCurrency';
 import LockCountdown from '@screens/settings/lockCountdown';
-import PrivacyPreferencesScreen from '@screens/settings/privacyPreferences';
+import ResetWalletScreen from '@screens/settings/resetWallet';
+import SignPsbtRequest from '@screens/signPsbtRequest';
 import SignatureRequest from '@screens/signatureRequest';
 import SignPsbtRequest from '@screens/signPsbtRequest';
 import Stacking from '@screens/stacking';
@@ -325,6 +326,10 @@ const router = createHashRouter([
       {
         path: 'change-password',
         element: <ChangePasswordScreen />,
+      },
+       {
+        path: 'reset-wallet',
+        element: <ResetWalletScreen />,
       },
       {
         path: 'change-network',
