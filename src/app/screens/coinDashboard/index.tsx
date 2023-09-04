@@ -210,6 +210,7 @@ export default function CoinDashboard() {
     return (
       <TransactionsHistoryList
         coin={coin as CurrencyTypes}
+        ft={ft}
         txFilter={`${ft?.principal}::${ft?.assetName}`}
       />
     );
@@ -224,7 +225,7 @@ export default function CoinDashboard() {
         <StepperContainer>
           <StepperNavigator />
         </StepperContainer>
-        {ft && (
+        {/* {ft && (
           <FtInfoContainer contractSelected={showFtContractDetails}>
             <Button isSelected={!showFtContractDetails} onClick={onTransactionsClick}>
               {t('TRANSACTIONS')}
@@ -233,7 +234,7 @@ export default function CoinDashboard() {
               {t('CONTRACT')}
             </Button>
           </FtInfoContainer>
-        )}
+        )} */}
         {showContent()}
       </Container>
       <BottomBar tab="dashboard" />
