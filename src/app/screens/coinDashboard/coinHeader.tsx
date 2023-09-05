@@ -1,10 +1,14 @@
+/* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable no-nested-ternary */
+import { useSwipeable } from 'react-swipeable';
 import TokenImage from '@components/tokenImage';
 import Receive from '@assets/img/dashboard/recieve.svg';
 import Send from '@assets/img/dashboard/send.svg';
 import Lock from '@assets/img/transactions/Lock.svg';
 import Buy from '@assets/img/dashboard/buy.svg';
 import SwapCoin from '@assets/img/dashboard/convert_coin.svg';
+import { useStepperContext } from '@stores/stepper';
+import { useState, useEffect } from 'react';
 import useWalletSelector from '@hooks/useWalletSelector';
 import { FungibleToken, microstacksToStx, satsToBtc } from '@secretkeylabs/xverse-core';
 import { currencySymbolMap } from '@secretkeylabs/xverse-core/types/currency';
@@ -16,6 +20,7 @@ import { getFtBalance, getFtTicker } from '@utils/tokens';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import SmallActionButton from '@components/smallActionButton';
+import { animated, useSpring, useSprings, useTransition } from '@react-spring/web';
 
 interface CoinBalanceProps {
   coin: CurrencyTypes;
@@ -169,6 +174,13 @@ const CurrencyText = styled.h1((props) => ({
   color: props.theme.colors.white['0'],
   fontSize: 13,
 }));
+
+type Token = {
+  coin: CurrencyTypes | undefined;
+  ft?: string | undefined;
+  brc20Ft?: string | Boolean;
+};
+
 export default function CoinHeader(props: CoinBalanceProps) {
   const { coin, fungibleToken } = props;
   const {
@@ -179,9 +191,91 @@ export default function CoinHeader(props: CoinBalanceProps) {
     btcFiatRate,
     stxLockedBalance,
     stxAvailableBalance,
+    coinsList,
+    brcCoinsList,
   } = useWalletSelector();
   const navigate = useNavigate();
   const { t } = useTranslation('translation', { keyPrefix: 'COIN_DASHBOARD_SCREEN' });
+  const {
+    state: { currentActiveIndex },
+    dispatchStep,
+  } = useStepperContext();
+
+  const [stepsData, setStepsData] = useState(['HOME', 'BTC', 'STX']);
+  useEffect(() => {
+    const userSelectedCoins: any = coinsList
+      ?.filter((ft) => ft.visible)
+      .map((coinname) => coinname.ticker);
+    if (userSelectedCoins?.length !== 0) {
+      setStepsData(['HOME', 'BTC', 'STX'].concat(userSelectedCoins));
+    }
+  }, []);
+
+  const handleTokenPressed = (token: Token) => {
+    if (token.brc20Ft) {
+      navigate(`/coinDashboard/${token.coin}?brc20ft=${token.brc20Ft}`);
+    } else {
+      navigate(`/coinDashboard/${token.coin}?ft=${token.ft}`);
+    }
+  };
+  const goToNextStep = () => {
+    dispatchStep({ type: 'NEXT_STEP' });
+  };
+
+  const goToHome = () => {
+    dispatchStep({ type: 'HOME' });
+  };
+
+  const handleNextDashboard = () => {
+    const token: Token = {
+      coin: undefined,
+      ft: undefined,
+      brc20Ft: false,
+    };
+    if (currentActiveIndex < stepsData.length - 1) {
+      switch (stepsData[currentActiveIndex + 1]) {
+        case 'BTC':
+          token.coin = 'BTC' as CurrencyTypes;
+          token.ft = undefined;
+          token.brc20Ft = false;
+          break;
+        case 'STX':
+          token.coin = 'STX' as CurrencyTypes;
+          token.ft = undefined;
+          token.brc20Ft = false;
+          break;
+        default: {
+          const ft = coinsList?.find((item) => item.ticker === stepsData[currentActiveIndex + 1]);
+          if (ft) {
+            token.coin = 'FT';
+            token.ft = ft.principal;
+            token.brc20Ft = !ft?.principal && ft?.name;
+          }
+          break;
+        }
+      }
+      handleTokenPressed(token);
+      goToNextStep();
+    } else {
+      goToHome();
+      navigate('/');
+    }
+  };
+
+  const transitions = useTransition(currentActiveIndex, {
+    from: { opacity: 0, transform: 'translate3d(100%,0,0)' },
+    enter: { opacity: 1, transform: 'translate3d(0%,0,0)' },
+    leave: { opacity: 0, transform: 'translate3d(-50%,0,0)' },
+    exitBeforeEnter: true,
+  });
+
+  const handlers = useSwipeable({
+    onSwiped: ({ event }) => {
+      event.stopPropagation();
+      handleNextDashboard();
+    },
+    trackMouse: true,
+  });
 
   function getBalanceAmount() {
     switch (coin) {
@@ -292,33 +386,34 @@ export default function CoinHeader(props: CoinBalanceProps) {
     return '';
   };
 
-  return (
-    <Container>
-      <BalanceInfoContainer>
-        <RowContainer>
-          <BalanceTitleText>{getDashboardTitle()}</BalanceTitleText>
-          {coin !== 'brc20' && (
-            <CurrencyCard>
-              <CurrencyText>{coin}</CurrencyText>
-            </CurrencyCard>
-          )}
-          {coin === 'brc20' && <ProtocolText>BRC-20</ProtocolText>}
-        </RowContainer>
-        <BalanceValuesContainer>
-          <TokenImage
-            token={coin || undefined}
-            loading={false}
-            fungibleToken={fungibleToken || undefined}
-          />
-          <NumericFormat
-            value={getBalanceAmount()}
-            displayType="text"
-            thousandSeparator
-            renderText={(value: string) => (
-              <CoinBalanceText>{`${Number(value).toFixed(4)}`}</CoinBalanceText>
+  return transitions((style, i) => (
+    <animated.div {...handlers} style={style}>
+      <Container>
+        <BalanceInfoContainer>
+          <RowContainer>
+            <BalanceTitleText>{getDashboardTitle()}</BalanceTitleText>
+            {coin !== 'brc20' && (
+              <CurrencyCard>
+                <CurrencyText>{coin}</CurrencyText>
+              </CurrencyCard>
             )}
-          />
-          {/* <NumericFormat
+            {coin === 'brc20' && <ProtocolText>BRC-20</ProtocolText>}
+          </RowContainer>
+          <BalanceValuesContainer>
+            <TokenImage
+              token={coin || undefined}
+              loading={false}
+              fungibleToken={fungibleToken || undefined}
+            />
+            <NumericFormat
+              value={getBalanceAmount()}
+              displayType="text"
+              thousandSeparator
+              renderText={(value: string) => (
+                <CoinBalanceText>{`${Number(value).toFixed(4)}`}</CoinBalanceText>
+              )}
+            />
+            {/* <NumericFormat
             value={getFiatEquivalent()}
             displayType="text"
             thousandSeparator
@@ -326,52 +421,64 @@ export default function CoinHeader(props: CoinBalanceProps) {
             suffix={` ${fiatCurrency}`}
             renderText={(value) => <FiatAmountText>{value}</FiatAmountText>}
           /> */}
-        </BalanceValuesContainer>
-        <RowButtonContainer>
-          <ButtonContainer>
-            <SmallActionButton isOpaque isRound src={Send} onPress={() => goToSendScreen()} />
-          </ButtonContainer>
+          </BalanceValuesContainer>
+          <RowButtonContainer>
+            <ButtonContainer>
+              <SmallActionButton isOpaque isRound src={Send} onPress={() => goToSendScreen()} />
+            </ButtonContainer>
 
-          {!fungibleToken ? (
-            <>
-              <ButtonContainer>
-                <SmallActionButton
-                  isOpaque
-                  isRound
-                  src={Receive}
-                  onPress={() => navigate(`/receive/${coin}`)}
-                />
-              </ButtonContainer>
-              <ButtonContainer>
-                <SmallActionButton
-                  isOpaque
-                  isRound
-                  src={Buy}
-                  onPress={() => navigate(`/buy/${coin}`)}
-                />
-              </ButtonContainer>
-            </>
-          ) : (
-            <RecieveButtonContainer>
+            {!fungibleToken ? (
+              <>
+                <ButtonContainer>
+                  <SmallActionButton
+                    isOpaque
+                    isRound
+                    src={Receive}
+                    onPress={() => navigate(`/receive/${coin}`)}
+                  />
+                </ButtonContainer>
+                <ButtonContainer>
+                  <SmallActionButton
+                    isOpaque
+                    isRound
+                    src={Buy}
+                    onPress={() => navigate(`/buy/${coin}`)}
+                  />
+                </ButtonContainer>
+              </>
+            ) : (
+              <>
+                <ButtonContainer>
+                  <SmallActionButton
+                    isOpaque
+                    isRound
+                    src={Receive}
+                    onPress={() => navigate(coin === 'brc20' ? '/receive/ORD' : `/receive/${coin}`)}
+                  />
+                </ButtonContainer>
+                <ButtonContainer>
+                  <SmallActionButton
+                    isOpaque
+                    isRound
+                    src={Buy}
+                    onPress={() => navigate(`/buy/${stepsData[currentActiveIndex]}`)}
+                  />
+                </ButtonContainer>
+              </>
+            )}
+
+            <ButtonContainer>
               <SmallActionButton
                 isOpaque
                 isRound
-                src={Receive}
-                onPress={() => navigate(coin === 'brc20' ? '/receive/ORD' : `/receive/${coin}`)}
+                src={SwapCoin}
+                onPress={() => console.log('transfer')}
               />
-            </RecieveButtonContainer>
-          )}
-          {/* {coin === 'BTC' || coin === 'STX' ? (
-            <SmallActionButton
-              isOpaque
-              isRound
-              src={SwapCoin}
-              onPress={() => console.log('transfer')}
-            />
-          ) : null} */}
-        </RowButtonContainer>
-      </BalanceInfoContainer>
-      {renderStackingBalances()}
-    </Container>
-  );
+            </ButtonContainer>
+          </RowButtonContainer>
+        </BalanceInfoContainer>
+        {renderStackingBalances()}
+      </Container>
+    </animated.div>
+  ));
 }

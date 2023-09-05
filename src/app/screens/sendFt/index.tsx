@@ -94,7 +94,7 @@ function SendFtScreen() {
   }, [data]);
 
   const handleBackButtonClick = () => {
-    navigate('/');
+    navigate(-1);
   };
 
   const getBalance = () => {

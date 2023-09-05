@@ -4,7 +4,7 @@
   "version": "0.12.3",
   "private": true,
   "dependencies": {
-    "@react-spring/web": "^9.6.1",
+    "@react-spring/web": "^9.7.3",
     "@secretkeylabs/xverse-core": "1.1.1",
     "@stacks/connect": "^6.10.2",
     "@stacks/encryption": "4.3.5",
@@ -46,6 +46,7 @@
     "react-select": "^5.4.0",
     "react-share": "^4.4.1",
     "react-spinners": "^0.13.7",
+    "react-swipeable": "^7.0.1",
     "react-switch": "^7.0.0",
     "react-tooltip": "^5.4.0",
     "redux": "^4.0.5",
