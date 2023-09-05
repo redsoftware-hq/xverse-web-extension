@@ -26,9 +26,9 @@ function StepperNavigator() {
   const navigate = useNavigate();
   const [stepsData, setStepsData] = useState(['HOME', 'BTC', 'STX']);
   const { coinsList, brcCoinsList } = useWalletSelector();
+
   useEffect(() => {
     const userSelectedCoins: any = coinsList?.filter((ft) => ft.visible).map((coin) => coin.ticker);
-    console.log(coinsList?.filter((ft) => ft.visible).map((coin) => coin));
     if (userSelectedCoins?.length !== 0) {
       setStepsData(['HOME', 'BTC', 'STX'].concat(userSelectedCoins));
     }

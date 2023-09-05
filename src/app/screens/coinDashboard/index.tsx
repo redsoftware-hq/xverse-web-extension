@@ -15,6 +15,8 @@ import { FungibleToken } from '@secretkeylabs/xverse-core';
 import StepperNavigator from '@components/stepperNavigator';
 import CoinHeader from './coinHeader';
 import TransactionsHistoryList from './transactionsHistoryList';
+import { useSpring, useTransition } from '@react-spring/web';
+import { useStepperContext } from '@stores/stepper';
 
 const Container = styled.div((props) => ({
   display: 'flex',
@@ -93,8 +95,7 @@ const ContractDeploymentButton = styled.button((props) => ({
 
 const StepperContainer = styled.div({
   marginTop: 10,
-})
-
+});
 
 interface ButtonProps {
   isSelected: boolean;
@@ -116,20 +117,13 @@ interface ButtonProps {
 
 export default function CoinDashboard() {
   const { t } = useTranslation('translation', { keyPrefix: 'COIN_DASHBOARD_SCREEN' });
-  const navigate = useNavigate();
   const [showFtContractDetails, setShowFtContractDetails] = useState(false);
   const { coin } = useParams();
   const [searchParams] = useSearchParams();
   const { coinsList, brcCoinsList } = useWalletSelector();
   const ftAddress = searchParams.get('ft');
   const brc20FtName = searchParams.get('brc20ft');
-
   useBtcWalletData();
-
-  const handleBack = () => {
-    navigate(-1);
-  };
-
   const ft = coinsList?.find((ftCoin) => ftCoin.principal === ftAddress);
   let brc20Ft: FungibleToken | undefined;
   if (brc20FtName) {
@@ -196,10 +190,9 @@ export default function CoinDashboard() {
 
   return (
     <>
-      {/* <TopRow title="" onClick={handleBack} /> */}
       <AccountHeaderComponent />
       <Container>
-        <CoinHeader coin={coin as CurrencyTypes} fungibleToken={ft || brc20Ft} />
+        <CoinHeader  coin={coin as CurrencyTypes} fungibleToken={ft || brc20Ft} />
         <StepperContainer>
           <StepperNavigator />
         </StepperContainer>
