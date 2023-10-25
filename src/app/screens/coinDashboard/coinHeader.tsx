@@ -437,14 +437,16 @@ export default function CoinHeader(props: CoinBalanceProps) {
                     onPress={() => navigate(`/receive/${coin}`)}
                   />
                 </ButtonContainer>
-                <ButtonContainer>
-                  <SmallActionButton
-                    isOpaque
-                    isRound
-                    src={Buy}
-                    onPress={() => navigate(`/buy/${coin}`)}
-                  />
-                </ButtonContainer>
+                {coin === 'BTC' && (
+                  <ButtonContainer>
+                    <SmallActionButton
+                      isOpaque
+                      isRound
+                      src={Buy}
+                      onPress={() => navigate(`/buy/${coin}`)}
+                    />
+                  </ButtonContainer>
+                )}
               </>
             ) : (
               <>
@@ -456,14 +458,16 @@ export default function CoinHeader(props: CoinBalanceProps) {
                     onPress={() => navigate(coin === 'brc20' ? '/receive/ORD' : `/receive/${coin}`)}
                   />
                 </ButtonContainer>
-                <ButtonContainer>
-                  <SmallActionButton
-                    isOpaque
-                    isRound
-                    src={Buy}
-                    onPress={() => navigate(`/buy/${stepsData[currentActiveIndex]}`)}
-                  />
-                </ButtonContainer>
+                {coin === 'BTC' && (
+                  <ButtonContainer>
+                    <SmallActionButton
+                      isOpaque
+                      isRound
+                      src={Buy}
+                      onPress={() => navigate(`/buy/${stepsData[currentActiveIndex]}`)}
+                    />
+                  </ButtonContainer>
+                )}
               </>
             )}
 
