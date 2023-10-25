@@ -23,16 +23,18 @@
     "RECEIVE": "Receive",
     "SEND": "Send",
     "BUY": "Buy",
-    "ADD_COIN": "Add coin",
+    "ADD_COIN": "Add Coin",
     "STACKS_AND_TOKEN": "Stacks NFTs & SIP-10 tokens",
     "ORDINALS": "Ordinals & BRC-20 Tokens"
   },
   "TOKEN_SCREEN": {
-    "ADD_COINS": "Manage tokens"
+    "ADD_COINS": "Add Coin",
+    "CONTENT":"Add support for more tokens to your Orange Pill wallet by enabling them below."
   },
   "ACCOUNT_SCREEN": {
-    "CHANGE_ACCOUNT": "Change account",
-    "NEW_ACCOUNT": "Create a new account"
+    "ADD_ACCOUNT": "Add Address",
+    "NEW_ACCOUNT": "Add new address",
+    "CONTENT":"Add new wallet addresses by simply tapping the add button below."
   },
   "RECEIVE": {
     "RECEIVE": "Receive",
@@ -245,8 +247,7 @@
   },
   "FORGOT_PASSWORD_SCREEN": {
     "TITLE": "Forgot Password",
-    "PARAGRAPH1": "Xverse does not keep a copy of your password. If you're unable to access your account, you will need to reset your wallet and input the seedphrase you used when you generated your wallet.",
-    "PARAGRAPH2": "This will reset your wallet from this browser. Make sure you have your seed phrase backed up.",
+    "PARAGRAPH": "Orange Pill does not store any passwords, seed phrases, or any user data. If you have forgotten your password, you will need reset your wallet and re-enter your seed phrase to recover your Bitcoin wallet. Always have your seed phrase backed up and stored in a safe location.",
     "BACKUP_CHECKBOX_LABEL": "I backed up my seedphrase"
   },
   "RESTORE_WALLET_SCREEN": {
@@ -380,14 +381,19 @@
     "INCORRECT_PASSWORD_ERROR": "Incorrect password"
   },
   "SETTING_SCREEN": {
+    "MAIN_TILE":"Settings",
+    "CONTENT":"Adjust your wallet settings for a more personalized experience below.",
     "GENERAL": "General",
     "CURRENCY": "Fiat Currency",
+    "CURRENCY_CONTENT":"Easily switch between various fiat currencies by selecting the currency below.",
     "NETWORK": "Network",
+    "NETWORK_CONTENT":"Easily switch between MainNet and Testnet by selecting the below.",
     "SECURITY": "Security",
     "UPDATE_PASSWORD": "Update Password",
     "BACKUP_WALLET": "Backup Wallet",
     "AUTO_LOCK": "Auto Lock",
     "RESET_WALLET": "Reset Wallet",
+    "RESET_WALLET_CONTENT": "Orange Pill does not store any passwords, seed phrases, or any user data. If you have forgotten your password, you will need reset your wallet and re-enter your seed phrase to recover your Bitcoin wallet. Always have your seed phrase backed up and stored in a safe location.",
     "ABOUT": "About",
     "TERMS_OF_SERVICE": "Terms of Service",
     "PRIVACY_POLICY": "Privacy Policy",

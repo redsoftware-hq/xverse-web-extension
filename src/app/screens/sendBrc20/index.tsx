@@ -69,7 +69,7 @@ function SendBrc20Screen() {
       setAmountToSend('');
       setShowForm(false);
     } else {
-      navigate('/');
+      navigate(-1);
     }
   };
 

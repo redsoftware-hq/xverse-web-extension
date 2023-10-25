@@ -60,6 +60,7 @@ const ButtonText = styled.span<TextProps>((props) => ({
   ...props.theme.bold_tile_text,
   color: `${props.theme.colors.white[0]}`,
   textAlign: 'center',
+  textTransform: 'uppercase'
 }));
 
 const AnimatedButtonText = styled.div((props) => ({

@@ -60,7 +60,7 @@ function Buy() {
   const [loading, setLoading] = useState(false);
 
   const handleBackButtonClick = () => {
-    navigate('/');
+    navigate(-1);
   };
 
   useEffect(() => {

@@ -6,8 +6,8 @@ import { SettingsNetwork } from '@secretkeylabs/xverse-core/types';
 
 export const BNS_CONTRACT = 'SP000000000000000000002Q6VF78.bns::names';
 export const GAMMA_URL = 'https://gamma.io/';
-export const TERMS_LINK = 'https://xverse.app/terms';
-export const PRIVACY_POLICY_LINK = 'https://xverse.app/privacy';
+export const TERMS_LINK = 'https://docs.1337dao.com/about-1337/terms-of-service';
+export const PRIVACY_POLICY_LINK = 'https://docs.1337dao.com/about-1337/privacy-policy';
 export const SUPPORT_LINK = 'https://support.xverse.app/hc/en-us';
 export const SUPPORT_EMAIL = 'support@xverse.app';
 export const BTC_TRANSACTION_STATUS_URL = 'https://mempool.space/tx/';

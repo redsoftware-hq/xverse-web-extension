@@ -1,13 +1,20 @@
+/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable no-nested-ternary */
 import { StoreState } from '@stores/index';
 import { useSelector } from 'react-redux';
-import BigNumber from 'bignumber.js';
-import styled from 'styled-components';
-import { microstacksToStx, satsToBtc } from '@secretkeylabs/xverse-core/currency';
-import { NumericFormat } from 'react-number-format';
+import { useNavigate } from 'react-router-dom';
 import BarLoader from '@components/barLoader';
-import { LoaderSize } from '@utils/constants';
+import { useSwipeable } from 'react-swipeable';
+import { useStepperContext } from '@stores/stepper';
+import { useState, useEffect } from 'react';
+import { microstacksToStx, satsToBtc } from '@secretkeylabs/xverse-core';
 import { currencySymbolMap } from '@secretkeylabs/xverse-core/types/currency';
+import BigNumber from 'bignumber.js';
+import { NumericFormat } from 'react-number-format';
+import styled from 'styled-components';
+import { CurrencyTypes, LoaderSize } from '@utils/constants';
 import { useTranslation } from 'react-i18next';
+import { animated, useSpring } from '@react-spring/web';
 
 const RowContainer = styled.div((props) => ({
   display: 'flex',
@@ -19,7 +26,7 @@ const RowContainer = styled.div((props) => ({
 
 const BalanceHeadingText = styled.h1((props) => ({
   ...props.theme.headline_category_s,
-   fontSize: 18,
+  fontSize: 18,
   fontWeight: 700,
   fontFamily: 'MontRegular',
   color: props.theme.colors.dashboard.text,
@@ -34,7 +41,7 @@ const CurrencyText = styled.h1((props) => ({
 const BalanceAmountContainer = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'row',
-  justifyContent:'space-between',
+  justifyContent: 'space-between',
   alignItems: 'center',
 }));
 
@@ -63,14 +70,24 @@ interface BalanceCardProps {
   icon?: any;
   isLoading: boolean;
 }
+type Token = {
+  coin: CurrencyTypes | undefined;
+  ft?: string | undefined;
+  brc20Ft?: string | Boolean;
+};
 
 function BalanceCard(props: BalanceCardProps) {
   const { t } = useTranslation('translation', { keyPrefix: 'DASHBOARD_SCREEN' });
-  const { fiatCurrency, btcFiatRate, stxBtcRate, stxBalance, btcBalance } = useSelector(
-    (state: StoreState) => state.walletState,
-  );
+  const { fiatCurrency, btcFiatRate, stxBtcRate, stxBalance, btcBalance, coinsList, brcCoinsList } =
+    useSelector((state: StoreState) => state.walletState);
   const { isLoading, icon } = props;
-
+  const [style, api] = useSpring(
+    () => ({
+      from: { opacity: 0, transform: 'translate3d(100%,0,0)' },
+      to: { opacity: 1, transform: 'translate3d(0%,0,0)' },
+    }),
+    [],
+  );
   function calculateTotalBalance() {
     const stxFiatEquiv = microstacksToStx(new BigNumber(stxBalance))
       .multipliedBy(new BigNumber(stxBtcRate))
@@ -81,9 +98,81 @@ function BalanceCard(props: BalanceCardProps) {
     const totalBalance = stxFiatEquiv.plus(btcFiatEquiv);
     return totalBalance.toNumber().toFixed(2);
   }
+  const {
+    state: { currentActiveIndex },
+    dispatchStep,
+  } = useStepperContext();
+  const [stepsData, setStepsData] = useState(['HOME', 'BTC', 'STX']);
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    const userSelectedCoins: any = coinsList
+      ?.filter((ft) => ft.visible)
+      .map((coinname) => coinname.ticker);
+    if (userSelectedCoins?.length !== 0) {
+      setStepsData(['HOME', 'BTC', 'STX'].concat(userSelectedCoins));
+    }
+  }, []);
+  const handleTokenPressed = (token: Token) => {
+    if (token.brc20Ft) {
+      navigate(`/coinDashboard/${token.coin}?brc20ft=${token.brc20Ft}`);
+    } else {
+      navigate(`/coinDashboard/${token.coin}?ft=${token.ft}`);
+    }
+  };
+  const goToNextStep = () => {
+    dispatchStep({ type: 'NEXT_STEP' });
+  };
+
+  const goToHome = () => {
+    dispatchStep({ type: 'HOME' });
+  };
+
+  const handleNextDashboard = () => {
+    const token: Token = {
+      coin: undefined,
+      ft: undefined,
+      brc20Ft: false,
+    };
+    if (currentActiveIndex < stepsData.length - 1) {
+      switch (stepsData[currentActiveIndex + 1]) {
+        case 'BTC':
+          token.coin = 'BTC' as CurrencyTypes;
+          token.ft = undefined;
+          token.brc20Ft = false;
+          break;
+        case 'STX':
+          token.coin = 'STX' as CurrencyTypes;
+          token.ft = undefined;
+          token.brc20Ft = false;
+          break;
+        default: {
+          const ft = coinsList?.find((item) => item.ticker === stepsData[currentActiveIndex + 1]);
+          if (ft) {
+            token.coin = 'FT';
+            token.ft = ft.principal;
+            token.brc20Ft = !ft?.principal && ft?.name;
+          }
+          break;
+        }
+      }
+      handleTokenPressed(token);
+      goToNextStep();
+    } else {
+      goToHome();
+      navigate('/');
+    }
+  };
+
+  const handlers = useSwipeable({
+    onSwiped: ({ event }) => {
+      event.stopPropagation();
+      handleNextDashboard();
+    },
+    trackMouse: true,
+  });
   return (
-    <>
+    <animated.div {...handlers} style={style}>
       <RowContainer>
         <BalanceHeadingText>{t('TOTAL_BALANCE')}</BalanceHeadingText>
         <CurrencyCard>
@@ -92,7 +181,7 @@ function BalanceCard(props: BalanceCardProps) {
       </RowContainer>
       {isLoading ? (
         <BarLoaderContainer>
-          <BarLoader loaderSize={LoaderSize.LARGE} forDashboard/>
+          <BarLoader loaderSize={LoaderSize.LARGE} forDashboard />
         </BarLoaderContainer>
       ) : (
         <BalanceAmountContainer>
@@ -108,7 +197,7 @@ function BalanceCard(props: BalanceCardProps) {
           </BalanceAmountText>
         </BalanceAmountContainer>
       )}
-    </>
+    </animated.div>
   );
 }
 

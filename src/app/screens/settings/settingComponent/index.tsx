@@ -1,5 +1,6 @@
 import styled, { useTheme } from 'styled-components';
 import Switch from 'react-switch';
+import BottomTabBar from '@components/tabBar';
 
 interface ButtonProps {
   border: string;
@@ -9,28 +10,36 @@ interface TitleProps {
 }
 
 const CustomSwitch = styled(Switch)`
-.react-switch-handle {
-  background-color: ${({ checked }) => (checked ? '#FFFFFF' : 'rgba(255, 255, 255, 0.2)')} !important;
-  border: ${({ checked }) => (checked ? '' : '4px solid rgba(255, 255, 255, 0.2)')} !important;
-
-}
+  .react-switch-handle {
+    background-color: ${({ checked }) =>
+      checked ? '#E12828  ' : 'rgba(210, 52, 3, 0.20)'} !important;
+    border: ${({ checked }) => (checked ? '' : '1px solid #D23403')} !important;
+    border-radius: 15px;
+  }
+  .react-switch-bg {
+    background-color: rgba(210, 52, 3, 0.2);
+  }
 `;
 
 const Button = styled.button<ButtonProps>((props) => ({
   display: 'flex',
   flexDirection: 'row',
+  padding: '16px 32px 16px 24px;',
+  justifyContent: 'space-between',
+  gap: props.theme.spacing(8),
   alignItems: 'center',
-  background: 'transparent',
-  justifyContent: 'flex-start',
-  marginTop: props.theme.spacing(6),
-  paddingBottom: props.theme.spacing(8),
-  borderBottom: props.border,
+  borderRadius: props.theme.radius(1),
+  border: '1px solid rgba(168, 185, 244, 0.20)',
+  background:
+    'radial-gradient(489.09% 91.61% at 89.79% 22.85%, rgba(56, 60, 78, 0.20) 0%, rgba(13, 14, 18, 0.20) 100%)',
+  marginTop: props.theme.spacing(6),  
 }));
 
 const ColumnContainer = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'column',
   paddingLeft: props.theme.spacing(8),
+  
   paddingRight: props.theme.spacing(8),
 }));
 
@@ -43,7 +52,7 @@ const TitleText = styled.h1((props) => ({
 
 const ComponentText = styled.h1<TitleProps>((props) => ({
   ...props.theme.body_m,
-  paddingTop: props.theme.spacing(8),
+ 
   color: props.textColor,
   flex: 1,
   textAlign: 'left',
@@ -51,7 +60,7 @@ const ComponentText = styled.h1<TitleProps>((props) => ({
 
 const ComponentDescriptionText = styled.h1((props) => ({
   ...props.theme.body_bold_m,
-  paddingTop: props.theme.spacing(8),
+
   color: props.theme.colors.white['0'],
 }));
 
@@ -64,7 +73,7 @@ interface SettingComponentProps {
   showDivider?: boolean;
   showWarningTitle?: boolean;
   toggle?: boolean;
-  toggleValue? :boolean;
+  toggleValue?: boolean;
   toggleFunction?: () => void;
 }
 
@@ -97,14 +106,14 @@ function SettingComponent({
         {textDetail && <ComponentDescriptionText>{textDetail}</ComponentDescriptionText>}
         {icon && <img src={icon} alt="arrow icon" />}
         {toggle && toggleFunction && (
-        <CustomSwitch
-          onColor={theme.colors.action.classic}
-          offColor={theme.colors.background.elevation3}
-          onChange={toggleFunction}
-          checked={toggleValue ?? false}
-          uncheckedIcon={false}
-          checkedIcon={false}
-        />
+          <CustomSwitch
+            onColor={theme.colors.background.sliderBg}
+            offColor={theme.colors.background.sliderBg}
+            onChange={toggleFunction}
+            checked={toggleValue ?? false}
+            uncheckedIcon={false}
+            checkedIcon={false}
+          />
         )}
       </Button>
     </ColumnContainer>

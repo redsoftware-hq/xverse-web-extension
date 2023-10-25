@@ -104,8 +104,7 @@ const CoinContainer = styled.div({
 
 const StepperContainer = styled.div({
   marginTop: 10,
-})
-
+});
 
 const AvailableCoins = styled.div((props) => ({
   ...props.theme.mont_light,
@@ -305,6 +304,7 @@ function Home() {
     ft?: string | undefined;
     brc20Ft?: string;
   }) => {
+    console.log(token);
     if (token.brc20Ft) {
       navigate(`/coinDashboard/${token.coin}?brc20ft=${token.brc20Ft}`);
     } else {
@@ -380,7 +380,7 @@ function Home() {
 
           <TokenListButtonContainer>
             <AvailableCoins>
-              <Coins>2</Coins> Coins
+              <Coins>{2 + getCoinsList().length}</Coins> Coins
             </AvailableCoins>
             <Button onClick={handleManageTokenListOnClick}>
               <ButtonImage src={AddCoin} />
@@ -416,8 +416,8 @@ function Home() {
         />
       </Container>
       <StepperContainer>
-          <StepperNavigator />
-        </StepperContainer>
+        <StepperNavigator/>
+      </StepperContainer>
       <TransactionsHistoryList coin="FT" txFilter={null} />
       {/* <ListContainer>
         <ColumnContainer>

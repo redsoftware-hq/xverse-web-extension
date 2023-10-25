@@ -151,7 +151,6 @@ function ChangePasswordScreen() {
           />
         )}
       </PasswordContainer>
-      <BottomBar tab="settings" />
     </>
   );
 }

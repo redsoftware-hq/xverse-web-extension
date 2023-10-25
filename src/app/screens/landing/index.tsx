@@ -113,7 +113,7 @@ function Landing(): JSX.Element {
   });
 
   const startWalletOnboarding = async (isRestore = false) => {
-      const route = isRestore ? 'restoreWallet' : 'backup';
+      const route = isRestore ? 'restoreWallet' : 'legal';
       await chrome.tabs.create({
         url: chrome.runtime.getURL(`options.html#/${route}`),
       });

@@ -13,10 +13,16 @@ interface ButtonProps {
 const Button = styled.button<ButtonProps>((props) => ({
   display: 'flex',
   flexDirection: 'row',
-  background: 'transparent',
-  paddingBottom: props.theme.spacing(10),
-  paddingTop: props.theme.spacing(10),
-  borderBottom: props.border,
+  padding: '16px 32px 16px 24px;',
+  justifyContent: 'space-between',
+  gap: props.theme.spacing(8),
+  alignItems: 'center',
+  borderRadius: props.theme.radius(1),
+  border: '1px solid rgba(168, 185, 244, 0.20)',
+  background:
+    'radial-gradient(489.09% 91.61% at 89.79% 22.85%, rgba(56, 60, 78, 0.20) 0%, rgba(13, 14, 18, 0.20) 100%)',
+  marginTop: props.theme.spacing(6),  
+  marginBottom: props.theme.spacing(6),  
 }));
 
 const Text = styled.h1<TitleProps>((props) => ({
@@ -24,7 +30,6 @@ const Text = styled.h1<TitleProps>((props) => ({
   color: props.color,
   flex: 1,
   textAlign: 'left',
-
 }));
 
 interface Props {

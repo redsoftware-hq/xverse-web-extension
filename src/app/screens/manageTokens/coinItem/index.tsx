@@ -12,6 +12,12 @@ const RowContainer = styled.div((props) => ({
   flexDirection: 'row',
   alignItems: 'center',
   justifyContent: 'space-between',
+  padding: '13px 22px 13px 24px;',
+  gap: props.theme.spacing(8),
+  borderRadius: props.theme.radius(1),
+  border: '1px solid rgba(168, 185, 244, 0.20)',
+  background:
+    'radial-gradient(489.09% 91.61% at 89.79% 22.85%, rgba(56, 60, 78, 0.20) 0%, rgba(13, 14, 18, 0.20) 100%)',
   marginTop: props.theme.spacing(11),
 }));
 
@@ -33,11 +39,15 @@ const CoinIcon = styled.img((props) => ({
 }));
 
 const CustomSwitch = styled(Switch)`
-.react-switch-handle {
-  background-color: ${({ checked }) => (checked ? '#FFFFFF' : 'rgba(255, 255, 255, 0.2)')} !important;
-  border: ${({ checked }) => (checked ? '' : '4px solid rgba(255, 255, 255, 0.2)')} !important;
-
-}
+  .react-switch-handle {
+    background-color: ${({ checked }) =>
+      checked ? '#E12828  ' : 'rgba(210, 52, 3, 0.20)'} !important;
+    border: ${({ checked }) => (checked ? '' : '1px solid #D23403')} !important;
+    border-radius: 15px;
+  }
+  .react-switch-bg {
+    background-color: rgba(210, 52, 3, 0.2);
+  }
 `;
 
 const TickerIconContainer = styled.div((props) => ({
@@ -79,9 +89,7 @@ interface Props {
   showDivider: boolean;
 }
 
-function CoinItem({
-  coin, disabled, toggled, enabled, showDivider,
-}: Props) {
+function CoinItem({ coin, disabled, toggled, enabled, showDivider }: Props) {
   const [isEnabled, setIsEnabled] = useState(enabled);
   const toggleSwitch = () => {
     setIsEnabled((previousState) => !previousState);
@@ -98,21 +106,22 @@ function CoinItem({
     <>
       <RowContainer>
         <CoinContainer>
-          {coin.image ? <CoinIcon src={coin.image} />
-            : (
-              <TickerIconContainer color={background}>
-                <TickerText>{getFtTicker()}</TickerText>
-              </TickerIconContainer>
-            )}
-          { isEnabled ? (
+          {/* {coin.image ? (
+            <CoinIcon src={coin.image} />
+          ) : (
+            <TickerIconContainer color={background}>
+              <TickerText>{getFtTicker()}</TickerText>
+            </TickerIconContainer>
+          )} */}
+          {isEnabled ? (
             <SelectedCoinTitleText>{coin.name}</SelectedCoinTitleText>
           ) : (
             <UnSelectedCoinTitleText>{coin.name}</UnSelectedCoinTitleText>
           )}
         </CoinContainer>
         <CustomSwitch
-          onColor={Theme.colors.action.classic}
-          offColor={Theme.colors.background.elevation3}
+          onColor={Theme.colors.background.sliderBg}
+          offColor={Theme.colors.background.sliderBg}
           onChange={toggleSwitch}
           checked={isEnabled!}
           uncheckedIcon={false}
@@ -120,7 +129,7 @@ function CoinItem({
           disabled={disabled}
         />
       </RowContainer>
-      {showDivider ? <Seperator /> : <BottomContainer />}
+      {!showDivider && <BottomContainer />}
     </>
   );
 }
