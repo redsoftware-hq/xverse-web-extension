@@ -2,8 +2,11 @@
 import type { NetworkType, SettingsNetwork } from '@secretkeylabs/xverse-core';
 import {
   BTC_BASE_URI_MAINNET,
+ 
   BTC_BASE_URI_TESTNET,
+ 
   HIRO_MAINNET_DEFAULT,
+ 
   HIRO_TESTNET_DEFAULT,
 } from '@secretkeylabs/xverse-core/constant';
 
@@ -18,13 +21,18 @@ export const BTC_TRANSACTION_STATUS_URL = 'https://mempool.space/tx/';
 export const BTC_TRANSACTION_TESTNET_STATUS_URL = 'https://mempool.space/testnet/tx/';
 export const TRANSACTION_STATUS_URL = 'https://explorer.stacks.co/txid/';
 export const XVERSE_WEB_POOL_URL = 'https://pool.xverse.app';
-
+const getTransacUrl = () => {
+  if (process.env.NODE_ENV === 'production') {
+    return 'https://global.transak.com/';
+  }
+  return 'https://global-stg.transak.com/';
+};
 export const XVERSE_ORDIVIEW_URL = (network: NetworkType) =>
   `https://ord${network === 'Mainnet' ? '' : '-testnet'}.xverse.app`;
 
 export const MAGISAT_IO_RARITY_SCAN_URL = 'https://magisat.io/wallet?walletAddress=';
 
-export const TRANSAC_URL = 'https://global.transak.com';
+export const TRANSAC_URL = getTransacUrl();
 export const TRANSAC_API_KEY = process.env.TRANSAC_API_KEY;
 export const MOON_PAY_URL = 'https://buy.moonpay.com';
 export const MOON_PAY_API_KEY = process.env.MOON_PAY_API_KEY;
@@ -67,6 +75,7 @@ export const initialNetworksList: SettingsNetwork[] = [
  * contract id of send_many transaction type
  */
 export const SEND_MANY_TOKEN_TRANSFER_CONTRACT_PRINCIPAL =
+ 
   'SP3FBR2AGK5H9QBDH3EEN6DF8EK8JY7RX8QJ5SVTE.send-many-memo';
 
 export const SWAP_SPONSOR_DISABLED_SUPPORT_URL =
