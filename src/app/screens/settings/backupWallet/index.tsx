@@ -29,7 +29,7 @@ const EnterPasswordContainer = styled.div((props) => ({
   right: 0,
   position: 'fixed',
   zIndex: 10,
-  background: 'rgba(25, 25, 48, 0.5)',
+  background: 'radial-gradient(157.22% 121.91% at 17.22% 10.5%, #0D0E12 0%, #000 75.87%)',
   backdropFilter: 'blur(16px)',
   padding: 16,
   paddingTop: props.theme.spacing(16),

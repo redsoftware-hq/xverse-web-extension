@@ -8,6 +8,7 @@ import TopRow from '@components/topRow';
 import { StoreState } from '@stores/index';
 import { FetchUpdatedVisibleCoinListAction } from '@stores/wallet/actions/actionCreators';
 import Paragraph from '@components/paragraph';
+import ActionButton from '@components/button';
 
 const TokenContainer = styled.div`
   display: flex;
@@ -25,7 +26,7 @@ const Container = styled.div((props) => ({
   flexDirection: 'column',
   gap: '12px',
   overflow: 'hidden',
-  paddingTop: props.theme.spacing(10),
+  paddingTop: props.theme.spacing(8),
   paddingLeft: props.theme.spacing(6),
   paddingRight: props.theme.spacing(6),
 }));
@@ -75,15 +76,19 @@ function ManageTokens() {
       <TopRow title={t('ADD_COINS')} onClick={handleBackButtonClick} />
       <Paragraph content={t('CONTENT')} />
       <TokenContainer>
-        {coins?.map((coin, index) => (
-          <CoinItem
-            coin={coin}
-            disabled={false}
-            toggled={toggled}
-            enabled={coin.visible}
-            showDivider={showDivider(index)}
-          />
-        ))}
+        {coins
+          ?.filter((coin) =>
+            ['Bridged USDT', 'Wrapped Bitcoin', 'Wrapped USDC'].includes(coin.name),
+          )
+          .map((coin, index) => (
+            <CoinItem
+              coin={coin}
+              disabled={false}
+              toggled={toggled}
+              enabled={coin.visible}
+              showDivider={showDivider(index)}
+            />
+          ))}
       </TokenContainer>
     </Container>
   );

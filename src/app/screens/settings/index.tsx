@@ -63,9 +63,9 @@ function Setting() {
     navigate('/reset-wallet');
   };
 
-  // const openLockCountdownScreen = () => {
-  //   navigate('/lockCountdown');
-  // };
+  const openLockCountdownScreen = () => {
+    navigate('/lockCountdown');
+  };
 
   const onRestoreFundClick = async () => {
     if (isLedgerAccount(selectedAccount) && !isInOptions()) {
@@ -106,21 +106,18 @@ function Setting() {
         <SettingComponent
           text={t('UPDATE_PASSWORD')}
           onClick={openUpdatePasswordScreen}
-          icon={ArrowIcon}
           showDivider
         />
         <SettingComponent
           text={t('BACKUP_WALLET')}
           onClick={openBackUpWalletScreen}
-          icon={ArrowIcon}
           showDivider
         />
-        {/* <SettingComponent
+        <SettingComponent
           text={t('LOCK_COUNTDOWN')}
-          onClick={openLockCountdownScreen}
-          icon={ArrowIcon}
+          onClick={openLockCountdownScreen} 
           showDivider
-        /> */}
+        />
         <SettingComponent
           text={t('RESET_WALLET')}
           onClick={openResetWalletPage}
@@ -136,7 +133,6 @@ function Setting() {
         <SettingComponent
           text={t('RECOVER_ASSETS')}
           onClick={onRestoreFundClick}
-          icon={ArrowIcon}
           showDivider
         />
         <Divider />

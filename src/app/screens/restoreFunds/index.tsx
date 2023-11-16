@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import FundsRow from './fundsRow';
+import ActionButton from '@components/button';
 
 const RestoreFundTitle = styled.h1((props) => ({
   ...props.theme.body_l,
@@ -17,7 +18,7 @@ const RestoreFundTitle = styled.h1((props) => ({
 
 const Container = styled.div({
   flex: 1,
-  marginTop: 32,
+  marginTop: 250,
   paddingLeft: 16,
   paddingRight: 16,
 });
@@ -39,14 +40,10 @@ function RestoreFunds() {
       <TopRow title={t('TITLE')} onClick={handleOnCancelClick} />
       <RestoreFundTitle>{t('DESCRIPTION')}</RestoreFundTitle>
       <Container>
-        <FundsRow
-          image={OrdinalsIcon}
-          title={t('RECOVER_ORDINALS')}
-          description={t('RECOVER_ORDINALS_DESC')}
-          onClick={handleOnRestoreOridnalClick}
-        />
+        <ActionButton text="Restore Assets" onPress={handleOnRestoreOridnalClick} />
+        {/* <FundsRow image={IconBitcoin} title={t('RECOVER_BTC')} description={t('RECOVER_BTC_DESC')} onClick={handleOnRestoreBtcClick} /> */}
+        {/* <FundsRow image={OrdinalsIcon} title={t('RECOVER_ORDINALS')} description={t('RECOVER_ORDINALS_DESC')} onClick={handleOnRestoreOridnalClick}  /> */}
       </Container>
-      <BottomTabBar tab="nft" />
     </>
   );
 }

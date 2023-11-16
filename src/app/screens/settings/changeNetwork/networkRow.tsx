@@ -21,8 +21,8 @@ const Button = styled.button<ButtonProps>((props) => ({
   border: '1px solid rgba(168, 185, 244, 0.20)',
   background:
     'radial-gradient(489.09% 91.61% at 89.79% 22.85%, rgba(56, 60, 78, 0.20) 0%, rgba(13, 14, 18, 0.20) 100%)',
-  marginTop: props.theme.spacing(6),  
-  marginBottom: props.theme.spacing(6),  
+  marginTop: props.theme.spacing(6),
+  marginBottom: props.theme.spacing(6),
 }));
 
 const Text = styled.h1<TitleProps>((props) => ({
@@ -40,6 +40,7 @@ interface Props {
 }
 
 function NetworkRow({ network, isSelected, onNetworkSelected, showDivider }: Props) {
+function NetworkRow({ network, isSelected, onNetworkSelected, showDivider }: Props) {
   const theme = useTheme();
   const onClick = () => {
     onNetworkSelected(network);
@@ -47,8 +48,7 @@ function NetworkRow({ network, isSelected, onNetworkSelected, showDivider }: Pro
 
   return (
     <Button onClick={onClick} border={showDivider ? '1px solid rgb(76,81,135,0.3)' : 'transparent'}>
-      <Text color={isSelected ? theme.colors.white_0 : theme.colors.white_200}>{network.type}</Text>
-      {isSelected && <img src={TickIcon} alt="tick" />}
+      <Text color={isSelected ? '#E12828' : theme.colors.white['200']}>{network.type}</Text>
     </Button>
   );
 }

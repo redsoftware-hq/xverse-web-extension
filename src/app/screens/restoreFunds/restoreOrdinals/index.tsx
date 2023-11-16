@@ -160,7 +160,7 @@ function RestoreOrdinals() {
 
   return (
     <>
-      <TopRow title={t('RESTORE_ORDINAL_SCREEN.TITLE')} onClick={handleOnCancelClick} />
+      <TopRow title={t('RESTORE_ORDINAL_SCREEN.TITLE')} onClick={handleOnCancelClick} showBackButton={false}/>
       <Container>
         {!ordinals ? (
           <LoaderContainer>
@@ -170,7 +170,6 @@ function RestoreOrdinals() {
           showContent
         )}
       </Container>
-      <BottomTabBar tab="nft" />
     </>
   );
 }

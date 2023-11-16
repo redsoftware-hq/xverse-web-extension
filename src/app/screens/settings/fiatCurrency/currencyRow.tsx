@@ -30,6 +30,7 @@ const Button = styled.button<ButtonProps>((props) => ({
 const Text = styled.h1<TitleProps>((props) => ({
   ...props.theme.body_medium_m,
   color: props.color,
+  fontFamily:'MontRegular',
   flex: 1,
   textAlign: 'left',
   marginLeft: props.theme.spacing(6),
@@ -43,7 +44,6 @@ interface Props {
 }
 
 function CurrencyRow({ currency, isSelected, onCurrencySelected, showDivider }: Props) {
-function CurrencyRow({ currency, isSelected, onCurrencySelected, showDivider }: Props) {
   const theme = useTheme();
   const onClick = () => {
     onCurrencySelected(currency.name);
@@ -51,10 +51,9 @@ function CurrencyRow({ currency, isSelected, onCurrencySelected, showDivider }: 
   return (
     <Button onClick={onClick} border={showDivider ? '1px solid rgb(76,81,135,0.3)' : 'transparent'}>
       {/* <img src={currency.flag} alt="flag" /> */}
-      <Text color={isSelected ? theme.colors.white['0'] : 'rgb(255,255,255,0.6)'}>
+      <Text color={isSelected ? '#E12828' : 'white'}>
         {currency.name}
       </Text>
-      {isSelected && <img src={TickIcon} alt="tick" />}
     </Button>
   );
 }

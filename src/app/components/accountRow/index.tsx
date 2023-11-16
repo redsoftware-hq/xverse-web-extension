@@ -215,7 +215,7 @@ function DisplayAddress({
         <StyledToolTip
           anchorId="bitcoin-address"
           variant="light"
-          content={onBtcCopied ? 'Copied' : 'Bitcoin address'}
+          content={onBtcCopied ? 'Copied' : ''}
           events={['hover']}
           place="bottom"
         />
