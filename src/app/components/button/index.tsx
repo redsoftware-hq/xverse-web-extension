@@ -60,7 +60,6 @@ const ButtonText = styled.span<TextProps>((props) => ({
   ...props.theme.bold_tile_text,
   color: `${props.theme.colors.white[0]}`,
   textAlign: 'center',
-  textTransform: 'uppercase'
 }));
 
 const AnimatedButtonText = styled.div((props) => ({
@@ -105,6 +104,7 @@ interface Props {
   disabled?: boolean;
   transparent?: boolean;
   inDashboard?: boolean;
+  style?: any;
   warning?: boolean;
 }
 
@@ -117,6 +117,7 @@ function ActionButton({
   transparent,
   warning,
   inDashboard,
+  style = undefined,
 }: Props) {
   const handleOnPress = () => {
     if (!disabled) {
@@ -126,7 +127,11 @@ function ActionButton({
 
   if (inDashboard) {
     return (
-      <AnimatedDashboardButton onClick={handleOnPress} disabled={disabled}>
+      <AnimatedDashboardButton
+        onClick={handleOnPress}
+        disabled={disabled}
+        style={!style ? {} : style}
+      >
         {processing ? (
           <MoonLoader color="white" size={10} />
         ) : (
@@ -144,6 +149,7 @@ function ActionButton({
       <AnimatedTransparentButton
         onClick={handleOnPress}
         disabled={disabled}
+        style={!style ? {} : style}
       >
         {processing ? (
           <MoonLoader color="white" size={10} />
@@ -158,7 +164,12 @@ function ActionButton({
   }
 
   return (
-    <AnimatedButton onClick={handleOnPress} disabled={disabled} warning={warning}>
+    <AnimatedButton
+      onClick={handleOnPress}
+      disabled={disabled}
+      warning={warning}
+      style={!style ? {} : style}
+    >
       {processing ? (
         <MoonLoader color="#12151E" size={12} />
       ) : (

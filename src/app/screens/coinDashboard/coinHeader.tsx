@@ -376,25 +376,22 @@ export default function CoinHeader(props: CoinBalanceProps) {
     }
   };
 
-  const getDashboardTitle = () => {
-    if (fungibleToken) {
-      return `${t('BALANCE')} ${getFtTicker(fungibleToken)}`;
+  const getCurrencyText = ()=> {
+    if(coin === 'FT') {
+      return fungibleToken?.ticker;
     }
-    if (coin) {
-      return `${t('BALANCE')}`;
-    }
-    return '';
-  };
+    return coin;
+  }
 
   return transitions((style, i) => (
     <animated.div {...handlers} style={style}>
       <Container>
         <BalanceInfoContainer>
           <RowContainer>
-            <BalanceTitleText>{getDashboardTitle()}</BalanceTitleText>
+            <BalanceTitleText>{t('BALANCE')}</BalanceTitleText>
             {coin !== 'brc20' && (
               <CurrencyCard>
-                <CurrencyText>{coin}</CurrencyText>
+                <CurrencyText>{getCurrencyText()}</CurrencyText>
               </CurrencyCard>
             )}
             {coin === 'brc20' && <ProtocolText>BRC-20</ProtocolText>}
@@ -470,7 +467,7 @@ export default function CoinHeader(props: CoinBalanceProps) {
                 )}
               </>
             )}
-
+{/* 
             <ButtonContainer>
               <SmallActionButton
                 isOpaque
@@ -478,7 +475,7 @@ export default function CoinHeader(props: CoinBalanceProps) {
                 src={SwapCoin}
                 onPress={() => console.log('transfer')}
               />
-            </ButtonContainer>
+            </ButtonContainer> */}
           </RowButtonContainer>
         </BalanceInfoContainer>
         {renderStackingBalances()}

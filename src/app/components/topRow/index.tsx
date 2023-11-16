@@ -9,7 +9,7 @@ const TopSectionContainer = styled.div((props) => ({
   marginLeft: props.theme.spacing(8),
   flexDirection: 'column',
   justifyContent: 'center',
-  gap:'10px',
+  gap: '10px',
   alignItems: 'flex-start',
   position: 'relative',
 }));
@@ -22,16 +22,17 @@ const HeaderText = styled.h1((props) => ({
   paddingRight: props.theme.spacing(10),
 }));
 
-
 interface Props {
   title: string;
+  showBackButton?: boolean;
   onClick: () => void;
 }
 
-function TopRow({ title, onClick }: Props) {
+function TopRow({ title, onClick, showBackButton = true }: Props) {
   return (
     <TopSectionContainer>
-      <BackButton handleClick={onClick}/>
+      {showBackButton && <BackButton handleClick={onClick} />}
+
       <HeaderText>{title}</HeaderText>
     </TopSectionContainer>
   );

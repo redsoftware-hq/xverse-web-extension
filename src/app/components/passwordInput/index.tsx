@@ -85,6 +85,7 @@ const Input = styled.input((props) => ({
   height: 48,
   backgroundColor: props.theme.colors.background['elevation-1'],
   color: props.theme.colors.white['0'],
+  caretColor: props.theme.colors.action.classic,
   width: '100%',
   border: 'none',
   paddingLeft: props.theme.spacing(6),

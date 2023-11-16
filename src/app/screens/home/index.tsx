@@ -416,7 +416,7 @@ function Home() {
         />
       </Container>
       <StepperContainer>
-        <StepperNavigator/>
+        <StepperNavigator />
       </StepperContainer>
       <TransactionsHistoryList coin="FT" txFilter={null} />
       {/* <ListContainer>

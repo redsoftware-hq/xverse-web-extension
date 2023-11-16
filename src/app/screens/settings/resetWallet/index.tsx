@@ -90,9 +90,10 @@ function ResetWalletScreen() {
       )}
       <TopRow title={t('RESET_WALLET')} onClick={handleBackButtonClick} />
       <Paragraph content={t('RESET_WALLET_CONTENT')} />
-       <ButtonContainer>
+      <ButtonContainer>
         <ActionButton
           text={t('RESET_WALLET')}
+          style={{ textTransform: 'uppercase' }}
           onPress={openResetWalletScreen}
         />
       </ButtonContainer>

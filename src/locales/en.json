@@ -188,7 +188,7 @@
     "CONFIRM_PASSWORD_TITLE": "Confirm Password",
     "ENTER_PASSWORD": "Enter your current password",
     "TEXT_INPUT_NEW_PASSWORD_LABEL": "Enter the password you would like to set for your wallet.",
-    "TEXT_INPUT_ENTER_PASSWORD_LABEL": "Enter your current password",
+    "TEXT_INPUT_ENTER_PASSWORD_LABEL": "Enter your current password.",
     "TEXT_INPUT_CONFIRM_PASSWORD_LABEL": "Re-enter the password to confirm the password for your wallet.",
     "CONTINUE_BUTTON": "Continue",
     "BACK_BUTTON": "Back",
@@ -240,7 +240,7 @@
     "WELCOME_MESSAGE_FIRST_LOGIN": "Welcome!",
     "WELCOME_MESSAGE": "Welcome back!",
     "PASSWORD_INPUT_LABEL": "Password",
-    "PASSWORD_INPUT_PLACEHOLDER": "Enter your password",
+    "PASSWORD_INPUT_PLACEHOLDER": "Enter your password...",
     "VERIFY_PASSWORD_BUTTON": "Unlock",
     "VERIFY_PASSWORD_ERROR": "Incorrect Password",
     "FORGOT_PASSWORD_BUTTON": "Forgot your password?"
@@ -248,7 +248,7 @@
   "FORGOT_PASSWORD_SCREEN": {
     "TITLE": "Forgot Password",
     "PARAGRAPH": "Orange Pill does not store any passwords, seed phrases, or any user data. If you have forgotten your password, you will need reset your wallet and re-enter your seed phrase to recover your Bitcoin wallet. Always have your seed phrase backed up and stored in a safe location.",
-    "BACKUP_CHECKBOX_LABEL": "I backed up my seedphrase"
+    "BACKUP_CHECKBOX_LABEL": "My seed phrase is backed up."
   },
   "RESTORE_WALLET_SCREEN": {
     "ENTER_SEED_HEADER": "Enter your 12 or 24 word seedphrase to restore your wallet",
@@ -279,7 +279,7 @@
   "NFT_DASHBOARD_SCREEN": {
     "VALUE":"Value",
     "COLLECTIBLES": "Number of collectibles",
-    "NO_COLLECTIBLES": "No collectibles yet",
+    "NO_COLLECTIBLES": "No NFTs.",
     "LOAD_MORE": "Load more",
     "ITEMS": "NFTs",
     "WEB_GALLERY": "Open gallery",
@@ -328,7 +328,7 @@
     "TRANSFER": "Transfer",
     "BACK": "Back",
     "ORDINAL_ADDRESS": "Ordinal address",
-    "NO_FUNDS": "You don’t have any Ordinals stored on your Bitcoin payment address.",
+    "NO_FUNDS": "No assets found.",
     "DESCRIPTION": "You have Ordinals stored in your Bitcoin payment address. You can transfer them to your Ordinals address so that they show up in your collection."
   },
   "NFT_DETAIL_SCREEN": {
@@ -384,7 +384,7 @@
     "MAIN_TILE":"Settings",
     "CONTENT":"Adjust your wallet settings for a more personalized experience below.",
     "GENERAL": "General",
-    "CURRENCY": "Fiat Currency",
+    "CURRENCY": "Currency",
     "CURRENCY_CONTENT":"Easily switch between various fiat currencies by selecting the currency below.",
     "NETWORK": "Network",
     "NETWORK_CONTENT":"Easily switch between MainNet and Testnet by selecting the below.",
@@ -404,7 +404,7 @@
     "RESET_WALLET_DESCRIPTION": "This will reset your wallet from this browser. Make sure you have your seed phrase backed up.",
     "CANCEL": "Cancel",
     "NODE": "STX Node",
-    "BACKUP_WALLET_UNLOCK_SEED": "Enter your password to reveal your seedphrase",
+    "BACKUP_WALLET_UNLOCK_SEED": "Backup Your Wallet",
     "SAVE": "Save",
     "INVALID_URL": "Invalid URL",
     "ENTER_PASSWORD": "Enter your password to reset your wallet",
@@ -439,7 +439,7 @@
     "BUY_COIN_BUTTON": "Buy",
     "TRANSACTION_HISTORY_TITLE": "Transaction history",
     "TRANSACTIONS_TITLE": "Transactions",
-    "TRANSACTIONS_LIST_EMPTY": "No transactions found.",
+    "TRANSACTIONS_LIST_EMPTY": "No transactions.",
     "TRANSACTION_SENT": "Sent",
     "TRANSACTION_RECEIVED": "Received",
     "TRANSACTION_PENDING_RECEIVING": "Receiving",

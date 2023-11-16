@@ -114,7 +114,7 @@ function ChangePasswordScreen() {
       <PasswordContainer>
         {currentStepIndex === 0 && (
           <PasswordInput
-            title={t('CREATE_PASSWORD_SCREEN.ENTER_PASSWORD')}
+            title='Update Your Password'
             inputLabel={t('CREATE_PASSWORD_SCREEN.TEXT_INPUT_ENTER_PASSWORD_LABEL')}
             enteredPassword={password}
             setEnteredPassword={setPassword}

@@ -404,7 +404,7 @@ function NftDashboard() {
           onSecondButtonClick={onActivateOrdinalsAlertActivatePress}
         />
       )}
-      <AccountHeaderComponent />
+      <AccountHeaderComponent  onReceiveModalOpen={onReceiveModalOpen}/>
       <Container>
         <Dashboard>
           <CollectibleContainer>

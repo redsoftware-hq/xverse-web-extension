@@ -6,6 +6,7 @@ const Button = styled.button((props) => ({
   padding: '11px 16px',
   justifyContent: 'center',
   color:'white',
+  fontFamily:'MontRegular',
   alignItems: 'center',
   background: 'rgba(168, 185, 244, 0.10)',
 }));

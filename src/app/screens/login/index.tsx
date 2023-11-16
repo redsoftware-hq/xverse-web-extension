@@ -88,6 +88,7 @@ const PasswordInput = styled.input((props) => ({
   height: 48,
   backgroundColor: props.theme.colors.background.elevation0,
   color: props.theme.colors.white['0'],
+  caretColor: props.theme.colors.action.classic,
   width: '100%',
   border: 'none',
   fontSize: 18,
