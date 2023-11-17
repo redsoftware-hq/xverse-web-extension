@@ -6,7 +6,8 @@ interface StepperState {
 }
 
 interface StepperAction {
-  type: 'NEXT_STEP' | 'PREV_STEP'| 'HOME';
+  payload?: number;
+  type: 'NEXT_STEP' | 'PREV_STEP' | 'HOME' | 'SET_STEP';
 }
 
 type StepperDispatch = Dispatch<StepperAction>;
@@ -31,6 +32,11 @@ const stepperReducer = (state: StepperState, action: StepperAction): StepperStat
       return {
         ...state,
         currentActiveIndex: 0,
+      };
+    case 'SET_STEP':
+      return {
+        ...state,
+        currentActiveIndex: action.payload || 0, // Set the current step to the payload value or 0 if not provided
       };
     default:
       return state;

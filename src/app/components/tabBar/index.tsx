@@ -12,7 +12,7 @@ import UnselectedSettingsTab from '@assets/img/bottomTabBar/unselected_setting_t
 import UnselectedMarketTab from '@assets/img/bottomTabBar/unselected_market_tab.svg';
 import UnselectedStackingTab from '@assets/img/bottomTabBar/Stake.svg';
 import UnselectedWalletTab from '@assets/img/bottomTabBar/Wallet.svg';
-
+import { useStepperContext } from '@stores/stepper';
 const Container = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'row',
@@ -56,27 +56,11 @@ interface Props {
 function BottomTabBar({ tab }: Props) {
 function BottomTabBar({ tab }: Props) {
   const navigate = useNavigate();
-  const theme = useTheme();
-
-  const getPosition = () => {
-    if (tab === 'nft') return 96;
-    if (tab === 'stacking') return 168;
-    if (tab === 'settings') return 240;
-    return 24;
-  };
-
-  const styles = useSpring({
-    from: { x: getPosition() }, // TODO: enable slide animation
-    to: { x: getPosition() },
-    config: {
-      duration: 200,
-      easing: easings.easeOutCirc,
-    },
-  });
-
+  const { dispatchStep } = useStepperContext();
   const handleDashboardButtonClick = () => {
     if (tab !== 'dashboard') {
       navigate('/');
+      dispatchStep({ type: 'HOME' });
     }
   };
 

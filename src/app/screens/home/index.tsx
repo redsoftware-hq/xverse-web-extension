@@ -242,7 +242,7 @@ function Home() {
   const theme = useTheme();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+ 
   const [openReceiveModal, setOpenReceiveModal] = useState(false);
   const [openSendModal, setOpenSendModal] = useState(false);
   const [openBuyModal, setOpenBuyModal] = useState(false);
