@@ -29,12 +29,12 @@
   },
   "TOKEN_SCREEN": {
     "ADD_COINS": "Add Coin",
-    "CONTENT":"Add support for more tokens to your Orange Pill wallet by enabling them below."
+    "CONTENT": "Add support for more tokens to your Orange Pill wallet by enabling them below."
   },
   "ACCOUNT_SCREEN": {
     "ADD_ACCOUNT": "Add Address",
     "NEW_ACCOUNT": "Add new address",
-    "CONTENT":"Add new wallet addresses by simply tapping the add button below."
+    "CONTENT": "Add new wallet addresses by simply tapping the add button below."
   },
   "RECEIVE": {
     "RECEIVE": "Receive",
@@ -173,12 +173,12 @@
   "BACKUP_WALLET_SCREEN": {
     "SCREEN_TITLE": "Backup Your Wallet",
     "SCREEN_SUBTITLE": "Your seed phrase is the unique key that allows you to recover your Bitcoin wallet. Backing up your wallet is highly recommended.",
-    "BACKUP_BUTTON": "Backup now",
-    "BACKUP_SKIP_BUTTON": "Backup later",
-    "SEED_PHRASE_VIEW_HEADING": "Write down your seed phrase and make sure to keep it private. This is the unique key to your wallet. ",
+    "BACKUP_BUTTON": "Backup Now",
+    "BACKUP_SKIP_BUTTON": "Backup Later",
+    "SEED_PHRASE_VIEW_HEADING": "Enter the requested words in the order of your seed phrase to confirm it is correct.",
     "SEED_PHRASE_VIEW_LABEL": "Seedphrase",
     "SEED_PHRASE_VIEW_CONTINUE": "Continue",
-    "SEED_PHRASE_VERIFY_HEADING": "Write your seedphrase to confirm you saved it properly.",
+    "SEED_PHRASE_VERIFY_HEADING": "Enter the requested words in the order of your seed phrase to confirm it is correct.",
     "SEED_PHRASE_VERIFY_BUTTON": "Verify",
     "SEED_INPUT_LABEL": "Seedphrase Verification",
     "SEED_PHRASE_BACK_BUTTON": "Back"
@@ -196,9 +196,9 @@
     "PASSWORD_STRENGTH_WEAK": "Weak",
     "PASSWORD_STRENGTH_MEDIUM": "Medium",
     "PASSWORD_STRENGTH_STRONG": "Strong",
-    "PASSWORD_STRENGTH_ERROR": "Your password should be at least 9 characters long. Use a mix of uppercase letters, lowercase letters, numbers, and symbols",
-    "CONFIRM_PASSWORD_MATCH_ERROR": "Please make sure your passwords match",
-    "INCORRECT_PASSWORD_ERROR": "Incorrect password"
+    "PASSWORD_STRENGTH_ERROR": "Your password should be at least 9 characters long. Use a mix of uppercase letters, lowercase letters, numbers, and symbols.",
+    "CONFIRM_PASSWORD_MATCH_ERROR": "Password does not match.",
+    "INCORRECT_PASSWORD_ERROR": "Incorrect password."
   },
   "WALLET_SUCCESS_SCREEN": {
     "SCREEN_TITLE": "Congratulations!",
@@ -208,17 +208,17 @@
     "CLICK": "Click",
     "THEN": "then",
     "OPEN_WALLET": "to open your wallet",
-    "RESTORE_SCREEN_TITLE": "Wallet restored",
+    "RESTORE_SCREEN_TITLE": "Wallet Restored",
     "RESTORE_SCREEN_SUBTITLE": "Your wallet has been successfully restored.",
     "SEARCH_XVERSE": "Locate Orange Pill and click",
-    "SELF_CUSTODY" : "Self Custody",
-    "SELF_CUSTODY_DESC" : "Your assets are securely stored on the blockchain and only you have access to your encrypted keys.",
-    "PRIVATE" : "Private",
-    "PRIVATE_DESC" : "No personal information is ever collected and no data is stored on any servers.",
-    "ANONYMOUS" : "Anonymous",
-    "ANONYMOUS_DESC" : "Your identity is completely anonymous with no personal information linked to your wallet.",
-    "DECENTRALIZED" : "Decentralized",
-    "DECENTRALIZED_DESC" : "Your transactions are completely decentralized and peer-to-peer. No 3rd parties allowed."
+    "SELF_CUSTODY": "Self Custody",
+    "SELF_CUSTODY_DESC": "Your assets are securely stored on the blockchain and only you have access to your encrypted keys.",
+    "PRIVATE": "Private",
+    "PRIVATE_DESC": "No personal information is ever collected and no data is stored on any servers.",
+    "ANONYMOUS": "Anonymous",
+    "ANONYMOUS_DESC": "Your identity is completely anonymous with no personal information linked to your wallet.",
+    "DECENTRALIZED": "Decentralized",
+    "DECENTRALIZED_DESC": "Your transactions are completely decentralized and peer-to-peer. No 3rd parties allowed."
   },
   "WALLET_EXISTS_SCREEN": {
     "CLOSE_TAB": "Close this tab",
@@ -251,9 +251,9 @@
     "BACKUP_CHECKBOX_LABEL": "My seed phrase is backed up."
   },
   "RESTORE_WALLET_SCREEN": {
-    "ENTER_SEED_HEADER": "Enter your 12 or 24 word seedphrase to restore your wallet",
+    "ENTER_SEED_HEADER": "Enter your 12 or 24 word seed phrase to restore your wallet.",
     "SEED_INPUT_PLACEHOLDER": "Enter your seedphrase",
-    "SEED_INPUT_ERROR": "Invalid seed phrase, please try again",
+    "SEED_INPUT_ERROR": "Invalid seed phrase. Please try again.",
     "CONTINUE_BUTTON": "Continue"
   },
   "STACKING_SCREEN": {
@@ -277,7 +277,7 @@
     "TRANSACTIONS": "Staking Transactions"
   },
   "NFT_DASHBOARD_SCREEN": {
-    "VALUE":"Value",
+    "VALUE": "Value",
     "COLLECTIBLES": "Number of collectibles",
     "NO_COLLECTIBLES": "No NFTs.",
     "LOAD_MORE": "Load more",
@@ -306,7 +306,7 @@
     "DEPLOY": "Deploy"
   },
   "RESTORE_FUND_SCREEN": {
-    "TITLE": "Restore assets",
+    "TITLE": "Restore Assets",
     "DESCRIPTION": "If you sent Ordinals to your Bitcoin payment address or Bitcoin to your ordinals address, you can recover it and send it to the correct address.",
     "RECOVER_BTC": "Recover BTC",
     "RECOVER_BTC_DESC": "If you sent Bitcoin to your Ordinals address.",
@@ -381,13 +381,13 @@
     "INCORRECT_PASSWORD_ERROR": "Incorrect password"
   },
   "SETTING_SCREEN": {
-    "MAIN_TILE":"Settings",
-    "CONTENT":"Adjust your wallet settings for a more personalized experience below.",
+    "MAIN_TILE": "Settings",
+    "CONTENT": "Adjust your wallet settings for a more personalized experience below.",
     "GENERAL": "General",
     "CURRENCY": "Currency",
-    "CURRENCY_CONTENT":"Easily switch between various fiat currencies by selecting the currency below.",
+    "CURRENCY_CONTENT": "Easily switch between various fiat currencies by selecting the currency below.",
     "NETWORK": "Network",
-    "NETWORK_CONTENT":"Easily switch between MainNet and Testnet by selecting the below.",
+    "NETWORK_CONTENT": "Easily switch between MainNet and Testnet by selecting the below.",
     "SECURITY": "Security",
     "UPDATE_PASSWORD": "Update Password",
     "BACKUP_WALLET": "Backup Wallet",
@@ -404,18 +404,19 @@
     "RESET_WALLET_DESCRIPTION": "This will reset your wallet from this browser. Make sure you have your seed phrase backed up.",
     "CANCEL": "Cancel",
     "NODE": "STX Node",
-    "BACKUP_WALLET_UNLOCK_SEED": "Backup Your Wallet",
+    "BACKUP_WALLET_UNLOCK_SEED": "Backup Wallet",
     "SAVE": "Save",
     "INVALID_URL": "Invalid URL",
     "ENTER_PASSWORD": "Enter your password to reset your wallet",
-    "PASSWORD": "Password",
+    "PASSWORD": "Enter your current password.",
     "RESET": "Reset",
     "BACK": "Back",
-    "INCORRECT_PASSWORD_ERROR": "Incorrect password",
+    "INCORRECT_PASSWORD_ERROR": "Incorrect password.",
     "TESTNET": "Testnet",
     "ORDINALS": "Ordinals",
     "ACTIVATE_ORDINAL_NFTS": "Display ordinals",
-    "RECOVER_ASSETS": "Recover assets",
+    "RECOVER_ASSETS": "Restore Assets",
+    "LOCK_WALLET": "Lock Wallet",
     "LOCK_COUNTDOWN": "Auto-lock Timer",
     "LOCK_COUNTDOWN_TITLE": "Select the time duration before the wallet locks automatically."
   },

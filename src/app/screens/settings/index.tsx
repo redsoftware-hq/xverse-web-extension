@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 // import { useDispatch } from 'react-redux';
 // import { ChangeActivateOrdinalsAction } from '@stores/wallet/actions/actionCreators';
 import useNonOrdinalUtxos from '@hooks/useNonOrdinalUtxo';
+import useWalletReducer from '@hooks/useWalletReducer';
 import TopRow from '@components/topRow';
 import Paragraph from '@components/paragraph';
 import SettingComponent from './settingComponent';
@@ -28,6 +29,7 @@ function Setting() {
   const { t } = useTranslation('translation', { keyPrefix: 'SETTING_SCREEN' });
   // const { fiatCurrency, network, hasActivatedOrdinalsKey } = useWalletSelector();
   const { fiatCurrency, network } = useWalletSelector();
+  const { lockWallet } = useWalletReducer();
   const navigate = useNavigate();
   // const dispatch = useDispatch();
   const { unspentUtxos } = useNonOrdinalUtxos();
@@ -70,12 +72,20 @@ function Setting() {
       },
     });
   };
-
+  const handleLockWallet = () => {
+    lockWallet();
+    navigate('/');
+  };
   return (
     <>
       <TopRow title={t('MAIN_TILE')} onClick={handleBackButtonClick} />
       <Paragraph content={t('CONTENT')} />
       <Container>
+        <SettingComponent
+          text={t('NETWORK')}
+          onClick={openChangeNetworkScreen}
+          textDetail={network.type}
+        />
         <SettingComponent
           text={t('CURRENCY')}
           onClick={openFiatCurrencyScreen}
@@ -83,30 +93,21 @@ function Setting() {
           showDivider
         />
         <SettingComponent
-          text={t('NETWORK')}
-          onClick={openChangeNetworkScreen}
-          textDetail={network.type}
-        />
-        <SettingComponent
           text={t('UPDATE_PASSWORD')}
           onClick={openUpdatePasswordScreen}
           showDivider
         />
-        <SettingComponent
-          text={t('BACKUP_WALLET')}
-          onClick={openBackUpWalletScreen}
-          showDivider
-        />
-        <SettingComponent
+        <SettingComponent text={t('BACKUP_WALLET')} onClick={openBackUpWalletScreen} showDivider />
+        {/* <SettingComponent
           text={t('LOCK_COUNTDOWN')}
           onClick={openLockCountdownScreen} 
           showDivider
-        />
-        <SettingComponent
+        /> */}
+        {/* <SettingComponent
           text={t('RESET_WALLET')}
           onClick={openResetWalletPage}
           // showWarningTitle
-        />
+        /> */}
         {/* <SettingComponent
           text={t('ACTIVATE_ORDINAL_NFTS')}
           toggle
@@ -114,11 +115,8 @@ function Setting() {
           toggleValue={hasActivatedOrdinalsKey}
           showDivider
         /> */}
-        <SettingComponent
-          text={t('RECOVER_ASSETS')}
-          onClick={onRestoreFundClick}
-          showDivider
-        />
+        <SettingComponent text={t('RECOVER_ASSETS')} onClick={onRestoreFundClick} showDivider />
+        <SettingComponent text={t('LOCK_WALLET')} onClick={handleLockWallet} showDivider />
         <Divider />
         {/* <ResetWalletPrompt
           showResetWalletPrompt={showResetWalletPrompt}

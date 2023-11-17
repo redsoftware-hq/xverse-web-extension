@@ -32,7 +32,6 @@ function TopRow({ title, onClick, showBackButton = true }: Props) {
   return (
     <TopSectionContainer>
       {showBackButton && <BackButton handleClick={onClick} />}
-
       <HeaderText>{title}</HeaderText>
     </TopSectionContainer>
   );

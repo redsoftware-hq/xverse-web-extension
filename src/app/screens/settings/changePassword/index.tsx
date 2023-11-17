@@ -20,6 +20,7 @@ const PasswordContainer = styled.div((props) => ({
   marginTop: props.theme.spacing(20),
   paddingLeft: props.theme.spacing(8),
   paddingRight: props.theme.spacing(8),
+   marginBottom: props.theme.spacing(20),
 }));
 
 const ToastContainer = styled.div((props) => ({
@@ -114,7 +115,7 @@ function ChangePasswordScreen() {
       <PasswordContainer>
         {currentStepIndex === 0 && (
           <PasswordInput
-            title='Update Your Password'
+            title=''
             inputLabel={t('CREATE_PASSWORD_SCREEN.TEXT_INPUT_ENTER_PASSWORD_LABEL')}
             enteredPassword={password}
             setEnteredPassword={setPassword}

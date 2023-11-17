@@ -1,7 +1,7 @@
 {
-  "name": "xverse-web-extension",
-  "description": "A Bitcoin wallet for Web3",
-  "version": "0.12.3",
+  "name": "orange-pill-wallet",
+  "description": "The best wallet for Bitcoin. Powered by AI.",
+  "version": "1.0.3",
   "private": true,
   "dependencies": {
     "@react-spring/web": "^9.7.3",

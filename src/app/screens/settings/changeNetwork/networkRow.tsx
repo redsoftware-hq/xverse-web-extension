@@ -13,7 +13,7 @@ interface ButtonProps {
 const Button = styled.button<ButtonProps>((props) => ({
   display: 'flex',
   flexDirection: 'row',
-  padding: '16px 32px 16px 24px;',
+  padding: '16px;',
   justifyContent: 'space-between',
   gap: props.theme.spacing(8),
   alignItems: 'center',
@@ -22,7 +22,6 @@ const Button = styled.button<ButtonProps>((props) => ({
   background:
     'radial-gradient(489.09% 91.61% at 89.79% 22.85%, rgba(56, 60, 78, 0.20) 0%, rgba(13, 14, 18, 0.20) 100%)',
   marginTop: props.theme.spacing(6),
-  marginBottom: props.theme.spacing(6),
 }));
 
 const Text = styled.h1<TitleProps>((props) => ({

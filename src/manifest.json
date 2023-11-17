@@ -1,6 +1,6 @@
 {
-  "name": "Orange Pill",
-  "description": "A Bitcoin Wallet for Web3",
+  "name": "Orange Pill Wallet",
+  "description": "The best wallet for Bitcoin. Powered by AI.",
   "manifest_version": 3,
   "options_page": "options.html",
   "action": {

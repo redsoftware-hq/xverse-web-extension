@@ -10,35 +10,23 @@ import useWalletSelector from '@hooks/useWalletSelector';
 import styled from 'styled-components';
 import BackButton from '@components/backButton';
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  overflow-y: auto;
-  padding-left: 16px;
-  padding-right: 16px;
-  &::-webkit-scrollbar {
-    display: none;
-  }
-`;
-
-const EnterPasswordContainer = styled.div((props) => ({
-  width: '100%',
-  height: '100%',
-  top: 0,
-  left: 0,
-  bottom: 0,
-  right: 0,
-  position: 'fixed',
-  zIndex: 10,
-  background: 'radial-gradient(157.22% 121.91% at 17.22% 10.5%, #0D0E12 0%, #000 75.87%)',
-  backdropFilter: 'blur(16px)',
-  padding: 16,
-  paddingTop: props.theme.spacing(16),
+const Container = styled.div((props) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  flex: 1,
+  overflowY: 'auto',
 }));
-
+const PasswordContainer = styled.div((props) => ({
+  marginTop: props.theme.spacing(8),
+  paddingLeft: props.theme.spacing(8),
+  paddingRight: props.theme.spacing(8),
+  marginBottom: props.theme.spacing(20),
+}));
 const SeedphraseContainer = styled.div((props) => ({
-  marginTop: props.theme.spacing(5),
+  marginTop: props.theme.spacing(8),
+  paddingLeft: props.theme.spacing(8),
+  paddingRight: props.theme.spacing(8),
+  marginBottom: props.theme.spacing(20),
 }));
 
 function BackupWalletScreen() {
@@ -72,29 +60,35 @@ function BackupWalletScreen() {
 
   return (
     <>
-      <TopRow title={t('SETTING_SCREEN.BACKUP_WALLET')} onClick={goToSettingScreen} />
+      <TopRow title={t('SETTING_SCREEN.BACKUP_WALLET_UNLOCK_SEED')} onClick={goToSettingScreen} />
       <Container>
         {!showSeed && (
-          <EnterPasswordContainer>
-            <BackButton handleClick={() => navigate(-1)} />
-            <PasswordInput
-              title={t('SETTING_SCREEN.BACKUP_WALLET_UNLOCK_SEED')}
-              inputLabel={t('SETTING_SCREEN.PASSWORD')}
-              enteredPassword={password}
-              setEnteredPassword={setPassword}
-              handleContinue={handlePasswordNextClick}
-              handleBack={goToSettingScreen}
-              passwordError={error}
-              stackButtonAlignment
-              loading={loading}
-            />
-          </EnterPasswordContainer>
+          <PasswordContainer>
+
+          <PasswordInput
+            title=""
+            inputLabel={t('SETTING_SCREEN.PASSWORD')}
+            enteredPassword={password}
+            setEnteredPassword={setPassword}
+            handleContinue={handlePasswordNextClick}
+            handleBack={goToSettingScreen}
+            passwordError={error}
+            stackButtonAlignment
+            loading={loading}
+          />
+          </PasswordContainer>
         )}
-        <SeedphraseContainer>
-          {showSeed && (
-            <SeedCheck showButton={false} seedPhrase={seedPhrase} onContinue={goToSettingScreen} copy={copy} setCopy={setCopy}/>
-          )}
-        </SeedphraseContainer>
+        {showSeed && (
+          <SeedphraseContainer>
+            <SeedCheck
+              showButton={false}
+              seedPhrase={seedPhrase}
+              onContinue={goToSettingScreen}
+              copy={copy}
+              setCopy={setCopy}
+            />
+          </SeedphraseContainer>
+        )}
       </Container>
     </>
   );

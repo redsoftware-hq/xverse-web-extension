@@ -11,16 +11,16 @@ const Container = styled.div({
 });
 
 const Title = styled.h1((props) => ({
-  ...props.theme.body_l,
+  ...props.theme.bold_tile_text,
   color: props.theme.colors.white[200],
-  marginTop: props.theme.spacing(21),
+  marginTop: props.theme.spacing(8),
   marginBottom: props.theme.spacing(16),
 }));
 
 const ButtonContainer = styled.div((props) => ({
   width: '100%',
   marginTop: 'auto',
-  marginBottom: props.theme.spacing(30),
+  marginBottom: props.theme.spacing(16),
 }));
 
 interface Props {
@@ -29,12 +29,51 @@ interface Props {
   onContinue: () => void;
   seedError: string;
   setSeedError: (err: string) => void;
+  pasteFromClipboard?: () => void;
 }
-
+const Paste = styled.button<{ position: 'mid' | 'bottom'; disabled?: boolean }>((props) => ({
+  ...props.theme.body_medium_m,
+  color: props.theme.colors.action.classic,
+  borderRadius: props.theme.radius(4),
+  border: `1px solid ${props.theme.colors.action.classic}`,
+  backgroundColor: props.theme.colors.background.lightOrange,
+  height: 30,
+  width: 150,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  position: 'absolute',
+  top: props.position === 'mid' ? '70%' : '80%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  img: {
+    marginRight: props.theme.spacing(4),
+  },
+  ':hover': {
+    backgroundColor: !props.disabled
+      ? props.theme.colors.action.classic
+      : props.theme.colors.background.lightOrange,
+    border: `1px solid ${
+      !props.disabled ? props.theme.colors.action.classic : props.theme.colors.action.classic
+    }`,
+    color: !props.disabled ? props.theme.colors.white[0] : props.theme.colors.action.classic,
+  },
+  ':focus': {
+    backgroundColor: !props.disabled
+      ? props.theme.colors.action.classic
+      : props.theme.colors.background.lightOrange,
+    border: `1px solid ${
+      !props.disabled ? props.theme.colors.action.classic : props.theme.colors.action.classic
+    }`,
+    color: !props.disabled ? props.theme.colors.white[0] : props.theme.colors.action.classic,
+  },
+  ':disabled': {
+    opacity: 0.5,
+    cursor: 'not-allowed',
+  },
+}));
 function EnterSeedPhrase(props: Props): JSX.Element {
-  const {
-    onContinue, seed, setSeed, seedError, setSeedError,
-  } = props;
+  const { onContinue, seed, setSeed, seedError, setSeedError, pasteFromClipboard } = props;
 
   const { t } = useTranslation('translation', { keyPrefix: 'RESTORE_WALLET_SCREEN' });
 
@@ -47,8 +86,15 @@ function EnterSeedPhrase(props: Props): JSX.Element {
         seedError={seedError}
         setSeedError={setSeedError}
       />
+      <Paste position="mid" onClick={pasteFromClipboard}>
+        Paste
+      </Paste>
       <ButtonContainer>
-        <ActionButton onPress={onContinue} disabled={seed.map(e => e.trim()).join(' ') === ''} text={t('CONTINUE_BUTTON')} />
+        <ActionButton
+          onPress={onContinue}
+          disabled={seed.map((e) => e.trim()).join(' ') === ''}
+          text={t('CONTINUE_BUTTON')}
+        />
       </ButtonContainer>
     </Container>
   );

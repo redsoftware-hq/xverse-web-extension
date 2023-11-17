@@ -23,8 +23,18 @@ const Container = styled.div((props) => ({
 const PasswordContainer = styled.div((props) => ({
   display: 'flex',
   height: '100%',
-  marginBottom: props.theme.spacing(32),
-  marginTop: props.theme.spacing(32),
+  marginBottom: props.theme.spacing(16),
+}));
+const Heading = styled.p((props) => ({
+  ...props.theme.mont_tile_text,
+  color: props.theme.colors.action.classic,
+  fontSize: 24,
+}));
+const SeedPhraseContainer = styled.div((props)=>({
+  display: 'flex',
+  flexDirection: 'column',
+  flex: 1,
+  marginTop: props.theme.spacing(10),
 }));
 
 function RestoreWallet(): JSX.Element {
@@ -59,7 +69,7 @@ function RestoreWallet(): JSX.Element {
   }
 
   const onSeedPhraseContinue = () => {
-    const seed = seedPhrase.map(e => e.trim()).join(' ');
+    const seed = seedPhrase.map((e) => e.trim()).join(' ');
     if (validateMnemonic(seed)) {
       setSeedError('');
       setCurrentStepIndex(1);
@@ -79,7 +89,7 @@ function RestoreWallet(): JSX.Element {
 
       disableWalletExistsGuard?.();
 
-      const seed = seedPhrase.map(e => e.trim()).join(' ');
+      const seed = seedPhrase.map((e) => e.trim()).join(' ');
       await restoreWallet(seed, password);
       setIsRestoring(false);
 
@@ -89,16 +99,24 @@ function RestoreWallet(): JSX.Element {
       setError(t('CREATE_PASSWORD_SCREEN.CONFIRM_PASSWORD_MATCH_ERROR'));
     }
   };
-
+  const pasteFromClipboard = async () => {
+    const fromClipboard = await navigator.clipboard.readText();
+    const seedWords = fromClipboard.split(' ');
+    setSeedPhrase(seedWords);
+  };
   const restoreSteps = [
-    <EnterSeedPhrase
-      seed={seedPhrase}
-      setSeed={setSeedPhrase}
-      onContinue={onSeedPhraseContinue}
-      seedError={seedError}
-      setSeedError={setSeedError}
-    />,
-    <PasswordContainer>
+    <SeedPhraseContainer key={0}>
+      <Heading>SeedPhrase Verification</Heading>
+      <EnterSeedPhrase
+        seed={seedPhrase}
+        setSeed={setSeedPhrase}
+        onContinue={onSeedPhraseContinue}
+        seedError={seedError}
+        setSeedError={setSeedError}
+        pasteFromClipboard={pasteFromClipboard}
+      />
+    </SeedPhraseContainer>,
+    <PasswordContainer key={1}>
       <PasswordInput
         title={t('CREATE_PASSWORD_SCREEN.CREATE_PASSWORD_TITLE')}
         inputLabel={t('CREATE_PASSWORD_SCREEN.TEXT_INPUT_NEW_PASSWORD_LABEL')}
@@ -110,7 +128,7 @@ function RestoreWallet(): JSX.Element {
         createPasswordFlow
       />
     </PasswordContainer>,
-    <PasswordContainer>
+    <PasswordContainer key={2}>
       <PasswordInput
         title={t('CREATE_PASSWORD_SCREEN.CONFIRM_PASSWORD_TITLE')}
         inputLabel={t('CREATE_PASSWORD_SCREEN.TEXT_INPUT_CONFIRM_PASSWORD_LABEL')}
@@ -125,7 +143,7 @@ function RestoreWallet(): JSX.Element {
   ];
   return (
     <Container>
-      <Steps data={restoreSteps} activeIndex={currentStepIndex} />
+      <Steps data={restoreSteps} withLabel activeIndex={currentStepIndex} />
       {restoreSteps[currentStepIndex]}
     </Container>
   );

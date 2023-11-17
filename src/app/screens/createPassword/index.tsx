@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import Steps from '@components/steps';
 
 interface StepDotProps {
   active: boolean;
@@ -92,13 +93,14 @@ function CreatePassword(): JSX.Element {
 
   return (
     <Container>
-      <StepsContainer>
+      {/* <StepsContainer>
         {Array(2)
           .fill(0)
           .map((view, index) => (
             <StepDot active={index === currentStepIndex} key={index.toString() + 1} />
           ))}
-      </StepsContainer>
+      </StepsContainer> */}
+      <Steps data={[0,1]} withLabel activeIndex={currentStepIndex} />
       <PasswordContainer>
         {currentStepIndex === 0 ? (
           <PasswordInput

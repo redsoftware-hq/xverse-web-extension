@@ -58,7 +58,7 @@ const PasteSeedButton = styled.button((props) => ({
   alignItems: 'center',
   justifyContent: 'center',
   position: 'absolute',
-  top: '68%',
+  top: '72%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
   img: {
