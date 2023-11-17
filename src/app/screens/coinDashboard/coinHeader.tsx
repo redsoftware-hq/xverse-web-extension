@@ -226,40 +226,39 @@ export default function CoinHeader(props: CoinBalanceProps) {
     dispatchStep({ type: 'HOME' });
   };
 
-  const handleNextDashboard = () => {
+  const switchDashboard = (value) => {
+    if (value === 'HOME') {
+      navigate('/');
+      return;
+    }
     const token: Token = {
       coin: undefined,
       ft: undefined,
       brc20Ft: false,
     };
-    if (currentActiveIndex < stepsData.length - 1) {
-      switch (stepsData[currentActiveIndex + 1]) {
-        case 'BTC':
-          token.coin = 'BTC' as CurrencyTypes;
-          token.ft = undefined;
-          token.brc20Ft = false;
-          break;
-        case 'STX':
-          token.coin = 'STX' as CurrencyTypes;
-          token.ft = undefined;
-          token.brc20Ft = false;
-          break;
-        default: {
-          const ft = coinsList?.find((item) => item.ticker === stepsData[currentActiveIndex + 1]);
-          if (ft) {
-            token.coin = 'FT';
-            token.ft = ft.principal;
-            token.brc20Ft = !ft?.principal && ft?.name;
-          }
-          break;
+
+    switch (value) {
+      case 'BTC':
+        token.coin = 'BTC' as CurrencyTypes;
+        token.ft = undefined;
+        token.brc20Ft = false;
+        break;
+      case 'STX':
+        token.coin = 'STX' as CurrencyTypes;
+        token.ft = undefined;
+        token.brc20Ft = false;
+        break;
+      default: {
+        const ft = coinsList?.find((item) => item.ticker === value);
+        if (ft) {
+          token.coin = 'FT';
+          token.ft = ft.principal;
+          token.brc20Ft = !ft?.principal && ft?.name;
         }
+        break;
       }
-      handleTokenPressed(token);
-      goToNextStep();
-    } else {
-      goToHome();
-      navigate('/');
     }
+    handleTokenPressed(token);
   };
 
   const transitions = useTransition(currentActiveIndex, {
@@ -268,11 +267,41 @@ export default function CoinHeader(props: CoinBalanceProps) {
     leave: { opacity: 0, transform: 'translate3d(-50%,0,0)' },
     exitBeforeEnter: true,
   });
-
+  const getIndex = (value) => {
+    if (currentActiveIndex === 0) {
+      return 0;
+    }
+    if (currentActiveIndex > stepsData.length - 2) {
+      return 0;
+    }
+    if (currentActiveIndex < 0) {
+      return stepsData.length;
+    }
+    if (value === 'left') {
+      return currentActiveIndex + 1;
+    }
+    return currentActiveIndex - 1;
+  };
   const handlers = useSwipeable({
-    onSwiped: ({ event }) => {
+    // onSwiped: ({ event, }) => {
+    //   event.stopPropagation();
+    //   handleNextDashboard();
+    // },
+    onSwipedLeft: ({ event }) => {
       event.stopPropagation();
-      handleNextDashboard();
+      const index = getIndex('left');
+      console.log('Swiped Left', index);
+      console.log('Left CAI', currentActiveIndex);
+      console.log('Left steps.length', stepsData.length);
+      dispatchStep({ type: 'SET_STEP', payload: index });
+      switchDashboard(stepsData[index]);
+    },
+    onSwipedRight: ({ event }) => {
+      event.stopPropagation();
+      const index = getIndex('right');
+      console.log('Swiped Right', index);
+      dispatchStep({ type: 'SET_STEP', payload: index });
+      switchDashboard(stepsData[index]);
     },
     trackMouse: true,
   });
@@ -376,12 +405,12 @@ export default function CoinHeader(props: CoinBalanceProps) {
     }
   };
 
-  const getCurrencyText = ()=> {
-    if(coin === 'FT') {
+  const getCurrencyText = () => {
+    if (coin === 'FT') {
       return fungibleToken?.ticker;
     }
     return coin;
-  }
+  };
 
   return transitions((style, i) => (
     <animated.div {...handlers} style={style}>
@@ -467,7 +496,7 @@ export default function CoinHeader(props: CoinBalanceProps) {
                 )}
               </>
             )}
-{/* 
+            {/* 
             <ButtonContainer>
               <SmallActionButton
                 isOpaque
