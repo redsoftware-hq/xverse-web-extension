@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import useWalletSelector from '@hooks/useWalletSelector';
 import ArrowIcon from '@assets/img/settings/arrow.svg';
+import { useStepperContext } from '@stores/stepper';
 import { useNavigate } from 'react-router-dom';
 // import { useDispatch } from 'react-redux';
 // import { ChangeActivateOrdinalsAction } from '@stores/wallet/actions/actionCreators';
@@ -32,10 +33,12 @@ function Setting() {
   const { lockWallet } = useWalletReducer();
   const navigate = useNavigate();
   // const dispatch = useDispatch();
+  const { dispatchStep } = useStepperContext();
   const { unspentUtxos } = useNonOrdinalUtxos();
 
   const handleBackButtonClick = () => {
     navigate('/');
+    dispatchStep({ type: 'HOME' });
   };
   const openFiatCurrencyScreen = () => {
     navigate('/fiat-currency');
@@ -74,6 +77,7 @@ function Setting() {
   };
   const handleLockWallet = () => {
     lockWallet();
+    dispatchStep({ type: 'HOME' });
     navigate('/');
   };
   return (

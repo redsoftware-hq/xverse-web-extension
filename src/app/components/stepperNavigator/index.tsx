@@ -41,60 +41,50 @@ function StepperNavigator() {
       navigate(`/coinDashboard/${token.coin}?ft=${token.ft}`);
     }
   };
-  const goToNextStep = () => {
-    dispatchStep({ type: 'NEXT_STEP' });
-  };
-
-  const goToHome = () => {
-    dispatchStep({ type: 'HOME' });
-  };
-
-  const handleNextDashboard = (e: { preventDefault: () => void }) => {
-    e.preventDefault();
+  const switchDashboard = (value) => {
+    if(value === 'HOME') {
+      navigate('/');
+      return;
+    }
     const token: Token = {
       coin: undefined,
       ft: undefined,
       brc20Ft: false,
     };
-    if (currentActiveIndex < stepsData.length - 1) {
-      switch (stepsData[currentActiveIndex + 1]) {
-        case 'BTC':
-          token.coin = 'BTC' as CurrencyTypes;
-          token.ft = undefined;
-          token.brc20Ft = false;
-          break;
-        case 'STX':
-          token.coin = 'STX' as CurrencyTypes;
-          token.ft = undefined;
-          token.brc20Ft = false;
-          break;
-        default: {
-          const fungibleToken = coinsList?.find(
-            (item) => item.ticker === stepsData[currentActiveIndex + 1],
-          );
-          if (fungibleToken) {
-            token.coin = 'FT';
-            token.ft = fungibleToken.principal;
-            token.brc20Ft = !fungibleToken?.principal && fungibleToken?.name;
-          }
-          break;
+    switch (value) {
+      case 'BTC':
+        token.coin = 'BTC' as CurrencyTypes;
+        token.ft = undefined;
+        token.brc20Ft = false;
+        break;
+      case 'STX':
+        token.coin = 'STX' as CurrencyTypes;
+        token.ft = undefined;
+        token.brc20Ft = false;
+        break;
+      default: {
+        const fungibleToken = coinsList?.find(
+          (item) => item.ticker === value,
+        );
+        if (fungibleToken) {
+          token.coin = 'FT';
+          token.ft = fungibleToken.principal;
+          token.brc20Ft = !fungibleToken?.principal && fungibleToken?.name;
         }
+        break;
       }
-      handleTokenPressed(token);
-      goToNextStep();
-    } else {
-      goToHome();
-      navigate('/');
     }
+    // console.log(token);
+    handleTokenPressed(token);
+  };
+  const handleClick = (e: any, index: number) => {
+    e.preventDefault();
+    switchDashboard(stepsData[index]);
+    dispatchStep({ type: 'SET_STEP', payload: index });
   };
   return (
     <StepperContainer>
-      <Stepper
-        data={stepsData}
-        activeIndex={currentActiveIndex}
-        width={80}
-        onClick={handleNextDashboard}
-      />
+      <Stepper data={stepsData} activeIndex={currentActiveIndex} width={80} onClick={handleClick} />
     </StepperContainer>
   );
 }

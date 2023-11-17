@@ -10,7 +10,7 @@ import UnselectedSettingsTab from '@assets/img/bottomTabBar/unselected_setting_t
 import UnselectedMarketTab from '@assets/img/bottomTabBar/unselected_market_tab.svg';
 import UnselectedStackingTab from '@assets/img/bottomTabBar/Stake.svg';
 import UnselectedWalletTab from '@assets/img/bottomTabBar/Wallet.svg';
-
+import { useStepperContext } from '@stores/stepper';
 const Container = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'row',
@@ -51,10 +51,11 @@ interface Props {
 }
 function BottomTabBar({ tab }: Props) {
   const navigate = useNavigate();
-
+  const { dispatchStep } = useStepperContext();
   const handleDashboardButtonClick = () => {
     if (tab !== 'dashboard') {
       navigate('/');
+      dispatchStep({ type: 'HOME' });
     }
   };
 
