@@ -1,5 +1,7 @@
 import BackHeader from '@components/backHeader';
+import ActionButton from '@components/button';
 import CustomSwitchSlider from '@components/customSwitch';
+import TopRow from '@components/topRow';
 import useWalletReducer from '@hooks/useWalletReducer';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -39,7 +41,8 @@ const ResetButton = styled.button((props) => ({
   borderRadius: props.theme.radius(1),
   backgroundColor: props.theme.colors.action.classic,
   color: props.theme.colors.white['0'],
-  textTransform:'uppercase',
+  textTransform: 'uppercase',
+  fontFamily: 'MontSemiBold',
   width: '100%',
   height: 44,
   '&:disabled': {
@@ -58,7 +61,6 @@ const SliderContainer = styled.div((props) => ({
     cursor: 'pointer',
   },
 }));
-
 
 function ForgotPassword(): JSX.Element {
   const { t } = useTranslation('translation', { keyPrefix: 'FORGOT_PASSWORD_SCREEN' });
@@ -80,25 +82,30 @@ function ForgotPassword(): JSX.Element {
   };
 
   return (
-    <Container>
-      <BackHeader headerText={t('TITLE')} onPressBack={onBack} />
-      <Paragraph>{t('PARAGRAPH')}</Paragraph>
-      <BottomContainer>
-        <SliderContainer>
-          <CustomSwitchSlider
-            id="backup"
-            toggleFunction={handleToggleBackUp}
-            toggleValue={hasBackedUp}
-          />
-          <label htmlFor="backup">{t('BACKUP_CHECKBOX_LABEL')}</label>
-        </SliderContainer>
-        <ButtonsContainer>
-          <ResetButton disabled={!hasBackedUp} onClick={handleResetWallet}>
-            Reset Wallet
-          </ResetButton>
-        </ButtonsContainer>
-      </BottomContainer>
-    </Container>
+    <>
+      <TopRow title={t('TITLE')} onClick={onBack} />
+      <Container>
+        <Paragraph>{t('PARAGRAPH')}</Paragraph>
+        <BottomContainer>
+          <SliderContainer>
+            <CustomSwitchSlider
+              id="backup"
+              toggleFunction={handleToggleBackUp}
+              toggleValue={hasBackedUp}
+            />
+            <label htmlFor="backup">{t('BACKUP_CHECKBOX_LABEL')}</label>
+          </SliderContainer>
+          <ButtonsContainer>
+            <ActionButton
+              text="Reset Wallet"
+              disabled={!hasBackedUp}
+              style={{ textTransform: 'uppercase' }}
+              onPress={handleResetWallet}
+            />
+          </ButtonsContainer>
+        </BottomContainer>
+      </Container>
+    </>
   );
 }
 

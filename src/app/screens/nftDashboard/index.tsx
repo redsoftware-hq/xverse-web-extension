@@ -202,6 +202,7 @@ const LoadMoreButton = styled.button((props) => ({
 
 const NoCollectiblesText = styled.h1((props) => ({
   ...props.theme.body_bold_m,
+  fontFamily:'MontRegular',
   color: props.theme.colors.white['200'],
   marginTop: 'auto',
   marginBottom: 'auto',

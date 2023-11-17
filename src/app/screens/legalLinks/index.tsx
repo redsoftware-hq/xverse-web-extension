@@ -32,7 +32,8 @@ const SubTitle = styled.h1((props) => ({
 
 const SpanHighlight = styled.span((props) => ({
   ...props.theme.body_bold_l,
-  fontSize: 16,
+  fontFamily:'MontBold',
+  fontSize: 20,
   color: props.theme.colors.action.classic,
 }));
 

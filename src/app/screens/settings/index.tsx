@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 // import { useDispatch } from 'react-redux';
 // import { ChangeActivateOrdinalsAction } from '@stores/wallet/actions/actionCreators';
 import useNonOrdinalUtxos from '@hooks/useNonOrdinalUtxo';
+import useWalletReducer from '@hooks/useWalletReducer';
 import TopRow from '@components/topRow';
 import Paragraph from '@components/paragraph';
 import SettingComponent from './settingComponent';
@@ -28,6 +29,7 @@ function Setting() {
   const { t } = useTranslation('translation', { keyPrefix: 'SETTING_SCREEN' });
   // const { fiatCurrency, network, hasActivatedOrdinalsKey } = useWalletSelector();
   const { fiatCurrency, network } = useWalletSelector();
+  const { lockWallet } = useWalletReducer();
   const navigate = useNavigate();
   // const dispatch = useDispatch();
   const { unspentUtxos } = useNonOrdinalUtxos();
@@ -67,15 +69,12 @@ function Setting() {
     navigate('/lockCountdown');
   };
 
-  const onRestoreFundClick = async () => {
-    if (isLedgerAccount(selectedAccount) && !isInOptions()) {
-      await chrome.tabs.create({
-        url: chrome.runtime.getURL('options.html#/restore-funds'),
-      });
-      return;
-    }
-
-    navigate('/restore-funds');
+  const onRestoreFundClick = () => {
+    navigate('/restore-funds', {
+      state: {
+        unspentUtxos,
+      },
+    });
   };
 
   return (
@@ -84,45 +83,32 @@ function Setting() {
       <Paragraph content={t('CONTENT')} />
       <Container>
         <SettingComponent
+          text={t('NETWORK')}
+          onClick={openChangeNetworkScreen}
+          textDetail={network.type}
+        />
+        <SettingComponent
           text={t('CURRENCY')}
           onClick={openFiatCurrencyScreen}
           textDetail={fiatCurrency}
           showDivider
         />
         <SettingComponent
-          text={t('PRIVACY_PREFERENCES.TITLE')}
-          onClick={openPrivacyPreferencesScreen}
-          icon={ArrowIcon}
-          showDivider
-        />
-        {!isLedgerAccount(selectedAccount) && (
-          <SettingComponent
-            text={t('NETWORK')}
-            onClick={openChangeNetworkScreen}
-            textDetail={network.type}
-          />
-        )}
-
-        <SettingComponent
           text={t('UPDATE_PASSWORD')}
           onClick={openUpdatePasswordScreen}
           showDivider
         />
-        <SettingComponent
-          text={t('BACKUP_WALLET')}
-          onClick={openBackUpWalletScreen}
-          showDivider
-        />
-        <SettingComponent
+        <SettingComponent text={t('BACKUP_WALLET')} onClick={openBackUpWalletScreen} showDivider />
+        {/* <SettingComponent
           text={t('LOCK_COUNTDOWN')}
           onClick={openLockCountdownScreen} 
           showDivider
-        />
-        <SettingComponent
+        /> */}
+        {/* <SettingComponent
           text={t('RESET_WALLET')}
           onClick={openResetWalletPage}
           // showWarningTitle
-        />
+        /> */}
         {/* <SettingComponent
           text={t('ACTIVATE_ORDINAL_NFTS')}
           toggle
@@ -130,11 +116,8 @@ function Setting() {
           toggleValue={hasActivatedOrdinalsKey}
           showDivider
         /> */}
-        <SettingComponent
-          text={t('RECOVER_ASSETS')}
-          onClick={onRestoreFundClick}
-          showDivider
-        />
+        <SettingComponent text={t('RECOVER_ASSETS')} onClick={onRestoreFundClick} showDivider />
+        <SettingComponent text={t('LOCK_WALLET')} onClick={handleLockWallet} showDivider />
         <Divider />
         {/* <ResetWalletPrompt
           showResetWalletPrompt={showResetWalletPrompt}

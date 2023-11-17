@@ -10,7 +10,7 @@ import ActionButton from '@components/button';
 const RestoreFundTitle = styled.h1((props) => ({
   ...props.theme.body_l,
   marginBottom: 15,
-  marginTop: 24,
+  marginTop: 16,
   marginLeft: 16,
   marginRight: 16,
   color: props.theme.colors.white_200,

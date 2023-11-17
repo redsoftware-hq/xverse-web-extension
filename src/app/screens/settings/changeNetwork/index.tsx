@@ -21,7 +21,6 @@ const Container = styled.div`
   overflow-y: auto;
   padding-left: 16px;
   padding-right: 16px;
-  padding-bottom: 16px;
   &::-webkit-scrollbar {
     display: none;
   }

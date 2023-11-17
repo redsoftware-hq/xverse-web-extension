@@ -28,7 +28,7 @@ const Label = styled.div((props) => ({
 }));
 
 interface StepsProps {
-  data: any[];
+  data?: any[];
   activeIndex: number;
   withLabel?: boolean;
 }
@@ -45,7 +45,7 @@ export default function Steps(props: StepsProps): JSX.Element {
   return (
     <StepsContainer withLabel={withLabel}>
       {withLabel && <Label>{`Step ${activeIndex + 1}`}</Label>}
-      {data.length ? <StepsLine active={activeIndex + 1} steps={data.length} fill={(activeIndex + 1 ) * 100 / data.length } withLabel={withLabel}/> : null}
+      {data && data.length ? <StepsLine active={activeIndex + 1} steps={data.length} fill={(activeIndex + 1 ) * 100 / data.length } withLabel={withLabel}/> : null}
     </StepsContainer>
   );
 }

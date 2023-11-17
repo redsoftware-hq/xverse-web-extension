@@ -46,6 +46,7 @@ const LoadingContainer = styled.div({
 
 const NoTransactionsContainer = styled.div((props) => ({
   ...props.theme.body_m,
+  fontFamily:'MontRegular',
   display: 'flex',
   flex: 1,
   justifyContent: 'center',
