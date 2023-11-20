@@ -505,7 +505,7 @@
     "PASSWORD_INPUT_LABEL": "Password",
     "PASSWORD_INPUT_PLACEHOLDER": "Enter your password...",
     "VERIFY_PASSWORD_BUTTON": "Unlock",
-    "VERIFY_PASSWORD_ERROR": "Incorrect Password",
+    "VERIFY_PASSWORD_ERROR": "Incorrect Password.",
     "FORGOT_PASSWORD_BUTTON": "Forgot your password?"
   },
   "FORGOT_PASSWORD_SCREEN": {
@@ -514,8 +514,9 @@
     "BACKUP_CHECKBOX_LABEL": "My seed phrase is backed up."
   },
   "RESTORE_WALLET_SCREEN": {
-    "ENTER_SEED_HEADER": "Enter your 12 or 24 word seed phrase to restore your wallet.",
+    "ENTER_SEED_HEADER": "Enter the requested words in the order of your seed phrase to confirm it is correct.",
     "SEED_INPUT_PLACEHOLDER": "Enter your seedphrase",
+    "PASTE":"Paste Seedphrase",
     "SEED_INPUT_ERROR": "Invalid seed phrase. Please try again.",
     "CONTINUE_BUTTON": "Continue"
   },
@@ -598,9 +599,9 @@
   "RESTORE_FUND_SCREEN": {
     "TITLE": "Restore Assets",
     "DESCRIPTION": "If you sent Ordinals to your Bitcoin payment address or Bitcoin to your ordinals address, you can recover it and send it to the correct address.",
-    "RECOVER_BTC": "Recover BTC",
+    "RECOVER_BTC": "Bitcoin",
     "RECOVER_BTC_DESC": "If you sent Bitcoin to your Ordinals address.",
-    "RECOVER_ORDINALS": "Recover Ordinals",
+    "RECOVER_ORDINALS": "Ordinals",
     "RECOVER_ORDINALS_DESC": "If you sent Ordinals to your Bitcoin payment address."
   },
   "RESTORE_BTC_SCREEN": {
@@ -609,7 +610,7 @@
     "TRANSFER": "Transfer",
     "BACK": "Back",
     "ORDINAL_ADDRESS": "Ordinal address",
-    "NO_FUNDS": "You don’t have any funds stored on your ordinal address.",
+    "NO_FUNDS": "No assets found.",
     "DESCRIPTION": "You have Bitcoin stored in your ordinal address. You can transfer them to your payment address so they can be used for payments and are shown in your balance."
   },
   "RESTORE_ORDINAL_SCREEN": {
@@ -702,7 +703,7 @@
     "PRIVACY_POLICY": "Privacy Policy",
     "SUPPORT_CENTER": "Support Center",
     "VERSION": "Version",
-    "UPDATE_PASSWORD_SUCCESS": "Password successfully updated",
+    "UPDATE_PASSWORD_SUCCESS": "Password successfully updated.",
     "OK": "Ok",
     "RESET_WALLET_DESCRIPTION": "This will reset your wallet from this browser. Make sure you have your seed phrase backed up.",
     "CANCEL": "Cancel",
@@ -956,8 +957,8 @@
     }
   },
   "ERROR_SCREEN": {
-    "TITLE": "Xverse crashed unexpectedly",
-    "ERROR_DESCRIPTION": "Xverse encountered a fatal error and crashed. You need to relaunch your wallet.",
+    "TITLE": "Orange Pill Wallet crashed unexpectedly",
+    "ERROR_DESCRIPTION": "Orange Pill Wallet encountered a fatal error and crashed. You need to relaunch your wallet.",
     "ERROR_PREFIX": "Error:",
     "SUPPORT": "If the issue persists, you can contact the support at"
   },

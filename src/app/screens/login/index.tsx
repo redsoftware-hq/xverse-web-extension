@@ -129,8 +129,8 @@ const ErrorMessage = styled.h2((props) => ({
 const ForgotPasswordButton = styled.a((props) => ({
   ...props.theme.body_m,
   textAlign: 'center',
-  marginTop: props.theme.spacing(12),
-  color: props.theme.colors.white_0,
+  marginTop: props.theme.spacing(6),
+  color: props.theme.colors.white['0'],
   textDecoration: 'underline',
 }));
 
@@ -240,10 +240,10 @@ function Login(): JSX.Element {
                 <img src={isPasswordVisible ? Eye : EyeSlash} alt="show-password" height={24} />
               </Button>
             </PasswordInputContainer>
+            {error && <ErrorMessage>{error}</ErrorMessage>}
             <ForgotPasswordButton onClick={handleForgotPassword}>
               {t('FORGOT_PASSWORD_BUTTON')}
             </ForgotPasswordButton>
-            {error && <ErrorMessage>{error}</ErrorMessage>}
             <ButtonContainer>
               <ActionButton
                 onPress={handleVerifyPassword}

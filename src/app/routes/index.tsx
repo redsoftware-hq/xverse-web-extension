@@ -294,9 +294,7 @@ const router = createHashRouter([
       {
         path: 'market',
         element: (
-          <AuthGuard>
             <Market />
-          </AuthGuard>
         ),
       },
       {

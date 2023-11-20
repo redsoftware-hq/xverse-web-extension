@@ -46,7 +46,7 @@ const LoadingContainer = styled.div({
 
 const NoTransactionsContainer = styled.div((props) => ({
   ...props.theme.body_m,
-  fontFamily:'MontRegular',
+  fontFamily: 'MontRegular',
   display: 'flex',
   flex: 1,
   justifyContent: 'center',
@@ -71,8 +71,13 @@ const SectionSeparator = styled.div((props) => ({
   border: `0.5px solid ${props.theme.colors.white_400}`,
   opacity: 0.2,
   flexGrow: 1,
-}));
-
+});
+const Divider = styled.div({
+  borderTop: '0.5px solid  rgba(168, 185, 244, 0.15)',
+  opacity: 0.2,
+  width:'90%',
+  margin:'auto',
+});
 const SectionTitle = styled.p((props) => ({
   ...props.theme.body_xs,
   color: props.theme.colors.white_200,
@@ -81,7 +86,7 @@ const SectionTitle = styled.p((props) => ({
 
 interface TransactionsHistoryListProps {
   coin: CurrencyTypes;
-  ft?: FungibleToken,
+  ft?: FungibleToken;
   txFilter: string | null;
   brc20Token: string | null;
 }
@@ -190,25 +195,23 @@ export default function TransactionsHistoryList(props: TransactionsHistoryListPr
 
     return groupedTxsByDateMap(data as (AddressTransactionWithTransfers | MempoolTransaction)[]);
   }, [data, isLoading, isFetching]);
-  
-  const getListHeader = ()=> {
-    if(coin){
-      switch(coin) {
+
+  const getListHeader = () => {
+    if (coin) {
+      switch (coin) {
         case 'BTC':
-        return `Bitcoin ${t('TRANSACTIONS_TITLE')}`;
-      case 'STX':
-        return `STX ${t('TRANSACTIONS_TITLE')}`;
-      default:
-        return `${ft?.name ? ft.name : 'All'} ${t('TRANSACTIONS_TITLE')}`;
+          return `Bitcoin ${t('TRANSACTIONS_TITLE')}`;
+        case 'STX':
+          return `STX ${t('TRANSACTIONS_TITLE')}`;
+        default:
+          return `${ft?.name ? ft.name : 'All'} ${t('TRANSACTIONS_TITLE')}`;
       }
     }
-  }
+  };
 
   return (
     <ListItemsContainer>
-      <ListHeader>
-        {getListHeader()}
-      </ListHeader>
+      <ListHeader>{getListHeader()}</ListHeader>
       {groupedTxs &&
         !isLoading &&
         Object.keys(groupedTxs).map((group) => (
@@ -242,11 +245,11 @@ export default function TransactionsHistoryList(props: TransactionsHistoryListPr
           <MoonLoader color="white" size={20} />
         </LoadingContainer>
       )}
-      {!isLoading && error && (
-        <NoTransactionsContainer>{t('TRANSACTIONS_LIST_ERROR')}</NoTransactionsContainer>
-      )}
-      {!isLoading && data?.length === 0 && !error && (
-        <NoTransactionsContainer>{t('TRANSACTIONS_LIST_EMPTY')}</NoTransactionsContainer>
+      {!isLoading && data?.length === 0 && (
+        <>
+          <Divider />
+          <NoTransactionsContainer>{t('TRANSACTIONS_LIST_EMPTY')}</NoTransactionsContainer>
+        </>
       )}
     </ListItemsContainer>
   );
