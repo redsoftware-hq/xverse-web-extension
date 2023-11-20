@@ -10,20 +10,12 @@ import useWalletSelector from '@hooks/useWalletSelector';
 import styled from 'styled-components';
 import BackButton from '@components/backButton';
 
-const Container = styled.div((props) => ({
+const Container = styled.div<{ showSeed: boolean }>((props) => ({
   display: 'flex',
   flexDirection: 'column',
   flex: 1,
   overflowY: 'auto',
-}));
-const PasswordContainer = styled.div((props) => ({
-  marginTop: props.theme.spacing(8),
-  paddingLeft: props.theme.spacing(8),
-  paddingRight: props.theme.spacing(8),
-  marginBottom: props.theme.spacing(20),
-}));
-const SeedphraseContainer = styled.div((props) => ({
-  marginTop: props.theme.spacing(8),
+  marginTop: props.showSeed ? props.theme.spacing(4) : props.theme.spacing(20),
   paddingLeft: props.theme.spacing(8),
   paddingRight: props.theme.spacing(8),
   marginBottom: props.theme.spacing(20),
@@ -61,12 +53,11 @@ function BackupWalletScreen() {
   return (
     <>
       <TopRow title={t('SETTING_SCREEN.BACKUP_WALLET_UNLOCK_SEED')} onClick={goToSettingScreen} />
-      <Container>
+      <Container showSeed={showSeed}>
         {!showSeed && (
-          <PasswordContainer>
-
           <PasswordInput
             title=""
+            forUpdatePassword
             inputLabel={t('SETTING_SCREEN.PASSWORD')}
             enteredPassword={password}
             setEnteredPassword={setPassword}
@@ -76,18 +67,15 @@ function BackupWalletScreen() {
             stackButtonAlignment
             loading={loading}
           />
-          </PasswordContainer>
         )}
         {showSeed && (
-          <SeedphraseContainer>
-            <SeedCheck
-              showButton={false}
-              seedPhrase={seedPhrase}
-              onContinue={goToSettingScreen}
-              copy={copy}
-              setCopy={setCopy}
-            />
-          </SeedphraseContainer>
+          <SeedCheck
+            showButton={false}
+            seedPhrase={seedPhrase}
+            onContinue={goToSettingScreen}
+            copy={copy}
+            setCopy={setCopy}
+          />
         )}
       </Container>
     </>

@@ -13,14 +13,14 @@ import Check from '@assets/img/settings/check_circle.svg';
 import PasswordInput from '@components/passwordInput';
 import useWalletReducer from '@hooks/useWalletReducer';
 
-const PasswordContainer = styled.div((props) => ({
+const PasswordContainer = styled.div<{ currentIndex: number }>((props) => ({
   display: 'flex',
   flexDirection: 'column',
   flex: 1,
-  marginTop: props.theme.spacing(20),
+  marginTop: props.currentIndex !== 0 ? props.theme.spacing(0) : props.theme.spacing(20),
   paddingLeft: props.theme.spacing(8),
   paddingRight: props.theme.spacing(8),
-   marginBottom: props.theme.spacing(20),
+  marginBottom: props.theme.spacing(20),
 }));
 
 const ToastContainer = styled.div((props) => ({
@@ -29,7 +29,7 @@ const ToastContainer = styled.div((props) => ({
   background: props.theme.colors.feedback.success,
   borderRadius: 12,
   boxShadow: '0px 7px 16px -4px rgba(25, 25, 48, 0.25)',
-  height: 44,
+  height: 60,
   padding: '12px 20px 12px 16px',
   width: 306,
   flex: 1,
@@ -111,11 +111,16 @@ function ChangePasswordScreen() {
 
   return (
     <>
-      <TopRow title={t('SETTING_SCREEN.UPDATE_PASSWORD')} onClick={handleBackButtonClick} />
-      <PasswordContainer>
+      <TopRow
+        forUpdatePassword
+        title={t('SETTING_SCREEN.UPDATE_PASSWORD')}
+        onClick={handleBackButtonClick}
+      />
+      <PasswordContainer currentIndex={currentStepIndex}>
         {currentStepIndex === 0 && (
           <PasswordInput
-            title=''
+            title=""
+            forUpdatePassword
             inputLabel={t('CREATE_PASSWORD_SCREEN.TEXT_INPUT_ENTER_PASSWORD_LABEL')}
             enteredPassword={password}
             setEnteredPassword={setPassword}
@@ -128,7 +133,8 @@ function ChangePasswordScreen() {
         )}
         {currentStepIndex === 1 && (
           <PasswordInput
-            title={t('CREATE_PASSWORD_SCREEN.CREATE_PASSWORD_TITLE')}
+            title=""
+            forUpdatePassword
             inputLabel={t('CREATE_PASSWORD_SCREEN.TEXT_INPUT_NEW_PASSWORD_LABEL')}
             enteredPassword={password}
             setEnteredPassword={setPassword}
@@ -141,6 +147,7 @@ function ChangePasswordScreen() {
         )}
         {currentStepIndex === 2 && (
           <PasswordInput
+            forUpdatePassword
             title={t('CREATE_PASSWORD_SCREEN.CONFIRM_PASSWORD_TITLE')}
             inputLabel={t('CREATE_PASSWORD_SCREEN.TEXT_INPUT_CONFIRM_PASSWORD_LABEL')}
             enteredPassword={confirmPassword}

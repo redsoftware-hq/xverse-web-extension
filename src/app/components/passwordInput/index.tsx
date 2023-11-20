@@ -20,6 +20,7 @@ interface PasswordInputProps {
   stackButtonAlignment?: boolean;
   loading?: boolean;
   createPasswordFlow?: boolean;
+  forUpdatePassword?: boolean;
 }
 
 interface StrengthBarProps {
@@ -104,7 +105,7 @@ const ButtonsContainer = styled.div<ButtonContainerProps>((props) => ({
   flexDirection: props.stackButtonAlignment ? 'column-reverse' : 'row',
   alignItems: props.stackButtonAlignment ? 'center' : 'flex-end',
   flex: 1,
-  marginTop: props.ifError ? props.theme.spacing(30) : props.theme.spacing(40),
+  marginTop: props.ifError ? 12 : props.theme.spacing(30),
   marginBottom: props.theme.spacing(8),
 }));
 
@@ -114,7 +115,7 @@ const Button = styled.button((props) => ({
   marginRight: props.theme.spacing(3),
 }));
 
-const ErrorMessage = styled.h2((props) => ({
+const ErrorMessage = styled.h2<{forUpdatePassword?:boolean}>((props) => ({
   ...props.theme.body_xs,
   textAlign: 'left',
   color: props.theme.colors.feedback.error,
@@ -184,6 +185,7 @@ function PasswordInput(props: PasswordInputProps): JSX.Element {
     stackButtonAlignment = false,
     loading,
     createPasswordFlow,
+    forUpdatePassword = false,
   } = props;
 
   const { t } = useTranslation('translation', { keyPrefix: 'CREATE_PASSWORD_SCREEN' });
@@ -314,7 +316,7 @@ function PasswordInput(props: PasswordInputProps): JSX.Element {
       <HeaderContainer>
         <img src={PasswordIcon} alt="password" />
       </HeaderContainer>
-      <HeaderText>{title}</HeaderText>
+      {!forUpdatePassword && <HeaderText>{title}</HeaderText>}
       <PasswordInputLabel>{inputLabel}</PasswordInputLabel>
       <PasswordInputContainer
         hasError={
@@ -333,7 +335,7 @@ function PasswordInput(props: PasswordInputProps): JSX.Element {
           <img src={isPasswordVisible ? Eye : EyeSlash} alt="show-password" height={24} />
         </Button>
       </PasswordInputContainer>
-      {error && <ErrorMessage>{error}</ErrorMessage>}
+      {error && <ErrorMessage forUpdatePassword={forUpdatePassword}>{error}</ErrorMessage>}
       <ButtonsContainer stackButtonAlignment={stackButtonAlignment} ifError={error !== ''}>
         <ActionButton
           processing={loading}

@@ -7,9 +7,9 @@ const Icon = styled.img((props) => ({
   borderRadius: 30,
 }));
 
-const TitleText = styled.h1((props) => ({
+const TitleText = styled.h1<{ selected: boolean }>((props) => ({
   ...props.theme.body_bold_l,
-  color: props.theme.colors.white[0],
+  color: props.selected ? '#E12828' : props.theme.colors.white[0],
 }));
 
 const ValueText = styled.h1((props) => ({
@@ -29,32 +29,31 @@ const RowContainer = styled.button((props) => ({
   flexDirection: 'row',
   alignItems: 'center',
   borderRadius: 8,
-  border: `1px solid ${props.theme.colors.background.elevation3}`,
-  padding: 16,
-  background: 'transparent',
+  padding: '16px 24px 16px 24px',
+  border: '1px solid rgba(168, 185, 244, 0.15)',
+  background:
+    'radial-gradient(489.09% 91.61% at 89.79% 22.85%, rgba(56, 60, 78, 0.20) 0%, rgba(13, 14, 18, 0.20) 100%)',
   width: '100%',
   marginBottom: 12,
 }));
 
 interface Props {
-  image: string;
+  image?: string;
   title: string;
-  description: string;
+  description?: string;
   onClick: () => void;
+  selected: boolean;
 }
 
-function FundsRow({
-  image, title, description, onClick,
-}: Props) {
+function FundsRow({ image, title, description, onClick, selected }: Props) {
   return (
     <RowContainer onClick={onClick}>
-      <Icon src={image} />
+      {/* <Icon src={image} /> */}
       <Container>
-        <TitleText>{title}</TitleText>
-        <ValueText>{description}</ValueText>
+        <TitleText selected={selected}>{title}</TitleText>
+        {/* <ValueText>{description}</ValueText> */}
       </Container>
     </RowContainer>
-
   );
 }
 

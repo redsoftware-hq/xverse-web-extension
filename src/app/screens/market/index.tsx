@@ -351,7 +351,6 @@ function Market() {
   return (
     <>
       <AccountHeaderComponent  onReceiveModalOpen={onReceiveModalOpen}/>
-
       {series && headData ? (
         <ChartContainer>
           <MaskContainer>

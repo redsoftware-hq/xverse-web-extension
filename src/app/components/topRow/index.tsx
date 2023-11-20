@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import ArrowLeft from '@assets/img/dashboard/arrow_left.svg';
 import BackButton from '@components/backButton';
 
-const TopSectionContainer = styled.div((props) => ({
+const TopSectionContainer = styled.div<>((props) => ({
   display: 'flex',
   minHeight: 18,
   marginTop: props.theme.spacing(11),
@@ -26,9 +26,10 @@ interface Props {
   title: string;
   showBackButton?: boolean;
   onClick: () => void;
+  forUpdatePassword?: boolean;
 }
 
-function TopRow({ title, onClick, showBackButton = true }: Props) {
+function TopRow({ title, onClick, showBackButton = true, forUpdatePassword = false }: Props) {
   return (
     <TopSectionContainer>
       {showBackButton && <BackButton handleClick={onClick} />}

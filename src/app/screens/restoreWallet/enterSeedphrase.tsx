@@ -43,7 +43,7 @@ const Paste = styled.button<{ position: 'mid' | 'bottom'; disabled?: boolean }>(
   alignItems: 'center',
   justifyContent: 'center',
   position: 'absolute',
-  top: props.position === 'mid' ? '70%' : '80%',
+  top: props.position === 'mid' ? '68%' : '80%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
   img: {
@@ -87,7 +87,7 @@ function EnterSeedPhrase(props: Props): JSX.Element {
         setSeedError={setSeedError}
       />
       <Paste position="mid" onClick={pasteFromClipboard}>
-        Paste
+        {t('PASTE')}
       </Paste>
       <ButtonContainer>
         <ActionButton
