@@ -64,7 +64,7 @@ const Container = styled.div({
   flex: 1,
   flexDirection: 'column',
   marginLeft: 16,
-  marginTop: 32,
+  marginTop: 16,
   marginRight: 16,
 });
 
@@ -167,12 +167,12 @@ function RestoreBtc() {
   }, [signedNonOrdinalBtcSend]);
 
   const handleOnCancelClick = () => {
-    navigate(-1);
+    navigate('/');
   };
 
   return (
     <>
-      <TopRow title={t('TITLE')} onClick={handleOnCancelClick} showBackButton={false} />
+      <TopRow title={t('TITLE')} onClick={()=> navigate(-1)}  />
       <Container>
         {isNoAmount ? (
           <RestoreFundTitle>{t('NO_FUNDS')}</RestoreFundTitle>
@@ -191,7 +191,7 @@ function RestoreBtc() {
       </Container>
       <ButtonContainer>
         <ActionButton
-          text={isNoAmount ? t('BACK') : t('TRANSFER')}
+          text={isNoAmount ? t('CANCEL') : t('TRANSFER')}
           onPress={isNoAmount ? handleOnCancelClick : onClickTransfer}
         />
       </ButtonContainer>

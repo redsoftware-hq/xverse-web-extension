@@ -13,11 +13,11 @@ import Check from '@assets/img/settings/check_circle.svg';
 import PasswordInput from '@components/passwordInput';
 import useWalletReducer from '@hooks/useWalletReducer';
 
-const PasswordContainer = styled.div<{ currentIndex: number }>((props) => ({
+const PasswordContainer = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'column',
   flex: 1,
-  marginTop: props.currentIndex !== 0 ? props.theme.spacing(0) : props.theme.spacing(20),
+  marginTop: props.theme.spacing(20),
   paddingLeft: props.theme.spacing(8),
   paddingRight: props.theme.spacing(8),
   marginBottom: props.theme.spacing(20),
@@ -116,7 +116,7 @@ function ChangePasswordScreen() {
         title={t('SETTING_SCREEN.UPDATE_PASSWORD')}
         onClick={handleBackButtonClick}
       />
-      <PasswordContainer currentIndex={currentStepIndex}>
+      <PasswordContainer>
         {currentStepIndex === 0 && (
           <PasswordInput
             title=""

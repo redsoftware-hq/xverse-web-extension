@@ -25,6 +25,8 @@ interface GradientCircleProps {
 const RowContainer = styled.div({
   display: 'flex',
   flexDirection: 'row',
+  gap: 10,
+  alignItems: 'center',
 });
 
 const GradientCircle = styled.button<GradientCircleProps>((props) => ({
@@ -153,10 +155,13 @@ const OrdinalImage = styled.img({
   marginRight: 4,
 });
 
-const AddressText = styled.h1((props) => ({
+const AddressText = styled.h1<{ usedInPopup?: boolean }>((props) => ({
   ...props.theme.body_m,
+  fontFamily: 'MontRegular',
+  fontSize: 18,
   marginTop: props.theme.spacing(1),
-  color: props.theme.colors.white['400'],
+  marginLeft: props.theme.spacing(5),
+  color: props.usedInPopup ? props.theme.colors.white[0] : props.theme.colors.white['400'],
 }));
 
 const BitcoinDot = styled.div((props) => ({
@@ -193,7 +198,8 @@ interface Props {
   onAccountSelected: (account: Account) => void;
   handleSettingsSelect?: () => void;
   onReceiveModalOpen?: () => void;
-  forAccountManagement: boolean;
+  forAccountManagement?: boolean;
+  usedInPopup?: boolean;
 }
 interface DisplayAddressProps {
   account: Account | null;
@@ -202,6 +208,7 @@ interface DisplayAddressProps {
   onBtcCopied?: any;
   showOrdinalBtcAddress?: any;
   handleOnBtcAddressClick?: any;
+  handleClickForSelectingAccountDuringConnection?: any;
 }
 function DisplayAddress({
   account,
@@ -210,6 +217,7 @@ function DisplayAddress({
   showOrdinalAddress,
   showOrdinalBtcAddress,
   onBtcCopied,
+  handleClickForSelectingAccountDuringConnection,
 }: DisplayAddressProps) {
   if (allowCopyAddress)
     return (
@@ -241,7 +249,7 @@ function DisplayAddress({
       </RowContainer>
     );
   return (
-    <CurrentAccountDetailText>
+    <CurrentAccountDetailText onClick={handleClickForSelectingAccountDuringConnection}>
       {showOrdinalAddress ? showOrdinalBtcAddress : getAddressDetail(account!)}
     </CurrentAccountDetailText>
   );
@@ -256,6 +264,7 @@ function AccountRow({
   onReceiveModalOpen,
   showOrdinalAddress,
   forAccountManagement = false,
+  usedInPopup = false,
 }: Props) {
   // const { t } = useTranslation('translation', { keyPrefix: 'DASHBOARD_SCREEN' });
   const { showBtcReceiveAlert } = useWalletSelector();
@@ -310,12 +319,15 @@ function AccountRow({
   const showOrdinalBtcAddress = (
     <RowContainer>
       <AddressContainer>
-        <OrdinalImage src={OrdinalsIcon} />
-        <AddressText>{`${getTruncatedAddress(account?.ordinalsAddress!)} / `}</AddressText>
+        {!usedInPopup && <BitcoinDot />}
+        <AddressText usedInPopup={usedInPopup}>{getTruncatedAddress(account?.btcAddress!)}</AddressText>
       </AddressContainer>
       <AddressContainer>
-        <BitcoinDot />
-        <AddressText>{`${getTruncatedAddress(account?.btcAddress!)}`}</AddressText>
+        <AddressText>/</AddressText>
+      </AddressContainer>
+      <AddressContainer>
+        {!usedInPopup && <OrdinalImage src={OrdinalsIcon} />}
+        <AddressText usedInPopup={usedInPopup}>{getTruncatedAddress(account?.ordinalsAddress!)}</AddressText>
       </AddressContainer>
     </RowContainer>
   );
@@ -349,12 +361,14 @@ function AccountRow({
             <BarLoader loaderSize={LoaderSize.MEDIUM} />
           </BarLoaderContainer>
         ) : (
-          <AccountSection>
-            <CurrentUnSelectedAccountText onClick={onClick}>
-              {getTruncatedAddress(account?.btcAddress!)}
-              {/* {getAddressDetail(account!)} */}
-            </CurrentUnSelectedAccountText>
-          </AccountSection>
+          !usedInPopup && (
+            <AccountSection>
+              <CurrentUnSelectedAccountText onClick={onClick}>
+                {getTruncatedAddress(account?.btcAddress!)}
+                {/* {getAddressDetail(account!)} */}
+              </CurrentUnSelectedAccountText>
+            </AccountSection>
+          )
         )}
       </CurrentAccountContainer>
       <ButtonSection>
@@ -365,13 +379,14 @@ function AccountRow({
           onBtcCopied={onBtcCopied}
           handleOnBtcAddressClick={handleOnBtcAddressClick}
           showOrdinalBtcAddress={showOrdinalBtcAddress}
+          handleClickForSelectingAccountDuringConnection={usedInPopup ? onClick : console.log()}
         />
-        {!disableMenuOption && (
+        {!disableMenuOption && !usedInPopup && (
           <IconButton onClick={onReceiveModalOpen}>
             <img src={QR} alt="Receive" />
           </IconButton>
         )}
-        {!disableMenuOption && (
+        {!disableMenuOption && !usedInPopup && (
           <IconButton onClick={handleSettingsSelect}>
             <img src={Menu} alt="Settings" />
           </IconButton>

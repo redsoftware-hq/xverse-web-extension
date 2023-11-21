@@ -122,6 +122,7 @@ const ErrorMessage = styled.h2((props) => ({
 
 const ForgotPasswordButton = styled.a((props) => ({
   ...props.theme.body_m,
+  fontFamily:'MontRegular',
   textAlign: 'center',
   marginTop: props.theme.spacing(6),
   color: props.theme.colors.white['0'],

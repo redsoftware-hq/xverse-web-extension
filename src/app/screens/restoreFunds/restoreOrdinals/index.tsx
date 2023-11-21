@@ -34,7 +34,7 @@ const Container = styled.div({
   flex: 1,
   flexDirection: 'column',
   marginLeft: 16,
-  marginTop: 32,
+  marginTop: 16,
   marginRight: 16,
 });
 
@@ -96,7 +96,7 @@ function RestoreOrdinals() {
     if (isRestoreFundFlow) {
       navigate('/send-btc');
     } else {
-      navigate(-1);
+      navigate('/');
     }
   };
 
@@ -119,13 +119,13 @@ function RestoreOrdinals() {
 
   return (
     <>
-      <TopRow title={t('RESTORE_ORDINAL_SCREEN.TITLE')} onClick={handleOnCancelClick} showBackButton={false}/>
+      <TopRow title={t('RESTORE_ORDINAL_SCREEN.TITLE')} onClick={()=> navigate(-1)} />
       <Container>
         {ordinals?.length === 0 ? (
           <>
             <RestoreFundTitle>{t('RESTORE_ORDINAL_SCREEN.NO_FUNDS')}</RestoreFundTitle>
             <ButtonContainer>
-              <ActionButton text={t('RESTORE_ORDINAL_SCREEN.BACK')} onPress={handleOnCancelClick} />
+              <ActionButton text={t('RESTORE_ORDINAL_SCREEN.CANCEL')} onPress={handleOnCancelClick} />
             </ButtonContainer>
           </>
         ) : (
