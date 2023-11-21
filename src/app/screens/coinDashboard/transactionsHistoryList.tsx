@@ -73,8 +73,7 @@ const SectionSeparator = styled.div((props) => ({
   flexGrow: 1,
 });
 const Divider = styled.div({
-  borderTop: '0.5px solid  rgba(168, 185, 244, 0.15)',
-  opacity: 0.2,
+  borderTop: '1px solid  #A8B9F433',
   width:'90%',
   margin:'auto',
 });

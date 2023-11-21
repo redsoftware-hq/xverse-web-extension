@@ -37,7 +37,7 @@ const Container = styled.div({
   flex: 1,
   flexDirection: 'column',
   marginLeft: 16,
-  marginTop: 32,
+  marginTop: 16,
   marginRight: 16,
 });
 
@@ -109,7 +109,7 @@ function RestoreOrdinals() {
     if (isRestoreFundFlow) {
       navigate('/send-btc');
     } else {
-      navigate(-1);
+      navigate('/');
     }
   };
 
@@ -132,42 +132,32 @@ function RestoreOrdinals() {
     });
   };
 
-  const showContent =
-    ordinals?.length === 0 ? (
-      <>
-        <RestoreFundTitle>{t('RESTORE_ORDINAL_SCREEN.NO_FUNDS')}</RestoreFundTitle>
-        <ButtonContainer>
-          <ActionButton text={t('RESTORE_ORDINAL_SCREEN.BACK')} onPress={handleOnCancelClick} />
-        </ButtonContainer>
-      </>
-    ) : (
-      <>
-        <RestoreFundTitle>{t('RESTORE_ORDINAL_SCREEN.DESCRIPTION')}</RestoreFundTitle>
-        {ordinals?.map((ordinal) => (
-          <OrdinalRow
-            isLoading={transferringOrdinalId === ordinal.id}
-            disableTransfer={isLoading}
-            handleOrdinalTransfer={onClickTransfer}
-            ordinal={ordinal}
-            key={ordinal.id}
-          />
-        ))}
-        <ErrorContainer>
-          <ErrorText>{error}</ErrorText>
-        </ErrorContainer>
-      </>
-    );
-
   return (
     <>
-      <TopRow title={t('RESTORE_ORDINAL_SCREEN.TITLE')} onClick={handleOnCancelClick} showBackButton={false}/>
+      <TopRow title={t('RESTORE_ORDINAL_SCREEN.TITLE')} onClick={()=> navigate(-1)} />
       <Container>
-        {!ordinals ? (
-          <LoaderContainer>
-            <MoonLoader color="white" size={25} />
-          </LoaderContainer>
+        {ordinals?.length === 0 ? (
+          <>
+            <RestoreFundTitle>{t('RESTORE_ORDINAL_SCREEN.NO_FUNDS')}</RestoreFundTitle>
+            <ButtonContainer>
+              <ActionButton text={t('RESTORE_ORDINAL_SCREEN.CANCEL')} onPress={handleOnCancelClick} />
+            </ButtonContainer>
+          </>
         ) : (
-          showContent
+          <>
+            <RestoreFundTitle>{t('RESTORE_ORDINAL_SCREEN.DESCRIPTION')}</RestoreFundTitle>
+            {ordinals?.map((ordinal) => (
+              <OrdinalRow
+                isLoading={isLoading}
+                handleOrdinalTransfer={onClickTransfer}
+                ordinal={ordinal}
+                key={ordinal.id}
+              />
+            ))}
+            <ErrorContainer>
+              <ErrorText>{error}</ErrorText>
+            </ErrorContainer>
+          </>
         )}
       </Container>
     </>

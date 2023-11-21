@@ -417,7 +417,8 @@
     "SEED_PHRASE_VERIFY_HEADING": "Enter the requested words in the order of your seed phrase to confirm it is correct.",
     "SEED_PHRASE_VERIFY_BUTTON": "Verify",
     "SEED_INPUT_LABEL": "Seedphrase Verification",
-    "SEED_PHRASE_BACK_BUTTON": "Back"
+    "SEED_PHRASE_BACK_BUTTON": "Back",
+    "SEED_PHRASE_DEC_SETTINGS":"Record and store your seed phrase in a secure place where only you have access."
   },
   "CREATE_PASSWORD_SCREEN": {
     "CREATE_PASSWORD_TITLE": "Enter Password",
@@ -506,7 +507,7 @@
     "PASSWORD_INPUT_PLACEHOLDER": "Enter your password...",
     "VERIFY_PASSWORD_BUTTON": "Unlock",
     "VERIFY_PASSWORD_ERROR": "Incorrect Password.",
-    "FORGOT_PASSWORD_BUTTON": "Forgot your password?"
+    "FORGOT_PASSWORD_BUTTON": "Forgot password?"
   },
   "FORGOT_PASSWORD_SCREEN": {
     "TITLE": "Forgot Password",
@@ -609,6 +610,7 @@
     "BTC": "Bitcoin",
     "TRANSFER": "Transfer",
     "BACK": "Back",
+    "CANCEL": "Cancel",
     "ORDINAL_ADDRESS": "Ordinal address",
     "NO_FUNDS": "No assets found.",
     "DESCRIPTION": "You have Bitcoin stored in your ordinal address. You can transfer them to your payment address so they can be used for payments and are shown in your balance."
@@ -618,6 +620,7 @@
     "BTC": "Bitcoin",
     "TRANSFER": "Transfer",
     "BACK": "Back",
+    "CANCEL": "Cancel",
     "ORDINAL_ADDRESS": "Ordinal address",
     "NO_FUNDS": "No assets found.",
     "DESCRIPTION": "You have Ordinals stored in your Bitcoin payment address. You can transfer them to your Ordinals address so that they show up in your collection."
@@ -975,10 +978,10 @@
     "DO_NOT_SHOW_MESSAGE": "Do not show this message again"
   },
   "SELECT_BTC_ADDRESS_SCREEN": {
-    "TITLE": "Bitcoin Address Request",
+    "TITLE": "Connect Request",
     "ACCOUNT": "Account",
     "CONNECT_BUTTON": "Approve",
-    "CANCEL_BUTTON": "Dismiss",
+    "CANCEL_BUTTON": "Cancel",
     "BITCOIN_ADDRESS": "Bitcoin address",
     "ORDINAL_ADDRESS": "Ordinal address",
     "NETWORK_MISMATCH_ERROR_TITLE": "Mismatched Network",

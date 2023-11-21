@@ -20,7 +20,6 @@ const Container = styled.div({
   flex: 1,
   display: 'flex',
   flexDirection: 'column',
-  gap: 8,
   paddingLeft: 16,
   paddingRight: 16,
 });

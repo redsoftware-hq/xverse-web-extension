@@ -46,35 +46,37 @@ const ButtonContainer = styled.div((props) => ({
   width: '100%',
 }));
 
-const PasteSeedButton = styled.button((props) => ({
-  ...props.theme.body_medium_m,
-  color: props.theme.colors.action.classic,
-  borderRadius: props.theme.radius(4),
-  border: `1px solid ${props.theme.colors.action.classic}`,
-  backgroundColor: props.theme.colors.background.lightOrange,
-  height: 30,
-  width: 150,
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  position: 'absolute',
-  top: '72%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  img: {
-    marginRight: props.theme.spacing(4),
-  },
-  ':hover': {
-    backgroundColor: props.theme.colors.action.classic,
+const PasteSeedButton = styled.button<{ position: 'mid' | 'bottom'; disabled?: boolean }>(
+  (props) => ({
+    ...props.theme.body_medium_m,
+    color: props.theme.colors.action.classic,
+    borderRadius: props.theme.radius(4),
     border: `1px solid ${props.theme.colors.action.classic}`,
-    color: props.theme.colors.white[0],
-  },
-  ':focus': {
-    backgroundColor: props.theme.colors.action.classic,
-    border: `1px solid ${props.theme.colors.action.classic}`,
-    color: props.theme.colors.white[0],
-  },
-}));
+    backgroundColor: props.theme.colors.background.lightOrange,
+    height: 30,
+    width: 150,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    top: props.position === 'mid' ? '71%' : '80%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    img: {
+      marginRight: props.theme.spacing(4),
+    },
+    ':hover': {
+      backgroundColor: props.theme.colors.action.classic,
+      border: `1px solid ${props.theme.colors.action.classic}`,
+      color: props.theme.colors.white[0],
+    },
+    ':focus': {
+      backgroundColor: props.theme.colors.action.classic,
+      border: `1px solid ${props.theme.colors.action.classic}`,
+      color: props.theme.colors.white[0],
+    },
+  }),
+);
 
 interface VerifySeedProps {
   onVerifySuccess: () => void;
@@ -90,7 +92,7 @@ function textToMapValues(inputText: string, arrayLength: number): string[] {
   const resultArray: string[] = new Array(arrayLength).fill('');
 
   // Step 3: Fill the resultArray with words from the input text
-  for (let i = 0; i < words.length && i < arrayLength; i+1) {
+  for (let i = 0; i < words.length && i < arrayLength; i + 1) {
     resultArray[i] = words[i];
   }
 
@@ -107,7 +109,7 @@ export default function VerifySeed(props: VerifySeedProps): JSX.Element {
     rawSeed.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim();
 
   const handleVerify = () => {
-    if (seedPhrase === seedInput.map(e => e.trim()).join(' ')) {
+    if (seedPhrase === seedInput.map((e) => e.trim()).join(' ')) {
       onVerifySuccess();
     } else {
       setErr('Seedphrase does not match');
@@ -117,7 +119,7 @@ export default function VerifySeed(props: VerifySeedProps): JSX.Element {
 
   const handlePaste = async () => {
     setSeedInput(seedPhrase.split(' '));
-  }
+  };
 
   return (
     <Container>
@@ -129,7 +131,7 @@ export default function VerifySeed(props: VerifySeedProps): JSX.Element {
         seedError={err}
         setSeedError={setErr}
       />
-      {copy && <PasteSeedButton onClick={handlePaste}>Paste Seedphrase</PasteSeedButton>}
+      {copy && <PasteSeedButton position="mid" onClick={handlePaste}>Paste Seedphrase</PasteSeedButton>}
       <ButtonsContainer>
         <ButtonContainer>
           <ActionButton

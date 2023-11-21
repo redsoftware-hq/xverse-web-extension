@@ -79,6 +79,7 @@ function BackupWalletScreen() {
         )}
         {showSeed && (
           <SeedCheck
+            fromSetting
             showButton={false}
             seedPhrase={seedPhrase}
             onContinue={goToSettingScreen}
