@@ -40,6 +40,7 @@ const RowContainer = styled.div({
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'center',
+  gap:10,
   justifyContent: 'center',
 });
 
@@ -49,10 +50,12 @@ const CurrentSelectedAccountText = styled.h1((props) => ({
   textAlign: 'start',
 }));
 
-const AddressText = styled.h1((props) => ({
+const AddressText = styled.h1<{ isOrdinal: boolean }>((props) => ({
   ...props.theme.body_m,
+  fontFamily:'MontRegular',
+  fontSize:18,
   marginTop: props.theme.spacing(1),
-  color: props.theme.colors.white_400,
+  color: props.isOrdinal ? '#626A82' : props.theme.colors.white[0],
 }));
 
 const BitcoinDot = styled.div((props) => ({
@@ -75,35 +78,28 @@ interface Props {
   isBitcoinTx: boolean;
 }
 function AccountView({ account, isBitcoinTx }: Props) {
-  const gradient = getAccountGradient(account?.stxAddress || account?.btcAddress!);
-  const { t } = useTranslation('translation', { keyPrefix: 'DASHBOARD_SCREEN' });
-
-  function getName() {
-    return (
-      account?.accountName ??
-      account?.bnsName ??
-      `${t('ACCOUNT_NAME')} ${`${(account?.id ?? 0) + 1}`}`
-    );
-  }
+  // const gradient = getAccountGradient(account?.stxAddress!);
+  // const { t } = useTranslation('translation', { keyPrefix: 'DASHBOARD_SCREEN' });
 
   return (
     <Container>
-      <GradientCircle
+      {/* <GradientCircle
         firstGradient={gradient[0]}
         secondGradient={gradient[1]}
         thirdGradient={gradient[2]}
-      />
+      /> */}
 
+      {/* <CurrentSelectedAccountText>{getName()}</CurrentSelectedAccountText> */}
       <ColumnContainer>
-        <CurrentSelectedAccountText>{getName()}</CurrentSelectedAccountText>
         <RowContainer>
           <AddressContainer>
-            <OrdinalImage src={OrdinalsIcon} />
-            <AddressText>{`${getTruncatedAddress(account?.ordinalsAddress)} / `}</AddressText>
+            <AddressText isOrdinal={false}>{getTruncatedAddress(account?.btcAddress)}</AddressText>
           </AddressContainer>
           <AddressContainer>
-            <BitcoinDot />
-            <AddressText>{`${getTruncatedAddress(account?.btcAddress)}`}</AddressText>
+            <AddressText isOrdinal>/</AddressText>
+          </AddressContainer>
+          <AddressContainer>
+            <AddressText isOrdinal>{getTruncatedAddress(account?.ordinalsAddress)}</AddressText>
           </AddressContainer>
         </RowContainer>
       </ColumnContainer>
