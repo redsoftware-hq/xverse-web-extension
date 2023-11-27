@@ -18,7 +18,7 @@ function ShowBtcReceiveAlert({ onReceiveAlertClose }: Props) {
     <AlertMessage
       title={t('RECEIVING_BTC')}
       description={t('RECEIVING_BTC_INFO')}
-      buttonText={t('I_UNDERSTAND')}
+      buttonText={t('CONFIRM')}
       onClose={onReceiveAlertClose}
       onButtonClick={onReceiveAlertClose}
       tickMarkButtonText={t('DO_NOT_SHOW_MESSAGE')}

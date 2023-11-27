@@ -1,20 +1,21 @@
 import styled from 'styled-components';
 // import { getAccountGradient } from '@utils/gradient';
+import OrdinalsIcon from '@assets/img/nftDashboard/white_ordinals_icon.svg';
 import { Tooltip } from 'react-tooltip';
 import 'react-tooltip/dist/react-tooltip.css';
-import OrdinalsIcon from '@assets/img/nftDashboard/white_ordinals_icon.svg';
 // import { useTranslation } from 'react-i18next';
-import { getTruncatedAddress, getAddressDetail } from '@utils/helper';
-import BarLoader from '@components/barLoader';
 import Copy from '@assets/img/NewCopy.svg';
-import Menu from '@assets/img/Menu.svg';
 import QR from '@assets/img/QR.svg';
-import { LoaderSize } from '@utils/constants';
-import { Account } from '@secretkeylabs/xverse-core';
-import { useState, useEffect, useRef } from 'react';
-import { useDispatch } from 'react-redux';
-import { ChangeShowBtcReceiveAlertAction } from '@stores/wallet/actions/actionCreators';
+import Wheel from '@assets/img/settingwheel.svg';
+import BarLoader from '@components/barLoader';
+import StyledTooltip from '@components/styledTooltip';
 import useWalletSelector from '@hooks/useWalletSelector';
+import { Account } from '@secretkeylabs/xverse-core';
+import { ChangeShowBtcReceiveAlertAction } from '@stores/wallet/actions/actionCreators';
+import { LoaderSize } from '@utils/constants';
+import { getAddressDetail, getTruncatedAddress } from '@utils/helper';
+import { useEffect, useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 interface GradientCircleProps {
   firstGradient: string;
@@ -29,15 +30,14 @@ const RowContainer = styled.div({
   alignItems: 'center',
 });
 
-const GradientCircle = styled.button<GradientCircleProps>((props) => ({
-  height: 40,
-  width: 40,
-  borderRadius: 25,
-  background: `linear-gradient(to bottom,${props.firstGradient}, ${props.secondGradient},${props.thirdGradient} )`,
-}));
+// const GradientCircle = styled.button<GradientCircleProps>((props) => ({
+//   height: 40,
+//   width: 40,
+//   borderRadius: 25,
+//   background: `linear-gradient(to bottom,${props.firstGradient}, ${props.secondGradient},${props.thirdGradient} )`,
+// }));
 
-const TopSectionContainer = styled.div<{ disableClick?: boolean }>((props) => ({
-  position: 'relative',
+const TopSectionContainer = styled.button((props) => ({
   display: 'flex',
   flexDirection: 'row',
   flex: 1,
@@ -59,11 +59,11 @@ const CurrentAccountContainerList = styled.div((props) => ({
   paddingRight: props.theme.spacing(6),
   paddingBottom: props.theme.spacing(6),
 }));
-const CurrentSelectedAccountText = styled.h1((props) => ({
-  ...props.theme.body_bold_m,
-  color: props.theme.colors.white_0,
-  textAlign: 'start',
-}));
+// const CurrentSelectedAccountText = styled.h1((props) => ({
+//   ...props.theme.body_bold_m,
+//   color: props.theme.colors.white['0'],
+//   textAlign: 'start',
+// }));
 
 const CurrentUnSelectedAccountText = styled.h1((props) => ({
   ...props.theme.body_m,
@@ -115,22 +115,15 @@ const BarLoaderContainer = styled.div((props) => ({
   backgroundColor: 'transparent',
 }));
 
-export const StyledToolTip = styled(Tooltip)`
-  background-color: #ffffff;
-  color: #12151e;
-  border-radius: 8px;
-  padding: 7px;
+const CopyImage = styled.img`
+  margin-right: 4px;
 `;
 
-const TransparentSpan = styled.span`
-  background: transparent;
-`;
-
-const OptionsButton = styled.button({
+const AddressContainer = styled.div({
   display: 'flex',
+  flexDirection: 'row',
   alignItems: 'center',
-  justifyContent: 'flex-end',
-  background: 'transparent',
+  justifyContent: 'center',
 });
 
 const CopyButton = styled.button`
@@ -226,11 +219,10 @@ function DisplayAddress({
         <CopyButton id="bitcoin-address" onClick={handleOnBtcAddressClick}>
           <CopyImage src={Copy} alt="copy" />
         </CopyButton>
-        <StyledToolTip
-          anchorId="bitcoin-address"
-          variant="light"
-          content={onBtcCopied ? 'Copied' : ''}
-          events={['hover']}
+        <StyledTooltip
+          anchorSelect="bitcoin-address"
+          content={onBtcCopied ? 'Copied' : 'Copy'}
+          noArrow
           place="bottom"
         />
 
@@ -275,20 +267,7 @@ function AccountRow({
   const dispatch = useDispatch();
   const btcCopiedTooltipTimeoutRef = useRef<NodeJS.Timeout | undefined>();
   const stxCopiedTooltipTimeoutRef = useRef<NodeJS.Timeout | undefined>();
-  const [showOptionsDialog, setShowOptionsDialog] = useState(false);
-  const [showRemoveAccountModal, setShowRemoveAccountModal] = useState(false);
-  const [optionsDialogIndents, setOptionsDialogIndents] = useState<
-    { top: string; left: string } | undefined
-  >();
-  const { removeLedgerAccount } = useWalletReducer();
 
-  useEffect(
-    () => () => {
-      clearTimeout(btcCopiedTooltipTimeoutRef.current);
-      clearTimeout(stxCopiedTooltipTimeoutRef.current);
-    },
-    [],
-  );
   useEffect(
     () => () => {
       clearTimeout(btcCopiedTooltipTimeoutRef.current);
@@ -326,22 +305,26 @@ function AccountRow({
     }
   };
 
-  const closeOptionsDialog = () => {
-    setShowOptionsDialog(false);
+  const onClick = () => {
+    onAccountSelected(account!);
   };
 
   const showOrdinalBtcAddress = (
     <RowContainer>
       <AddressContainer>
         {!usedInPopup && <BitcoinDot />}
-        <AddressText usedInPopup={usedInPopup}>{getTruncatedAddress(account?.btcAddress!)}</AddressText>
+        <AddressText usedInPopup={usedInPopup}>
+          {getTruncatedAddress(account?.btcAddress!)}
+        </AddressText>
       </AddressContainer>
       <AddressContainer>
         <AddressText>/</AddressText>
       </AddressContainer>
       <AddressContainer>
         {!usedInPopup && <OrdinalImage src={OrdinalsIcon} />}
-        <AddressText usedInPopup={usedInPopup}>{getTruncatedAddress(account?.ordinalsAddress!)}</AddressText>
+        <AddressText usedInPopup={usedInPopup}>
+          {getTruncatedAddress(account?.ordinalsAddress!)}
+        </AddressText>
       </AddressContainer>
     </RowContainer>
   );
@@ -396,14 +379,20 @@ function AccountRow({
           handleClickForSelectingAccountDuringConnection={usedInPopup ? onClick : console.log()}
         />
         {!disableMenuOption && !usedInPopup && (
-          <IconButton onClick={onReceiveModalOpen}>
-            <img src={QR} alt="Receive" />
-          </IconButton>
+          <>
+            <IconButton onClick={onReceiveModalOpen}>
+              <img id="recieve" src={QR} alt="Receive" />
+            </IconButton>
+            <StyledTooltip anchorSelect="recieve" content="Recieve" noArrow place="bottom" />
+          </>
         )}
         {!disableMenuOption && !usedInPopup && (
-          <IconButton onClick={handleSettingsSelect}>
-            <img src={Menu} alt="Settings" />
-          </IconButton>
+          <>
+            <IconButton onClick={handleSettingsSelect}>
+              <img id="settings" src={Wheel} alt="Settings" />
+            </IconButton>
+            <StyledTooltip anchorSelect="settings" content="Settings" noArrow place="bottom" />
+          </>
         )}
       </ButtonSection>
     </TopSectionContainer>
