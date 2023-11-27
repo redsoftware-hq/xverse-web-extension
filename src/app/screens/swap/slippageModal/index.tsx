@@ -49,7 +49,7 @@ const Input = styled.input<{ error: boolean }>((props) => ({
 }));
 
 const InputFeedback = styled.span((props) => ({
-  ...props.theme.body_s,
+  ...props.theme.body_xs,
   color: props.theme.colors.feedback.error,
 }));
 

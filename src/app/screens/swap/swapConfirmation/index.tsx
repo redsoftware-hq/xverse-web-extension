@@ -3,7 +3,6 @@ import AccountHeaderComponent from '@components/accountHeader';
 import ActionButton from '@components/button';
 import InfoContainer from '@components/infoContainer';
 import BottomBar from '@components/tabBar';
-import { Container } from '@screens/home';
 import { AdvanceSettings } from '@screens/swap/swapConfirmation/advanceSettings';
 import FeesBlock from '@screens/swap/swapConfirmation/feesBlock';
 import FunctionBlock from '@screens/swap/swapConfirmation/functionBlock';
@@ -55,6 +54,10 @@ const Icon = styled.img((props) => ({
 }));
 
 const StyledInfoContainer = styled.div((props) => ({
+  marginBottom: props.theme.spacing(4),
+}));
+
+const Container = styled.div((props) => ({
   marginBottom: props.theme.spacing(4),
 }));
 

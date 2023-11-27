@@ -2,7 +2,7 @@ import AddressIcon from '@assets/img/swap/address.svg';
 import CopyIcon from '@assets/img/swap/copy.svg';
 import FoldDownIcon from '@assets/img/swap/fold_arrow_down.svg';
 import FoldIconUp from '@assets/img/swap/fold_arrow_up.svg';
-import { StyledToolTip } from '@components/accountRow';
+// import { StyledToolTip } from '@components/accountRow';
 import TokenImage from '@components/tokenImage';
 import { SwapConfirmationOutput } from '@screens/swap/swapConfirmation/useConfirmSwap';
 import { EstimateUSDText } from '@screens/swap/swapTokenBlock';
@@ -161,13 +161,13 @@ export default function StxInfoBlock({ type, swap }: StxInfoCardProps) {
               <AddressText>{getTruncatedAddress(swap.address)}</AddressText>
               <CopyImg src={CopyIcon} />
             </CopyButton>
-            <StyledToolTip
+            {/* <StyledToolTip
               anchorId={copyId}
               variant="light"
               content={isCopied ? t('COPIED') : t('COPY_YOUR_ADDRESS')}
               events={['hover']}
               place="top"
-            />
+            /> */}
           </SpaceBetweenContainer>
         </>
       )}
