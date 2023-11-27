@@ -1,28 +1,27 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable no-nested-ternary */
-import { useSwipeable } from 'react-swipeable';
-import TokenImage from '@components/tokenImage';
+import Buy from '@assets/img/dashboard/buy.svg';
+import SwapCoin from '@assets/img/dashboard/convert_coin.svg';
 import Receive from '@assets/img/dashboard/recieve.svg';
 import Send from '@assets/img/dashboard/send.svg';
 import Lock from '@assets/img/transactions/Lock.svg';
-import Buy from '@assets/img/dashboard/buy.svg';
-import SwapCoin from '@assets/img/dashboard/convert_coin.svg';
-import { useStepperContext } from '@stores/stepper';
-import { useState, useEffect } from 'react';
+import SmallActionButton from '@components/smallActionButton';
+import TokenImage from '@components/tokenImage';
 import useWalletSelector from '@hooks/useWalletSelector';
+import { animated, useSpring, useSprings, useTransition } from '@react-spring/web';
 import { FungibleToken, microstacksToStx, satsToBtc } from '@secretkeylabs/xverse-core';
 import { currencySymbolMap } from '@secretkeylabs/xverse-core/types/currency';
+import { useStepperContext } from '@stores/stepper';
 import { CurrencyTypes } from '@utils/constants';
 import { isInOptions, isLedgerAccount } from '@utils/helper';
 import { getFtBalance, getFtTicker } from '@utils/tokens';
 import BigNumber from 'bignumber.js';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NumericFormat } from 'react-number-format';
 import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import SmallActionButton from '@components/smallActionButton';
-import { animated, useSpring, useSprings, useTransition } from '@react-spring/web';
+import { useSwipeable } from 'react-swipeable';
+import styled from 'styled-components';
 
 interface CoinBalanceProps {
   coin: CurrencyTypes;
@@ -205,6 +204,7 @@ export default function CoinHeader(props: CoinBalanceProps) {
     stxAvailableBalance,
     coinsList,
     brcCoinsList,
+    selectedAccount,
   } = useWalletSelector();
   const navigate = useNavigate();
   const { t } = useTranslation('translation', { keyPrefix: 'COIN_DASHBOARD_SCREEN' });

@@ -1,10 +1,14 @@
 /* eslint-disable no-await-in-loop */
-import SIP10Icon from '@assets/img/dashboard/SIP10.svg';
 import BitcoinToken from '@assets/img/dashboard/bitcoin_token.svg';
 import OrdinalsIcon from '@assets/img/dashboard/ordinalBRC20.svg';
+import SIP10Icon from '@assets/img/dashboard/SIP10.svg';
+import linkIcon from '@assets/img/linkIcon.svg';
 import AccountHeaderComponent from '@components/accountHeader';
+import BottomModal from '@components/bottomModal';
+import CopyButton from '@components/copyButton';
+import ReceiveCardComponent from '@components/receiveCardComponent';
+import StepperNavigator from '@components/stepperNavigator';
 import BottomBar from '@components/tabBar';
-import TopRow from '@components/topRow';
 import useBtcWalletData from '@hooks/queries/useBtcWalletData';
 import useWalletSelector from '@hooks/useWalletSelector';
 import { FungibleToken } from '@secretkeylabs/xverse-core';
@@ -12,12 +16,8 @@ import { CurrencyTypes } from '@utils/constants';
 import { getExplorerUrl } from '@utils/helper';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getExplorerUrl } from '@utils/helper';
-import CopyButton from '@components/copyButton';
-import { FungibleToken } from '@secretkeylabs/xverse-core';
-import StepperNavigator from '@components/stepperNavigator';
-import BottomModal from '@components/bottomModal';
-import ReceiveCardComponent from '@components/receiveCardComponent';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import styled from 'styled-components';
 import CoinHeader from './coinHeader';
 import TransactionsHistoryList from './transactionsHistoryList';
 
@@ -40,8 +40,29 @@ const TokenContractContainer = styled.div((props) => ({
   paddingBottom: props.theme.spacing(42),
   background: props.theme.colors.background.darkbg,
   h1: {
-    ...props.theme.typography.body_medium_m,
-    color: props.theme.colors.white_400,
+    ...props.theme.body_medium_m,
+    color: props.theme.colors.white[400],
+  },
+}));
+
+const TransactionHistoryContainer = styled.div((props) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  flex: 1,
+  paddingLeft: 16,
+  paddingRight: 16,
+  marginTop: props.theme.spacing(30),
+  borderTop: `1px solid ${props.theme.colors.background.elevation2}`,
+  h1: {
+    ...props.theme.headline_s,
+    color: props.theme.colors.white[0],
+    marginTop: 32,
+  },
+  h2: {
+    ...props.theme.body_m,
+    fontStyle: 'italic',
+    color: props.theme.colors.white[200],
+    marginTop: 16,
   },
 }));
 
@@ -52,8 +73,8 @@ const ContractAddressCopyButton = styled.button((props) => ({
 }));
 
 const TokenContractAddress = styled.p((props) => ({
-  ...props.theme.typography.body_medium_l,
-  color: props.theme.colors.white_0,
+  ...props.theme.body_medium_l,
+  color: props.theme.colors.white[0],
   textAlign: 'left',
   overflowWrap: 'break-word',
   width: 300,
@@ -76,19 +97,19 @@ const ShareIcon = styled.img({
   height: 18,
 });
 
-const CopyButtonContainer = styled.div((props) => ({
-  marginRight: props.theme.spacing(2),
-}));
+const CopyButtonContainer = styled.div({
+  marginRight: 4,
+});
 
 const ContractDeploymentButton = styled.button((props) => ({
-  ...props.theme.typography.body_m,
+  ...props.theme.body_m,
   display: 'flex',
   alignItems: 'center',
   marginTop: props.theme.spacing(12),
   background: 'none',
-  color: props.theme.colors.white_400,
+  color: props.theme.colors.white[400],
   span: {
-    color: props.theme.colors.white_0,
+    color: props.theme.colors.white[0],
     marginLeft: props.theme.spacing(3),
   },
   img: {
@@ -216,7 +237,7 @@ export default function CoinDashboard() {
       />
     );
   };
-  
+
   const navigate = useNavigate();
   const [openReceiveModal, setOpenReceiveModal] = useState(false);
   const { t: t1 } = useTranslation('translation', { keyPrefix: 'DASHBOARD_SCREEN' });
