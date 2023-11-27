@@ -1,38 +1,30 @@
-import { useTranslation } from 'react-i18next';
-import logo from '@assets/img/orange_pill.png';
-import styled from 'styled-components';
 import Eye from '@assets/img/createPassword/Eye.svg';
 import EyeSlash from '@assets/img/createPassword/EyeSlash.svg';
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { addHours, addMinutes } from 'date-fns';
-import useWalletReducer from '@hooks/useWalletReducer';
-import { animated, useSpring } from '@react-spring/web';
+import logo from '@assets/img/orange_pill.png';
 import ActionButton from '@components/button';
 import useWalletReducer from '@hooks/useWalletReducer';
-import { animated,useSpring } from '@react-spring/web';
+import { animated, useSpring } from '@react-spring/web';
 import MigrationConfirmation from '@screens/migrationConfirmation';
-import { decryptSeedPhrase } from '@utils/encryptionUtils';
-import useWalletSelector from '@hooks/useWalletSelector';
-import useWalletSession from '@hooks/useWalletSession';
+import { addMinutes } from 'date-fns';
+import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 
-declare const VERSION: string;
+// declare const VERSION: string;
 
 const Logo = styled.img({
   width: 250,
   height: 250,
 });
 
-const ScreenContainer = styled(animated.div)({
+const ScreenContainer = styled(animated.div)((props) => ({
   display: 'flex',
   flexDirection: 'column',
+  background: props.theme.colors.background.orangePillBg,
   flex: 1,
-  paddingLeft: props.theme.spacing(9),
-  paddingRight: props.theme.spacing(9),
-  overflowY: 'auto',
-  '&::-webkit-scrollbar': {
-    display: 'none',
-  },
+  paddingLeft: 18,
+  paddingRight: 18,
 }));
 
 const ContentContainer = styled(animated.div)({
@@ -127,11 +119,15 @@ const ErrorMessage = styled.h2((props) => ({
 
 const ForgotPasswordButton = styled.a((props) => ({
   ...props.theme.body_m,
-  fontFamily:'MontRegular',
+  fontFamily: 'MontRegular',
   textAlign: 'center',
   marginTop: props.theme.spacing(6),
   color: props.theme.colors.white['0'],
   textDecoration: 'underline',
+}));
+
+const ViewPasswordButton = styled.button(() => ({
+  background: 'none',
 }));
 
 function Login(): JSX.Element {
@@ -236,9 +232,9 @@ function Login(): JSX.Element {
                 placeholder={t('PASSWORD_INPUT_PLACEHOLDER')}
                 autoFocus
               />
-              <Button type="button" onClick={handleTogglePasswordView}>
+              <ViewPasswordButton type="button" onClick={handleTogglePasswordView}>
                 <img src={isPasswordVisible ? Eye : EyeSlash} alt="show-password" height={24} />
-              </Button>
+              </ViewPasswordButton>
             </PasswordInputContainer>
             {error && <ErrorMessage>{error}</ErrorMessage>}
             <ForgotPasswordButton onClick={handleForgotPassword}>

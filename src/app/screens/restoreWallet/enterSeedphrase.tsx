@@ -15,7 +15,7 @@ const Title = styled.h1((props) => ({
   color: props.theme.colors.white[200],
   marginTop: props.theme.spacing(8),
   marginBottom: props.theme.spacing(16),
-  textAlign: 'center',
+  textAlign: 'left',
 }));
 
 const ButtonContainer = styled.div((props) => ({

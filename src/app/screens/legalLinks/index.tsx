@@ -1,4 +1,6 @@
 import LinkIcon from '@assets/img/links_icon.svg';
+import useWalletSelector from '@hooks/useWalletSelector';
+import { changeShowDataCollectionAlertAction } from '@stores/wallet/actions/actionCreators';
 // import Seperator from '@components/seperator';
 import { PRIVACY_POLICY_LINK, TERMS_LINK } from '@utils/constants';
 import { saveIsTermsAccepted } from '@utils/localStorage';

@@ -12,7 +12,7 @@ const Container = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'column',
   height: '100%',
-  backgroundColor: props.theme.colors.elevation0,
+  justifyContent: 'space-between',
   padding: `0 ${props.theme.spacing(8)}px 0 ${props.theme.spacing(8)}px`,
 }));
 
@@ -24,7 +24,10 @@ const Paragraph = styled.p((props) => ({
 }));
 
 const BottomContainer = styled.div((props) => ({
-  marginTop: props.theme.spacing(78),
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 16,
+  marginBottom: props.theme.spacing(20),
 }));
 
 const ButtonsContainer = styled.div((props) => ({
@@ -51,7 +54,7 @@ const ResetButton = styled.button((props) => ({
 }));
 const SliderContainer = styled.div((props) => ({
   ...props.theme.body_medium_m,
-  color: props.theme.colors.white['0'],
+  color: props.theme.colors.white_0,
   display: 'flex',
   alignItems: 'center',
   label: {
@@ -60,6 +63,7 @@ const SliderContainer = styled.div((props) => ({
   '> input, > label': {
     cursor: 'pointer',
   },
+  marginBottom: props.theme.spacing(5),
 }));
 
 function ForgotPassword(): JSX.Element {
@@ -99,6 +103,7 @@ function ForgotPassword(): JSX.Element {
             <ActionButton
               text="Reset Wallet"
               disabled={!hasBackedUp}
+              // eslint-disable-next-line no-inline-styles/no-inline-styles
               style={{ textTransform: 'uppercase' }}
               onPress={handleResetWallet}
             />

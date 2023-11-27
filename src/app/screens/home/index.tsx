@@ -11,13 +11,10 @@ import OrdinalsIcon from '@assets/img/dashboard/ordinalBRC20.svg';
 import IconStacks from '@assets/img/dashboard/stack_icon.svg';
 import AccountHeaderComponent from '@components/accountHeader';
 import BottomModal from '@components/bottomModal';
-import ActionButton from '@components/button';
 import ReceiveCardComponent from '@components/receiveCardComponent';
-import ShowBtcReceiveAlert from '@components/showBtcReceiveAlert';
-import ShowOrdinalReceiveAlert from '@components/showOrdinalReceiveAlert';
+import SmallActionButton from '@components/smallActionButton';
 import BottomBar from '@components/tabBar';
 import TokenTile from '@components/tokenTile';
-import UpdatedBottomModal from '@components/updatedBottomModal';
 import useAppConfig from '@hooks/queries/useAppConfig';
 import useBtcCoinBalance from '@hooks/queries/useBtcCoinsBalance';
 import useBtcWalletData from '@hooks/queries/useBtcWalletData';
@@ -26,18 +23,13 @@ import useCoinRates from '@hooks/queries/useCoinRates';
 import useFeeMultipliers from '@hooks/queries/useFeeMultipliers';
 import useStxWalletData from '@hooks/queries/useStxWalletData';
 import useWalletSelector from '@hooks/useWalletSelector';
-import { ArrowDown, ArrowUp, Plus } from '@phosphor-icons/react';
 import CoinSelectModal from '@screens/home/coinSelectModal';
-import type { FungibleToken } from '@secretkeylabs/xverse-core';
-import { changeShowDataCollectionAlertAction } from '@stores/wallet/actions/actionCreators';
+import { FungibleToken } from '@secretkeylabs/xverse-core/types';
 import { CurrencyTypes } from '@utils/constants';
-import { isInOptions, isLedgerAccount } from '@utils/helper';
-import { optInMixPanel, optOutMixPanel } from '@utils/mixpanel';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import styled, { useTheme } from 'styled-components';
+import styled from 'styled-components';
 import Theme from 'theme';
 import AlertMessage from '@components/alertMessage';
 import { useDispatch } from 'react-redux';
@@ -101,7 +93,6 @@ const ReceiveContainer = styled.div((props) => ({
   marginBottom: props.theme.spacing(16),
   paddingLeft: props.theme.spacing(8),
   paddingRight: props.theme.spacing(8),
-  gap: props.theme.space.m,
 }));
 
 const CoinContainer = styled.div({
@@ -187,59 +178,10 @@ const MergedIcon = styled.img({
   height: 40,
 });
 
-const VerifyOrViewContainer = styled.div((props) => ({
-  margin: props.theme.spacing(8),
-  marginTop: props.theme.spacing(16),
-  marginBottom: props.theme.spacing(20),
-}));
-
-const VerifyButtonContainer = styled.div((props) => ({
-  marginBottom: props.theme.spacing(6),
-}));
-
-const ModalContent = styled.div((props) => ({
-  padding: props.theme.spacing(8),
-  paddingTop: 0,
-  paddingBottom: props.theme.spacing(16),
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-}));
-
-const ModalIcon = styled.img((props) => ({
-  marginBottom: props.theme.spacing(10),
-}));
-
-const ModalTitle = styled.div((props) => ({
-  ...props.theme.typography.body_bold_l,
-  marginBottom: props.theme.spacing(4),
-  textAlign: 'center',
-}));
-
-const ModalDescription = styled.div((props) => ({
-  ...props.theme.typography.body_m,
-  color: props.theme.colors.white['200'],
-  marginBottom: props.theme.spacing(16),
-  textAlign: 'center',
-}));
-
-const ModalControlsContainer = styled.div({
-  display: 'flex',
-  width: '100%',
-});
-
-const ModalButtonContainer = styled.div((props) => ({
-  width: '100%',
-  '&:first-child': {
-    marginRight: props.theme.spacing(6),
-  },
-}));
-
 function Home() {
   const { t } = useTranslation('translation', {
     keyPrefix: 'DASHBOARD_SCREEN',
   });
-  const theme = useTheme();
   const navigate = useNavigate();
   const dispatch = useDispatch();
  
@@ -258,8 +200,7 @@ function Home() {
     showOrdinalReceiveAlert,
   } = useWalletSelector();
   const { isLoading: loadingStxWalletData, isRefetching: refetchingStxWalletData } =
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    stxAddress ? useStxWalletData() : { isLoading: false, isRefetching: false };
+    useStxWalletData();
   const { isLoading: loadingBtcWalletData, isRefetching: refetchingBtcWalletData } =
     useBtcWalletData();
   const { isLoading: loadingCoinData, isRefetching: refetchingCoinData } = useCoinsData();
@@ -275,11 +216,6 @@ function Home() {
 
   const onReceiveModalClose = () => {
     setOpenReceiveModal(false);
-
-    if (isLedgerAccount(selectedAccount)) {
-      setAreReceivingAddressesVisible(false);
-      setChoseToVerifyAddresses(false);
-    }
   };
 
   const onSendModalOpen = () => {
@@ -307,23 +243,11 @@ function Home() {
     navigate('/manage-tokens');
   };
 
-  const onStxSendClick = async () => {
-    if (isLedgerAccount(selectedAccount) && !isInOptions()) {
-      await chrome.tabs.create({
-        url: chrome.runtime.getURL('options.html#/send-stx'),
-      });
-      return;
-    }
+  const onStxSendClick = () => {
     navigate('/send-stx');
   };
 
-  const onBtcSendClick = async () => {
-    if (isLedgerAccount(selectedAccount) && !isInOptions()) {
-      await chrome.tabs.create({
-        url: chrome.runtime.getURL('options.html#/send-btc'),
-      });
-      return;
-    }
+  const onBtcSendClick = () => {
     navigate('/send-btc');
   };
 
@@ -335,29 +259,12 @@ function Home() {
     navigate('/receive/STX');
   };
 
-  const onSendFtSelect = async (coin: FungibleToken) => {
+  const onSendFtSelect = (coin: FungibleToken) => {
     if (coin.protocol === 'brc-20') {
-      if (isLedgerAccount(selectedAccount)) {
-        if (!isInOptions()) {
-          await chrome.tabs.create({
-            // TODO replace with send-brc20-one-step route, when ledger support is ready
-            url: chrome.runtime.getURL(`options.html#/send-brc20?coinName=${coin.name}`),
-          });
-          return;
-        }
-        navigate(`send-brc20?coinName=${coin.name}`);
-        return;
-      }
-      navigate('send-brc20-one-step', {
+      navigate('send-brc20', {
         state: {
           fungibleToken: coin,
         },
-      });
-      return;
-    }
-    if (isLedgerAccount(selectedAccount) && !isInOptions()) {
-      await chrome.tabs.create({
-        url: chrome.runtime.getURL(`options.html#/send-ft?coinTicker=${coin.ticker}`),
       });
       return;
     }
@@ -409,10 +316,6 @@ function Home() {
     navigate('/receive/ORD');
   };
 
-  const onSwapPressed = () => {
-    navigate('/swap');
-  };
-
   const receiveContent = (
     <ReceiveContainer>
       <ReceiveCardComponent
@@ -420,8 +323,6 @@ function Home() {
         address={btcAddress}
         onQrAddressClick={onBTCReceiveSelect}
         onCopyAddressClick={onReceiveAlertOpen}
-        showVerifyButton={choseToVerifyAddresses}
-        currency="BTC"
       >
         <Icon src={BitcoinToken} />
       </ReceiveCardComponent>
@@ -431,79 +332,19 @@ function Home() {
         address={ordinalsAddress}
         onQrAddressClick={onOrdinalsReceivePress}
         onCopyAddressClick={onOrdinalReceiveAlertOpen}
-        showVerifyButton={choseToVerifyAddresses}
-        currency="ORD"
       >
-        <MergedIcon src={ordinalsIcon} />
+        <MergedIcon src={OrdinalsIcon} />
       </ReceiveCardComponent>
 
-      {stxAddress && (
-        <ReceiveCardComponent
-          title={t('STACKS_AND_TOKEN')}
-          address={stxAddress}
-          onQrAddressClick={onSTXReceiveSelect}
-          showVerifyButton={choseToVerifyAddresses}
-          currency="STX"
-        >
-          <MergedIcon src={SIP10Icon} />
-        </ReceiveCardComponent>
-      )}
-
-      {isLedgerAccount(selectedAccount) && !stxAddress && (
-        <ActionButton
-          transparent
-          icon={<Plus color="white" size={20} />}
-          text={t('ADD_STACKS_ADDRESS')}
-          onPress={async () => {
-            if (!isInOptions()) {
-              await chrome.tabs.create({
-                url: chrome.runtime.getURL(`options.html#/add-stx-address-ledger`),
-              });
-            } else {
-              navigate('/add-stx-address-ledger');
-            }
-          }}
-        />
-      )}
+      <ReceiveCardComponent
+        title={t('STACKS_AND_TOKEN')}
+        address={stxAddress}
+        onQrAddressClick={onSTXReceiveSelect}
+      >
+        <MergedIcon src={SIP10Icon} />
+      </ReceiveCardComponent>
     </ReceiveContainer>
   );
-
-  const verifyOrViewAddresses = (
-    <VerifyOrViewContainer>
-      <VerifyButtonContainer>
-        <ActionButton
-          text={t('VERIFY_ADDRESSES_ON_LEDGER')}
-          onPress={() => {
-            setChoseToVerifyAddresses(true);
-            setAreReceivingAddressesVisible(true);
-          }}
-        />
-      </VerifyButtonContainer>
-      <ActionButton
-        transparent
-        text={t('VIEW_ADDRESSES')}
-        onPress={() => {
-          if (choseToVerifyAddresses) {
-            setChoseToVerifyAddresses(false);
-          }
-          setAreReceivingAddressesVisible(true);
-        }}
-      />
-    </VerifyOrViewContainer>
-  );
-
-  const handleDataCollectionDeny = () => {
-    optOutMixPanel();
-    dispatch(changeShowDataCollectionAlertAction(false));
-  };
-
-  const handleDataCollectionAllow = () => {
-    optInMixPanel(selectedAccount?.masterPubKey);
-    dispatch(changeShowDataCollectionAlertAction(false));
-  };
-
-  const showSwaps = !isLedgerAccount(selectedAccount) && network.type !== 'Testnet';
-
   return (
     <>
       <AccountHeaderComponent onReceiveModalOpen={onReceiveModalOpen} />
@@ -624,44 +465,6 @@ function Home() {
         </CoinContainer>
       </ListContainer> */}
       <BottomBar tab="dashboard" />
-
-      <BottomModal
-        visible={!!showDataCollectionAlert}
-        header=""
-        onClose={handleDataCollectionDeny}
-        overlayStylesOverriding={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-        contentStylesOverriding={{
-          width: 'auto',
-          bottom: 'initial',
-          borderRadius: theme.radius(3),
-          margin: `0 ${theme.spacing(8)}px`,
-        }}
-      >
-        <ModalContent>
-          <ModalIcon src={dashboardIcon} alt="analytics" />
-          <ModalTitle>{t('DATA_COLLECTION_POPUP.TITLE')}</ModalTitle>
-          <ModalDescription>{t('DATA_COLLECTION_POPUP.DESCRIPTION')}</ModalDescription>
-          <ModalControlsContainer>
-            <ModalButtonContainer>
-              <ActionButton
-                transparent
-                text={t('DATA_COLLECTION_POPUP.DENY')}
-                onPress={handleDataCollectionDeny}
-              />
-            </ModalButtonContainer>
-            <ModalButtonContainer>
-              <ActionButton
-                text={t('DATA_COLLECTION_POPUP.ALLOW')}
-                onPress={handleDataCollectionAllow}
-              />
-            </ModalButtonContainer>
-          </ModalControlsContainer>
-        </ModalContent>
-      </BottomModal>
     </>
   );
 }

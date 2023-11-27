@@ -1,14 +1,13 @@
-import styled from 'styled-components';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import { Coin, FungibleToken } from '@secretkeylabs/xverse-core/types';
-import CoinItem from '@screens/manageTokens/coinItem';
+import Paragraph from '@components/paragraph';
 import TopRow from '@components/topRow';
+import CoinItem from '@screens/manageTokens/coinItem';
+import { Coin, FungibleToken } from '@secretkeylabs/xverse-core/types';
 import { StoreState } from '@stores/index';
 import { FetchUpdatedVisibleCoinListAction } from '@stores/wallet/actions/actionCreators';
-import Paragraph from '@components/paragraph';
-import ActionButton from '@components/button';
+import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 
 const TokenContainer = styled.div`
   display: flex;
@@ -82,6 +81,7 @@ function ManageTokens() {
           )
           .map((coin, index) => (
             <CoinItem
+              key={coin.name}
               coin={coin}
               disabled={false}
               toggled={toggled}

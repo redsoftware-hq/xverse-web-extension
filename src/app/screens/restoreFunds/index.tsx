@@ -1,10 +1,9 @@
-
+import ActionButton from '@components/button';
 import TopRow from '@components/topRow';
-import { useTranslation } from 'react-i18next';
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import ActionButton from '@components/button';
 import FundsRow from './fundsRow';
 
 const RestoreFundTitle = styled.h1((props) => ({
@@ -37,9 +36,19 @@ function RestoreFunds() {
   const { t } = useTranslation('translation', { keyPrefix: 'RESTORE_FUND_SCREEN' });
   const [isSelected, setIsSelected] = useState<SelectedState>({ btc: false, ordinals: false });
   const navigate = useNavigate();
+  const location = useLocation();
+  const { unspentUtxos } = location.state;
 
   const handleOnCancelClick = () => {
     navigate(-1);
+  };
+
+  const handleOnRestoreBtcClick = () => {
+    navigate('/recover-btc', {
+      state: {
+        unspentUtxos,
+      },
+    });
   };
 
   const handleOnRestoreOridnalClick = () => {
@@ -59,14 +68,14 @@ function RestoreFunds() {
           // image={IconBitcoin}
           title={t('RECOVER_BTC')}
           // description={t('RECOVER_BTC_DESC')}
-          onClick={() => setIsSelected({ ...isSelected,btc: true, ordinals: false })}
+          onClick={() => setIsSelected({ ...isSelected, btc: true, ordinals: false })}
         />
         <FundsRow
           selected={isSelected.ordinals}
           // image={OrdinalsIcon}
           title={t('RECOVER_ORDINALS')}
           // description={t('RECOVER_ORDINALS_DESC')}
-          onClick={() => setIsSelected({ ...isSelected,btc: false, ordinals: true })}
+          onClick={() => setIsSelected({ ...isSelected, btc: false, ordinals: true })}
         />
       </Container>
       <ButtonContainer>

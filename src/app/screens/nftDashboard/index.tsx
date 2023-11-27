@@ -1,32 +1,26 @@
-import FeatureIcon from '@assets/img/nftDashboard/rareSats/NewFeature.svg';
+import Receive from '@assets/img/nftDashboard/buy-crypto.svg';
+import icon from '@assets/img/nftDashboard/NFT_dash.svg';
 import AccountHeaderComponent from '@components/accountHeader';
+import AlertMessage from '@components/alertMessage';
+import BarLoader from '@components/barLoader';
 import ActionButton from '@components/button';
+import ShareDialog from '@components/shareNft';
 import ShowOrdinalReceiveAlert from '@components/showOrdinalReceiveAlert';
 import BottomTabBar from '@components/tabBar';
-import WebGalleryButton from '@components/webGalleryButton';
-
-import { ArrowDown } from '@phosphor-icons/react';
-import { StyledHeading } from '@ui-library/common.styled';
-import Dialog from '@ui-library/dialog';
-import { useTranslation } from 'react-i18next';
-import { StoreState } from '@stores/index';
-import icon from '@assets/img/nftDashboard/NFT_dash.svg';
-import Receive from '@assets/img/nftDashboard/buy-crypto.svg';
-import ActionButton from '@components/button';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import BarLoader from '@components/barLoader';
-import { GAMMA_URL, LoaderSize } from '@utils/constants';
-import ShareDialog from '@components/shareNft';
-import AccountHeaderComponent from '@components/accountHeader';
-import Ordinal from '@screens/ordinals';
-import { ChangeActivateOrdinalsAction } from '@stores/wallet/actions/actionCreators';
-import { useDispatch, useSelector } from 'react-redux';
-import { InscriptionsList } from '@secretkeylabs/xverse-core/types';
-import AlertMessage from '@components/alertMessage';
 import useAddressInscriptions from '@hooks/queries/ordinals/useAddressInscriptions';
 import useStacksCollectibles from '@hooks/queries/useStacksCollectibles';
-import ShowOrdinalReceiveAlert from '@components/showOrdinalReceiveAlert';
+import useWalletSelector from '@hooks/useWalletSelector';
+import Ordinal from '@screens/ordinals';
+import { InscriptionsList } from '@secretkeylabs/xverse-core/types';
+import { StoreState } from '@stores/index';
+import { ChangeActivateOrdinalsAction } from '@stores/wallet/actions/actionCreators';
+import { GAMMA_URL, LoaderSize } from '@utils/constants';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { NumericFormat } from 'react-number-format';
+import { useDispatch, useSelector } from 'react-redux';
+import { MoonLoader } from 'react-spinners';
+import styled from 'styled-components';
 import Nft from './nft';
 import ReceiveNftModal from './receiveNft';
 
@@ -72,16 +66,19 @@ const GridContainer = styled.div<GridContainerProps>((props) => ({
   gridTemplateRows: props.isGalleryOpen ? 'repeat(minmax(300px,1fr))' : 'minmax(150px,220px)',
 }));
 
-const StyledWebGalleryButton = styled(WebGalleryButton)`
-  margin-top: ${(props) => props.theme.space.s};
-`;
+const ShareDialogeContainer = styled.div({
+  position: 'absolute',
+  top: 0,
+  right: 0,
+  zIndex: 2000,
+});
 
 const ReceiveNftContainer = styled.div((props) => ({
   position: 'absolute',
   top: 0,
   right: 0,
   zIndex: 2000,
-  background: props.theme.colors.elevation2,
+  background: props.theme.colors.background.elevation2,
   borderRadius: 16,
 }));
 
@@ -90,7 +87,15 @@ const CollectibleContainer = styled.div((props) => ({
   marginBottom: props.theme.spacing(8),
 }));
 
-const ButtonContainer = styled.div({
+const LoaderContainer = styled.div((props) => ({
+  display: 'flex',
+  flex: 1,
+  justifyContent: 'center',
+  alignItems: 'center',
+  marginTop: props.theme.spacing(12),
+}));
+
+const ButtonContainer = styled.div((props) => ({
   display: 'flex',
   position: 'relative',
   flexDirection: 'row',
@@ -98,7 +103,6 @@ const ButtonContainer = styled.div({
   justifyContent: 'space-between',
   maxWidth: 400,
 }));
-
 
 const ReceiveButtonContainer = styled.div`
   button {
@@ -202,7 +206,7 @@ const LoadMoreButton = styled.button((props) => ({
 
 const NoCollectiblesText = styled.h1((props) => ({
   ...props.theme.body_bold_m,
-  fontFamily:'MontRegular',
+  fontFamily: 'MontRegular',
   color: props.theme.colors.white['200'],
   marginTop: 'auto',
   marginBottom: 'auto',
@@ -231,7 +235,7 @@ const NftListViewContainer = styled.div((props) => ({
 const BalanceAmountContainer = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'row',
-  justifyContent:'space-between',
+  justifyContent: 'space-between',
   alignItems: 'center',
 }));
 
@@ -239,7 +243,6 @@ const BalanceAmountText = styled.h1((props) => ({
   ...props.theme.headline_xl,
   color: props.theme.colors.white['0'],
 }));
-
 
 function NftDashboard() {
   const { t } = useTranslation('translation', { keyPrefix: 'NFT_DASHBOARD_SCREEN' });
@@ -277,18 +280,17 @@ function NftDashboard() {
     refetchCollectibles();
   }, [stxAddress, ordinalsAddress]);
 
-  const nfts = nftsList?.pages.map((page) => page.nftsList).flat();
+  const nfts = nftsList?.pages?.map((page) => page.nftsList).flat();
 
   const ordinalsLength = ordinals?.pages[0].total;
 
   const totalNfts = useMemo(() => {
-    let totalCount = nftsList && nftsList.pages.length > 0 ? nftsList.pages[0].total : 0;
+    let totalCount = nftsList && nftsList.pages?.length > 0 ? nftsList.pages[0].total : 0;
     if (hasActivatedOrdinalsKey && ordinalsLength) {
       totalCount = ordinalsLength + totalCount;
     }
     return totalCount;
   }, [ordinals, nftsList]);
-
   const isGalleryOpen: boolean = useMemo(() => document.documentElement.clientWidth > 360, []);
 
   useEffect(() => {
@@ -338,15 +340,16 @@ function NftDashboard() {
 
   const NftListView = useCallback(
     () =>
-      totalNfts === 0 && ordinalsLength === 0 ? (
+      !totalNfts ? (
         <NoCollectiblesText>{t('NO_COLLECTIBLES')}</NoCollectiblesText>
       ) : (
         <>
           <GridContainer isGalleryOpen={isGalleryOpen}>
             {hasActivatedOrdinalsKey && !ordinalsError && ordinals?.pages?.map(renderOrdinalsList)}
-            {nfts?.map((nft) => (
-              <Nft asset={nft} key={nft.asset_identifier} isGalleryOpen={isGalleryOpen} />
-            ))}
+            {nfts &&
+              nfts?.map((nft) => (
+                <Nft asset={nft} key={nft.asset_identifier} isGalleryOpen={isGalleryOpen} />
+              ))}
           </GridContainer>
           {(hasNextPage || hasNextPageOrdinals) && (
             <LoadMoreButtonContainer>
@@ -400,7 +403,7 @@ function NftDashboard() {
           onSecondButtonClick={onActivateOrdinalsAlertActivatePress}
         />
       )}
-      <AccountHeaderComponent  onReceiveModalOpen={onReceiveModalOpen}/>
+      <AccountHeaderComponent onReceiveModalOpen={onReceiveModalOpen} />
       <Container>
         <Dashboard>
           <CollectibleContainer>

@@ -1,20 +1,20 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable no-nested-ternary */
-import { StoreState } from '@stores/index';
-import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import BarLoader from '@components/barLoader';
-import { useSwipeable } from 'react-swipeable';
-import { useStepperContext } from '@stores/stepper';
-import { useState, useEffect } from 'react';
+import { animated, useSpring } from '@react-spring/web';
 import { microstacksToStx, satsToBtc } from '@secretkeylabs/xverse-core';
 import { currencySymbolMap } from '@secretkeylabs/xverse-core/types/currency';
-import BigNumber from 'bignumber.js';
-import { NumericFormat } from 'react-number-format';
-import styled from 'styled-components';
+import { StoreState } from '@stores/index';
+import { useStepperContext } from '@stores/stepper';
 import { CurrencyTypes, LoaderSize } from '@utils/constants';
+import BigNumber from 'bignumber.js';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { animated, useSpring } from '@react-spring/web';
+import { NumericFormat } from 'react-number-format';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { useSwipeable } from 'react-swipeable';
+import styled from 'styled-components';
 
 const RowContainer = styled.div((props) => ({
   display: 'flex',
@@ -24,7 +24,7 @@ const RowContainer = styled.div((props) => ({
   marginTop: props.theme.spacing(11),
 }));
 
-const BalanceHeadingText = styled.h3((props) => ({
+const BalanceHeadingText = styled.h1((props) => ({
   ...props.theme.headline_category_s,
   fontSize: 18,
   fontWeight: 700,
@@ -32,9 +32,9 @@ const BalanceHeadingText = styled.h3((props) => ({
   color: props.theme.colors.dashboard.text,
 }));
 
-const CurrencyText = styled.label((props) => ({
+const CurrencyText = styled.h1((props) => ({
   ...props.theme.headline_category_s,
-  color: props.theme.colors.white_0,
+  color: props.theme.colors.white['0'],
   fontSize: 13,
 }));
 
@@ -66,18 +66,6 @@ const CurrencyCard = styled.div((props) => ({
   marginLeft: props.theme.spacing(4),
 }));
 
-const BalanceContainer = styled.div((props) => ({
-  display: 'flex',
-  flexDirection: 'row',
-  justifyContent: 'flex-start',
-  alignItems: 'flex-end',
-  gap: props.theme.spacing(5),
-}));
-
-const ReloadContainer = styled.div({
-  marginBottom: 11,
-});
-
 interface BalanceCardProps {
   icon?: any;
   isLoading: boolean;
@@ -101,19 +89,13 @@ function BalanceCard(props: BalanceCardProps) {
     [],
   );
   function calculateTotalBalance() {
-    let totalBalance = new BigNumber(0);
-    if (stxAddress) {
-      const stxFiatEquiv = microstacksToStx(new BigNumber(stxBalance))
-        .multipliedBy(new BigNumber(stxBtcRate))
-        .multipliedBy(new BigNumber(btcFiatRate));
-      totalBalance = totalBalance.plus(stxFiatEquiv);
-    }
-    if (btcAddress) {
-      const btcFiatEquiv = satsToBtc(new BigNumber(btcBalance)).multipliedBy(
-        new BigNumber(btcFiatRate),
-      );
-      totalBalance = totalBalance.plus(btcFiatEquiv);
-    }
+    const stxFiatEquiv = microstacksToStx(new BigNumber(stxBalance))
+      .multipliedBy(new BigNumber(stxBtcRate))
+      .multipliedBy(new BigNumber(btcFiatRate));
+    const btcFiatEquiv = satsToBtc(new BigNumber(btcBalance)).multipliedBy(
+      new BigNumber(btcFiatRate),
+    );
+    const totalBalance = stxFiatEquiv.plus(btcFiatEquiv);
     return totalBalance.toNumber().toFixed(2);
   }
   const {

@@ -9,21 +9,15 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import EnterSeedPhrase from './enterSeedphrase';
 
-const Body = styled.div(() => ({
-  display: 'flex',
-  height: '100%',
-  justifyContent: 'center',
-  alignItems: 'center',
-}));
-
 const Container = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'column',
-  height: 'auto',
-  backgroundColor: props.theme.colors.elevation0,
-  padding: `${props.theme.spacing(12)}px`,
-  border: `1px solid ${props.theme.colors.elevation2}`,
-  borderRadius: props.theme.radius(2),
+  marginLeft: 'auto',
+  marginRight: 'auto',
+  height: 600,
+  width: 360,
+  backgroundColor: props.theme.colors.background.elevation0,
+  padding: `${props.theme.spacing(12)}px ${props.theme.spacing(8)}px 0 ${props.theme.spacing(8)}px`,
 }));
 
 const PasswordContainer = styled.div((props) => ({
@@ -36,7 +30,7 @@ const Heading = styled.p((props) => ({
   color: props.theme.colors.action.classic,
   fontSize: 24,
 }));
-const SeedPhraseContainer = styled.div((props)=>({
+const SeedPhraseContainer = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'column',
   flex: 1,
@@ -137,7 +131,7 @@ function RestoreWallet(): JSX.Element {
     <PasswordContainer key={2}>
       <PasswordInput
         title={t('CREATE_PASSWORD_SCREEN.CONFIRM_PASSWORD_TITLE')}
-        inputLabel={t('CREATE_PASSWORD_SCREEN.TEXT_INPUT_NEW_PASSWORD_LABEL')}
+        inputLabel={t('CREATE_PASSWORD_SCREEN.TEXT_INPUT_CONFIRM_PASSWORD_LABEL')}
         enteredPassword={confirmPassword}
         setEnteredPassword={setConfirmPassword}
         handleContinue={handleConfirmPassword}
