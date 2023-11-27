@@ -39,7 +39,6 @@ interface Props {
 }
 
 function NetworkRow({ network, isSelected, onNetworkSelected, showDivider }: Props) {
-function NetworkRow({ network, isSelected, onNetworkSelected, showDivider }: Props) {
   const theme = useTheme();
   const onClick = () => {
     onNetworkSelected(network);

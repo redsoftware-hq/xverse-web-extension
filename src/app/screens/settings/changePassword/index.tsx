@@ -1,23 +1,14 @@
-import Check from '@assets/img/settings/check_circle.svg';
+import Check from '@assets/img/settings/success_check.svg';
+import Close from '@assets/img/settings/x.svg';
 import PasswordInput from '@components/passwordInput';
-import BottomBar from '@components/tabBar';
 import TopRow from '@components/topRow';
 import useSeedVault from '@hooks/useSeedVault';
+import { duration } from 'moment';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import TopRow from '@components/topRow';
-import BottomBar from '@components/tabBar';
-import { useTranslation } from 'react-i18next';
-import { encryptSeedPhrase } from '@utils/encryptionUtils';
-import useWalletSelector from '@hooks/useWalletSelector';
-import { storeEncryptedSeedAction } from '@stores/wallet/actions/actionCreators';
-import { useDispatch } from 'react-redux';
-import Check from '@assets/img/settings/check_circle.svg';
-import PasswordInput from '@components/passwordInput';
-import useWalletReducer from '@hooks/useWalletReducer';
 
 const PasswordContainer = styled.div((props) => ({
   display: 'flex',
@@ -32,26 +23,35 @@ const PasswordContainer = styled.div((props) => ({
 const ToastContainer = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'row',
-  background: props.theme.colors.feedback.success,
-  borderRadius: 12,
-  boxShadow: '0px 7px 16px -4px rgba(25, 25, 48, 0.25)',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  background: props.theme.colors.success_gradient,
+  border: props.theme.colors.toast.successBorder,
+  borderRadius: props.theme.radius(3),
   height: 60,
   padding: '12px 20px 12px 16px',
+  margin: '0px 16px 16px 16px',
   width: 306,
   flex: 1,
 }));
 
 const ToastMessage = styled.h1((props) => ({
-  ...props.theme.body_medium_m,
-  color: props.theme.colors.elevation0,
-  marginLeft: props.theme.spacing(7),
+  ...props.theme.body_medium_xl,
+  color: props.theme.colors.success_pill,
 }));
 
-const ToastDismissButton = styled.button((props) => ({
+const ToastDismissButton = styled.button(() => ({
   background: 'transparent',
-  marginLeft: props.theme.spacing(12),
 }));
-
+const Backdrop = styled.div((props) => ({
+  display: 'flex',
+  alignItems: 'flex-end',
+  background: 'transparent',
+  backdropFilter: props.theme.backdrop.hover,
+  height: '100vh',
+  width: '100vw',
+  margin: '-15px -20px',
+}));
 function ChangePasswordScreen() {
   const { t } = useTranslation('translation');
   const { unlockVault, changePassword } = useSeedVault();
@@ -86,11 +86,15 @@ function ChangePasswordScreen() {
   };
 
   const ToastContent = (
-    <ToastContainer>
-      <img src={Check} alt="Check" />
-      <ToastMessage>{t('SETTING_SCREEN.UPDATE_PASSWORD_SUCCESS')}</ToastMessage>
-      <ToastDismissButton onClick={dismissToast}>{t('OK')}</ToastDismissButton>
-    </ToastContainer>
+    <Backdrop>
+      <ToastContainer>
+        <img src={Check} alt="Check" />
+        <ToastMessage>{t('SETTING_SCREEN.UPDATE_PASSWORD_SUCCESS')}</ToastMessage>
+        <ToastDismissButton onClick={dismissToast}>
+          <img src={Close} alt="X" />
+        </ToastDismissButton>
+      </ToastContainer>
+    </Backdrop>
   );
 
   const handleEnterNewPasswordNextClick = () => {

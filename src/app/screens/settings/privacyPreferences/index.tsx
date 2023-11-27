@@ -1,4 +1,3 @@
-import BottomBar from '@components/tabBar';
 import TopRow from '@components/topRow';
 import useWalletSelector from '@hooks/useWalletSelector';
 import { hasOptedInMixPanelTracking, optInMixPanel, optOutMixPanel } from '@utils/mixpanel';
@@ -91,7 +90,6 @@ function PrivacyPreferencesScreen() {
           />
         </SwitchContainer>
       </Container>
-      <BottomBar tab="settings" />
     </>
   );
 }

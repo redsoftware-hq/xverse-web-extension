@@ -1,13 +1,13 @@
-import styled from 'styled-components';
-import TopRow from '@components/topRow';
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import Paragraph from '@components/paragraph';
-import PasswordInput from '@components/passwordInput';
-import useWalletReducer from '@hooks/useWalletReducer';
-import { useState } from 'react';
 import BackButton from '@components/backButton';
 import ActionButton from '@components/button';
+import Paragraph from '@components/paragraph';
+import PasswordInput from '@components/passwordInput';
+import TopRow from '@components/topRow';
+import useWalletReducer from '@hooks/useWalletReducer';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 
 const ResetWalletContainer = styled.div((props) => ({
   width: '100%',
@@ -93,6 +93,7 @@ function ResetWalletScreen() {
       <ButtonContainer>
         <ActionButton
           text={t('RESET_WALLET')}
+          // eslint-disable-next-line no-inline-styles/no-inline-styles
           style={{ textTransform: 'uppercase' }}
           onPress={openResetWalletScreen}
         />

@@ -1,12 +1,11 @@
+import PasswordInput from '@components/passwordInput';
+import TopRow from '@components/topRow';
+import useSeedVault from '@hooks/useSeedVault';
+import SeedCheck from '@screens/backupWalletSteps/seedCheck';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import PasswordInput from '@components/passwordInput';
-import TopRow from '@components/topRow';
-import BottomBar from '@components/tabBar';
-import SeedCheck from '@screens/backupWalletSteps/seedCheck';
 import styled from 'styled-components';
-import BackButton from '@components/backButton';
 
 const Container = styled.div<{ showSeed: boolean }>((props) => ({
   display: 'flex',
@@ -39,7 +38,7 @@ function BackupWalletScreen() {
     return () => {
       setSeed('');
     };
-  }, []);
+  }, [getSeed]);
 
   const goToSettingScreen = () => {
     navigate('/settings');
@@ -81,7 +80,7 @@ function BackupWalletScreen() {
           <SeedCheck
             fromSetting
             showButton={false}
-            seedPhrase={seedPhrase}
+            seedPhrase={seed}
             onContinue={goToSettingScreen}
             copy={copy}
             setCopy={setCopy}
