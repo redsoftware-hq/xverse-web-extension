@@ -1,7 +1,8 @@
 import ArrowLeft from '@assets/img/dashboard/arrow_left.svg';
 import BackButton from '@components/backButton';
+import styled from 'styled-components';
 
-const TopSectionContainer = styled.div<>((props) => ({
+const TopSectionContainer = styled.div((props) => ({
   display: 'flex',
   minHeight: 18,
   marginTop: props.theme.spacing(12),

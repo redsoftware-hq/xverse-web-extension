@@ -1,18 +1,21 @@
+import UnselectedNftTab from '@assets/img/bottomTabBar/NFT.svg';
+import MarketTab from '@assets/img/bottomTabBar/Selected_market.svg';
+import NftTab from '@assets/img/bottomTabBar/Selected_nft.svg';
+import StackingTab from '@assets/img/bottomTabBar/Selected_stake.svg';
+import WalletTab from '@assets/img/bottomTabBar/Selected_wallet.svg';
+import SettingsTab from '@assets/img/bottomTabBar/setting_tab.svg';
+import UnselectedStackingTab from '@assets/img/bottomTabBar/Stake.svg';
+import UnselectedMarketTab from '@assets/img/bottomTabBar/unselected_market_tab.svg';
+import UnselectedSettingsTab from '@assets/img/bottomTabBar/unselected_setting_tab.svg';
+import UnselectedWalletTab from '@assets/img/bottomTabBar/Wallet.svg';
+import StyledTooltip from '@components/styledTooltip';
 import { ChartLineUp, Gear, SketchLogo, Wallet } from '@phosphor-icons/react';
 import { animated, easings, useSpring } from '@react-spring/web';
+import { useStepperContext } from '@stores/stepper';
 import { isInOptions } from '@utils/helper';
 import { useNavigate } from 'react-router-dom';
-import NftTab from '@assets/img/bottomTabBar/Selected_nft.svg';
-import SettingsTab from '@assets/img/bottomTabBar/setting_tab.svg';
-import StackingTab from '@assets/img/bottomTabBar/Selected_stake.svg';
-import MarketTab from '@assets/img/bottomTabBar/Selected_market.svg';
-import WalletTab from '@assets/img/bottomTabBar/Selected_wallet.svg';
-import UnselectedNftTab from '@assets/img/bottomTabBar/NFT.svg';
-import UnselectedSettingsTab from '@assets/img/bottomTabBar/unselected_setting_tab.svg';
-import UnselectedMarketTab from '@assets/img/bottomTabBar/unselected_market_tab.svg';
-import UnselectedStackingTab from '@assets/img/bottomTabBar/Stake.svg';
-import UnselectedWalletTab from '@assets/img/bottomTabBar/Wallet.svg';
-import { useStepperContext } from '@stores/stepper';
+import styled from 'styled-components';
+
 const Container = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'row',
@@ -47,13 +50,11 @@ const Button = styled.button({
   zIndex: 2,
 });
 
-type Tab = 'dashboard' | 'nft' | 'market' | 'stacking';
+export type Tab = 'dashboard' | 'nft' | 'market' | 'stacking';
 
 interface Props {
   tab: Tab;
-  tab: Tab;
 }
-function BottomTabBar({ tab }: Props) {
 function BottomTabBar({ tab }: Props) {
   const navigate = useNavigate();
   const { dispatchStep } = useStepperContext();
@@ -76,23 +77,30 @@ function BottomTabBar({ tab }: Props) {
     }
   };
 
-  const handleStackingButtonClick = () => {
-    if (tab !== 'stacking') {
-      navigate('/stacking');
-    }
-  };
+  // const handleStackingButtonClick = () => {
+  //   if (tab !== 'stacking') {
+  //     navigate('/stacking');
+  //   }
+  // };
 
   return (
     <Container>
       <RowContainer>
         <Button onClick={handleDashboardButtonClick}>
-          <img src={tab === 'dashboard' ? WalletTab : UnselectedWalletTab} alt="dashboard" />
+          <img
+            id="dashboard"
+            src={tab === 'dashboard' ? WalletTab : UnselectedWalletTab}
+            alt="dashboard"
+          />
+          <StyledTooltip anchorSelect="dashboard" content="Wallet" place="bottom" />
         </Button>
         <Button onClick={handleMarketButtonClick}>
-          <img src={tab === 'market' ? MarketTab : UnselectedMarketTab} alt="market" />
+          <img id="market" src={tab === 'market' ? MarketTab : UnselectedMarketTab} alt="market" />
+          <StyledTooltip anchorSelect="market" content="Market" place="bottom" />
         </Button>
         <Button onClick={handleNftButtonClick}>
-          <img src={tab === 'nft' ? NftTab : UnselectedNftTab} alt="nft" />
+          <img id="nft" src={tab === 'nft' ? NftTab : UnselectedNftTab} alt="nft" />
+          <StyledTooltip anchorSelect="nft" content="NFTs" place="bottom" />
         </Button>
         {/* <Button onClick={handleStackingButtonClick}>
         <img src={tab === 'stacking' ? StackingTab : UnselectedStackingTab} alt="stacking" />

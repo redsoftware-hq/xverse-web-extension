@@ -1,5 +1,4 @@
 /* eslint-disable no-nested-ternary */
-import styled from 'styled-components';
 import { MoonLoader } from 'react-spinners';
 import styled from 'styled-components';
 
@@ -98,9 +97,7 @@ const AnimatedDashboardButton = styled.button((props) => ({
 }));
 
 interface Props {
-  className?: string;
   src?: string;
-  icon?: JSX.Element;
   text: string;
   onPress: () => void;
   processing?: boolean;
@@ -109,13 +106,10 @@ interface Props {
   inDashboard?: boolean;
   style?: any;
   warning?: boolean;
-  hoverDialogId?: string;
 }
 
 function ActionButton({
-  className,
   src,
-  icon,
   text,
   onPress,
   processing = false,
@@ -162,11 +156,10 @@ function ActionButton({
         ) : (
           <>
             {src && <ButtonImage src={src} />}
-            {icon && <ButtonIconContainer>{icon}</ButtonIconContainer>}
             <AnimatedButtonText>{text}</AnimatedButtonText>
           </>
         )}
-      </TransparentButton>
+      </AnimatedTransparentButton>
     );
   }
 
@@ -185,7 +178,7 @@ function ActionButton({
           <ButtonText warning={warning}>{text}</ButtonText>
         </>
       )}
-    </Button>
+    </AnimatedButton>
   );
 }
 export default ActionButton;
