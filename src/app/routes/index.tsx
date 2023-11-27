@@ -45,6 +45,7 @@ import RareSatsBundle from '@screens/rareSatsBundle';
 import RareSatsDetailScreen from '@screens/rareSatsDetail/rareSatsDetail';
 import Receive from '@screens/receive';
 import ReceiveMainMenu from '@screens/receiveMainMenu';
+import ReceiveNftMainMenu from '@screens/receiveMainMenu/nft';
 import RestoreFunds from '@screens/restoreFunds';
 import RestoreBtc from '@screens/restoreFunds/restoreBtc';
 import RestoreOrdinals from '@screens/restoreFunds/restoreOrdinals';
@@ -420,6 +421,10 @@ const router = createHashRouter([
       {
         path: 'receive-main-menu',
         element: <ReceiveMainMenu />,
+      },
+      {
+        path: 'receive-main-menu/nft',
+        element: <ReceiveNftMainMenu />,
       },
     ],
   },

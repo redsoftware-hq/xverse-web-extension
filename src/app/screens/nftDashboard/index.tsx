@@ -19,6 +19,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NumericFormat } from 'react-number-format';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { MoonLoader } from 'react-spinners';
 import styled from 'styled-components';
 import Nft from './nft';
@@ -247,6 +248,7 @@ const BalanceAmountText = styled.h1((props) => ({
 function NftDashboard() {
   const { t } = useTranslation('translation', { keyPrefix: 'NFT_DASHBOARD_SCREEN' });
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { stxAddress, ordinalsAddress, hasActivatedOrdinalsKey } = useWalletSelector();
   const [showShareNftOptions, setShowNftOptions] = useState(false);
   const [openReceiveModal, setOpenReceiveModal] = useState(false);
@@ -387,6 +389,9 @@ function NftDashboard() {
     dispatch(ChangeActivateOrdinalsAction(true));
   };
 
+  const onReceive = () => {
+    navigate('/receive-main-menu/nft');
+  };
   return (
     <>
       {isOrdinalReceiveAlertVisible && (
@@ -403,7 +408,7 @@ function NftDashboard() {
           onSecondButtonClick={onActivateOrdinalsAlertActivatePress}
         />
       )}
-      <AccountHeaderComponent onReceiveModalOpen={onReceiveModalOpen} />
+      <AccountHeaderComponent onReceive={onReceive} />
       <Container>
         <Dashboard>
           <CollectibleContainer>
@@ -436,12 +441,7 @@ function NftDashboard() {
               </CollectiblesValueTextContainer>
               <ButtonContainer>
                 <ReceiveButtonContainer>
-                  <ActionButton
-                    inDashboard
-                    src={Receive}
-                    text={t('RECEIVE')}
-                    onPress={onReceiveModalOpen}
-                  />
+                  <ActionButton inDashboard src={Receive} text={t('RECEIVE')} onPress={onReceive} />
                 </ReceiveButtonContainer>
                 {openReceiveModal && (
                   <ReceiveNftContainer>
