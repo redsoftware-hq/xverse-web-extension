@@ -92,15 +92,15 @@ function BottomTabBar({ tab }: Props) {
             src={tab === 'dashboard' ? WalletTab : UnselectedWalletTab}
             alt="dashboard"
           />
-          <StyledTooltip anchorSelect="dashboard" content="Wallet" place="bottom" />
+          <StyledTooltip anchorSelect="dashboard" content="Wallet" place="bottom" noArrow />
         </Button>
         <Button onClick={handleMarketButtonClick}>
           <img id="market" src={tab === 'market' ? MarketTab : UnselectedMarketTab} alt="market" />
-          <StyledTooltip anchorSelect="market" content="Market" place="bottom" />
+          <StyledTooltip anchorSelect="market" content="Market" place="bottom" noArrow />
         </Button>
         <Button onClick={handleNftButtonClick}>
           <img id="nft" src={tab === 'nft' ? NftTab : UnselectedNftTab} alt="nft" />
-          <StyledTooltip anchorSelect="nft" content="NFTs" place="bottom" />
+          <StyledTooltip anchorSelect="nft" content="NFTs" place="bottom" noArrow />
         </Button>
         {/* <Button onClick={handleStackingButtonClick}>
         <img src={tab === 'stacking' ? StackingTab : UnselectedStackingTab} alt="stacking" />
