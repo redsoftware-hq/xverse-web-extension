@@ -191,7 +191,7 @@ interface Props {
   disableMenuOption?: boolean;
   onAccountSelected: (account: Account) => void;
   handleSettingsSelect?: () => void;
-  onReceiveModalOpen?: () => void;
+  onReceive?: () => void;
   forAccountManagement?: boolean;
   usedInPopup?: boolean;
 }
@@ -254,7 +254,7 @@ function AccountRow({
   handleSettingsSelect,
   onAccountSelected,
   allowCopyAddress,
-  onReceiveModalOpen,
+  onReceive,
   showOrdinalAddress,
   forAccountManagement = false,
   usedInPopup = false,
@@ -380,7 +380,7 @@ function AccountRow({
         />
         {!disableMenuOption && !usedInPopup && (
           <>
-            <IconButton onClick={onReceiveModalOpen}>
+            <IconButton onClick={onReceive}>
               <img id="recieve" src={QR} alt="Receive" />
             </IconButton>
             <StyledTooltip anchorSelect="recieve" content="Recieve" noArrow place="bottom" />

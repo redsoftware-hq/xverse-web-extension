@@ -90,6 +90,7 @@ const Theme = {
     lilac_dark: '#4F34BA',
 
     // orange-pill-wallet
+    secondaryText: '#626A82',
     success_gradient:
       'linear-gradient(90deg, rgba(66, 191, 35, 0.20) 0%, rgba(66, 191, 35, 0.00) 31.87%), radial-gradient(489.09% 91.61% at 89.79% 22.85%, rgba(56, 60, 78, 0.20) 0%, rgba(13, 14, 18, 0.20) 100%)',
     toast: {
@@ -358,6 +359,12 @@ const Theme = {
     fontStyle: 'normal',
     fontWeight: '700',
     fontSize: 18,
+  },
+  body_medium_2xl: {
+    fontFamily: 'MontRegular',
+    fontStyle: 'normal',
+    fontWeight: '700',
+    fontSize: 20,
   },
   body_l: {
     fontFamily: 'MontRegular',

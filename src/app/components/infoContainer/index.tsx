@@ -14,9 +14,6 @@ const Container = styled.div<ContainerProps>((props) => ({
   backgroundColor: props.showWarningBackground ? 'rgba(211, 60, 60, 0.15)' : 'transparent',
   padding: props.theme.spacing(8),
   marginBottom: props.theme.spacing(6),
-  border: `1px solid ${
-    props.type === 'Warning' ? props.theme.colors.feedback.error_700 : 'rgba(255, 255, 255, 0.2)'
-  }`,
 }));
 
 const TextContainer = styled.div((props) => ({
@@ -43,10 +40,15 @@ const SubText = styled.h1((props) => ({
 
 const Text = styled.h1((props) => ({
   ...props.theme.body_m,
-  color: props.theme.colors.white_200,
+  color: props.theme.colors.secondaryText,
   lineHeight: 1.4,
 }));
-
+const WarningText = styled.span((props) => ({
+  ...props.theme.body_m,
+  color: props.theme.colors.action.classic,
+  lineHeight: 1.4,
+  marginRight: props.theme.spacing(4),
+}));
 const RedirectButton = styled.button((props) => ({
   backgroundColor: 'transparent',
   color: props.theme.colors.white_0,
@@ -63,6 +65,7 @@ interface Props {
   onClick?: () => void;
   redirectText?: string;
   showWarningBackground?: boolean;
+  showWarningText?: boolean;
 }
 
 function InfoContainer({
@@ -71,11 +74,20 @@ function InfoContainer({
   type,
   redirectText,
   onClick,
+  showWarningText,
   showWarningBackground,
 }: Props) {
-  return (
+  return showWarningText ? (
+    <Container type={type}>
+      <Text>
+        <WarningText>Warning:</WarningText>
+        {bodyText}
+      </Text>
+    </Container>
+  ) : (
     <Container type={type} showWarningBackground={showWarningBackground}>
       <img src={type === 'Warning' ? WarningIcon : InfoIcon} alt="alert" />
+
       <TextContainer>
         {titleText ? (
           <>

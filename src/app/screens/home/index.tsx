@@ -1,18 +1,23 @@
 /* eslint-disable no-await-in-loop */
-import SIP10Icon from '@assets/img/dashboard/SIP10.svg';
-import Send from '@assets/img/dashboard/send.svg';
-import Receive from '@assets/img/dashboard/recieve.svg';
+import AddCoin from '@assets/img/dashboard/AddCoin.svg';
 import IconBitcoin from '@assets/img/dashboard/bitcoin_icon.svg';
 import BitcoinToken from '@assets/img/dashboard/bitcoin_token.svg';
 import Buy from '@assets/img/dashboard/buy.svg';
-import Wallet from '@assets/img/dashboard/Wallet.svg';
-import AddCoin from '@assets/img/dashboard/AddCoin.svg';
 import OrdinalsIcon from '@assets/img/dashboard/ordinalBRC20.svg';
+import Receive from '@assets/img/dashboard/recieve.svg';
+import Send from '@assets/img/dashboard/send.svg';
+import SIP10Icon from '@assets/img/dashboard/SIP10.svg';
 import IconStacks from '@assets/img/dashboard/stack_icon.svg';
+import Wallet from '@assets/img/dashboard/Wallet.svg';
 import AccountHeaderComponent from '@components/accountHeader';
+import AlertMessage from '@components/alertMessage';
 import BottomModal from '@components/bottomModal';
 import ReceiveCardComponent from '@components/receiveCardComponent';
+import ShowBtcReceiveAlert from '@components/showBtcReceiveAlert';
+import ShowOrdinalReceiveAlert from '@components/showOrdinalReceiveAlert';
 import SmallActionButton from '@components/smallActionButton';
+import StepperNavigator from '@components/stepperNavigator';
+import Steps from '@components/steps';
 import BottomBar from '@components/tabBar';
 import TokenTile from '@components/tokenTile';
 import useAppConfig from '@hooks/queries/useAppConfig';
@@ -23,26 +28,21 @@ import useCoinRates from '@hooks/queries/useCoinRates';
 import useFeeMultipliers from '@hooks/queries/useFeeMultipliers';
 import useStxWalletData from '@hooks/queries/useStxWalletData';
 import useWalletSelector from '@hooks/useWalletSelector';
+import TransactionsHistoryList from '@screens/coinDashboard/transactionsHistoryList';
 import CoinSelectModal from '@screens/home/coinSelectModal';
 import { FungibleToken } from '@secretkeylabs/xverse-core/types';
-import { CurrencyTypes } from '@utils/constants';
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-import Theme from 'theme';
-import AlertMessage from '@components/alertMessage';
-import { useDispatch } from 'react-redux';
+import { useStepperContext } from '@stores/stepper';
 import {
   ChangeShowBtcReceiveAlertAction,
   ChangeShowOrdinalReceiveAlertAction,
 } from '@stores/wallet/actions/actionCreators';
-import ShowBtcReceiveAlert from '@components/showBtcReceiveAlert';
-import ShowOrdinalReceiveAlert from '@components/showOrdinalReceiveAlert';
-import Steps from '@components/steps';
-import { useStepperContext } from '@stores/stepper';
-import StepperNavigator from '@components/stepperNavigator';
-import TransactionsHistoryList from '@screens/coinDashboard/transactionsHistoryList';
+import { CurrencyTypes } from '@utils/constants';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import Theme from 'theme';
 import BalanceCard from './balanceCard';
 
 const Container = styled.div`
@@ -184,7 +184,7 @@ function Home() {
   });
   const navigate = useNavigate();
   const dispatch = useDispatch();
- 
+
   const [openReceiveModal, setOpenReceiveModal] = useState(false);
   const [openSendModal, setOpenSendModal] = useState(false);
   const [openBuyModal, setOpenBuyModal] = useState(false);
@@ -298,7 +298,9 @@ function Home() {
   const onReceiveAlertOpen = () => {
     if (showBtcReceiveAlert) setIsBtcReceiveAlertVisible(true);
   };
-
+  const onReceive = () => {
+    navigate('receive-main-menu');
+  };
   const handleTokenPressed = (token: {
     coin: CurrencyTypes;
     ft?: string | undefined;
@@ -347,7 +349,7 @@ function Home() {
   );
   return (
     <>
-      <AccountHeaderComponent onReceiveModalOpen={onReceiveModalOpen} />
+      <AccountHeaderComponent onReceive={onReceive} />
       {isBtcReceiveAlertVisible && (
         <ShowBtcReceiveAlert onReceiveAlertClose={onReceiveAlertClose} />
       )}

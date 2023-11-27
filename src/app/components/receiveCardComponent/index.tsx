@@ -1,18 +1,19 @@
 import Copy from '@assets/img/nftDashboard/Copy.svg';
 import QrCode from '@assets/img/nftDashboard/QrCode.svg';
 import ActionButton from '@components/button';
+import StyledTooltip from '@components/styledTooltip';
 import { getShortTruncatedAddress } from '@utils/helper';
 import { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Tooltip } from 'react-tooltip';
 import 'react-tooltip/dist/react-tooltip.css';
 import styled from 'styled-components';
 
 const ReceiveCard = styled.div((props) => ({
-  background: props.theme.colors.background.darkbg,
+  background: props.theme.colors.background.orangePillBg,
   borderRadius: 12,
-  width: 328,
-  height: 104,
+  border: '1px solid rgba(168, 185, 244, 0.15)',
+  width: '320px',
+  height: '60px',
   padding: props.theme.spacing(8),
   display: 'flex',
   flexDirection: 'row',
@@ -20,15 +21,15 @@ const ReceiveCard = styled.div((props) => ({
 }));
 
 const Button = styled.button((props) => ({
-  background: props.theme.colors.elevation6,
+  background: 'transparent',
   borderRadius: props.theme.radius(7),
   width: 40,
   height: 40,
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  marginLeft: props.theme.spacing(4),
-  padding: props.theme.spacing(5.5),
+  marginLeft: props.theme.spacing(2),
+  padding: props.theme.spacing(4),
 }));
 
 const ColumnContainer = styled.div({
@@ -59,13 +60,6 @@ const AddressText = styled.h1((props) => ({
   color: props.theme.colors.white_400,
 }));
 
-const StyledTooltip = styled(Tooltip)`
-  background-color: #ffffff;
-  color: #12151e;
-  border-radius: 8px;
-  padding: 7px;
-`;
-
 const VerifyButtonContainer = styled.div({
   width: 68,
 });
@@ -75,10 +69,11 @@ interface Props {
   title: string;
   address: string;
   onQrAddressClick: () => void;
-  children: ReactNode;
+  children?: ReactNode;
   onCopyAddressClick?: () => void;
   showVerifyButton?: boolean;
   currency?: string;
+  fromMainMenu?: boolean;
 }
 
 function ReceiveCardComponent({
@@ -90,6 +85,7 @@ function ReceiveCardComponent({
   onCopyAddressClick,
   showVerifyButton,
   currency,
+  fromMainMenu = false,
 }: Props) {
   const { t } = useTranslation('translation', { keyPrefix: 'NFT_DASHBOARD_SCREEN' });
   let addressText = 'Receive Ordinals & BRC20 tokens';
@@ -102,14 +98,26 @@ function ReceiveCardComponent({
     if (onCopyAddressClick) onCopyAddressClick();
   };
 
+  const getCopyId = () => {
+    switch (title) {
+      case 'Bitcon':
+        return 'copy-address-bitcoin';
+      case 'Stacks and SIP-10':
+        return 'copy-address-stx';
+      default:
+        return 'copy-address-ordinals';
+    }
+  };
   return (
     <ReceiveCard className={className}>
       <ColumnContainer>
         {children}
         <TitleText>{title}</TitleText>
-        <AddressText>
-          {showVerifyButton ? addressText : getShortTruncatedAddress(address)}
-        </AddressText>
+        {!fromMainMenu && (
+          <AddressText>
+            {showVerifyButton ? addressText : getShortTruncatedAddress(address)}
+          </AddressText>
+        )}
       </ColumnContainer>
       {showVerifyButton ? (
         <VerifyButtonContainer>
@@ -125,15 +133,15 @@ function ReceiveCardComponent({
         </VerifyButtonContainer>
       ) : (
         <RowContainer>
-          <Button id={`copy-address-${title}`} onClick={onCopyClick}>
+          <Button id={getCopyId()} onClick={onCopyClick}>
             <ButtonIcon src={Copy} />
           </Button>
           <StyledTooltip
-            anchorId={`copy-address-${title}`}
-            variant="light"
+            anchorSelect={getCopyId()}
             content={t('COPIED')}
-            events={['click']}
             place="top"
+            noArrow
+            openOnClick
           />
           <Button onClick={onQrAddressClick}>
             <ButtonIcon src={QrCode} />

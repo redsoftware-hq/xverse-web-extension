@@ -55,13 +55,13 @@ interface AccountHeaderComponentProps {
   disableMenuOption?: boolean;
   disableAccountSwitch?: boolean;
   disableCopy?: boolean;
-  onReceiveModalOpen?: () => void;
+  onReceive?: () => void;
 }
 
 function AccountHeaderComponent({
   disableMenuOption,
   disableAccountSwitch = false,
-  onReceiveModalOpen,
+  onReceive,
   disableCopy = false,
 }: AccountHeaderComponentProps) {
   const navigate = useNavigate();
@@ -148,7 +148,7 @@ function AccountHeaderComponent({
             disableMenuOption={disableMenuOption}
             handleSettingsSelect={handleSettingsSelect}
             onAccountSelected={handleAccountSelect}
-            onReceiveModalOpen={onReceiveModalOpen}
+            onReceive={onReceive}
           />
         </TopBar>
         {/* {!disableMenuOption && (

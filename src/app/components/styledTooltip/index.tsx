@@ -1,13 +1,12 @@
 import React from 'react';
-import { PlacesType, Tooltip } from 'react-tooltip';
+import { ITooltip, PlacesType, Tooltip } from 'react-tooltip';
 
-interface Props {
+interface Props extends ITooltip {
   anchorSelect: string;
   content: string;
-  place: PlacesType;
   noArrow?: boolean;
 }
-export default function StyledTooltip({ anchorSelect, content, place, noArrow = true }: Props) {
+export default function StyledTooltip(props: Props) {
   const style = {
     color: '#fff',
     fontFamily: 'MontRegular',
@@ -24,8 +23,10 @@ export default function StyledTooltip({ anchorSelect, content, place, noArrow = 
     background:
       'radial-gradient(489.09% 91.61% at 89.79% 22.85%, rgba(56, 60, 78, 0.20) 0%, rgba(13, 14, 18, 0.20) 100%), rgba(0, 0, 0, 0.80)',
   };
+  const { anchorSelect, content, place, noArrow } = props;
   return (
     <Tooltip
+      {...props}
       anchorSelect={`#${anchorSelect}`}
       content={content}
       place={place}
