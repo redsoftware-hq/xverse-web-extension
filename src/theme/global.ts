@@ -1,18 +1,18 @@
 import { createGlobalStyle } from 'styled-components';
-import SatoshiBold from '../assets/fonts/Satoshi-Bold.otf';
-import SatoshiBlack from '../assets/fonts/Satoshi-Black.otf';
-import SatoshiMedium from '../assets/fonts/Satoshi-Medium.otf';
-import SatoshiRegular from '../assets/fonts/Satoshi-Regular.otf';
-import IBMPlexSansRegular from '../assets/fonts/IBMPlexSans-Regular.ttf';
-import IBMPlexSansBold from '../assets/fonts/IBMPlexSans-Bold.ttf';
-import IBMPlexSansMedium from '../assets/fonts/IBMPlexSans-Medium.ttf';
 import DMSansBold from '../assets/fonts/DMSans-Bold.ttf';
 import DMSansMedium from '../assets/fonts/DMSans-Medium.ttf';
 import DMSansRegular from '../assets/fonts/DMSans-Regular.ttf';
-import MontRegular from '../assets/fonts/Mont-Regular.otf';
+import IBMPlexSansBold from '../assets/fonts/IBMPlexSans-Bold.ttf';
+import IBMPlexSansMedium from '../assets/fonts/IBMPlexSans-Medium.ttf';
+import IBMPlexSansRegular from '../assets/fonts/IBMPlexSans-Regular.ttf';
 import MontBold from '../assets/fonts/Mont-Bold.otf';
-import MontSemiBold from '../assets/fonts/Mont-SemiBold.otf';
 import MontLight from '../assets/fonts/Mont-Light.otf';
+import MontRegular from '../assets/fonts/Mont-Regular.otf';
+import MontSemiBold from '../assets/fonts/Mont-SemiBold.otf';
+import SatoshiBlack from '../assets/fonts/Satoshi-Black.otf';
+import SatoshiBold from '../assets/fonts/Satoshi-Bold.otf';
+import SatoshiMedium from '../assets/fonts/Satoshi-Medium.otf';
+import SatoshiRegular from '../assets/fonts/Satoshi-Regular.otf';
 
 const GlobalStyle = createGlobalStyle`
   @font-face{
@@ -90,7 +90,7 @@ const GlobalStyle = createGlobalStyle`
   }
   html {
     box-sizing: border-box;
-    background: radial-gradient(157.22% 121.91% at 17.22% 10.50%, #0D0E12 0%, #000 75.87%);;
+    background: radial-gradient(157.22% 121.91% at 17.22% 10.5%, #0D0E12 0%, #000 75.87%);
   }
   * {
   margin: 0;

@@ -74,6 +74,7 @@ const Theme = {
     success_medium: '#55B86E',
     success_dark: '#3B884E',
     success_dark_600: 'rgba(59,136,78,0.4)',
+    success_pill: '#42BF23',
     caution: '#F2A900',
     caution_800: 'rgba(242, 169, 0, 0.2)',
 
@@ -88,6 +89,12 @@ const Theme = {
     lilac: '#5E41C5',
     lilac_dark: '#4F34BA',
 
+    // orange-pill-wallet
+    success_gradient:
+      'linear-gradient(90deg, rgba(66, 191, 35, 0.20) 0%, rgba(66, 191, 35, 0.00) 31.87%), radial-gradient(489.09% 91.61% at 89.79% 22.85%, rgba(56, 60, 78, 0.20) 0%, rgba(13, 14, 18, 0.20) 100%)',
+    toast: {
+      successBorder: '1px solid rgba(168, 185, 244, 0.15)',
+    },
     action: {
       classic: '#D23403',
       classicYou: '#D2340333',
@@ -131,12 +138,13 @@ const Theme = {
       900: 'rgba(255, 255, 255, 0.1)',
     },
     dashboard: {
-      text: '#FFA589'
-    }
-    ,
+      text: '#FFA589',
+    },
     background: {
+      orangePillBg: 'radial-gradient(157.22% 121.91% at 17.22% 10.5%, #0D0E12 0%, #000 75.87%)',
       sliderBg: 'rgba(210, 52, 3, 0.20)',
-      figmaBg:'radial-gradient(157.22% 121.91% at 17.22% 10.50%, #0D0E12 0%, #000 75.87%)',
+      hoverPopup:
+        'radial-gradient(489.09% 91.61% at 89.79% 22.85%, rgba(56, 60, 78, 0.20) 0%, rgba(13, 14, 18, 0.20) 100%), rgba(0, 0, 0, 0.80)',
       darkbg: '#0E1015',
       navigation: 'radial-gradient(157.22% 121.91% at 17.22% 10.50%, #0D0E12 0%, #000 75.87%)',
       'elevation-1': '#070A13',
@@ -197,8 +205,129 @@ const Theme = {
     orange_main: ' #EE7A30',
     grey1: '#626A82',
   },
+  hover: { border: '1px solid rgba(168, 185, 244, 0.15)' },
+  typography: {
+    headline_xl: {
+      fontFamily: 'MontBold',
+      fontStyle: 'normal',
+      fontWeight: '700',
+      fontSize: 40,
+      letterSpacing: 0.02,
+      lineHeight: '125%',
+    },
+    headline_l: {
+      fontFamily: 'MontBold',
+      fontStyle: 'normal',
+      fontWeight: '700',
+      fontSize: 34,
+      letterSpacing: 0.02,
+      lineHeight: '125%',
+    },
+    headline_m: {
+      fontFamily: 'MontBold',
+      fontStyle: 'normal',
+      fontWeight: '700',
+      fontSize: 28,
+      letterSpacing: 0.02,
+      lineHeight: '140%',
+    },
+    headline_s: {
+      fontFamily: 'MontBold',
+      fontStyle: 'normal',
+      fontWeight: '700',
+      fontSize: 24,
+      letterSpacing: 0.02,
+      lineHeight: '140%',
+    },
+    headline_xs: {
+      fontFamily: 'MontBold',
+      fontStyle: 'normal',
+      fontWeight: '700',
+      fontSize: 20,
+      letterSpacing: 0.02,
+      lineHeight: '125%',
+    },
+    body_bold_l: {
+      fontFamily: 'MontBold',
+      fontStyle: 'normal',
+      fontWeight: '700',
+      fontSize: 16,
+    },
+    body_medium_l: {
+      fontFamily: 'MontSemiBold',
+      fontStyle: 'normal',
+      fontWeight: '500',
+      fontSize: 16,
+    },
+    body_l: {
+      fontFamily: 'MontRegular',
+      fontStyle: 'normal',
+      fontWeight: '400',
+      fontSize: 16,
+    },
+    body_bold_m: {
+      fontFamily: 'MontBold',
+      fontStyle: 'normal',
+      fontWeight: '700',
+      fontSize: 14,
+    },
+    body_medium_m: {
+      fontFamily: 'MontSemiBold',
+      fontStyle: 'normal',
+      fontWeight: '500',
+      fontSize: 14,
+    },
+    body_m: {
+      fontFamily: 'MontRegular',
+      fontStyle: 'normal',
+      fontWeight: '400',
+      fontSize: 14,
+    },
+    body_bold_s: {
+      fontFamily: 'MontBold',
+      fontStyle: 'normal',
+      fontWeight: '700',
+      fontSize: 12,
+    },
+    body_medium_s: {
+      fontFamily: 'MontSemiBold',
+      fontStyle: 'normal',
+      fontWeight: '500',
+      fontSize: 12,
+    },
+    body_s: {
+      fontFamily: 'MontRegular',
+      fontStyle: 'normal',
+      fontWeight: '400',
+      fontSize: 12,
+    },
+  },
+  backdrop: {
+    hover: 'blur(10px)',
+  },
+  boxShadow: {
+    hover: '0px 6px 10px 0px rgba(0, 0, 0, 0.50)',
+  },
+  scrollbar: {
+    scrollbarGutter: 'stable both-edges',
+    'overflow-y': 'hidden',
+    ':hover': {
+      'overflow-y': 'auto',
+    },
+    '::-webkit-scrollbar': {
+      display: 'block',
+      width: 8,
+      background: 'rgba(255, 255, 255, 0.10)',
+    },
+    '::-webkit-scrollbar-thumb': {
+      width: 8,
+      maxHeight: 10,
+      borderRadius: 24,
+      background: 'rgba(255, 255, 255, 0.2)',
+    },
+  },
   headline_category_m: {
-    fontFamily: 'DMSans-Medium',
+    fontFamily: 'MontSemibold',
     fontStyle: 'normal',
     fontWeight: '400',
     fontSize: 14,
@@ -206,23 +335,29 @@ const Theme = {
     textTransform: 'uppercase',
   },
   headline_category_s: {
-    fontFamily: 'DMSans-Medium',
+    fontFamily: 'MontSemibold',
     fontStyle: 'normal',
     fontWeight: '500',
     fontSize: 11,
     letterSpacing: 0.02,
   },
   body_bold_l: {
-    fontFamily: 'DMSans-Bold',
+    fontFamily: 'MontBold',
     fontStyle: 'normal',
     fontWeight: '700',
     fontSize: 16,
   },
   body_medium_l: {
-    fontFamily: 'DMSans-Regular',
+    fontFamily: 'MontRegular',
     fontStyle: 'normal',
     fontWeight: '500',
     fontSize: 16,
+  },
+  body_medium_xl: {
+    fontFamily: 'MontRegular',
+    fontStyle: 'normal',
+    fontWeight: '700',
+    fontSize: 18,
   },
   body_l: {
     fontFamily: 'MontRegular',
@@ -231,7 +366,7 @@ const Theme = {
     fontSize: 16,
   },
   body_bold_m: {
-    fontFamily: 'DMSans-Bold',
+    fontFamily: 'MontBold',
     fontStyle: 'normal',
     fontWeight: '700',
     fontSize: 14,
@@ -243,13 +378,13 @@ const Theme = {
     fontSize: 14,
   },
   body_m: {
-    fontFamily: 'DMSans-Regular',
+    fontFamily: 'MontRegular',
     fontStyle: 'normal',
     fontWeight: '400',
     fontSize: 14,
   },
   body_xs: {
-    fontFamily: 'DMSans-Regular',
+    fontFamily: 'MontRegular',
     fontStyle: 'normal',
     fontWeight: '400',
     fontSize: 12,
@@ -259,7 +394,7 @@ const Theme = {
    * @deprecated use theme.typography
    */
   headline_xl: {
-    fontFamily: 'IBMPlexSans-Regular',
+    fontFamily: 'MontRegular',
     fontStyle: 'normal',
     fontWeight: '700',
     fontSize: 42,
@@ -270,7 +405,7 @@ const Theme = {
    * @deprecated use theme.typography
    */
   tile_text: {
-    fontFamily: 'Satoshi-Regular',
+    fontFamily: 'MontBold',
     fontStyle: 'normal',
     fontWeight: '700',
     fontSize: 18,
@@ -295,7 +430,7 @@ const Theme = {
    * @deprecated use theme.typography
    */
   headline_l: {
-    fontFamily: 'IBMPlexSans-Bold',
+    fontFamily: 'MontBold',
     fontStyle: 'normal',
     fontWeight: '700',
     fontSize: 34,
@@ -313,7 +448,7 @@ const Theme = {
     fontFamily: 'MontLight',
   },
   headline_m: {
-    fontFamily: 'IBMPlexSans-Bold',
+    fontFamily: 'MontBold',
     fontStyle: 'normal',
     fontWeight: '700',
     fontSize: 24,
@@ -324,7 +459,7 @@ const Theme = {
    * @deprecated use theme.typography
    */
   headline_s: {
-    fontFamily: 'IBMPlexSans-Medium',
+    fontFamily: 'MontSemiBold',
     fontStyle: 'normal',
     fontWeight: '700',
     fontSize: 21,
