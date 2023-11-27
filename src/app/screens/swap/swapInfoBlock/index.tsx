@@ -2,12 +2,12 @@ import ChevronIcon from '@assets/img/swap/chevron.svg';
 import SlippageEditIcon from '@assets/img/swap/slippageEdit.svg';
 import BottomModal from '@components/bottomModal';
 import { SlippageModalContent } from '@screens/swap/slippageModal';
-import { UseSwap } from '@screens/swap/useSwap';
 import { SUPPORT_URL_TAB_TARGET, SWAP_SPONSOR_DISABLED_SUPPORT_URL } from '@utils/constants';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Switch from 'react-switch';
 import styled, { useTheme } from 'styled-components';
+import { UseSwap } from '../types';
 
 const CustomSwitch = styled(Switch)`
   .react-switch-handle {
