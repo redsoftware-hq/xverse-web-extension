@@ -706,7 +706,7 @@
     "PRIVACY_POLICY": "Privacy Policy",
     "SUPPORT_CENTER": "Support Center",
     "VERSION": "Version",
-    "UPDATE_PASSWORD_SUCCESS": "Password successfully updated.",
+    "UPDATE_PASSWORD_SUCCESS": "Password updated.",
     "OK": "Ok",
     "RESET_WALLET_DESCRIPTION": "This will reset your wallet from this browser. Make sure you have your seed phrase backed up.",
     "CANCEL": "Cancel",
@@ -971,11 +971,12 @@
   },
   "ADDRESS_RECEIVE_ALERT_MESSAGE": {
     "RECEIVING_ORDINALS": "Receiving Ordinals",
-    "RECEIVING_ORDINAL_INFO": "Use this address to receive Ordinals only. Do not use this address to receive Bitcoin payments.",
+    "RECEIVING_ORDINAL_INFO": "Your address was copied. Do not send Bitcoin to this address. Only send BRC20 tokens and Ordinals NFTs to this address.",
     "RECEIVING_BTC": "Receiving Bitcoin",
-    "RECEIVING_BTC_INFO": "Use this address to receive Bitcoin payments only. Do not use this address to receive Ordinals & BRC-20 tokens.",
+    "RECEIVING_BTC_INFO": "Your Bitcoin address was copied. Do not send BRC20 tokens and Ordinals NFTs to this address.",
+    "CONFIRM": "Confirm",
     "I_UNDERSTAND": "I understand",
-    "DO_NOT_SHOW_MESSAGE": "Do not show this message again"
+    "DO_NOT_SHOW_MESSAGE": "Do not show this message again."
   },
   "SELECT_BTC_ADDRESS_SCREEN": {
     "TITLE": "Connect Request",
