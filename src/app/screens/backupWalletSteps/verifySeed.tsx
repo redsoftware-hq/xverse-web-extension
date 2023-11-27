@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import ActionButton from '@components/button';
+import SeedPhraseInput from '@components/seedPhraseInput';
 import { generateMnemonic } from 'bip39';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -82,6 +83,7 @@ interface VerifySeedProps {
   onVerifySuccess: () => void;
   seedPhrase: string;
   copy: boolean;
+  onBack?: () => void;
 }
 
 function textToMapValues(inputText: string, arrayLength: number): string[] {
@@ -131,7 +133,11 @@ export default function VerifySeed(props: VerifySeedProps): JSX.Element {
         seedError={err}
         setSeedError={setErr}
       />
-      {copy && <PasteSeedButton position="mid" onClick={handlePaste}>Paste Seedphrase</PasteSeedButton>}
+      {copy && (
+        <PasteSeedButton position="mid" onClick={handlePaste}>
+          Paste Seedphrase
+        </PasteSeedButton>
+      )}
       <ButtonsContainer>
         <ButtonContainer>
           <ActionButton

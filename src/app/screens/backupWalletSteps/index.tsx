@@ -1,12 +1,12 @@
 import { useWalletExistsContext } from '@components/guards/onboarding';
 import PasswordInput from '@components/passwordInput';
 import Steps from '@components/steps';
+import useSeedVault from '@hooks/useSeedVault';
 import useWalletReducer from '@hooks/useWalletReducer';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import useSeedVault from '@hooks/useSeedVault';
 import SeedCheck from './seedCheck';
 import VerifySeed from './verifySeed';
 
@@ -91,7 +91,13 @@ export default function BackupWalletSteps(): JSX.Element {
 
   const backupSteps = [
     <SeedContainer key={0}>
-      <SeedCheck seedPhrase={seedPhrase} onContinue={handleSeedCheckContinue} copy={copy} setCopy={setCopy}/>
+      <SeedCheck
+        seedPhrase={seedPhrase}
+        onContinue={handleSeedCheckContinue}
+        copy={copy}
+        setCopy={setCopy}
+        fromSetting={false}
+      />
     </SeedContainer>,
     <VerifySeed
       key={1}
