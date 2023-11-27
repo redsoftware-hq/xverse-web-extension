@@ -9,7 +9,6 @@ import { addHours, addMinutes } from 'date-fns';
 import useWalletReducer from '@hooks/useWalletReducer';
 import { animated, useSpring } from '@react-spring/web';
 import ActionButton from '@components/button';
-import useCacheMigration from '@hooks/useCacheMigration';
 import useWalletReducer from '@hooks/useWalletReducer';
 import { animated,useSpring } from '@react-spring/web';
 import MigrationConfirmation from '@screens/migrationConfirmation';
@@ -155,20 +154,20 @@ function Login(): JSX.Element {
     },
     delay: 100,
   });
-  const { migrateCachedStorage } = useCacheMigration();
-
-  const handleSkipMigration = async () => {
-    await unlockWallet(password);
-    setIsVerifying(false);
-    const skipTime = new Date().getTime();
-    const migrationReminder = addMinutes(skipTime, 10).getTime();
-    localStorage.setItem('migrationReminder', migrationReminder.toString());
-    navigate(-1);
-  };
 
   const handleMigrateCache = async () => {
-    await migrateCachedStorage(password);
-    setIsVerifying(false);
+    try {
+      await unlockWallet(password);
+      setIsVerifying(false);
+      const skipTime = new Date().getTime();
+      const migrationReminder = addMinutes(skipTime, 10).getTime();
+      localStorage.setItem('migrationReminder', migrationReminder.toString());
+      navigate(-1);
+    } catch (err) {
+      setIsVerifying(false);
+      setShowMigration(false);
+      setError(t('VERIFY_PASSWORD_ERROR'));
+    }
   };
 
   const handleTogglePasswordView = () => {
@@ -255,10 +254,7 @@ function Login(): JSX.Element {
           </ContentContainer>
         </ScreenContainer>
       ) : (
-        <MigrationConfirmation
-          migrateCallback={handleMigrateCache}
-          skipCallback={handleSkipMigration}
-        />
+        <MigrationConfirmation migrateCallback={handleMigrateCache} />
       )}
     </>
   );
