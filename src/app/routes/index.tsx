@@ -1,7 +1,7 @@
-import ExtendedScreenContainer from '@components/extendedScreenContainer';
+// import ExtendedScreenContainer from '@components/extendedScreenContainer';
 import AuthGuard from '@components/guards/auth';
 import OnboardingGuard from '@components/guards/onboarding';
-import { SingleTabGuard } from '@components/guards/singleTab';
+// import { SingleTabGuard } from '@components/guards/singleTab';
 import ScreenContainer from '@components/screenContainer';
 import AccountList from '@screens/accountList';
 import AuthenticationRequest from '@screens/authenticationRequest';
@@ -28,8 +28,8 @@ import Home from '@screens/home';
 import Landing from '@screens/landing';
 import LedgerAddStxAddress from '@screens/ledger/addStxAddress';
 import ConfirmLedgerTransaction from '@screens/ledger/confirmLedgerTransaction';
-import ImportLedger from '@screens/ledger/importLedgerAccount';
-import VerifyLedger from '@screens/ledger/verifyLedgerAccountAddress';
+// import ImportLedger from '@screens/ledger/importLedgerAccount';
+// import VerifyLedger from '@screens/ledger/verifyLedgerAccountAddress';
 import LegalLinks from '@screens/legalLinks';
 import Login from '@screens/login';
 import ManageTokens from '@screens/manageTokens';
@@ -45,6 +45,7 @@ import RareSatsBundle from '@screens/rareSatsBundle';
 import RareSatsDetailScreen from '@screens/rareSatsDetail/rareSatsDetail';
 import Receive from '@screens/receive';
 import RestoreFunds from '@screens/restoreFunds';
+import RestoreBtc from '@screens/restoreFunds/restoreBtc';
 import RestoreOrdinals from '@screens/restoreFunds/restoreOrdinals';
 import RestoreWallet from '@screens/restoreWallet';
 import SendBrc20Screen from '@screens/sendBrc20';
@@ -62,10 +63,9 @@ import ChangePasswordScreen from '@screens/settings/changePassword';
 import FiatCurrencyScreen from '@screens/settings/fiatCurrency';
 import LockCountdown from '@screens/settings/lockCountdown';
 import ResetWalletScreen from '@screens/settings/resetWallet';
-import SignPsbtRequest from '@screens/signPsbtRequest';
 import SignatureRequest from '@screens/signatureRequest';
 import SignPsbtRequest from '@screens/signPsbtRequest';
-import Stacking from '@screens/stacking';
+// import Stacking from '@screens/stacking';
 import SwapScreen from '@screens/swap';
 import SwapConfirmScreen from '@screens/swap/swapConfirmation';
 import TransactionRequest from '@screens/transactionRequest';
@@ -91,26 +91,26 @@ const router = createHashRouter([
           </OnboardingGuard>
         ),
       },
-      {
-        path: 'import-ledger',
-        element: (
-          <AuthGuard>
-            <SingleTabGuard guardName="importLedger">
-              <ImportLedger />
-            </SingleTabGuard>
-          </AuthGuard>
-        ),
-      },
-      {
-        path: 'verify-ledger',
-        element: (
-          <AuthGuard>
-            <SingleTabGuard guardName="verifyLedger">
-              <VerifyLedger />
-            </SingleTabGuard>
-          </AuthGuard>
-        ),
-      },
+      // {
+      //   path: 'import-ledger',
+      //   element: (
+      //     <AuthGuard>
+      //       <SingleTabGuard guardName="importLedger">
+      //         <ImportLedger />
+      //       </SingleTabGuard>
+      //     </AuthGuard>
+      //   ),
+      // },
+      // {
+      //   path: 'verify-ledger',
+      //   element: (
+      //     <AuthGuard>
+      //       <SingleTabGuard guardName="verifyLedger">
+      //         <VerifyLedger />
+      //       </SingleTabGuard>
+      //     </AuthGuard>
+      //   ),
+      // },
       {
         index: true,
         element: (
@@ -293,9 +293,7 @@ const router = createHashRouter([
       },
       {
         path: 'market',
-        element: (
-            <Market />
-        ),
+        element: <Market />,
       },
       {
         path: 'settings',
@@ -314,18 +312,22 @@ const router = createHashRouter([
         element: <RestoreOrdinals />,
       },
       {
+        path: 'recover-btc',
+        element: <RestoreBtc />,
+      },
+      {
         path: 'fiat-currency',
         element: <FiatCurrencyScreen />,
       },
-      {
-        path: 'privacy-preferences',
-        element: <PrivacyPreferencesScreen />,
-      },
+      // {
+      //   path: 'privacy-preferences',
+      //   element: <PrivacyPreferencesScreen />,
+      // },
       {
         path: 'change-password',
         element: <ChangePasswordScreen />,
       },
-       {
+      {
         path: 'reset-wallet',
         element: <ResetWalletScreen />,
       },
@@ -461,14 +463,14 @@ const router = createHashRouter([
         path: 'nft-dashboard/nft-detail/:id/send-nft',
         element: <SendNft />,
       },
-      {
-        path: 'nft-dashboard/nft-collection/:id',
-        element: (
-          <AuthGuard>
-            <NftCollection />
-          </AuthGuard>
-        ),
-      },
+      // {
+      //   path: 'nft-dashboard/nft-collection/:id',
+      //   element: (
+      //     <AuthGuard>
+      //       <NftCollection />
+      //     </AuthGuard>
+      //   ),
+      // },
       {
         path: 'nft-dashboard/ordinal-detail/:id/send-ordinal',
         element: (

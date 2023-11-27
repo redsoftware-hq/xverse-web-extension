@@ -1,7 +1,6 @@
 import Eye from '@assets/img/createPassword/Eye.svg';
 import EyeSlash from '@assets/img/createPassword/EyeSlash.svg';
 import PasswordIcon from '@assets/img/Graphic (1).png';
-import { useEffect, useState } from 'react';
 import ActionButton from '@components/button';
 import { animated, useTransition } from '@react-spring/web';
 import { useEffect, useState } from 'react';
@@ -116,7 +115,7 @@ const Button = styled.button((props) => ({
   marginRight: props.theme.spacing(3),
 }));
 
-const ErrorMessage = styled.h2<{forUpdatePassword?:boolean}>((props) => ({
+const ErrorMessage = styled.h2<{ forUpdatePassword?: boolean }>((props) => ({
   ...props.theme.body_xs,
   textAlign: 'left',
   color: props.theme.colors.feedback.error,

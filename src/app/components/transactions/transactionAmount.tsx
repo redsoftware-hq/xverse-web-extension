@@ -1,6 +1,5 @@
 import useWalletSelector from '@hooks/useWalletSelector';
 import {
-  Brc20HistoryTransactionData,
   BtcTransactionData,
   FungibleToken,
   microstacksToStx,
@@ -14,13 +13,13 @@ import { NumericFormat } from 'react-number-format';
 import styled from 'styled-components';
 
 interface TransactionAmountProps {
-  transaction: StxTransactionData | BtcTransactionData | Brc20HistoryTransactionData;
+  transaction: StxTransactionData | BtcTransactionData;
   coin: CurrencyTypes;
 }
 
 const TransactionValue = styled.p((props) => ({
   ...props.theme.body_medium_m,
-  color: props.theme.colors.white_0,
+  color: props.theme.colors.white[0],
 }));
 
 export default function TransactionAmount(props: TransactionAmountProps): JSX.Element | null {
@@ -55,9 +54,6 @@ export default function TransactionAmount(props: TransactionAmountProps): JSX.El
               <TransactionValue>{`${value} ${getFtTicker(
                 token as FungibleToken,
               )?.toUpperCase()}`}</TransactionValue>
-              <TransactionValue>{`${value} ${getFtTicker(
-                token as FungibleToken,
-              )?.toUpperCase()}`}</TransactionValue>
             )}
           />
         );
@@ -73,7 +69,7 @@ export default function TransactionAmount(props: TransactionAmountProps): JSX.El
           thousandSeparator
           prefix=""
           renderText={(value: string) => (
-            <TransactionValue>{`${prefix}${value} BTC`}</TransactionValue>
+            <TransactionValue>{`${prefix}${Number(value).toFixed(4)} BTC`}</TransactionValue>
           )}
         />
       );

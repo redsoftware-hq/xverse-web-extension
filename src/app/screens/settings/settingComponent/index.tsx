@@ -1,7 +1,5 @@
 import Switch from 'react-switch';
 import styled, { useTheme } from 'styled-components';
-import Switch from 'react-switch';
-import BottomTabBar from '@components/tabBar';
 
 interface ButtonProps {
   border: string;
@@ -64,26 +62,26 @@ const ComponentDescriptionText = styled.h1((props) => ({
   color: props.theme.colors.white['0'],
 }));
 
-const Column = styled.div((props) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  flex: 1,
-}));
+// const Column = styled.div((props) => ({
+//   display: 'flex',
+//   flexDirection: 'column',
+//   flex: 1,
+// }));
 
-const DisabledOverlay = styled.div((props) => ({
-  position: 'absolute',
-  top: 0,
-  left: 0,
-  bottom: 0,
-  right: 0,
-  backgroundColor: props.theme.colors.elevation0,
-  opacity: 0.5,
-}));
+// const DisabledOverlay = styled.div((props) => ({
+//   position: 'absolute',
+//   top: 0,
+//   left: 0,
+//   bottom: 0,
+//   right: 0,
+//   backgroundColor: props.theme.colors.elevation0,
+//   opacity: 0.5,
+// }));
 
-const Wrapper = styled.div({
-  position: 'relative',
-  display: 'inline-block', // This makes sure the wrapper size fits the content
-});
+// const Wrapper = styled.div({
+//   position: 'relative',
+//   display: 'inline-block', // This makes sure the wrapper size fits the content
+// });
 
 interface SettingComponentProps {
   title?: string;
@@ -95,6 +93,8 @@ interface SettingComponentProps {
   showWarningTitle?: boolean;
   toggle?: boolean;
   toggleValue?: boolean;
+  description?: string;
+  disabled?: boolean;
   toggleFunction?: () => void;
 }
 
@@ -121,9 +121,7 @@ function SettingComponent({
         onClick={onClick}
         border={showDivider ? '1px solid rgb(76,81,135,0.3)' : 'transparent'}
       >
-        <ComponentText
-          textColor={showWarningTitle ? theme.colors.feedback.error : theme.colors.white['200']}
-        >
+        <ComponentText textColor={showWarningTitle ? theme.colors.caution : theme.colors.white_200}>
           {text}
         </ComponentText>
         {textDetail && <ComponentDescriptionText>{textDetail}</ComponentDescriptionText>}

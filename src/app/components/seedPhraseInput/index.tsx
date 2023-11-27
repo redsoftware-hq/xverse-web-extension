@@ -47,7 +47,9 @@ interface SeedPhraseInputProps {
   onSeedChange: (seed: string[]) => void;
   seedError: string;
   setSeedError: (err: string) => void;
-}) {
+}
+
+export default function SeedPhraseInput(props: SeedPhraseInputProps): JSX.Element {
   const { t } = useTranslation('translation', { keyPrefix: 'RESTORE_WALLET_SCREEN' });
   const { onSeedChange, seed, seedError, setSeedError } = props;
 

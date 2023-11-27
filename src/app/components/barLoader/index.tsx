@@ -38,20 +38,19 @@ function BarLoader({ loaderSize, forDashboard }: Props) {
     }
   }
 
-function getRadius(loaderSize?: LoaderSize) {
-  switch (loaderSize) {
-    case LoaderSize.SMALL:
-      return 5;
-    case LoaderSize.MEDIUM:
-      return 10;
-    case LoaderSize.LARGE:
-      return 15;
-    default:
-      return 5;
+  function getRadius() {
+    switch (loaderSize) {
+      case LoaderSize.SMALL:
+        return 5;
+      case LoaderSize.MEDIUM:
+        return 10;
+      case LoaderSize.LARGE:
+        return 15;
+      default:
+        return 5;
+    }
   }
-}
 
-function BarLoader({ loaderSize }: { loaderSize?: LoaderSize }) {
   return (
     <ContentLoader
       animate
@@ -63,14 +62,7 @@ function BarLoader({ loaderSize }: { loaderSize?: LoaderSize }) {
       }
       foregroundColor={Theme.colors.grey}
     >
-      <rect
-        y="0"
-        x="0"
-        rx={getRadius(loaderSize)}
-        ry={getRadius(loaderSize)}
-        width={getWidth(loaderSize)}
-        height={getHeight(loaderSize)}
-      />
+      <rect y="0" x="0" rx={getRadius()} ry={getRadius()} width={getWidth()} height={getHeight()} />
     </ContentLoader>
   );
 }

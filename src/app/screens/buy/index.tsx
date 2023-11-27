@@ -1,13 +1,7 @@
 import MoonPay from '@assets/img/dashboard/moonpay.svg';
 import Transak from '@assets/img/dashboard/transak.svg';
-import {
-  BINANCE_MERCHANT_CODE,
-  BINANCE_URL,
-  MOON_PAY_API_KEY,
-  MOON_PAY_URL,
-  TRANSAC_API_KEY,
-  TRANSAC_URL,
-} from '@utils/constants';
+import InfoContainer from '@components/infoContainer';
+import TopRow from '@components/topRow';
 import useWalletSelector from '@hooks/useWalletSelector';
 import { getMoonPaySignedUrl } from '@secretkeylabs/xverse-core/api';
 import { MOON_PAY_API_KEY, MOON_PAY_URL, TRANSAC_API_KEY, TRANSAC_URL } from '@utils/constants';
@@ -17,6 +11,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { MoonLoader } from 'react-spinners';
 import styled from 'styled-components';
 import RedirectButton from './redirectButton';
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -72,35 +67,33 @@ function Buy() {
     }
   }, [url]);
 
-  const getMoonPayUrl = async () => {
-    setLoading(true);
-    try {
-      const moonPayUrl = new URL(MOON_PAY_URL);
-      moonPayUrl.searchParams.append('apiKey', MOON_PAY_API_KEY!);
-      moonPayUrl.searchParams.append('currencyCode', currency!);
-      moonPayUrl.searchParams.append('walletAddress', address);
-      moonPayUrl.searchParams.append('colorCode', '#5546FF');
-      const signedUrl = await getMoonPaySignedUrl(network.type, moonPayUrl.href);
-      setUrl(signedUrl?.signedUrl ?? '');
-    } catch (e) {
-      setLoading(false);
-    } finally {
-      setLoading(false);
-    }
-  };
+  // const getMoonPayUrl = async () => {
+  //   setLoading(true);
+  //   try {
+  //     const moonPayUrl = new URL(MOON_PAY_URL);
+  //     moonPayUrl.searchParams.append('apiKey', MOON_PAY_API_KEY!);
+  //     moonPayUrl.searchParams.append('currencyCode', currency!);
+  //     moonPayUrl.searchParams.append('walletAddress', address);
+  //     moonPayUrl.searchParams.append('colorCode', '#5546FF');
+  //     const signedUrl = await getMoonPaySignedUrl(network.type, moonPayUrl.href);
+  //     setUrl(signedUrl?.signedUrl ?? '');
+  //   } catch (e) {
+  //     setLoading(false);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   const getTransacUrl = () => {
     setLoading(true);
     try {
       const transacUrl = new URL(TRANSAC_URL);
-      console.log('Transac_URL', transacUrl); 
       transacUrl.searchParams.append('apiKey', TRANSAC_API_KEY);
       transacUrl.searchParams.append('cryptoCurrencyList', currency!);
       transacUrl.searchParams.append('defaultCryptoCurrency', currency!);
       transacUrl.searchParams.append('walletAddress', address);
       transacUrl.searchParams.append('disableWalletAddressForm', 'true');
       transacUrl.searchParams.append('exchangeScreenTitle', `Buy ${currency}`);
-      console.log(transacUrl);
       setUrl(transacUrl.href);
       setLoading(false);
     } catch (e) {
@@ -108,25 +101,25 @@ function Buy() {
     }
   };
 
-  const getBinanceUrl = async () => {
-    setLoading(true);
-    try {
-      const binanceUrl = new URL(BINANCE_URL);
-      binanceUrl.searchParams.append('cryptoAddress', address);
-      binanceUrl.searchParams.append('cryptoNetwork', currency!);
-      binanceUrl.searchParams.append('merchantCode', BINANCE_MERCHANT_CODE);
-      binanceUrl.searchParams.append('timestamp', `${new Date().getTime()}`);
-      const signature = await getBinaceSignature(binanceUrl.search.replace('?', ''));
-      binanceUrl.search = signature.signedUrl;
-      binanceUrl.searchParams.append('cryptoCurrency', currency!);
-      binanceUrl.searchParams.append('fiatCurrency', currency === 'STX' ? 'EUR' : fiatCurrency); // HACK: 24th Aug 2022 - Binance only supports EUR to STX
-      setUrl(binanceUrl.toString());
-    } catch (e) {
-      setLoading(false);
-    } finally {
-      setLoading(false);
-    }
-  };
+  // const getBinanceUrl = async () => {
+  //   setLoading(true);
+  //   try {
+  //     const binanceUrl = new URL(BINANCE_URL);
+  //     binanceUrl.searchParams.append('cryptoAddress', address);
+  //     binanceUrl.searchParams.append('cryptoNetwork', currency!);
+  //     binanceUrl.searchParams.append('merchantCode', BINANCE_MERCHANT_CODE);
+  //     binanceUrl.searchParams.append('timestamp', `${new Date().getTime()}`);
+  //     const signature = await getBinaceSignature(binanceUrl.search.replace('?', ''));
+  //     binanceUrl.search = signature.signedUrl;
+  //     binanceUrl.searchParams.append('cryptoCurrency', currency!);
+  //     binanceUrl.searchParams.append('fiatCurrency', currency === 'STX' ? 'EUR' : fiatCurrency); // HACK: 24th Aug 2022 - Binance only supports EUR to STX
+  //     setUrl(binanceUrl.toString());
+  //   } catch (e) {
+  //     setLoading(false);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   return (
     <>
@@ -143,7 +136,6 @@ function Buy() {
         <RedirectButton text={t('TRANSAK')} src={Transak} onClick={getTransacUrl} />
         <InfoContainer titleText={t('DISCLAIMER')} bodyText={t('THIRD_PARTY_WARNING')} />
       </Container>
-      <BottomBar tab="dashboard" />
     </>
   );
 }
