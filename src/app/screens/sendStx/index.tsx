@@ -1,5 +1,8 @@
+import IconStacks from '@assets/img/dashboard/stack_icon.svg';
+import Send from '@assets/img/Send.svg';
+import CoinSwitch from '@components/coinSwitch';
+import OperationHeader from '@components/operationHeader';
 import SendForm from '@components/sendForm';
-import BottomBar from '@components/tabBar';
 import useStxPendingTxData from '@hooks/queries/useStxPendingTxData';
 import useNetworkSelector from '@hooks/useNetwork';
 import useWalletSelector from '@hooks/useWalletSelector';
@@ -21,8 +24,17 @@ import TopRow from '../../components/topRow';
 function SendStxScreen() {
   const { t } = useTranslation('translation', { keyPrefix: 'SEND' });
   const navigate = useNavigate();
-  const { stxAddress, stxAvailableBalance, stxPublicKey, feeMultipliers, network } =
-    useWalletSelector();
+  const {
+    stxAddress,
+    stxAvailableBalance,
+    stxPublicKey,
+    feeMultipliers,
+    network,
+    fiatCurrency,
+    stxBtcRate,
+    stxBalance,
+    btcFiatRate,
+  } = useWalletSelector();
   const [amountError, setAmountError] = useState('');
   const [addressError, setAddressError] = useState('');
   const [memoError, setMemoError] = useState('');
@@ -131,6 +143,7 @@ function SendStxScreen() {
     return true;
   }
 
+  const [show, setShow] = useState(false);
   const onPressSendSTX = async (associatedAddress: string, amount: string, memo?: string) => {
     const modifyAmount = replaceCommaByDot(amount);
     const addMemo = memo ?? '';
@@ -142,9 +155,62 @@ function SendStxScreen() {
     }
   };
 
+  const contents = [
+    {
+      name: 'Bitcoin BTC',
+      key: 'BTC',
+      handler: () => {
+        navigate('/send-btc');
+      },
+    },
+    {
+      name: 'Stacks STX',
+      key: 'STX',
+      handler: () => {
+        navigate('/send-stx');
+      },
+    },
+    {
+      name: 'Bridged USDT sUSDT',
+      key: 'sUSDT',
+      handler: () => {
+        navigate(`/send-ft?coinTicker=sUSDT`);
+      },
+    },
+    {
+      name: 'Wrapped Bitcoin xBTC',
+      key: 'xBTC',
+      handler: () => {
+        navigate(`/send-ft?coinTicker=xBTC`);
+      },
+    },
+    {
+      name: 'Wrapped USDC xUSD',
+      key: 'xUSD',
+      handler: () => {
+        navigate(`/send-ft?coinTicker=xUSD`);
+      },
+    },
+  ];
   return (
     <>
-      <TopRow title={t('SEND')} onClick={handleBackButtonClick} />
+      <OperationHeader
+        currency="STX"
+        accountBalance={Number(microstacksToStx(new BigNumber(stxAvailableBalance)))}
+        fiatCurrency={fiatCurrency}
+        fiatBalance={Number(
+          microstacksToStx(new BigNumber(stxBalance))
+            .multipliedBy(new BigNumber(stxBtcRate))
+            .multipliedBy(new BigNumber(btcFiatRate))
+            .toFixed(2)
+            .toString(),
+        )}
+        operationTitle="Send"
+        currencyIcon={IconStacks}
+        operationIcon={Send}
+      />
+      {show && <CoinSwitch visible={show} onClose={() => setShow(false)} contents={contents} />}
+
       <SendForm
         processing={isLoading}
         currencyType="STX"
@@ -156,8 +222,8 @@ function SendStxScreen() {
         recipient={recipientAddress!}
         amountToSend={amountToSend!}
         stxMemo={stxMemo!}
+        toggleCoinSwitch={() => setShow(true)}
       />
-      <BottomBar tab="dashboard" />
     </>
   );
 }

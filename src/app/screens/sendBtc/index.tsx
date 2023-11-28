@@ -1,5 +1,8 @@
+import IconBitcoin from '@assets/img/dashboard/NewBitcoin_icon.svg';
+import Send from '@assets/img/Send.svg';
+import CoinSwitch from '@components/coinSwitch';
+import OperationHeader from '@components/operationHeader';
 import SendForm from '@components/sendForm';
-import BottomBar from '@components/tabBar';
 import TopRow from '@components/topRow';
 import { useResetUserFlow } from '@hooks/useResetUserFlow';
 import useSeedVault from '@hooks/useSeedVault';
@@ -31,7 +34,8 @@ function SendBtcScreen() {
   const [warning, setWarning] = useState('');
   const [recipient, setRecipient] = useState<Recipient[]>();
   const [amount, setAmount] = useState(enteredAmountToSend ?? '');
-  const { btcAddress, network, btcBalance, selectedAccount, btcFiatRate } = useWalletSelector();
+  const { btcAddress, network, btcBalance, selectedAccount, btcFiatRate, fiatCurrency } =
+    useWalletSelector();
   const { t } = useTranslation('translation', { keyPrefix: 'SEND' });
   const navigate = useNavigate();
   const { getSeed } = useSeedVault();
@@ -62,6 +66,7 @@ function SendBtcScreen() {
     navigate(-1);
   };
 
+  const [show, setShow] = useState(false);
   useEffect(() => {
     if (data) {
       const parsedAmountSats = btcToSats(new BigNumber(amount));
@@ -157,6 +162,14 @@ function SendBtcScreen() {
     }
   };
 
+  function calculateFiatBalance() {
+    const btcFiatEquiv = satsToBtc(new BigNumber(btcBalance)).multipliedBy(
+      new BigNumber(btcFiatRate),
+    );
+    const totalBalance = btcFiatEquiv;
+    return totalBalance.toNumber().toFixed(2);
+  }
+
   function getBalance() {
     return satsToBtc(new BigNumber(btcBalance)).toNumber();
   }
@@ -169,10 +182,56 @@ function SendBtcScreen() {
     }
     setWarning('');
   };
-
+  const contents = [
+    {
+      name: 'Bitcoin BTC',
+      key: 'BTC',
+      handler: () => {
+        navigate('/send-btc');
+      },
+    },
+    {
+      name: 'Stacks STX',
+      key: 'STX',
+      handler: () => {
+        navigate('/send-stx');
+      },
+    },
+    {
+      name: 'Bridged USDT sUSDT',
+      key: 'sUSDT',
+      handler: () => {
+        navigate(`/send-ft?coinTicker=sUSDT`);
+      },
+    },
+    {
+      name: 'Wrapped Bitcoin xBTC',
+      key: 'xBTC',
+      handler: () => {
+        navigate(`/send-ft?coinTicker=xBTC`);
+      },
+    },
+    {
+      name: 'Wrapped USDC xUSD',
+      key: 'xUSD',
+      handler: () => {
+        navigate(`/send-ft?coinTicker=xUSD`);
+      },
+    },
+  ];
   return (
     <>
-      <TopRow title={t('SEND')} onClick={handleBackButtonClick} showBackButton={showNavButtons} />
+      {/* <TopRow title={t('SEND')} onClick={handleBackButtonClick} showBackButton={false} /> */}
+      {show && <CoinSwitch visible={show} onClose={() => setShow(false)} contents={contents} />}
+      <OperationHeader
+        currency="BTC"
+        accountBalance={getBalance()}
+        fiatCurrency={fiatCurrency}
+        fiatBalance={calculateFiatBalance()}
+        operationTitle="Send"
+        currencyIcon={IconBitcoin}
+        operationIcon={Send}
+      />
       <SendForm
         currencyType="BTC"
         amountError={amountError}
@@ -184,8 +243,8 @@ function SendBtcScreen() {
         processing={recipientAddress !== '' && amount !== '' && isLoading}
         onAddressInputChange={handleInputChange}
         warning={warning}
+        toggleCoinSwitch={() => setShow(true)}
       />
-      <BottomBar tab="dashboard" />
     </>
   );
 }

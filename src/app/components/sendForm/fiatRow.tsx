@@ -1,12 +1,13 @@
-import styled from 'styled-components';
-import { NumericFormat } from 'react-number-format';
+import Arrows from '@assets/img/send/Arrows.svg';
 import { useTranslation } from 'react-i18next';
-import { ArrowsDownUp } from '@phosphor-icons/react';
+import { NumericFormat } from 'react-number-format';
+import styled from 'styled-components';
 
 const RowContainer = styled.div({
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'center',
+  justifyContent: 'flex-end',
 });
 
 const SubText = styled.h1((props) => ({
@@ -17,19 +18,18 @@ const SubText = styled.h1((props) => ({
 }));
 
 const SwitchToFiatButton = styled.button((props) => ({
-  backgroundColor: props.theme.colors.background.elevation0,
-  border: `1px solid ${props.theme.colors.background.elevation3}`,
-  borderRadius: 24,
+  background: props.theme.colors.background.orangePillBg,
+  border: '1px solid rgba(168, 185, 244, 0.15)',
+  borderRadius: 8,
   display: 'flex',
+  gap: 8,
   padding: '8px 12px',
-  justifyContent: 'center',
   alignItems: 'center',
   color: props.theme.colors.white_0,
 }));
 
 const SwitchToFiatText = styled.h1((props) => ({
-  ...props.theme.body_xs,
-  marginLeft: props.theme.spacing(2),
+  ...props.theme.body_m,
   color: props.theme.colors.white_0,
 }));
 
@@ -52,7 +52,7 @@ export function FiatRow({
   const renderText = (value: string) => `~ ${value} ${tokenCurrency}`;
   return (
     <RowContainer>
-      <SubText>
+      {/* <SubText>
         {showFiat ? (
           <NumericFormat
             value={tokenAmount}
@@ -63,12 +63,12 @@ export function FiatRow({
         ) : (
           `~ $ ${fiatAmount} ${fiatCurrency}`
         )}
-      </SubText>
+      </SubText> */}
       <SwitchToFiatButton onClick={onClick}>
-        <ArrowsDownUp size={12} color="currentColor" />
         <SwitchToFiatText>
-          {showFiat ? `${t('SWITCH_TO')} ${tokenCurrency}` : `${t('SWITCH_TO')} ${fiatCurrency}`}
+          {showFiat ? `${tokenAmount}` : `${fiatAmount} ${fiatCurrency}`}
         </SwitchToFiatText>
+        <img src={Arrows} width={22} height={22} alt="switch-arrows" />
       </SwitchToFiatButton>
     </RowContainer>
   );

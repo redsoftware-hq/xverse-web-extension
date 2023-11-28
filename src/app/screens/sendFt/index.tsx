@@ -1,22 +1,33 @@
-import { useMutation } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate } from 'react-router-dom';
+import IconBitcoin from '@assets/img/dashboard/NewBitcoin_icon.svg';
+import IconStacks from '@assets/img/dashboard/stack_icon.svg';
+import IconUsdc from '@assets/img/dashboard/usdc.svg';
+import IconUsdt from '@assets/img/dashboard/usdt.svg';
+import Default from '@assets/img/dashboard/Wallet.svg';
+import IconWbtc from '@assets/img/dashboard/wbtc.svg';
+import Send from '@assets/img/Send.svg';
+import CoinSwitch from '@components/coinSwitch';
+import OperationHeader from '@components/operationHeader';
+import SendForm from '@components/sendForm';
+import useStxPendingTxData from '@hooks/queries/useStxPendingTxData';
+import useNetworkSelector from '@hooks/useNetwork';
+import useWalletSelector from '@hooks/useWalletSelector';
+import { microstacksToStx, satsToBtc } from '@secretkeylabs/xverse-core';
 import { generateUnsignedTransaction } from '@secretkeylabs/xverse-core/transactions';
 import { StacksTransaction, UnsignedStacksTransation } from '@secretkeylabs/xverse-core/types';
 import { validateStxAddress } from '@secretkeylabs/xverse-core/wallet';
-import SendForm from '@components/sendForm';
-import TopRow from '@components/topRow';
-import useStxPendingTxData from '@hooks/queries/useStxPendingTxData';
+import { useMutation } from '@tanstack/react-query';
 import { convertAmountToFtDecimalPlaces, ftDecimals, replaceCommaByDot } from '@utils/helper';
-import BottomBar from '@components/tabBar';
-import useNetworkSelector from '@hooks/useNetwork';
-import useWalletSelector from '@hooks/useWalletSelector';
+import { getFtBalance } from '@utils/tokens';
+import BigNumber from 'bignumber.js';
+import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 function SendFtScreen() {
   const { t } = useTranslation('translation', { keyPrefix: 'SEND' });
   const navigate = useNavigate();
-  const { stxAddress, stxPublicKey, network, feeMultipliers, coinsList } = useWalletSelector();
+  const { stxAddress, stxPublicKey, network, feeMultipliers, coinsList, fiatCurrency } =
+    useWalletSelector();
   const [amountError, setAmountError] = useState('');
   const [addressError, setAddressError] = useState('');
   const [memoError, setMemoError] = useState('');
@@ -103,6 +114,7 @@ function SendFtScreen() {
     return fungibleToken?.balance;
   };
 
+  const [show, setShow] = useState(false);
   function validateFields(associatedAddress: string, amount: string, memo: string): boolean {
     if (!associatedAddress) {
       setAddressError(t('ERRORS.ADDRESS_REQUIRED'));
@@ -177,9 +189,78 @@ function SendFtScreen() {
     }
   };
 
+  function getFtFiatEquivalent() {
+    if (fungibleToken?.tokenFiatRate) {
+      const balance = new BigNumber(getFtBalance(fungibleToken));
+      const rate = new BigNumber(fungibleToken.tokenFiatRate);
+      return balance.multipliedBy(rate).toFixed(2).toString();
+    }
+    return '';
+  }
+  const getImageSourceForFt = () => {
+    switch (fungibleToken?.ticker) {
+      case 'sUSDT':
+        return IconUsdt;
+      case 'xBTC':
+        return IconWbtc;
+      case 'xUSD':
+        return IconUsdc;
+      default:
+        return fungibleToken?.image;
+    }
+  };
+  const contents = [
+    {
+      name: 'Bitcoin BTC',
+      key: 'BTC',
+      handler: () => {
+        navigate('/send-btc');
+      },
+    },
+    {
+      name: 'Stacks STX',
+      key: 'STX',
+      handler: () => {
+        navigate('/send-stx');
+      },
+    },
+    {
+      name: 'Bridged USDT sUSDT',
+      key: 'sUSDT',
+      handler: () => {
+        setShow(false);
+        navigate(`/send-ft?coinTicker=sUSDT`);
+      },
+    },
+    {
+      name: 'Wrapped Bitcoin xBTC',
+      key: 'xBTC',
+      handler: () => {
+        setShow(false);
+        navigate(`/send-ft?coinTicker=xBTC`);
+      },
+    },
+    {
+      name: 'Wrapped USDC xUSD',
+      key: 'xUSD',
+      handler: () => {
+        setShow(false);
+        navigate(`/send-ft?coinTicker=xUSD`);
+      },
+    },
+  ];
   return (
     <>
-      <TopRow title={t('SEND')} onClick={handleBackButtonClick} />
+      <OperationHeader
+        currency={fungibleToken?.ticker}
+        accountBalance={getBalance()}
+        fiatCurrency={fiatCurrency}
+        fiatBalance={getFtFiatEquivalent()}
+        operationTitle="Send"
+        currencyIcon={getImageSourceForFt()}
+        operationIcon={Send}
+      />
+      {show && <CoinSwitch visible={show} onClose={() => setShow(false)} contents={contents} />}
       <SendForm
         processing={isLoading}
         currencyType="FT"
@@ -192,8 +273,8 @@ function SendFtScreen() {
         recipient={recipientAddress!}
         amountToSend={ftAmountToSend!}
         stxMemo={stxMemo!}
+        toggleCoinSwitch={() => setShow(true)}
       />
-      <BottomBar tab="dashboard" />
     </>
   );
 }

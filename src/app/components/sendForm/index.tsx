@@ -1,4 +1,6 @@
+import Down from '@assets/img/send/Down.svg';
 import ActionButton from '@components/button';
+import CoinSwitch from '@components/coinSwitch';
 import InfoContainer from '@components/infoContainer';
 import TokenImage from '@components/tokenImage';
 import { useBnsName, useBnsResolver } from '@hooks/queries/useBnsName';
@@ -10,6 +12,7 @@ import {
   getFiatEquivalent,
   getStxTokenEquivalent,
 } from '@secretkeylabs/xverse-core';
+import { useStepperContext } from '@stores/stepper';
 import InputFeedback from '@ui-library/inputFeedback';
 import { CurrencyTypes } from '@utils/constants';
 import { getCurrencyFlag } from '@utils/currency';
@@ -71,12 +74,13 @@ const ErrorText = styled.p((props) => ({
   color: props.theme.colors.danger_medium,
 }));
 
-const InputFieldContainer = styled.div(() => ({
+const InputFieldContainer = styled.div((props) => ({
+  background: props.theme.colors.background.orangePillBg,
   flex: 1,
 }));
 
 const TitleText = styled.p((props) => ({
-  ...props.theme.typography.body_medium_m,
+  ...props.theme.body_medium_xl,
   flex: 1,
   display: 'flex',
 }));
@@ -104,11 +108,13 @@ const BalanceText = styled.p((props) => ({
 }));
 
 const InputField = styled.input((props) => ({
-  ...props.theme.typography.body_m,
-  backgroundColor: props.theme.colors.elevation_n1,
+  ...props.theme.body_medium_xl,
+  background: props.theme.colors.background.orangePillBg,
   color: props.theme.colors.white_0,
   width: '100%',
   border: 'transparent',
+  caretColor: props.theme.colors.action.classic,
+  '::placeholder': { color: props.theme.colors.secondaryText },
 }));
 
 const AmountInputContainer = styled.div<ContainerProps>((props) => ({
@@ -120,13 +126,13 @@ const AmountInputContainer = styled.div<ContainerProps>((props) => ({
   border: props.error
     ? '1px solid rgba(211, 60, 60, 0.3)'
     : `1px solid ${props.theme.colors.elevation3}`,
-  backgroundColor: props.theme.colors.elevation_n1,
+  background: props.theme.colors.background.orangePillBg,
   borderRadius: props.theme.radius(1),
   paddingLeft: props.theme.spacing(5),
   paddingRight: props.theme.spacing(5),
   height: 44,
   ':focus-within': {
-    border: `1px solid ${props.theme.colors.elevation6}`,
+    border: `1px solid rgba(168, 185, 244, 0.20)`,
   },
 }));
 
@@ -138,7 +144,7 @@ const MemoInputContainer = styled.div<ContainerProps>((props) => ({
   border: props.error
     ? '1px solid rgba(211, 60, 60, 0.3)'
     : `1px solid ${props.theme.colors.elevation3}`,
-  backgroundColor: props.theme.colors.elevation_n1,
+  background: props.theme.colors.background.orangePillBg,
   borderRadius: props.theme.radius(1),
   padding: props.theme.spacing(7),
   height: 76,
@@ -147,7 +153,9 @@ const MemoInputContainer = styled.div<ContainerProps>((props) => ({
   },
 }));
 
-const SendButtonContainer = styled.div((props) => ({
+const ButtonContainer = styled.div((props) => ({
+  display: 'flex',
+  gap: 16,
   paddingBottom: props.theme.spacing(12),
   paddingTop: props.theme.spacing(4),
   marginLeft: '5%',
@@ -163,6 +171,14 @@ const TokenContainer = styled.div((props) => ({
   justifyContent: 'center',
   alignItems: 'center',
   marginTop: props.theme.spacing(8),
+}));
+
+const CoinSwitchButton = styled.button((props) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: props.theme.spacing(2),
+  background: 'transparent',
 }));
 
 const StyledInputFeedback = styled(InputFeedback)((props) => ({
@@ -190,6 +206,7 @@ interface Props {
   onAddressInputChange?: (recipientAddress: string) => void;
   warning?: string;
   info?: string;
+  toggleCoinSwitch?: () => void;
 }
 
 function SendForm({
@@ -213,6 +230,7 @@ function SendForm({
   onAddressInputChange,
   warning,
   info,
+  toggleCoinSwitch,
 }: Props) {
   const { t } = useTranslation('translation', { keyPrefix: 'SEND' });
   // TODO tim: use context instead of duplicated local state and parent state (as props)
@@ -230,7 +248,7 @@ function SendForm({
   const associatedBnsName = useBnsName(recipientAddress);
   const associatedAddress = useBnsResolver(debouncedSearchTerm, stxAddress, currencyType);
   const { isAccountSwitched } = useClearFormOnAccountSwitch();
-
+  const { dispatchStep } = useStepperContext();
   useEffect(() => {
     if (isAccountSwitched) {
       setAmount('');
@@ -341,23 +359,25 @@ function SendForm({
     <Container>
       <RowContainer>
         <TitleText>{t('AMOUNT')}</TitleText>
-        <BalanceText>{t('BALANCE')}:</BalanceText>
+        {/* <BalanceText>{t('BALANCE')}:</BalanceText>
         <NumericFormat
           value={balance}
           displayType="text"
           thousandSeparator
           renderText={(value: string) => <Text>{value}</Text>}
-        />
+        /> */}
       </RowContainer>
       <AmountInputContainer error={amountError !== ''}>
         <InputFieldContainer>
           <InputField value={amount} placeholder="0" onChange={onInputChange} />
         </InputFieldContainer>
         <Text>{getAmountLabel()}</Text>
-        {switchToFiat && <CurrencyFlag src={getCurrencyFlag(fiatCurrency)} />}
+        <CoinSwitchButton onClick={toggleCoinSwitch}>
+          <img src={Down} alt="arrow-down" width={16} height={16} />
+        </CoinSwitchButton>
       </AmountInputContainer>
       <FiatRow
-        onClick={onSwitchPress}
+        onClick={() => {}}
         showFiat={switchToFiat}
         tokenCurrency={getTokenCurrency()}
         tokenAmount={getTokenEquivalent(amount)}
@@ -459,7 +479,7 @@ function SendForm({
   return (
     <>
       <ScrollContainer>
-        {currencyType !== 'NFT' &&
+        {/* {currencyType !== 'NFT' &&
           currencyType !== 'Ordinal' &&
           currencyType !== 'brc20-Ordinal' &&
           !hideTokenImage && (
@@ -470,16 +490,15 @@ function SendForm({
                 fungibleToken={fungibleToken || undefined}
               />
             </TokenContainer>
-          )}
+          )} */}
         <OuterContainer>
           {!disableAmountInput && renderEnterAmountSection}
           {amountError && <StyledInputFeedback message={amountError} variant="danger" />}
-          {buyCryptoMessage}
           {children}
           {renderEnterRecipientSection}
           {addressError && <StyledInputFeedback message={addressError} variant="danger" />}
           {info && <InputFeedback message={info} />}
-          {currencyType !== 'BTC' &&
+          {/* {currencyType !== 'BTC' &&
             currencyType !== 'NFT' &&
             currencyType !== 'Ordinal' &&
             currencyType !== 'brc20-Ordinal' &&
@@ -504,22 +523,31 @@ function SendForm({
                 </MemoContainer>
                 <InfoContainer bodyText={t('MEMO_INFO')} />
               </>
-            )}
+            )} */}
           {displayedWarning && (
             <OrdinalInfoContainer>
               <InfoContainer bodyText={displayedWarning} type="Warning" />
             </OrdinalInfoContainer>
           )}
+          <InfoContainer showWarningText bodyText={t('WARNING_MSG')} />
         </OuterContainer>
       </ScrollContainer>
-      <SendButtonContainer>
+      <ButtonContainer>
+        <ActionButton
+          onPress={() => {
+            navigate('/');
+            dispatchStep({ type: 'HOME' });
+          }}
+          transparent
+          text="Cancel"
+        />
         <ActionButton
           text={buttonText ?? t('NEXT')}
           processing={processing}
           disabled={!checkIfEnableButton()}
           onPress={handleOnPress}
         />
-      </SendButtonContainer>
+      </ButtonContainer>
     </>
   );
 }
