@@ -1,9 +1,10 @@
 import ArrowSquareOut from '@assets/img/arrow_square_out.svg';
 import Success from '@assets/img/send/check_circle.svg';
-import Failure from '@assets/img/send/x_circle.svg';
+import Failure from '@assets/img/send/failed.png';
 import ActionButton from '@components/button';
 import CopyButton from '@components/copyButton';
 import InfoContainer from '@components/infoContainer';
+import LogoStatusHeader from '@components/logoStatusHeader';
 import useWalletSelector from '@hooks/useWalletSelector';
 import { getBtcTxStatusUrl, getStxTxStatusUrl } from '@utils/helper';
 import { useTranslation } from 'react-i18next';
@@ -11,7 +12,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const TxStatusContainer = styled.div((props) => ({
-  background: props.theme.colors.elevation0,
+  background: props.theme.colors.background.orangePillBg,
   display: 'flex',
   flexDirection: 'column',
   height: '100%',
@@ -27,7 +28,7 @@ const OuterContainer = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
-  marginTop: props.theme.spacing(46),
+  marginTop: props.theme.spacing(2),
   flex: 1,
 }));
 
@@ -45,10 +46,11 @@ const ButtonContainer = styled.div((props) => ({
   flex: 1,
   display: 'flex',
   flexDirection: 'column',
-  alignItems: 'flex-end',
+  alignItems: 'center',
+  justifyContent: 'flex-end',
   gap: props.theme.spacing(6),
   marginTop: props.theme.spacing(15),
-  marginBottom: props.theme.spacing(32),
+  marginBottom: props.theme.spacing(24),
   marginLeft: props.theme.spacing(8),
   marginRight: props.theme.spacing(8),
 }));
@@ -84,21 +86,22 @@ const Image = styled.img({
 
 const HeadingText = styled.h1((props) => ({
   ...props.theme.typography.headline_s,
-  color: props.theme.colors.white_0,
+  color: props.theme.colors.action.classic,
   textAlign: 'center',
   marginTop: props.theme.spacing(8),
 }));
 
 const BodyText = styled.h1((props) => ({
-  ...props.theme.typography.body_m,
-  color: props.theme.colors.white_400,
+  ...props.theme.body_medium_xl,
+  color: props.theme.colors.white_0,
   marginTop: props.theme.spacing(8),
   textAlign: 'center',
   overflowWrap: 'break-word',
   wordWrap: 'break-word',
   wordBreak: 'break-word',
-  marginLeft: props.theme.spacing(5),
-  marginRight: props.theme.spacing(5),
+  marginLeft: props.theme.spacing(8),
+  marginRight: props.theme.spacing(8),
+  marginBottom: props.theme.spacing(48),
 }));
 
 const TxIDText = styled.h1((props) => ({
@@ -168,6 +171,7 @@ function TransactionStatus() {
 
   const renderTransactionFailureStatus = (
     <Container>
+      <LogoStatusHeader status="Error" />
       <Image src={Failure} />
       <HeadingText>{errorTitle || t('FAILED')}</HeadingText>
       <BodyText>{error}</BodyText>
