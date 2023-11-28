@@ -1,12 +1,7 @@
 /* eslint-disable no-await-in-loop */
-import BitcoinToken from '@assets/img/dashboard/bitcoin_token.svg';
-import OrdinalsIcon from '@assets/img/dashboard/ordinalBRC20.svg';
-import SIP10Icon from '@assets/img/dashboard/SIP10.svg';
 import linkIcon from '@assets/img/linkIcon.svg';
 import AccountHeaderComponent from '@components/accountHeader';
-import BottomModal from '@components/bottomModal';
 import CopyButton from '@components/copyButton';
-import ReceiveCardComponent from '@components/receiveCardComponent';
 import StepperNavigator from '@components/stepperNavigator';
 import BottomBar from '@components/tabBar';
 import useBtcWalletData from '@hooks/queries/useBtcWalletData';
@@ -140,24 +135,6 @@ const StepperContainer = styled.div({
 //   marginRight: 4,
 // }));
 
-const ReceiveContainer = styled.div((props) => ({
-  display: 'flex',
-  fontFamily: 'MontRegular',
-  flexDirection: 'column',
-  marginTop: props.theme.spacing(12),
-  marginBottom: props.theme.spacing(16),
-  paddingLeft: props.theme.spacing(8),
-  paddingRight: props.theme.spacing(8),
-}));
-const Icon = styled.img({
-  width: 24,
-  height: 24,
-});
-const MergedIcon = styled.img({
-  width: 40,
-  height: 40,
-});
-
 export default function CoinDashboard() {
   const { t } = useTranslation('translation', { keyPrefix: 'COIN_DASHBOARD_SCREEN' });
   const [showFtContractDetails, setShowFtContractDetails] = useState(false);
@@ -165,12 +142,7 @@ export default function CoinDashboard() {
   const [searchParams] = useSearchParams();
   const {
     coinsList,
-    stxAddress,
-    btcAddress,
-    ordinalsAddress,
     brcCoinsList,
-    showBtcReceiveAlert,
-    showOrdinalReceiveAlert,
   } = useWalletSelector();
   const ftAddress = searchParams.get('ft');
   const brc20FtName = searchParams.get('brc20ft');
@@ -239,63 +211,9 @@ export default function CoinDashboard() {
   };
 
   const navigate = useNavigate();
-  const [openReceiveModal, setOpenReceiveModal] = useState(false);
-  const { t: t1 } = useTranslation('translation', { keyPrefix: 'DASHBOARD_SCREEN' });
-  const [isBtcReceiveAlertVisible, setIsBtcReceiveAlertVisible] = useState(false);
-  const [isOrdinalReceiveAlertVisible, setIsOrdinalReceiveAlertVisible] = useState(false);
-  const onReceiveModalOpen = () => {
-    setOpenReceiveModal(true);
-  };
-  const onReceiveModalClose = () => {
-    setOpenReceiveModal(false);
-  };
-  const onBTCReceiveSelect = () => {
-    navigate('/receive/BTC');
-  };
-  const onSTXReceiveSelect = () => {
-    navigate('/receive/STX');
-  };
-  const onOrdinalReceiveAlertOpen = () => {
-    if (showOrdinalReceiveAlert) setIsOrdinalReceiveAlertVisible(true);
-  };
-  const onReceiveAlertOpen = () => {
-    if (showBtcReceiveAlert) setIsBtcReceiveAlertVisible(true);
-  };
-  const onOrdinalsReceivePress = () => {
-    navigate('/receive/ORD');
-  };
-  const receiveContent = (
-    <ReceiveContainer>
-      <ReceiveCardComponent
-        title={t1('BITCOIN')}
-        address={btcAddress}
-        onQrAddressClick={onBTCReceiveSelect}
-        onCopyAddressClick={onReceiveAlertOpen}
-      >
-        <Icon src={BitcoinToken} />
-      </ReceiveCardComponent>
-
-      <ReceiveCardComponent
-        title={t1('ORDINALS')}
-        address={ordinalsAddress}
-        onQrAddressClick={onOrdinalsReceivePress}
-        onCopyAddressClick={onOrdinalReceiveAlertOpen}
-      >
-        <MergedIcon src={OrdinalsIcon} />
-      </ReceiveCardComponent>
-
-      <ReceiveCardComponent
-        title={t1('STACKS_AND_TOKEN')}
-        address={stxAddress}
-        onQrAddressClick={onSTXReceiveSelect}
-      >
-        <MergedIcon src={SIP10Icon} />
-      </ReceiveCardComponent>
-    </ReceiveContainer>
-  );
   return (
     <>
-      <AccountHeaderComponent onReceiveModalOpen={onReceiveModalOpen} />
+      <AccountHeaderComponent onReceive={() => navigate('/receive-main-menu')} />
       <Container>
         <CoinHeader coin={coin as CurrencyTypes} fungibleToken={ft || brc20Ft} />
         <StepperContainer>
@@ -312,9 +230,6 @@ export default function CoinDashboard() {
           </FtInfoContainer>
         )} */}
         {showContent()}
-        <BottomModal visible={openReceiveModal} header="Recieve" onClose={onReceiveModalClose}>
-          {receiveContent}
-        </BottomModal>
       </Container>
       <BottomBar tab="dashboard" />
     </>

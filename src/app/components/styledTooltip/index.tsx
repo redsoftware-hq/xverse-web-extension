@@ -20,6 +20,7 @@ export default function StyledTooltip(props: Props) {
     justifyContent: 'center',
     alignItems: 'center',
     gap: '10px',
+    zIndex: 999,
     background:
       'radial-gradient(489.09% 91.61% at 89.79% 22.85%, rgba(56, 60, 78, 0.20) 0%, rgba(13, 14, 18, 0.20) 100%), rgba(0, 0, 0, 0.80)',
   };

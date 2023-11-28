@@ -1,20 +1,13 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import styled from 'styled-components';
-import BottomBar from '@components/tabBar';
-import AccountHeaderComponent from '@components/accountHeader';
-import useMarketData from '@hooks/useMarketData';
-import Chart from 'react-apexcharts';
-import { useEffect, useState } from 'react';
 import BTC from '@assets/img/market/bitcoin.svg';
 import WBTC from '@assets/img/market/wbitcoin.svg';
-import SIP10Icon from '@assets/img/dashboard/SIP10.svg';
-import BitcoinToken from '@assets/img/dashboard/bitcoin_token.svg';
-import OrdinalsIcon from '@assets/img/dashboard/ordinalBRC20.svg';
+import AccountHeaderComponent from '@components/accountHeader';
+import BottomBar from '@components/tabBar';
+import useMarketData from '@hooks/useMarketData';
+import { useEffect, useState } from 'react';
+import Chart from 'react-apexcharts';
 import { useNavigate } from 'react-router-dom';
-import useWalletSelector from '@hooks/useWalletSelector';
-import { useTranslation } from 'react-i18next';
-import BottomModal from '@components/bottomModal';
-import ReceiveCardComponent from '@components/receiveCardComponent';
+import styled from 'styled-components';
 import BitcoinAssets from './BitcoinAssets';
 import StepperBar from './StepperBar';
 
@@ -129,23 +122,6 @@ function MarketCapDetails({ isMarketCap, value, percentages }: any) {
     </MarketCapDetailsContainer>
   );
 }
-const ReceiveContainer = styled.div((props) => ({
-  display: 'flex',
-  fontFamily: 'MontRegular',
-  flexDirection: 'column',
-  marginTop: props.theme.spacing(12),
-  marginBottom: props.theme.spacing(16),
-  paddingLeft: props.theme.spacing(8),
-  paddingRight: props.theme.spacing(8),
-}));
-const Icon = styled.img({
-  width: 24,
-  height: 24,
-});
-const MergedIcon = styled.img({
-  width: 40,
-  height: 40,
-});
 
 function Market() {
   const { data, loading } = useMarketData();
@@ -153,13 +129,6 @@ function Market() {
   const [quotesData, setQuotesData] = useState<any>([]);
   const [headData, setHeadData] = useState<any[]>([]);
   const [currentActiveIndex, setCurentActiveIndex] = useState<any>(0);
-  const {
-    stxAddress,
-    btcAddress,
-    ordinalsAddress,
-    showBtcReceiveAlert,
-    showOrdinalReceiveAlert,
-  } = useWalletSelector();
 
   // const mappedData = data?.data.BTC?.map((item: any) => ({ x: item.time, y: item.value }));
 
@@ -294,63 +263,9 @@ function Market() {
     }
   }, [loading, data]);
   const navigate = useNavigate();
-  const [openReceiveModal, setOpenReceiveModal] = useState(false);
-  const { t: t1 } = useTranslation('translation', { keyPrefix: 'DASHBOARD_SCREEN' });
-  const [isBtcReceiveAlertVisible, setIsBtcReceiveAlertVisible] = useState(false);
-  const [isOrdinalReceiveAlertVisible, setIsOrdinalReceiveAlertVisible] = useState(false);
-  const onReceiveModalOpen = () => {
-    setOpenReceiveModal(true);
-  };
-  const onReceiveModalClose = () => {
-    setOpenReceiveModal(false);
-  };
-  const onBTCReceiveSelect = () => {
-    navigate('/receive/BTC');
-  };
-  const onSTXReceiveSelect = () => {
-    navigate('/receive/STX');
-  };
-  const onOrdinalReceiveAlertOpen = () => {
-    if (showOrdinalReceiveAlert) setIsOrdinalReceiveAlertVisible(true);
-  };
-  const onReceiveAlertOpen = () => {
-    if (showBtcReceiveAlert) setIsBtcReceiveAlertVisible(true);
-  };
-  const onOrdinalsReceivePress = () => {
-    navigate('/receive/ORD');
-  };
-  const receiveContent = (
-    <ReceiveContainer>
-      <ReceiveCardComponent
-        title={t1('BITCOIN')}
-        address={btcAddress}
-        onQrAddressClick={onBTCReceiveSelect}
-        onCopyAddressClick={onReceiveAlertOpen}
-      >
-        <Icon src={BitcoinToken} />
-      </ReceiveCardComponent>
-
-      <ReceiveCardComponent
-        title={t1('ORDINALS')}
-        address={ordinalsAddress}
-        onQrAddressClick={onOrdinalsReceivePress}
-        onCopyAddressClick={onOrdinalReceiveAlertOpen}
-      >
-        <MergedIcon src={OrdinalsIcon} />
-      </ReceiveCardComponent>
-
-      <ReceiveCardComponent
-        title={t1('STACKS_AND_TOKEN')}
-        address={stxAddress}
-        onQrAddressClick={onSTXReceiveSelect}
-      >
-        <MergedIcon src={SIP10Icon} />
-      </ReceiveCardComponent>
-    </ReceiveContainer>
-  );
   return (
     <>
-      <AccountHeaderComponent  onReceiveModalOpen={onReceiveModalOpen}/>
+      <AccountHeaderComponent onReceive={() => navigate('/receive-main-menu')} />
       {series && headData ? (
         <ChartContainer>
           <MaskContainer>
@@ -373,9 +288,6 @@ function Market() {
         />
       )}
       <BitcoinAssets isLoading={loading} data={quotesData} />
-      <BottomModal visible={openReceiveModal} header="Recieve" onClose={onReceiveModalClose}>
-          {receiveContent}
-        </BottomModal>
       <BottomBar tab="market" />
     </>
   );

@@ -1,5 +1,6 @@
 import InfoIcon from '@assets/img/info.svg';
 import WarningIcon from '@assets/img/Warning.svg';
+import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 
 interface ContainerProps {
@@ -77,10 +78,11 @@ function InfoContainer({
   showWarningText,
   showWarningBackground,
 }: Props) {
+  const { t } = useTranslation();
   return showWarningText ? (
     <Container type={type}>
       <Text>
-        <WarningText>Warning:</WarningText>
+        <WarningText>{t('COMMON.WARNING')}</WarningText>
         {bodyText}
       </Text>
     </Container>
