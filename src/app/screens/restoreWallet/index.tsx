@@ -41,6 +41,7 @@ function RestoreWallet(): JSX.Element {
   const { t } = useTranslation('translation');
   const { restoreWallet } = useWalletReducer();
   const [isRestoring, setIsRestoring] = useState<boolean>(false);
+  const [isPasted, setIsPasted] = useState(false);
   const [currentStepIndex, setCurrentStepIndex] = useState<number>(0);
   const [password, setPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
@@ -103,11 +104,16 @@ function RestoreWallet(): JSX.Element {
     const fromClipboard = await navigator.clipboard.readText();
     const seedWords = fromClipboard.split(' ');
     setSeedPhrase(seedWords);
+    setIsPasted(true);
+    setTimeout(() => {
+      setIsPasted(false);
+    }, 3000);
   };
   const restoreSteps = [
     <SeedPhraseContainer key={0}>
       <Heading>SeedPhrase Verification</Heading>
       <EnterSeedPhrase
+        isPasted={isPasted}
         seed={seedPhrase}
         setSeed={setSeedPhrase}
         onContinue={onSeedPhraseContinue}

@@ -52,7 +52,6 @@ const PasteSeedButton = styled.button<{ position: 'mid' | 'bottom'; disabled?: b
     ...props.theme.body_medium_m,
     color: props.theme.colors.action.classic,
     borderRadius: props.theme.radius(4),
-    border: `1px solid ${props.theme.colors.action.classic}`,
     backgroundColor: props.theme.colors.background.lightOrange,
     height: 30,
     width: 150,
@@ -78,7 +77,24 @@ const PasteSeedButton = styled.button<{ position: 'mid' | 'bottom'; disabled?: b
     },
   }),
 );
-
+const Pasted = styled.button<{ position: 'mid' | 'bottom'; disabled?: boolean }>((props) => ({
+  ...props.theme.body_medium_m,
+  color: '#42BF23',
+  borderRadius: props.theme.radius(4),
+  backgroundColor: 'rgba(66, 191, 35, 0.20)',
+  height: 30,
+  width: 150,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  position: 'absolute',
+  top: props.position === 'mid' ? '71%' : '80%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  img: {
+    marginRight: props.theme.spacing(4),
+  },
+}));
 interface VerifySeedProps {
   onVerifySuccess: () => void;
   seedPhrase: string;
@@ -103,6 +119,7 @@ function textToMapValues(inputText: string, arrayLength: number): string[] {
 
 export default function VerifySeed(props: VerifySeedProps): JSX.Element {
   const [seedInput, setSeedInput] = useState<string[]>(new Array(12).fill(''));
+  const [isPasted, setIsPasted] = useState(false);
   const [err, setErr] = useState('');
   const { t } = useTranslation('translation', { keyPrefix: 'BACKUP_WALLET_SCREEN' });
   const { onBack, onVerifySuccess, seedPhrase, copy } = props;
@@ -121,6 +138,10 @@ export default function VerifySeed(props: VerifySeedProps): JSX.Element {
 
   const handlePaste = async () => {
     setSeedInput(seedPhrase.split(' '));
+    setIsPasted(true);
+    setTimeout(() => {
+      setIsPasted(false);
+    }, 3000);
   };
 
   return (
@@ -133,11 +154,16 @@ export default function VerifySeed(props: VerifySeedProps): JSX.Element {
         seedError={err}
         setSeedError={setErr}
       />
-      {copy && (
-        <PasteSeedButton position="mid" onClick={handlePaste}>
-          Paste Seedphrase
-        </PasteSeedButton>
-      )}
+      {copy &&
+        (isPasted ? (
+          <Pasted position="mid" disabled>
+            Pasted
+          </Pasted>
+        ) : (
+          <PasteSeedButton position="mid" onClick={handlePaste}>
+            Paste Seedphrase
+          </PasteSeedButton>
+        ))}
       <ButtonsContainer>
         <ButtonContainer>
           <ActionButton

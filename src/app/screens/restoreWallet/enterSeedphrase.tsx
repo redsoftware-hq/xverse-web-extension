@@ -25,6 +25,7 @@ const ButtonContainer = styled.div((props) => ({
 }));
 
 interface Props {
+  isPasted?: boolean;
   seed: string[];
   setSeed: (seed: string[]) => void;
   onContinue: () => void;
@@ -36,7 +37,6 @@ const Paste = styled.button<{ position: 'mid' | 'bottom'; disabled?: boolean }>(
   ...props.theme.body_medium_m,
   color: props.theme.colors.action.classic,
   borderRadius: props.theme.radius(4),
-  border: `1px solid ${props.theme.colors.action.classic}`,
   backgroundColor: props.theme.colors.background.lightOrange,
   height: 30,
   width: 150,
@@ -73,8 +73,27 @@ const Paste = styled.button<{ position: 'mid' | 'bottom'; disabled?: boolean }>(
     cursor: 'not-allowed',
   },
 }));
+const Pasted = styled.button<{ position: 'mid' | 'bottom'; disabled?: boolean }>((props) => ({
+  ...props.theme.body_medium_m,
+  color: '#42BF23',
+  borderRadius: props.theme.radius(4),
+  backgroundColor: 'rgba(66, 191, 35, 0.20)',
+  height: 30,
+  width: 150,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  position: 'absolute',
+  top: props.position === 'mid' ? '70%' : '80%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  img: {
+    marginRight: props.theme.spacing(4),
+  },
+}));
 function EnterSeedPhrase(props: Props): JSX.Element {
-  const { onContinue, seed, setSeed, seedError, setSeedError, pasteFromClipboard } = props;
+  const { onContinue, seed, setSeed, seedError, setSeedError, pasteFromClipboard, isPasted } =
+    props;
 
   const { t } = useTranslation('translation', { keyPrefix: 'RESTORE_WALLET_SCREEN' });
 
@@ -87,9 +106,16 @@ function EnterSeedPhrase(props: Props): JSX.Element {
         seedError={seedError}
         setSeedError={setSeedError}
       />
-      <Paste position="mid" onClick={pasteFromClipboard}>
-        {t('PASTE')}
-      </Paste>
+      {isPasted ? (
+        <Pasted position="mid" disabled>
+          Pasted
+        </Pasted>
+      ) : (
+        <Paste position="mid" onClick={pasteFromClipboard}>
+          {t('PASTE')}
+        </Paste>
+      )}
+
       <ButtonContainer>
         <ActionButton
           onPress={onContinue}

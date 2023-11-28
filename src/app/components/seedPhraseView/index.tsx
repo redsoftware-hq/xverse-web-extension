@@ -44,7 +44,7 @@ const ShowSeedButton = styled.button<{ position: 'mid' | 'bottom'; disabled?: bo
     ...props.theme.body_medium_m,
     color: props.theme.colors.action.classic,
     borderRadius: props.theme.radius(4),
-    border: `1px solid ${props.theme.colors.action.classic}`,
+    // border: `1px solid ${props.theme.colors.action.classic}`,
     backgroundColor: props.theme.colors.background.lightOrange,
     height: 30,
     width: 150,
