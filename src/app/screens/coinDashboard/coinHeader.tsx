@@ -537,15 +537,14 @@ export default function CoinHeader(props: CoinBalanceProps) {
                 )} */}
               </>
             )}
-            {/* 
             <ButtonContainer>
               <SmallActionButton
                 isOpaque
                 isRound
                 src={SwapCoin}
-                onPress={() => console.log('transfer')}
+                onPress={() => navigate('/swap')}
               />
-            </ButtonContainer> */}
+            </ButtonContainer>
           </RowButtonContainer>
         </BalanceInfoContainer>
         {renderStackingBalances()}
