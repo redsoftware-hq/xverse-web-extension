@@ -77,6 +77,8 @@ const Theme = {
     success_pill: '#42BF23',
     caution: '#F2A900',
     caution_800: 'rgba(242, 169, 0, 0.2)',
+    caution_pill: '#FFC700',
+    caution_bg: 'rgba(255, 199, 0, 0.20)',
 
     // brand
     emerald_light: '#55B86E',

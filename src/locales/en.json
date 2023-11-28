@@ -1,7 +1,8 @@
 {
   "COMMON": {
     "INSCRIPTION": "Inscription",
-    "SEND": "Send"
+    "SEND": "Send",
+    "WARNING": "Warning:"
   },
   "LANDING_SCREEN": {
     "SCREEN_TITLE": "Wallet for Stacks & Bitcoin",
@@ -242,12 +243,12 @@
   "SEND": {
     "SEND_TO": "Send to",
     "SEND": "Send",
-    "AMOUNT": "Amount",
+    "AMOUNT": "Enter the amount to send.",
     "BALANCE": "Balance",
-    "RECIPIENT": "Recipient",
-    "RECIPIENT_PLACEHOLDER": "STX Address or .btc domain",
-    "BTC_RECIPIENT_PLACEHOLDER": "Enter Bitcoin address",
-    "ORDINAL_RECIPIENT_PLACEHOLDER": "Enter address",
+    "RECIPIENT": "Enter the wallet address.",
+    "RECIPIENT_PLACEHOLDER": "Enter STX Address...",
+    "BTC_RECIPIENT_PLACEHOLDER": "Enter Bitcoin address...",
+    "ORDINAL_RECIPIENT_PLACEHOLDER": "Enter address...",
     "MEMO": "Add a memo (optional)",
     "MEMO_PLACEHOLDER": "Memo",
     "ASSOCIATED_ADDRESS": "Associated Address",
@@ -256,15 +257,16 @@
     "NO_FUNDS": "You don’t have any funds to send.",
     "BUY_CRYPTO": "Buy crypto",
     "MOVE_TO_ASSET_DETAIL": "Back to asset detail",
+    "WARNING_MSG": "Please confirm the wallet address as transactions are irreversible and funds can not be recovered.",
     "ERRORS": {
       "ADDRESS_REQUIRED": "Recipient address is required",
       "AMOUNT_REQUIRED": "Amount is required",
-      "ADDRESS_INVALID": "Recipient address invalid",
+      "ADDRESS_INVALID": "Invalid Address. Please try again.",
       "SEND_TO_SELF": "Cannot send to self",
       "INVALID_AMOUNT": "Invalid amount",
       "BELOW_MINIMUM_AMOUNT": "Amount should not be less than 1500 sats",
       "MINIMUM_AMOUNT": "Minimum amount is 0.000001 STX",
-      "INSUFFICIENT_BALANCE": "Insufficient balance",
+      "INSUFFICIENT_BALANCE": "Insufficient Balance.",
       "MEMO_LENGTH": "Memo exceeds allowed length",
       "INSUFFICIENT_BALANCE_FEES": "Insufficient balance when including transaction fees",
       "NFT_SEND_DETAIL": "This Nft is already sent and is in pending state",
@@ -313,7 +315,7 @@
     "RECIPIENT": "Recipient",
     "ASSET": "Asset",
     "NETWORK_MISMATCH": "There’s a mismatch between your active network and the network you’re logged with.",
-    "ADDRESS_MISMATCH": "There’s a mismatch between your signing address and the address you’re logged with.",
+    "ADDRESS_MISMATCH": "The transaction can not proceed as the active wallet address and the wallet address connected to this dApp are different.",
     "PSBT_NO_BROADCAST_DISCLAIMER": "This transaction will not be broadcasted from your wallet. It may be broadcasted later by a third party.",
     "PSBT_CANT_PARSE_ERROR_TITLE": "Transaction Error",
     "PSBT_CANT_PARSE_ERROR_DESCRIPTION": "The requested transaction is invalid and cannot be processed please contact the developer of the requesting app for support",
