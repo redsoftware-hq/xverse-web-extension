@@ -1,5 +1,5 @@
 import Logo from '@assets/img/pill.png';
-import styled from 'styled-components';
+import styled, { CSSProperties } from 'styled-components';
 
 const LogoContainer = styled.div((props) => ({
   display: 'flex',
@@ -12,20 +12,26 @@ const Pill = styled.img({
   width: 60,
   height: 34,
 });
-const PillStatus = styled.div((props) => ({
+const PillStatus = styled.div<{ isAccount: boolean }>((props) => ({
   ...props.theme.body_m,
   borderRadius: '15px',
-  border: `1px solid ${props.theme.colors.caution_pill}`,
-  background: props.theme.colors.caution_bg,
-  color: props.theme.colors.caution_pill,
+  border: `1px solid ${props.isAccount ? '#42BF23' : props.theme.colors.caution_pill}`,
+  background: props.isAccount ? 'rgba(66, 191, 35, 0.20)' : props.theme.colors.caution_bg,
+  color: props.isAccount ? '#42BF23' : props.theme.colors.caution_pill,
   padding: '1px 14px 1px 14px',
   textAlign: 'center',
 }));
-export default function LogoStatusHeader({ status }: { status: string }) {
+export default function LogoStatusHeader({
+  status,
+  style,
+}: {
+  status: string;
+  style?: CSSProperties;
+}) {
   return (
-    <LogoContainer>
+    <LogoContainer style={style}>
       <Pill src={Logo} alt="orange-pill-logo" />
-      <PillStatus>{status}</PillStatus>
+      <PillStatus isAccount={status.includes('Account')}>{status}</PillStatus>
     </LogoContainer>
   );
 }

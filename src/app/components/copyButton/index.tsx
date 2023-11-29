@@ -1,4 +1,4 @@
-import Copy from '@assets/img/nftDashboard/Copy.svg';
+import Copy from '@assets/img/NewCopy.svg';
 import Tick from '@assets/img/tick.svg';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';

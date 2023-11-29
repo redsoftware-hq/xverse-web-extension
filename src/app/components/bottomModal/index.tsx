@@ -1,7 +1,7 @@
 import Cross from '@assets/img/dashboard/X.svg';
 import Separator from '@components/separator';
 import Modal from 'react-modal';
-import styled, { useTheme } from 'styled-components';
+import styled, { CSSProperties, useTheme } from 'styled-components';
 
 const BottomModalHeaderText = styled.h1((props) => ({
   ...props.theme.body_bold_m,
@@ -20,12 +20,13 @@ const ButtonImage = styled.button({
 });
 
 interface Props {
-  header: string;
+  header?: string | any;
   visible: boolean;
   children: React.ReactNode;
   onClose: () => void;
-  overlayStylesOverriding?: {};
-  contentStylesOverriding?: {};
+  overlayStylesOverriding?: CSSProperties;
+  contentStylesOverriding?: CSSProperties;
+  disableHeader?: boolean;
 }
 
 const CustomisedModal = styled(Modal)`
@@ -43,6 +44,7 @@ function BottomModal({
   onClose,
   overlayStylesOverriding,
   contentStylesOverriding,
+  disableHeader = false,
 }: Props) {
   const theme = useTheme();
   const isGalleryOpen: boolean = document.documentElement.clientWidth > 360;
@@ -80,13 +82,20 @@ function BottomModal({
       style={customStyles}
       contentLabel="Example Modal"
     >
-      <RowContainer>
-        <BottomModalHeaderText>{header}</BottomModalHeaderText>
-        <ButtonImage onClick={onClose}>
-          <img src={Cross} alt="cross" />
-        </ButtonImage>
-      </RowContainer>
-      {header && <Separator />}
+      {disableHeader ? (
+        // eslint-disable-next-line react/jsx-no-useless-fragment
+        <></>
+      ) : (
+        <>
+          <RowContainer>
+            <BottomModalHeaderText>{header}</BottomModalHeaderText>
+            <ButtonImage onClick={onClose}>
+              <img src={Cross} alt="cross" />
+            </ButtonImage>
+          </RowContainer>
+          <Separator />
+        </>
+      )}
       {children}
     </CustomisedModal>
   );
