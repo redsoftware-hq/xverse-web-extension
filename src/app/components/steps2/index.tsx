@@ -6,14 +6,21 @@ interface StepperProps {
   data: any[];
   activeIndex: number;
   width: number;
-  onClick: (e: any,i:number) => void;
+  onClick: (e: any, i: number) => void;
 }
 
 const Step = styled.div<{ isCurrentStep: boolean; length: number; index: number }>`
   width: ${(props) => `${100 / props.length}%`};
   height: 4px;
   background-color: ${(props) => (props.isCurrentStep ? '#D23403' : '#272A44')};
-  border-radius: ${(props) => (props.isCurrentStep ? '20px' : props.index === 0 ? '20px 0 0 20px' : props.index === props.length - 1 ? '0 20px 20px 0' : '0')};
+  border-radius: ${(props) =>
+    props.isCurrentStep
+      ? '20px'
+      : props.index === 0
+      ? '20px 0 0 20px'
+      : props.index === props.length - 1
+      ? '0 20px 20px 0'
+      : '0'};
 `;
 
 const StepperLine = styled.div<{ width: number }>`
@@ -29,7 +36,13 @@ function Stepper({ data, activeIndex, width, onClick }: StepperProps) {
   return (
     <StepperLine width={width}>
       {data.map((_, i) => (
-        <Step key={i} isCurrentStep={i === activeIndex} index={i}  length={data.length} onClick={(e)=> onClick(e,i)}/>
+        <Step
+          key={i}
+          isCurrentStep={i === activeIndex}
+          index={i}
+          length={data.length}
+          onClick={(e) => onClick(e, i)}
+        />
       ))}
     </StepperLine>
   );

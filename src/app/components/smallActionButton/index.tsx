@@ -11,9 +11,7 @@ const Button = styled.div<ButtonProps>((props) => ({
   justifyContent: 'center',
   borderRadius: props.isRound ? 24 : 16,
   border: props.isRound ? '1px solid rgba(168, 185, 244, 0.10)' : 'none',
-  background: props.isOpaque
-    ? 'rgba(0, 0, 0, 0.40)'
-    : props.theme.colors.action.classic,
+  background: props.isOpaque ? 'rgba(0, 0, 0, 0.40)' : props.theme.colors.action.classic,
   width: 48,
   height: 48,
   transition: 'background-color 0.2s ease, opacity 0.2s ease',
@@ -71,7 +69,7 @@ interface Props {
   isDisabled?: boolean;
 }
 
-function SmallActionButton({ src, text, onPress, isOpaque, isDisabled, isRound }: Props) {
+function SmallActionButton({ src, text, onPress, isOpaque, isDisabled = false, isRound }: Props) {
   const handleOnPress = () => {
     if (!isDisabled) onPress();
   };
