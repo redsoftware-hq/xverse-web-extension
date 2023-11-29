@@ -26,6 +26,7 @@ const ButtonContainer = styled.div((props) => ({
   marginTop: props.theme.spacing(8),
   marginLeft: props.theme.spacing(6),
   marginRight: props.theme.spacing(6),
+  marginBottom: props.theme.spacing(8),
 }));
 const Paragraph = styled.p((props) => ({
   ...props.theme.body_l,

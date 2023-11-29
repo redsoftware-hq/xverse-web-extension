@@ -1,19 +1,18 @@
-import styled from 'styled-components';
-import Logo from '@assets/img/pill.png';
 import DropDownIcon from '@assets/img/transactions/dropDownIcon.svg';
-import DappPlaceholderIcon from '@assets/img/webInteractions/authPlaceholder.svg';
 import AccountRow from '@components/accountRow';
 import ActionButton from '@components/button';
+import LogoStatusHeader from '@components/logoStatusHeader';
 import Separator from '@components/separator';
 import useBtcAddressRequest from '@hooks/useBtcAddressRequest';
 import useWalletReducer from '@hooks/useWalletReducer';
 import useWalletSelector from '@hooks/useWalletSelector';
 import { animated, useSpring } from '@react-spring/web';
+import CollapsableContainer from '@screens/signatureRequest/collapsableContainer';
 import { Account } from '@secretkeylabs/xverse-core';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { AddressPurpose } from 'sats-connect';
+// import { AddressPurpose } from 'sats-connect';
 import styled from 'styled-components';
 import AccountView from './accountView';
 
@@ -22,7 +21,6 @@ const TitleContainer = styled.div({
   flexDirection: 'column',
   alignItems: 'left',
   justifyContent: 'center',
-  // overflow: 'hidden',
 });
 
 const DropDownContainer = styled.div({
@@ -34,31 +32,13 @@ const DropDownContainer = styled.div({
   justifyContent: 'flex-end',
 });
 
-const Container = styled.div({
+const Container = styled.div((props) => ({
   display: 'flex',
-  alignItems: 'center',
-});
-
-const LogoContainer = styled.div((props) => ({
-  display: 'flex',
-  flexDirection: 'row',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  padding: props.theme.spacing(7),
+  flexDirection: 'column',
+  paddingBottom: props.theme.radius(16),
+  ...props.theme.scrollbar,
 }));
 
-const Caution = styled.div({
-  borderRadius: '15px',
-  border: '1px solid #F00',
-  background: 'rgba(255, 0, 0, 0.20)',
-  color: '#F00',
-  padding: '6px 14px 6px 14px',
-  textAlign: 'center',
-  fontFamily: 'MontRegular',
-  fontSize: '14px',
-  fontWeight: 600,
-  lineHeight: 'normal',
-});
 const AddressContainer = styled.div((props) => ({
   background: props.theme.colors.elevation2,
   borderRadius: 40,
@@ -145,15 +125,24 @@ const OuterContainer = styled(animated.div)({
   flexDirection: 'column',
   marginLeft: 16,
   marginRight: 16,
+  overflow: 'auto',
 });
-
+const InnerContainer = styled.div((props) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'space-between',
+  height: '100%',
+  gap: 8,
+  overflow: 'hidden',
+  flex: 1,
+}));
 const ButtonsContainer = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'row',
-  justifyContent: 'space-between',
+  gap: 8,
   alignItems: 'flex-end',
-  marginBottom: props.theme.spacing(20),
-  marginTop: 82,
+  background: 'transparent',
+  paddingBottom: props.theme.radius(8),
 }));
 
 // const BitcoinDot = styled.div((props) => ({
@@ -174,15 +163,15 @@ const AccountListRow = styled.div((props) => ({
 }));
 
 const TransparentButtonContainer = styled.div((props) => ({
+  background: 'transparent',
   marginLeft: props.theme.spacing(2),
   marginRight: props.theme.spacing(2),
   width: '100%',
 }));
 
-const Pill = styled.img({
-  width: 60,
-  height: 34,
-});
+const AccountSelect = styled.button((props) => ({
+  background: 'transparent',
+}));
 // const OrdinalImage = styled.img({
 //   width: 12,
 //   height: 12,
@@ -191,10 +180,10 @@ const Pill = styled.img({
 
 const Paragraph = styled.p((props) => ({
   ...props.theme.body_l,
-  fontFamily:'MontRegular',
+  fontFamily: 'MontRegular',
   color: props.theme.colors.white['200'],
   textAlign: 'left',
-  fontSize:18,
+  fontSize: 18,
   marginTop: props.theme.spacing(8),
   marginBottom: props.theme.spacing(8),
   paddingLeft: props.theme.spacing(3),
@@ -206,7 +195,9 @@ function BtcSelectAddressScreen() {
   const navigate = useNavigate();
   const { t } = useTranslation('translation', { keyPrefix: 'SELECT_BTC_ADDRESS_SCREEN' });
   const { selectedAccount, accountsList, network } = useWalletSelector();
+  const { switchAccount } = useWalletReducer();
   const { payload, approveBtcAddressRequest, cancelAddressRequest } = useBtcAddressRequest();
+  const { isExpanded, setIsExpanded } = useState(false);
   const springProps = useSpring({
     transform: showAccountList ? 'translateY(0%)' : 'translateY(100%)',
     opacity: showAccountList ? 1 : 0,
@@ -265,7 +256,7 @@ function BtcSelectAddressScreen() {
 
   useEffect(() => {
     switchAccountBasedOnRequest();
-    window.resizeTo(374.6,600);
+    window.resizeTo(374.6, 600);
   }, []);
 
   function getName() {
@@ -273,16 +264,16 @@ function BtcSelectAddressScreen() {
   }
   return (
     <>
-      <LogoContainer>
-        <Pill src={Logo} alt="orange-pill-logo" />
-        <Caution>Caution</Caution>
-      </LogoContainer>
+      <LogoStatusHeader status="Caution" />
       <OuterContainer style={styles}>
-        <TitleContainer>
-          {/* <TopImage src={DappPlaceholderIcon} alt="Dapp Logo" /> */}
-          <FunctionTitle>{t('TITLE')}</FunctionTitle>
-          <Paragraph>This site is requesting to connect to your Orange Pill wallet. Please ensure that this site is authorized to access your wallet before proceeding.</Paragraph>
-          {/* <div style={{ display: 'flex', alignItems: 'center' }}>
+        <InnerContainer>
+          <TitleContainer>
+            <FunctionTitle>{t('TITLE')}</FunctionTitle>
+            <Paragraph>
+              This site is requesting to connect to your Orange Pill wallet. Please ensure that this
+              site is authorized to access your wallet before proceeding.
+            </Paragraph>
+            {/* <div style={{ display: 'flex', alignItems: 'center' }}>
             {payload.purposes.map((purpose) => (purpose === AddressPurposes.PAYMENT ? (
               <AddressContainer>
                 <BitcoinDot />
@@ -295,44 +286,27 @@ function BtcSelectAddressScreen() {
               </AddressContainer>
             )))}
           </div> */}
-          {/* <DappTitle>{payload.message}</DappTitle> */}
-        </TitleContainer>
-        {showAccountList ? (
-          <AccountListContainer style={springProps}>
-            {[...ledgerAccountsList, ...accountsList].map((account) => (
-              <AccountListRow key={account.id}>
-                <AccountRow
-                  usedInPopup
-                  key={account.stxAddress}
-                  account={account}
-                  isSelected={isAccountSelected(account)}
-                  onAccountSelected={handleAccountSelect}
-                />
-                <Separator />
-              </AccountListRow>
+            {/* <DappTitle>{payload.message}</DappTitle> */}
+          </TitleContainer>
+          <Container>
+            {[...accountsList].map((account) => (
+              <CollapsableContainer
+                key={account.id}
+                title={account!?.bnsName ?? `Account ${`${(account!?.id ?? 0) + 1}`}`}
+              >
+                <AccountSelect onClick={() => handleAccountSelect(account!)}>
+                  <AccountView account={account} isBitcoinTx />
+                </AccountSelect>
+              </CollapsableContainer>
             ))}
-          </AccountListContainer>
-        ) : (
-          <>
-            <AccountText>{getName()}</AccountText>
-            <AccountContainer onClick={onChangeAccount}>
-              <AccountView account={selectedAccount!} isBitcoinTx />
-              <DropDownContainer>
-                <img src={DropDownIcon} alt="Drop Down" />
-              </DropDownContainer>
-            </AccountContainer>
-            <ButtonsContainer>
-              <TransparentButtonContainer>
-                <ActionButton text={t('CANCEL_BUTTON')} transparent onPress={cancelCallback} />
-              </TransparentButtonContainer>
-              <ActionButton
-                text={t('CONNECT_BUTTON')}
-                processing={loading}
-                onPress={confirmCallback}
-              />
-            </ButtonsContainer>
-          </>
-        )}
+          </Container>
+        </InnerContainer>
+        <ButtonsContainer>
+          <TransparentButtonContainer>
+            <ActionButton text={t('CANCEL_BUTTON')} transparent onPress={cancelCallback} />
+          </TransparentButtonContainer>
+          <ActionButton text={t('CONNECT_BUTTON')} processing={loading} onPress={confirmCallback} />
+        </ButtonsContainer>
       </OuterContainer>
     </>
   );

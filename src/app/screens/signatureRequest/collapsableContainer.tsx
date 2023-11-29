@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 interface Props {
   title: string;
-  text: string;
+  text?: string;
   children: React.ReactNode;
   initialValue?: boolean;
 }
@@ -13,26 +13,28 @@ interface Props {
 const ContentContainer = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'column',
-  background: props.theme.colors.elevation1,
+  background: props.theme.colors.background.orangePillBg,
+  border: '1px solid #1F232D',
   borderRadius: 12,
-  padding: '12px 16px',
   justifyContent: 'center',
   marginBottom: 12,
   flex: 1,
 }));
 
-const RowContainer = styled.div({
+const RowContainer = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'row',
   width: '100%',
   alignItems: 'center',
-});
+  padding: '12px 16px',
+  background: props.theme.colors.background.orangePillBg,
+  borderRadius: 12,
+}));
 
 const RequestMessageTitle = styled.p((props) => ({
-  ...props.theme.body_medium_m,
-  color: props.theme.colors.white_200,
-  marginBottom: props.theme.spacing(2),
-  opacity: 0.7,
+  ...props.theme.body_medium_xl,
+  color: props.theme.colors.white_0,
+  // marginBottom: props.theme.spacing(2),
   flex: 1,
 }));
 
@@ -44,11 +46,14 @@ const Button = styled.button((props) => ({
   marginLeft: props.theme.spacing(4),
 }));
 
-const ExpandedContainer = styled(animated.div)({
+const ExpandedContainer = styled(animated.div)<{ isExpanded: boolean }>((props) => ({
   display: 'flex',
+  background: '#14161C',
   flexDirection: 'column',
-  marginTop: 4,
-});
+  padding: props.isExpanded ? '11px 18px' : '0px',
+  borderTop: '1px solid #1F232D',
+  borderRadius: '0px 0px 11px 11px',
+}));
 
 const Text = styled.p((props) => ({
   ...props.theme.body_medium_m,
@@ -62,15 +67,17 @@ const Text = styled.p((props) => ({
 }));
 
 export default function CollapsableContainer(props: Props) {
-  const { title, children, text, initialValue } = props;
+  const { title, children, text, initialValue = false } = props;
   const [isExpanded, setIsExpanded] = useState(initialValue);
   const [showArrow, setShowArrow] = useState(true);
 
   useEffect(() => {
-    if (text.length < 32) {
-      setShowArrow(false);
+    if (text) {
+      if (text.length < 32) {
+        setShowArrow(false);
+      }
+      if (text === '') setShowArrow(true);
     }
-    if (text === '') setShowArrow(true);
   });
 
   const slideInStyles = useSpring({
@@ -101,8 +108,10 @@ export default function CollapsableContainer(props: Props) {
           </Button>
         )}
       </RowContainer>
-      {!isExpanded && text !== '' && <Text>{text}</Text>}
-      <ExpandedContainer style={slideInStyles}>{children}</ExpandedContainer>
+      {/* {!isExpanded && text !== '' && <Text>{text}</Text>} */}
+      <ExpandedContainer style={slideInStyles} isExpanded={isExpanded}>
+        {children}
+      </ExpandedContainer>
     </ContentContainer>
   );
 }

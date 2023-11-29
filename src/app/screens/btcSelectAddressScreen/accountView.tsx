@@ -40,7 +40,7 @@ const RowContainer = styled.div({
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'center',
-  gap:10,
+  gap: 10,
   justifyContent: 'center',
 });
 
@@ -52,8 +52,8 @@ const CurrentSelectedAccountText = styled.h1((props) => ({
 
 const AddressText = styled.h1<{ isOrdinal: boolean }>((props) => ({
   ...props.theme.body_m,
-  fontFamily:'MontRegular',
-  fontSize:18,
+  fontFamily: 'MontRegular',
+  fontSize: 18,
   marginTop: props.theme.spacing(1),
   color: props.isOrdinal ? '#626A82' : props.theme.colors.white[0],
 }));
@@ -89,7 +89,6 @@ function AccountView({ account, isBitcoinTx }: Props) {
         thirdGradient={gradient[2]}
       /> */}
 
-      {/* <CurrentSelectedAccountText>{getName()}</CurrentSelectedAccountText> */}
       <ColumnContainer>
         <RowContainer>
           <AddressContainer>

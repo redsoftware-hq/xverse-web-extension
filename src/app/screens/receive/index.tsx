@@ -88,14 +88,21 @@ const InfoAlertContainer = styled.div({
   width: '100%',
 });
 
-const IconButton = styled.button<{ isSTX: boolean }>((props) => ({
+const IconButton = styled.button<{ isSTX: boolean; isTestnet: boolean }>((props) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'flex-end',
   background: 'transparent',
   marginLeft: 'auto',
   marginTop: '-25px',
-  marginRight: props.isSTX ? '0px' : '49px',
+  marginRight:
+    props.isSTX && props.isTestnet
+      ? '0px'
+      : props.isTestnet
+      ? '36px'
+      : props.isSTX
+      ? '-7px'
+      : '49px',
 }));
 
 function Receive(): JSX.Element {
@@ -103,6 +110,7 @@ function Receive(): JSX.Element {
   const [addressCopied, setAddressCopied] = useState(false);
   const [isBtcReceiveAlertVisible, setIsBtcReceiveAlertVisible] = useState(false);
   const [isOrdinalReceiveAlertVisible, setIsOrdinalReceiveAlertVisible] = useState(false);
+  const { network } = useWalletSelector();
   const navigate = useNavigate();
   const {
     stxAddress,
@@ -181,7 +189,11 @@ function Receive(): JSX.Element {
           <AddressContainer>
             <AddressText>
               {getAddress()}
-              <IconButton onClick={handleOnClick} isSTX={currency !== 'BTC' && currency !== 'ORD'}>
+              <IconButton
+                onClick={handleOnClick}
+                isSTX={currency !== 'BTC' && currency !== 'ORD'}
+                isTestnet={network.type === 'Testnet'}
+              >
                 <img id="copy-address" src={Copy} alt="copy" />
               </IconButton>
             </AddressText>
