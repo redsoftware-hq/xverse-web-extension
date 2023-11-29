@@ -220,7 +220,7 @@ function ConfirmBtcTransaction() {
           isWarningAlert
         />
       )}
-      {btcSendBrowserTx && <AccountHeaderComponent disableMenuOption disableAccountSwitch />}
+      {/* {btcSendBrowserTx && <AccountHeaderComponent disableMenuOption disableAccountSwitch />} */}
       <ConfirmBtcTransactionComponent
         feePerVByte={feePerVByte}
         recipients={recipient as Recipient[]}
@@ -247,11 +247,6 @@ function ConfirmBtcTransaction() {
           />
         )}
       </ConfirmBtcTransactionComponent>
-      {!btcSendBrowserTx && (
-        <BottomBarContainer>
-          <BottomBar tab="dashboard" />
-        </BottomBarContainer>
-      )}
     </>
   );
 }

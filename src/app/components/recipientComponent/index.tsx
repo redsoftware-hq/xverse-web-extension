@@ -18,9 +18,6 @@ import styled from 'styled-components';
 const Container = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'column',
-  background: props.theme.colors.elevation1,
-  borderRadius: 12,
-  padding: '16px 16px',
   justifyContent: 'center',
   marginBottom: 12,
 }));
@@ -31,16 +28,26 @@ const RecipientTitleText = styled.p((props) => ({
   marginBottom: 16,
 }));
 
-const RowContainer = styled.div({
+const RowContainer = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'row',
   width: '100%',
-  alignItems: 'flex-start',
-});
+  alignItems: 'center',
+  background: props.theme.colors.background.orangePillBg,
+  border: '1px solid #1F232D',
+  padding: '16px 16px',
+  height: '100%',
+  maxHeight: '56px',
+  borderRadius: 12,
+}));
 
-const AddressContainer = styled.div({
+const AddressContainer = styled.div((props) => ({
   marginTop: 12,
-});
+  padding: '16px 16px',
+  background: props.theme.colors.background.orangePillBg,
+  border: '1px solid #1F232D',
+  borderRadius: 12,
+}));
 
 const Icon = styled.img((props) => ({
   marginRight: props.theme.spacing(4),
@@ -58,7 +65,7 @@ const DownArrowIcon = styled.img((props) => ({
 }));
 
 const TitleText = styled.p((props) => ({
-  ...props.theme.body_medium_m,
+  ...props.theme.body_medium_xl,
   color: props.theme.colors.white_200,
   textAlign: 'center',
   marginTop: 5,
@@ -72,7 +79,7 @@ const ValueText = styled.p((props) => ({
 const SubValueText = styled.p((props) => ({
   ...props.theme.body_m,
   fontSize: 12,
-  color: props.theme.colors.white_400,
+  color: props.theme.colors.secondaryText,
 }));
 
 const ColumnContainer = styled.div({
@@ -211,7 +218,7 @@ function RecipientComponent({
       )}
       {heading && <RecipientTitleText>{heading}</RecipientTitleText>}
       <RowContainer>
-        {renderIcon()}
+        {/* {renderIcon()} */}
         <TitleText>{title}</TitleText>
         {currencyType === 'NFT' || currencyType === 'Ordinal' || currencyType === 'RareSat' ? (
           <ColumnContainer>

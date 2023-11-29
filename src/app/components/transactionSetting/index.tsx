@@ -15,7 +15,8 @@ import EditNonce from './editNonce';
 
 const ButtonContainer = styled.div((props) => ({
   display: 'flex',
-  flexDirection: 'column',
+  flexDirection: 'row',
+  gap: 16,
   marginTop: props.theme.spacing(10),
   marginBottom: props.theme.spacing(20),
   marginLeft: props.theme.spacing(8),
@@ -67,6 +68,7 @@ interface Props {
   nonOrdinalUtxos?: UTXO[];
   showFeeSettings: boolean;
   setShowFeeSettings: (value: boolean) => void;
+  isNotModal?: boolean;
 }
 
 function TransactionSettingAlert({
@@ -84,6 +86,7 @@ function TransactionSettingAlert({
   nonOrdinalUtxos,
   showFeeSettings,
   setShowFeeSettings,
+  isNotModal = false,
 }: Props) {
   const { t } = useTranslation('translation');
   const [feeInput, setFeeInput] = useState(fee);
@@ -213,21 +216,22 @@ function TransactionSettingAlert({
   return (
     <BottomModal
       visible={visible}
-      header={
-        showFeeSettings
-          ? t('TRANSACTION_SETTING.ADVANCED_SETTING_FEE_OPTION')
-          : showNonceSettings
-          ? t('TRANSACTION_SETTING.ADVANCED_SETTING_NONCE_OPTION')
-          : t('TRANSACTION_SETTING.ADVANCED_SETTING')
-      }
+      disableHeader
+      // header={showNonceSettings && t('TRANSACTION_SETTING.ADVANCED_SETTING_NONCE_OPTION')}
       onClose={onClosePress}
-      overlayStylesOverriding={{
-        height: 600,
+      contentStylesOverriding={{
+        height: '100%',
+        maxHeight: '100%',
+        borderRadius: '0px',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
       }}
     >
       {renderContent()}
       {(showFeeSettings || showNonceSettings) && (
         <ButtonContainer>
+          <ActionButton text="Cancel" transparent onPress={() => setShowFeeSettings(false)} />
           <ActionButton
             text={t('TRANSACTION_SETTING.APPLY')}
             processing={isLoading}

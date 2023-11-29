@@ -34,12 +34,12 @@ const AddressContainer = styled.div({
 });
 
 const TitleText = styled.h1((props) => ({
-  ...props.theme.body_medium_m,
-  color: props.theme.colors.white_200,
+  ...props.theme.body_medium_xl,
+  color: props.theme.colors.white_0,
 }));
 
 const ValueText = styled.h1((props) => ({
-  ...props.theme.body_medium_m,
+  ...props.theme.body_xs,
   color: props.theme.colors.white_0,
 }));
 
@@ -88,7 +88,7 @@ const ShowScriptBackgroundContainer = styled.div((props) => ({
   bottom: 0,
   right: 0,
   position: 'fixed',
-  background: props.theme.colors.background.modalBackdrop2,
+  background: props.theme.colors.background.modalBackdrop,
   backdropFilter: 'blur(16px)',
   padding: props.theme.spacing(8),
   display: 'flex',
@@ -153,7 +153,7 @@ function TransferDetailView({
       )}
 
       <RowContainer>
-        {icon && <Icon src={icon} />}
+        {/* {icon && <Icon src={icon} />} */}
         {amount ? (
           <ColumnContainer>
             <AmountText>{amount}</AmountText>

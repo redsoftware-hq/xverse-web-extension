@@ -2,6 +2,8 @@ import SettingIcon from '@assets/img/dashboard/faders_horizontal.svg';
 import AssetIcon from '@assets/img/transactions/Assets.svg';
 import ActionButton from '@components/button';
 import InfoContainer from '@components/infoContainer';
+import LogoStatusHeader from '@components/logoStatusHeader';
+import Paragraph from '@components/paragraph';
 import RecipientComponent from '@components/recipientComponent';
 import TopRow from '@components/topRow';
 import TransactionSettingAlert from '@components/transactionSetting';
@@ -75,13 +77,15 @@ const Button = styled.button((props) => ({
   flexDirection: 'row',
   alignItems: 'center',
   borderRadius: props.theme.radius(1),
-  backgroundColor: 'transparent',
+  border: '1px solid #1F232D',
+  padding: '12px 16px',
+  height: '56px',
+  background: props.theme.colors.background.orangePillBg,
   width: '100%',
-  marginTop: props.theme.spacing(10),
 }));
 
 const ButtonText = styled.div((props) => ({
-  ...props.theme.typography.body_medium_m,
+  ...props.theme.body_medium_xl,
   color: props.theme.colors.white_0,
   textAlign: 'center',
 }));
@@ -118,6 +122,12 @@ const CalloutContainer = styled.div((props) => ({
   marginhorizontal: props.theme.spacing(8),
 }));
 
+const Header = styled.h1((props) => ({
+  ...props.theme.mont_tile_text,
+  color: props.theme.colors.action.classic,
+  paddingLeft: 16,
+  paddingRight: 16,
+}));
 interface Props {
   currentFee: BigNumber;
   feePerVByte: BigNumber; // TODO tim: is this the same as currentFeeRate? refactor to be clear
@@ -375,10 +385,21 @@ function ConfirmBtcTransactionComponent({
 
   return (
     <>
+      <LogoStatusHeader
+        status={`Account ${
+          selectedAccount?.id === 0 ? selectedAccount.id + 1 : selectedAccount?.id
+        }`}
+      />
+      <Header>Send Confirmation</Header>
+      <Paragraph
+        content={t('CONFIRM_TRANSACTION.CONFIRM_DESCRIPTION')}
+        // eslint-disable-next-line no-inline-styles/no-inline-styles
+        style={{ paddingLeft: 16, paddingRight: 16, fontSize: 18 }}
+      />
       <OuterContainer>
-        {!isBtcSendBrowserTx && !isGalleryOpen && (
+        {/* {!isBtcSendBrowserTx && !isGalleryOpen && (
           <TopRow title={t('CONFIRM_TRANSACTION.SEND')} onClick={onBackButtonClick} />
-        )}
+        )} */}
         <Container>
           {showFeeWarning && (
             <InfoContainer
@@ -388,9 +409,9 @@ function ConfirmBtcTransactionComponent({
           )}
 
           {children}
-          <ReviewTransactionText isOridnalTx={!!ordinalTxUtxo}>
+          {/* <ReviewTransactionText isOridnalTx={!!ordinalTxUtxo}>
             {t('CONFIRM_TRANSACTION.REVIEW_TRANSACTION')}
-          </ReviewTransactionText>
+          </ReviewTransactionText> */}
 
           {isPartOfBundle && (
             <CalloutContainer>
@@ -434,19 +455,19 @@ function ConfirmBtcTransactionComponent({
             fee={currentFee}
             currency={t('CONFIRM_TRANSACTION.SATS')}
           />
+
           {!ordinalTxUtxo && (
             <TransactionDetailComponent
               title={t('CONFIRM_TRANSACTION.TOTAL')}
               value={getAmountString(satsToBtc(total), t('BTC'))}
               subValue={getBtcFiatEquivalent(total, BigNumber(btcFiatRate))}
-              subTitle={t('CONFIRM_TRANSACTION.AMOUNT_PLUS_FEES')}
             />
           )}
           <Button onClick={onAdvancedSettingClick}>
-            <>
-              <ButtonImage src={SettingIcon} />
-              <ButtonText>{t('CONFIRM_TRANSACTION.EDIT_FEES')}</ButtonText>
-            </>
+            {/* <> */}
+            {/* <ButtonImage src={SettingIcon} /> */}
+            <ButtonText>{t('CONFIRM_TRANSACTION.EDIT_FEES')}</ButtonText>
+            {/* </> */}
           </Button>
           <TransactionSettingAlert
             visible={showFeeSettings}

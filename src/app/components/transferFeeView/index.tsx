@@ -10,7 +10,10 @@ import styled from 'styled-components';
 const RowContainer = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'row',
-  background: props.theme.colors.elevation1,
+  background: props.theme.colors.background.orangePillBg,
+  height: '100%',
+  maxHeight: '56px',
+  border: '1px solid #1F232D',
   borderRadius: 12,
   padding: '12px 16px',
   justifyContent: 'center',
@@ -35,14 +38,14 @@ const FeeContainer = styled.div({
 });
 
 const TitleText = styled.h1((props) => ({
-  ...props.theme.body_medium_m,
+  ...props.theme.body_medium_xl,
   color: props.theme.colors.white_200,
 }));
 
 const FiatAmountText = styled.h1((props) => ({
   ...props.theme.body_m,
   fontSize: 12,
-  color: props.theme.colors.white_400,
+  color: props.theme.colors.secondaryText,
 }));
 
 interface Props {
@@ -96,7 +99,7 @@ function TransferFeeView({ feePerVByte, fee, currency, title }: Props) {
           suffix={` ${currency}`}
           renderText={(value: string) => <FeeText>{value}</FeeText>}
         />
-        {currency === 'sats' && (
+        {/* {currency === 'sats' && (
           <NumericFormat
             value={feePerVByte?.toString()}
             displayType="text"
@@ -104,7 +107,7 @@ function TransferFeeView({ feePerVByte, fee, currency, title }: Props) {
             suffix=" sats/vB"
             renderText={(value: string) => <FiatAmountText>{value}</FiatAmountText>}
           />
-        )}
+        )} */}
         <FiatAmountText>
           {getFiatAmountString(
             currency === 'sats'

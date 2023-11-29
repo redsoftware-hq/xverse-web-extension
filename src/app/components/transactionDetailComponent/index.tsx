@@ -8,21 +8,24 @@ import styled from 'styled-components';
 const Container = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'row',
-  background: props.theme.colors.elevation1,
+  background: props.theme.colors.background.orangePillBg,
+  border: '1px solid #1F232D',
   borderRadius: 12,
   padding: '12px 16px',
+  height: '100%',
+  maxHeight: 56,
   justifyContent: 'center',
   alignItems: 'center',
   marginBottom: 12,
 }));
 
 const TitleText = styled.h1((props) => ({
-  ...props.theme.body_medium_m,
+  ...props.theme.body_medium_xl,
   color: props.theme.colors.white_200,
 }));
 
 const ValueText = styled.h1((props) => ({
-  ...props.theme.body_medium_m,
+  ...props.theme.body_xs,
   color: props.theme.colors.white_0,
 }));
 
@@ -30,7 +33,7 @@ const SubValueText = styled.h1((props) => ({
   ...props.theme.body_m,
   fontSize: 12,
   textAlign: 'right',
-  color: props.theme.colors.white_400,
+  color: props.theme.colors.secondaryText,
 }));
 
 const ColumnContainer = styled.div({
