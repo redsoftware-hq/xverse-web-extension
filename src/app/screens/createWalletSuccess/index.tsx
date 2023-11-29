@@ -1,9 +1,12 @@
 /* eslint-disable no-nested-ternary */
-import Completed from '@assets/img/createWalletSuccess/completed.png';
-import Followup from '@assets/img/createWalletSuccess/completedFollowup.png';
+import Anonymous from '@assets/img/createWalletSuccess/an_new.png';
+import Congrats from '@assets/img/createWalletSuccess/congratulations_new.png';
+import Decentralized from '@assets/img/createWalletSuccess/decentralized.png';
 import Extension from '@assets/img/createWalletSuccess/extension.svg';
 import Logo from '@assets/img/createWalletSuccess/logo.png';
 import Pin from '@assets/img/createWalletSuccess/pin.svg';
+import Private from '@assets/img/createWalletSuccess/private_new.png';
+import SelfCustody from '@assets/img/createWalletSuccess/self_custody_new.png';
 import ActionButton from '@components/button';
 import Stepper from '@components/steps2';
 import { useState } from 'react';
@@ -23,9 +26,6 @@ const InstructionsContainer = styled.div((props) => ({
   backgroundColor: 'rgba(39, 42, 68, 0.4)',
   border: `1px solid ${props.theme.colors.elevation3}`,
   borderRadius: 12,
-  padding: `${props.theme.spacing(10.5)}px ${props.theme.spacing(10.5)}px ${props.theme.spacing(
-    10.5,
-  )}px ${props.theme.spacing(10.5)}px`,
   padding: `${props.theme.spacing(10.5)}px ${props.theme.spacing(10.5)}px ${props.theme.spacing(
     10.5,
   )}px ${props.theme.spacing(10.5)}px`,
@@ -83,27 +83,27 @@ function CreateWalletSuccess(): JSX.Element {
 
   const steps = [
     {
-      img: Completed,
+      img: Congrats,
       title: t('SCREEN_TITLE'),
       subtitle: t('SCREEN_SUBTITLE'),
     },
     {
-      img: Followup,
+      img: SelfCustody,
       title: t('SELF_CUSTODY'),
       subtitle: t('SELF_CUSTODY_DESC'),
     },
     {
-      img: Followup,
+      img: Private,
       title: t('PRIVATE'),
       subtitle: t('PRIVATE_DESC'),
     },
     {
-      img: Followup,
+      img: Anonymous,
       title: t('ANONYMOUS'),
       subtitle: t('ANONYMOUS_DESC'),
     },
     {
-      img: Followup,
+      img: Decentralized,
       title: t('DECENTRALIZED'),
       subtitle: t('DECENTRALIZED_DESC'),
     },
@@ -122,13 +122,13 @@ function CreateWalletSuccess(): JSX.Element {
   return (
     <>
       <ContentContainer>
-        <img src={action === 'restore' ? Completed : steps[activeIndex].img} alt="success" />
+        <img src={action === 'restore' ? Congrats : steps[activeIndex].img} alt="success" />
         <Title>{action === 'restore' ? t('RESTORE_SCREEN_TITLE') : steps[activeIndex].title}</Title>
         <Subtitle>
           {action === 'restore' ? t('RESTORE_SCREEN_SUBTITLE') : steps[activeIndex].subtitle}
         </Subtitle>
         {action === 'restore' ? null : (
-          <Stepper data={steps} activeIndex={activeIndex} width={100} />
+          <Stepper data={steps} activeIndex={activeIndex} width={100} onClick={() => {}} />
         )}
       </ContentContainer>
       <ButtonContainer>
@@ -155,7 +155,7 @@ function CreateWalletSuccess(): JSX.Element {
           </RowContainer>
           <RowContainer>
             <InstructionsText>{`3. ${t('CLICK')}`}</InstructionsText>
-            <Image src={Logo} width='20px'/>
+            <Image src={Logo} width="20px" />
             <InstructionsText>{t('OPEN_WALLET')}</InstructionsText>
           </RowContainer>
         </InstructionsContainer>
