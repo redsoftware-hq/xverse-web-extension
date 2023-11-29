@@ -3,12 +3,13 @@ import ledgerConnectBtcIcon from '@assets/img/ledger/ledger_import_connect_btc.s
 import ledgerConnectStxIcon from '@assets/img/ledger/ledger_import_connect_stx.svg';
 import { ExternalSatsMethods, MESSAGE_SOURCE } from '@common/types/message-types';
 import { ledgerDelay } from '@common/utils/ledger';
-import AccountHeaderComponent from '@components/accountHeader';
 import BottomModal from '@components/bottomModal';
 import ActionButton from '@components/button';
 import ConfirmScreen from '@components/confirmScreen';
 import InfoContainer from '@components/infoContainer';
 import LedgerConnectionView from '@components/ledger/connectLedgerView';
+import LogoStatusHeader from '@components/logoStatusHeader';
+import Paragraph from '@components/paragraph';
 import useSignatureRequest, {
   isStructuredMessage,
   isUtf8Message,
@@ -47,15 +48,16 @@ const InnerContainer = styled.div((props) => ({
 export const MainContainer = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'column',
-  paddingLeft: props.theme.spacing(4),
-  paddingRight: props.theme.spacing(4),
+  paddingLeft: props.theme.spacing(6),
+  paddingRight: props.theme.spacing(6),
 }));
 
 const RequestType = styled.h1((props) => ({
-  ...props.theme.headline_s,
-  marginTop: props.theme.spacing(11),
-  color: props.theme.colors.white_0,
+  ...props.theme.mont_tile_text,
+  color: props.theme.colors.action.classic,
   textAlign: 'left',
+  paddingLeft: props.theme.spacing(2),
+  paddingRight: props.theme.spacing(2),
   marginBottom: props.theme.spacing(4),
 }));
 
@@ -125,6 +127,7 @@ const SuccessActionsContainer = styled.div((props) => ({
   width: '100%',
   display: 'flex',
   flexDirection: 'column',
+  background: 'transparent',
   gap: props.theme.spacing(6),
   paddingLeft: props.theme.spacing(8),
   paddingRight: props.theme.spacing(8),
@@ -381,8 +384,7 @@ function SignatureRequest(): JSX.Element {
       disabled={isMessageSigningDisabled}
     >
       <OuterContainer>
-        <AccountHeaderComponent disableMenuOption disableAccountSwitch />
-
+        <LogoStatusHeader status="Caution" />
         <InnerContainer>
           {isMessageSigningDisabled ? (
             <MainContainer>
@@ -401,6 +403,11 @@ function SignatureRequest(): JSX.Element {
           ) : (
             <MainContainer>
               <RequestType>{t('SIGNATURE_REQUEST.TITLE')}</RequestType>
+              <Paragraph
+                content={t('SIGNATURE_REQUEST.DESCRIPTION')}
+                // eslint-disable-next-line no-inline-styles/no-inline-styles
+                style={{ marginTop: 'unset', paddingLeft: '8px', paddingRight: '8px' }}
+              />
               {!isSignMessageBip322 ? (
                 <RequestSource>
                   {`${t('SIGNATURE_REQUEST.DAPP_NAME_PREFIX')} ${payload.appDetails?.name}`}
@@ -420,19 +427,16 @@ function SignatureRequest(): JSX.Element {
               >
                 <MessageHash>{getMessageHash()}</MessageHash>
               </CollapsableContainer>
-              <SigningAddressContainer>
-                <SigningAddressTitle>
-                  {t('SIGNATURE_REQUEST.SIGNING_ADDRESS_TITLE')}
-                </SigningAddressTitle>
+              <CollapsableContainer title={t('SIGNATURE_REQUEST.SIGNING_ADDRESS_TITLE')}>
                 <SigningAddress>
                   {addressType && <SigningAddressType>{addressType}</SigningAddressType>}
                   <SigningAddressValue>
                     {getTruncatedAddress(payload.address || payload.stxAddress, 6)}
                   </SigningAddressValue>
                 </SigningAddress>
-              </SigningAddressContainer>
-              <ActionDisclaimer>{t('SIGNATURE_REQUEST.ACTION_DISCLAIMER')}</ActionDisclaimer>
-              <InfoContainer bodyText={t('SIGNATURE_REQUEST.SIGNING_WARNING')} />
+              </CollapsableContainer>
+              {/* <ActionDisclaimer>{t('SIGNATURE_REQUEST.ACTION_DISCLAIMER')}</ActionDisclaimer>
+              <InfoContainer bodyText={t('SIGNATURE_REQUEST.SIGNING_WARNING')} /> */}
             </MainContainer>
           )}
           <BottomModal header="" visible={isModalVisible} onClose={() => setIsModalVisible(false)}>
