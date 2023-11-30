@@ -379,7 +379,7 @@ function SendForm({
         </CoinSwitchButton>
       </AmountInputContainer>
       <FiatRow
-        onClick={() => setSwitchToFiat(!switchToFiat)}
+        onClick={onSwitchPress}
         showFiat={switchToFiat}
         tokenCurrency={getTokenCurrency()}
         tokenAmount={getTokenEquivalent(amount)}

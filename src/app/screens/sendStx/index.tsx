@@ -34,6 +34,7 @@ function SendStxScreen() {
     stxBtcRate,
     stxBalance,
     btcFiatRate,
+    coinsList,
   } = useWalletSelector();
   const [amountError, setAmountError] = useState('');
   const [addressError, setAddressError] = useState('');
@@ -154,44 +155,35 @@ function SendStxScreen() {
       mutate({ amount, associatedAddress, memo: addMemo });
     }
   };
-
-  const contents = [
-    {
-      name: 'Bitcoin BTC',
-      key: 'BTC',
-      handler: () => {
-        navigate('/send-btc');
+  const getContents = () => {
+    const contents = [
+      {
+        name: 'Bitcoin BTC',
+        key: 'BTC',
+        handler: () => {
+          navigate('/send-btc');
+        },
       },
-    },
-    {
-      name: 'Stacks STX',
-      key: 'STX',
-      handler: () => {
-        navigate('/send-stx');
+      {
+        name: 'Stacks STX',
+        key: 'STX',
+        handler: () => {
+          navigate('/send-stx');
+        },
       },
-    },
-    {
-      name: 'Bridged USDT sUSDT',
-      key: 'sUSDT',
-      handler: () => {
-        navigate(`/send-ft?coinTicker=sUSDT`);
-      },
-    },
-    {
-      name: 'Wrapped Bitcoin xBTC',
-      key: 'xBTC',
-      handler: () => {
-        navigate(`/send-ft?coinTicker=xBTC`);
-      },
-    },
-    {
-      name: 'Wrapped USDC xUSD',
-      key: 'xUSD',
-      handler: () => {
-        navigate(`/send-ft?coinTicker=xUSD`);
-      },
-    },
-  ];
+    ];
+    const visibleCoins = coinsList?.filter((coin) => coin.visible);
+    visibleCoins?.forEach((coin) =>
+      contents.push({
+        name: `${coin.name} ${coin.ticker}`,
+        key: `${coin.ticker}`,
+        handler: () => {
+          navigate(`/send-ft?coinTicker=${coin.ticker}`);
+        },
+      }),
+    );
+    return contents;
+  };
   return (
     <>
       <OperationHeader
@@ -209,7 +201,9 @@ function SendStxScreen() {
         currencyIcon={IconStacks}
         operationIcon={Send}
       />
-      {show && <CoinSwitch visible={show} onClose={() => setShow(false)} contents={contents} />}
+      {show && (
+        <CoinSwitch visible={show} onClose={() => setShow(false)} contents={getContents()} />
+      )}
 
       <SendForm
         processing={isLoading}
