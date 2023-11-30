@@ -57,8 +57,8 @@ const NoTransactionsContainer = styled.div((props) => ({
   color: props.theme.colors.white[400],
 }));
 
-const GroupContainer = styled(animated.div)<{ txAll: boolean }>((props) => ({
-  marginBottom: props.txAll ? props.theme.spacing(2) : props.theme.spacing(8),
+const GroupContainer = styled(animated.div)<{ txAll: boolean | undefined }>((props) => ({
+  marginBottom: props.txAll ? props.theme.spacing(0) : props.theme.spacing(0),
 }));
 
 const SectionHeader = styled.div((props) => ({
@@ -214,12 +214,11 @@ export default function TransactionsHistoryList(props: TransactionsHistoryListPr
   return (
     <ListItemsContainer>
       <ListHeader>{getListHeader()}</ListHeader>
-      {txAll && <SectionSeparator />}
       {groupedTxs &&
         !isLoading &&
         Object.keys(groupedTxs).map((group) => (
           <GroupContainer key={group} style={styles} txAll={txAll}>
-            {!txAll && <SectionSeparator />}
+            <SectionSeparator />
             {groupedTxs[group].map((transaction) => {
               if (isBtcTransaction(transaction)) {
                 return (

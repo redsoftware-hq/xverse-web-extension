@@ -452,7 +452,12 @@ export default function CoinHeader(props: CoinBalanceProps) {
     }
     return coin;
   };
-
+  const getFormattedValue = (value: string) => {
+    const cleanValue = value.replace(/,/g, '');
+    const numericValue = Number(cleanValue);
+    const hasDecimal = numericValue % 1 !== 0;
+    return numericValue.toFixed(2);
+  };
   return transitions((style, i) => (
     <animated.div {...handlers} style={style}>
       <Container>
@@ -477,17 +482,17 @@ export default function CoinHeader(props: CoinBalanceProps) {
               displayType="text"
               thousandSeparator
               renderText={(value: string) => (
-                <CoinBalanceText>{`${Number(value).toFixed(4)}`}</CoinBalanceText>
+                <CoinBalanceText>{getFormattedValue(value)}</CoinBalanceText>
               )}
             />
             {/* <NumericFormat
-            value={getFiatEquivalent()}
-            displayType="text"
-            thousandSeparator
-            prefix={`${currencySymbolMap[fiatCurrency]} `}
-            suffix={` ${fiatCurrency}`}
-            renderText={(value) => <FiatAmountText>{value}</FiatAmountText>}
-          /> */}
+              value={getFiatEquivalent()}
+              displayType="text"
+              thousandSeparator
+              prefix={`${currencySymbolMap[fiatCurrency]} `}
+              suffix={` ${fiatCurrency}`}
+              renderText={(value) => <FiatAmountText>{value}</FiatAmountText>}
+            /> */}
           </BalanceValuesContainer>
           <RowButtonContainer>
             <ButtonContainer>
