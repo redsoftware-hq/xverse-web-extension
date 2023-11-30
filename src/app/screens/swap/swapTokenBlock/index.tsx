@@ -1,10 +1,10 @@
 import ChevronIcon from '@assets/img/swap/chevron.svg';
-import TokenImage from '@components/tokenImage';
-import useWalletSelector from '@hooks/useWalletSelector';
+// import TokenImage from '@components/tokenImage';
+// import useWalletSelector from '@hooks/useWalletSelector';
 import { SwapToken } from '@screens/swap/types';
-import { currencySymbolMap } from '@secretkeylabs/xverse-core/types/currency';
+// import { currencySymbolMap } from '@secretkeylabs/xverse-core/types/currency';
 import { useTranslation } from 'react-i18next';
-import { NumericFormat } from 'react-number-format';
+// import { NumericFormat } from 'react-number-format';
 import styled from 'styled-components';
 
 const Container = styled.div((props) => ({
@@ -20,7 +20,7 @@ export const RowContainer = styled.div({
 });
 
 const TitleText = styled.h3((props) => ({
-  ...props.theme.body_medium_m,
+  ...props.theme.body_medium_xl,
   flex: 1,
   display: 'flex',
 }));
@@ -39,13 +39,11 @@ const CardContainer = styled.div<{ error?: boolean }>((props) => ({
   display: 'flex',
   flexDirection: 'column',
   rowGap: props.theme.spacing(3),
-  background: props.theme.colors.elevation_n1,
+  background: props.theme.colors.background.orangePillBg,
   border: '1px solid',
-  'border-color': props.error
-    ? props.theme.colors.feedback.error_700
-    : props.theme.colors.elevation2,
+  'border-color': props.error ? props.theme.colors.feedback.error_700 : 'rgba(168, 185, 244, 0.15)',
   borderRadius: 8,
-  padding: props.theme.spacing(8),
+  padding: '8px 16px 8px 16px',
   ':focus-within': {
     border: '1px solid',
     'border-color': props.error
@@ -60,7 +58,6 @@ const CoinButtonContainer = styled.button((props) => ({
   columnGap: props.theme.spacing(2),
   background: 'transparent',
   alignItems: 'center',
-  minHeight: '28px', // same as icon height
 }));
 
 const CoinButtonArrow = styled.img({
@@ -83,7 +80,6 @@ export const AmountInput = styled(NumberInput)<{ error?: boolean }>((props) => (
   flex: 1,
   color: props.error ? props.theme.colors.feedback.error : props.theme.colors.white_0,
   marginLeft: props.theme.spacing(2),
-  textAlign: 'right',
   backgroundColor: 'transparent',
   border: 'transparent',
   width: '100%',
@@ -118,23 +114,17 @@ function SwapTokenBlock({
   error,
 }: SwapTokenBlockProps) {
   const { t } = useTranslation('translation', { keyPrefix: 'SWAP_SCREEN' });
-  const { fiatCurrency } = useWalletSelector();
+  // const { fiatCurrency } = useWalletSelector();
 
   return (
     <Container>
       <RowContainer>
         <TitleText>{title}</TitleText>
-        <BalanceText>{t('BALANCE')}:</BalanceText>
-        <Text>{selectedCoin?.balance ?? '--'}</Text>
+        {/* <BalanceText>{t('BALANCE')}:</BalanceText>
+        <Text>{selectedCoin?.balance ?? '--'}</Text> */}
       </RowContainer>
       <CardContainer error={error}>
         <RowContainer>
-          <CoinButtonContainer onClick={onSelectCoin}>
-            {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-            {selectedCoin && <TokenImage {...selectedCoin?.image} />}
-            <CoinText>{selectedCoin?.name ?? t('SELECT_COIN')}</CoinText>
-            <CoinButtonArrow src={ChevronIcon} />
-          </CoinButtonContainer>
           <AmountInput
             error={error}
             placeholder="0"
@@ -143,8 +133,12 @@ function SwapTokenBlock({
             onChange={(e) => onAmountChange?.(e.target.value)}
             type="number"
           />
+          <CoinButtonContainer onClick={onSelectCoin}>
+            <CoinText>{selectedCoin?.name ?? t('SELECT_COIN')}</CoinText>
+            <CoinButtonArrow src={ChevronIcon} />
+          </CoinButtonContainer>
         </RowContainer>
-        <RowContainer>
+        {/* <RowContainer>
           <NumericFormat
             value={selectedCoin?.fiatAmount ?? '--'}
             displayType="text"
@@ -153,7 +147,7 @@ function SwapTokenBlock({
             suffix={` ${fiatCurrency}`}
             renderText={(value) => <EstimateUSDText>{value}</EstimateUSDText>}
           />
-        </RowContainer>
+        </RowContainer> */}
       </CardContainer>
     </Container>
   );

@@ -1,14 +1,32 @@
+import IconStacks from '@assets/img/dashboard/stack_icon.svg';
+import IconUsdc from '@assets/img/dashboard/usdc.svg';
+import IconUsdt from '@assets/img/dashboard/usdt.svg';
+import Default from '@assets/img/dashboard/Wallet.svg';
+import IconWbtc from '@assets/img/dashboard/wbtc.svg';
+import SwapIcon from '@assets/img/swap/Swap.png';
 import ActionButton from '@components/button';
-import BottomBar from '@components/tabBar';
-import TopRow from '@components/topRow';
+import CoinSwitch from '@components/coinSwitch';
+import InfoContainer from '@components/infoContainer';
+import OperationHeader from '@components/operationHeader';
+import FiatRow from '@components/sendForm/fiatRow';
+import useWalletSelector from '@hooks/useWalletSelector';
 import { ArrowDown } from '@phosphor-icons/react';
 import CoinSelectModal from '@screens/home/coinSelectModal';
 import { SwapInfoBlock } from '@screens/swap/swapInfoBlock';
 import SwapTokenBlock from '@screens/swap/swapTokenBlock';
 import { useSwap } from '@screens/swap/useSwap';
+import {
+  getBtcEquivalent,
+  getStxTokenEquivalent,
+  microstacksToStx,
+  satsToBtc,
+} from '@secretkeylabs/xverse-core';
+import { useStepperContext } from '@stores/stepper';
+import { getFtBalance } from '@utils/tokens';
+import BigNumber from 'bignumber.js';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const ScrollContainer = styled.div`
@@ -45,6 +63,8 @@ const DownArrowButton = styled.button((props) => ({
 }));
 
 const SendButtonContainer = styled.div((props) => ({
+  display: 'flex',
+  gap: 16,
   paddingBottom: props.theme.spacing(12),
   paddingTop: props.theme.spacing(4),
   marginLeft: '5%',
@@ -55,10 +75,11 @@ function SwapScreen() {
   const navigate = useNavigate();
   const { t } = useTranslation('translation', { keyPrefix: 'SWAP_SCREEN' });
   const swap = useSwap();
-
   const [selecting, setSelecting] = useState<'from' | 'to'>();
   const [loading, setLoading] = useState(false);
-
+  const { dispatchStep } = useStepperContext();
+  const { btcBalance, btcFiatRate, fiatCurrency, coinsList, stxBtcRate, stxBalance } =
+    useWalletSelector();
   const handleClickContinue = useCallback(async () => {
     if (swap.submitError || !swap.onSwap) {
       return;
@@ -71,9 +92,82 @@ function SwapScreen() {
     }
   }, [swap, setLoading]);
 
+  function getFtFiatEquivalent(coinTicker) {
+    const fungibleToken = coinsList?.find((coin) => coin.ticker === coinTicker);
+    if (fungibleToken?.tokenFiatRate) {
+      const balance = new BigNumber(getFtBalance(fungibleToken));
+      const rate = new BigNumber(fungibleToken.tokenFiatRate);
+      return balance.multipliedBy(rate).toFixed(2).toString();
+    }
+    return '';
+  }
+  const getTokenCurrencyIcon = (token) => {
+    switch (token?.name) {
+      case 'STX':
+        return IconStacks;
+      case 'SUSDT':
+        return IconUsdt;
+      case 'XBTC':
+        return IconWbtc;
+      case 'XUSD':
+        return IconUsdc;
+      default:
+        return token?.image?.fungibleToken?.image;
+    }
+  };
+  function getFiatEquivalent(coin) {
+    switch (coin) {
+      case 'STX':
+        return microstacksToStx(new BigNumber(stxBalance))
+          .multipliedBy(new BigNumber(stxBtcRate))
+          .multipliedBy(new BigNumber(btcFiatRate))
+          .toFixed(2)
+          .toString();
+      case 'BTC':
+        return satsToBtc(new BigNumber(btcBalance))
+          .multipliedBy(new BigNumber(btcFiatRate))
+          .toFixed(2)
+          .toString();
+      default:
+        return getFtFiatEquivalent(swap.selectedFromToken?.image.fungibleToken?.ticker);
+    }
+  }
+  const getAccountBalance = (token) => (token?.balance !== undefined ? token.balance : '--');
+  const generateContent = () => {
+    const contents = [
+      {
+        name: 'Stacks STX',
+        key: 'STX',
+        handler: () => {
+          swap.onSelectToken('STX', selecting);
+          setSelecting(undefined);
+        },
+      },
+    ];
+    const visibleCoinList = swap.coinsList.filter((item) => item.visible);
+    visibleCoinList.forEach((coin) =>
+      contents.push({
+        name: `${coin.name} ${coin.ticker}`,
+        key: coin.name,
+        handler: () => {
+          swap.onSelectToken(coin, selecting);
+          setSelecting(undefined);
+        },
+      }),
+    );
+    return contents;
+  };
   return (
     <>
-      <TopRow title={t('SWAP')} onClick={() => navigate('/')} />
+      <OperationHeader
+        currency={swap.selectedFromToken?.name}
+        currencyIcon={getTokenCurrencyIcon(swap.selectedFromToken)}
+        fiatBalance={getFiatEquivalent(swap.selectedFromToken?.name)}
+        fiatCurrency={fiatCurrency}
+        accountBalance={getAccountBalance(swap.selectedFromToken)}
+        operationIcon={SwapIcon}
+        operationTitle={t('SWAP')}
+      />
       <ScrollContainer>
         <Container>
           <SwapTokenBlock
@@ -84,18 +178,31 @@ function SwapScreen() {
             onAmountChange={swap.onInputAmountChanged}
             onSelectCoin={() => setSelecting('from')}
           />
-          <DownArrowButton onClick={swap.handleClickDownArrow}>
-            <ArrowDown size={20} weight="regular" color="white" />
-          </DownArrowButton>
+          {/* <DownArrowButton onClick={swap.handleClickDownArrow}> */}
+          <FiatRow
+            forSwap
+            onClick={swap.handleClickDownArrow}
+            fiatAmount={swap.selectedFromToken?.fiatAmount}
+            fiatCurrency={fiatCurrency}
+          />
+          {/* </DownArrowButton> */}
           <SwapTokenBlock
             title={t('TO')}
             selectedCoin={swap.selectedToToken}
             onSelectCoin={() => setSelecting('to')}
           />
+          {!!swap.submitError && <InfoContainer bodyText={swap.submitError} />}
         </Container>
         <SwapInfoBlock swap={swap} />
       </ScrollContainer>
       {selecting != null && (
+        <CoinSwitch
+          visible={!!selecting}
+          onClose={() => setSelecting(undefined)}
+          contents={generateContent()}
+        />
+      )}
+      {/* {selecting != null && (
         <CoinSelectModal
           onSelectStacks={() => {
             swap.onSelectToken('STX', selecting);
@@ -105,21 +212,32 @@ function SwapScreen() {
             swap.onSelectToken(coin, selecting);
           }}
           visible={!!selecting}
-          coins={swap.coinsList}
+          coins={
+            swap.coinsList
+            //   .filter((item) =>
+            //   ['Wrapped Bitcoin', 'Wrapped USDC', 'Bridged USDT'].includes(item.name),
+            // )}
+          }
           title={selecting === 'from' ? t('ASSET_TO_CONVERT_FROM') : t('ASSET_TO_CONVERT_TO')}
           loadingWalletData={swap.isLoadingWalletData}
         />
-      )}
+      )} */}
       <SendButtonContainer>
         <ActionButton
+          transparent
+          text="Cancel"
+          onPress={() => {
+            navigate('/');
+            dispatchStep({ type: 'HOME' });
+          }}
+        />
+        <ActionButton
           disabled={!!swap.submitError || swap.onSwap == null}
-          warning={!!swap.submitError}
-          text={swap.submitError ?? t('CONTINUE')}
+          text={t('CONTINUE')}
           processing={loading}
           onPress={handleClickContinue}
         />
       </SendButtonContainer>
-      <BottomBar tab="dashboard" />
     </>
   );
 }

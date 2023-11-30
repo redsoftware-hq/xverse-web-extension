@@ -1,6 +1,6 @@
 import ArrowSquareOut from '@assets/img/arrow_square_out.svg';
-import Success from '@assets/img/send/check_circle.svg';
 import Failure from '@assets/img/send/failed.png';
+import Success from '@assets/img/send/success.png';
 import ActionButton from '@components/button';
 import CopyButton from '@components/copyButton';
 import InfoContainer from '@components/infoContainer';
@@ -91,7 +91,7 @@ const HeadingText = styled.h1((props) => ({
   marginTop: props.theme.spacing(8),
 }));
 
-const BodyText = styled.h1((props) => ({
+const BodyText = styled.h1<{ isTestnet?: boolean }>((props) => ({
   ...props.theme.body_medium_xl,
   color: props.theme.colors.white_0,
   marginTop: props.theme.spacing(8),
@@ -101,12 +101,12 @@ const BodyText = styled.h1((props) => ({
   wordBreak: 'break-word',
   marginLeft: props.theme.spacing(8),
   marginRight: props.theme.spacing(8),
-  marginBottom: props.theme.spacing(48),
+  marginBottom: props.isTestnet ? props.theme.spacing(24) : props.theme.spacing(48),
 }));
 
 const TxIDText = styled.h1((props) => ({
   ...props.theme.headline_category_s,
-  color: props.theme.colors.white_400,
+  color: props.theme.colors.action.classic,
   marginTop: props.theme.spacing(8),
   textTransform: 'uppercase',
 }));
@@ -118,7 +118,7 @@ const BeforeButtonText = styled.h1((props) => ({
 
 const IDText = styled.h1((props) => ({
   ...props.theme.typography.body_m,
-  color: props.theme.colors.white_0,
+  color: props.theme.colors.secondaryText,
   marginTop: props.theme.spacing(2),
   wordBreak: 'break-all',
 }));
@@ -144,7 +144,7 @@ function TransactionStatus() {
   const { t } = useTranslation('translation', { keyPrefix: 'TRANSACTION_STATUS' });
   const navigate = useNavigate();
   const location = useLocation();
-  const { network } = useWalletSelector();
+  const { network, selectedAccount } = useWalletSelector();
   // TODO tim: refactor to use react context
   const {
     txid,
@@ -163,9 +163,16 @@ function TransactionStatus() {
 
   const renderTransactionSuccessStatus = (
     <Container>
+      <LogoStatusHeader
+        status={`Account ${
+          selectedAccount?.id === 0 ? selectedAccount.id + 1 : selectedAccount?.id
+        }`}
+      />
       <Image src={Success} />
       <HeadingText>{sponsored ? t('SPONSORED_SUCCESS_MSG') : t('BROADCASTED')}</HeadingText>
-      <BodyText>{sponsored ? t('SPONSORED_MSG') : t('SUCCESS_MSG')}</BodyText>
+      <BodyText isTestnet={network === 'Testnet'}>
+        {sponsored ? t('SPONSORED_MSG') : t('SUCCESS_MSG')}
+      </BodyText>
     </Container>
   );
 

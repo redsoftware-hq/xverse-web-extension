@@ -182,6 +182,8 @@ const CoinSwitchButton = styled.button((props) => ({
 }));
 
 const StyledInputFeedback = styled(InputFeedback)((props) => ({
+  ...props.theme.typography.body_s,
+  marginLeft: props.theme.spacing(4),
   marginBottom: props.theme.spacing(4),
 }));
 
@@ -377,7 +379,7 @@ function SendForm({
         </CoinSwitchButton>
       </AmountInputContainer>
       <FiatRow
-        onClick={() => {}}
+        onClick={() => setSwitchToFiat(!switchToFiat)}
         showFiat={switchToFiat}
         tokenCurrency={getTokenCurrency()}
         tokenAmount={getTokenEquivalent(amount)}
@@ -493,10 +495,10 @@ function SendForm({
           )} */}
         <OuterContainer>
           {!disableAmountInput && renderEnterAmountSection}
-          {amountError && <StyledInputFeedback message={amountError} variant="danger" />}
+          {amountError && <StyledInputFeedback message={amountError} variant="danger" noIcon />}
           {children}
           {renderEnterRecipientSection}
-          {addressError && <StyledInputFeedback message={addressError} variant="danger" />}
+          {addressError && <StyledInputFeedback message={addressError} variant="danger" noIcon />}
           {info && <InputFeedback message={info} />}
           {/* {currencyType !== 'BTC' &&
             currencyType !== 'NFT' &&

@@ -1,4 +1,5 @@
 import Arrows from '@assets/img/send/Arrows.svg';
+import { currencySymbolMap } from '@secretkeylabs/xverse-core/types/currency';
 import { useTranslation } from 'react-i18next';
 import { NumericFormat } from 'react-number-format';
 import styled from 'styled-components';
@@ -40,13 +41,15 @@ export function FiatRow({
   tokenAmount,
   fiatCurrency,
   fiatAmount,
+  forSwap = false,
 }: {
+  forSwap?: boolean;
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  showFiat: boolean;
-  tokenCurrency: string;
-  tokenAmount: string;
+  showFiat?: boolean;
+  tokenCurrency?: string | undefined;
+  tokenAmount?: string | undefined;
   fiatCurrency: string;
-  fiatAmount: string;
+  fiatAmount: string | number | undefined;
 }) {
   const { t } = useTranslation('translation', { keyPrefix: 'SEND' });
   const renderText = (value: string) => `~ ${value} ${tokenCurrency}`;
@@ -64,12 +67,25 @@ export function FiatRow({
           `~ $ ${fiatAmount} ${fiatCurrency}`
         )}
       </SubText> */}
-      <SwitchToFiatButton onClick={onClick}>
-        <SwitchToFiatText>
-          {showFiat ? `${tokenAmount}` : `${fiatAmount} ${fiatCurrency}`}
-        </SwitchToFiatText>
-        <img src={Arrows} width={22} height={22} alt="switch-arrows" />
-      </SwitchToFiatButton>
+      {forSwap ? (
+        <SwitchToFiatButton onClick={onClick}>
+          <NumericFormat
+            value={fiatAmount}
+            displayType="text"
+            thousandSeparator
+            prefix={`${currencySymbolMap[fiatCurrency]} `}
+            renderText={(value) => <SwitchToFiatText>{value}</SwitchToFiatText>}
+          />
+          <img src={Arrows} width={22} height={22} alt="switch-arrows" />
+        </SwitchToFiatButton>
+      ) : (
+        <SwitchToFiatButton onClick={onClick}>
+          <SwitchToFiatText>
+            {showFiat ? `${tokenAmount}` : `${fiatAmount} ${fiatCurrency}`}
+          </SwitchToFiatText>
+          <img src={Arrows} width={22} height={22} alt="switch-arrows" />
+        </SwitchToFiatButton>
+      )}
     </RowContainer>
   );
 }

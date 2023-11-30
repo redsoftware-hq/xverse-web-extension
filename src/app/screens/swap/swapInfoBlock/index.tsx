@@ -1,6 +1,8 @@
 import ChevronIcon from '@assets/img/swap/chevron.svg';
 import SlippageEditIcon from '@assets/img/swap/slippageEdit.svg';
+import Tick from '@assets/img/swap/Tick.svg';
 import BottomModal from '@components/bottomModal';
+import CustomSwitchSlider from '@components/customSwitch';
 import { SlippageModalContent } from '@screens/swap/slippageModal';
 import { SUPPORT_URL_TAB_TARGET, SWAP_SPONSOR_DISABLED_SUPPORT_URL } from '@utils/constants';
 import { useState } from 'react';
@@ -12,10 +14,14 @@ import { UseSwap } from '../types';
 const CustomSwitch = styled(Switch)`
   .react-switch-handle {
     background-color: ${({ checked }) =>
-      checked ? '#FFFFFF' : 'rgba(255, 255, 255, 0.2)'} !important;
-    border: ${({ checked }) => (checked ? '' : '4px solid rgba(255, 255, 255, 0.2)')} !important;
+      checked ? '#E12828  ' : 'rgba(210, 52, 3, 0.20)'} !important;
+    border: ${({ checked }) => (checked ? '' : '1px solid #D23403')} !important;
+    border-radius: 15px;
     height: 16px !important;
     width: 16px !important;
+  }
+  .react-switch-bg {
+    background-color: rgba(210, 52, 3, 0.2);
   }
 `;
 
@@ -28,12 +34,21 @@ const DetailButton = styled.button((props) => ({
   display: 'flex',
   flexDirection: 'row',
   columnGap: props.theme.spacing(2),
-  background: 'transparent',
+  marginLeft: 'auto',
+  borderRadius: '15px',
+  maxWidth: '75px',
+  padding: '6px 12px',
+  background: 'rgba(210, 52, 3, 0.20)',
   alignItems: 'center',
   ...props.theme.body_medium_m,
-  color: props.theme.colors.white_200,
+  color: props.theme.colors.action.classic,
 }));
 
+const Container = styled.div((props) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  padding: '16px',
+}));
 const DL = styled.dl((props) => ({
   display: 'flex',
   flexWrap: 'wrap',
@@ -43,7 +58,7 @@ const DL = styled.dl((props) => ({
 
 const DT = styled.dt((props) => ({
   ...props.theme.body_medium_m,
-  color: props.theme.colors.white_200,
+  color: props.theme.colors.secondaryText,
   flex: '50%',
 }));
 
@@ -52,6 +67,7 @@ const DD = styled.dd((props) => ({
   color: props.theme.colors.white_0,
   flex: '50%',
   display: 'flex',
+  alignContent: 'center',
   justifyContent: 'flex-end',
   textAlign: 'right',
 }));
@@ -65,14 +81,18 @@ const SlippageImg = styled.img(() => ({
   width: 16,
   height: 16,
 }));
-
+const SlippageEditContainer = styled.div({
+  display: 'flex',
+  gap: 8,
+  alignItems: 'center',
+});
 const CannotBeSponsored = styled.p((props) => ({
   ...props.theme.body_medium_m,
   color: props.theme.colors.white_200,
 }));
 
 const SponsorTransactionSwitchLabel = styled(DT)<{ disabled: boolean }>((props) => ({
-  color: props.disabled ? props.theme.colors.white_400 : props.theme.colors.white_200,
+  color: props.disabled ? props.theme.colors.secondaryText : props.theme.colors.secondaryText,
 }));
 
 const ToggleContainer = styled(DD)({
@@ -85,7 +105,15 @@ const LearnMoreAnchor = styled.a((props) => ({
   marginTop: props.theme.spacing(2),
   display: 'block',
 }));
-
+const DetailsHeader = styled.div((props) => ({
+  display: 'flex',
+  alignItems: 'center',
+  gap: 8,
+}));
+const DetailsText = styled.div((props) => ({
+  ...props.theme.body_medium_xl,
+  color: props.theme.colors.action.classic,
+}));
 export function SwapInfoBlock({ swap }: { swap: UseSwap }) {
   const [expandDetail, setExpandDetail] = useState(false);
   const { t } = useTranslation('translation', { keyPrefix: 'SWAP_SCREEN' });
@@ -94,24 +122,45 @@ export function SwapInfoBlock({ swap }: { swap: UseSwap }) {
 
   return (
     <>
-      <DL>
-        <DT>
-          <DetailButton onClick={() => setExpandDetail(!expandDetail)}>
-            {t('DETAILS')}
-            <ChevronImage alt={t('DETAILS')} src={ChevronIcon} rotated={expandDetail} />
-          </DetailButton>
-        </DT>
-        <DD>{swap.swapInfo?.exchangeRate ?? '--'}</DD>
-        {expandDetail && (
-          <>
+      <DetailButton onClick={() => setExpandDetail(!expandDetail)}>{t('DETAILS')}</DetailButton>
+      <BottomModal
+        header={
+          <DetailsHeader>
+            <img src={Tick} alt="tick" />
+            <DetailsText>Details</DetailsText>
+          </DetailsHeader>
+        }
+        visible={expandDetail}
+        noTextHeader
+        onClose={() => setExpandDetail(false)}
+        overlayStylesOverriding={{
+          background: 'rgba(0, 0, 0, 0.80)',
+          backdropFilter: 'blur(10px)',
+        }}
+        contentStylesOverriding={{
+          borderRadius: '12px',
+          border: '1px solid #1F232D',
+          maxWidth: '350px',
+          maxHeight: '305px',
+          top: 0,
+          bottom: 0,
+          width: 'unset',
+          marginTop: 'auto',
+          marginBottom: 'auto',
+          marginLeft: '10px',
+          marginRight: '10px',
+        }}
+      >
+        <Container>
+          <DL>
             <DT>{t('MIN_RECEIVE')}</DT>
             <DD>{swap.minReceived ?? '--'}</DD>
             <DT>{t('SLIPPAGE')}</DT>
             <DD>
-              <DetailButton onClick={() => setShowSlippageModal(true)}>
+              <SlippageEditContainer>
                 {swap.slippage * 100}%
-                <SlippageImg alt={t('SLIPPAGE')} src={SlippageEditIcon} />
-              </DetailButton>
+                <DetailButton onClick={() => setShowSlippageModal(true)}>Edit</DetailButton>
+              </SlippageEditContainer>
             </DD>
             <DT>{t('LP_FEE')}</DT>
             <DD>{swap.swapInfo?.lpFee ?? '--'}</DD>
@@ -125,8 +174,8 @@ export function SwapInfoBlock({ swap }: { swap: UseSwap }) {
                   </SponsorTransactionSwitchLabel>
                   <ToggleContainer>
                     <CustomSwitch
-                      onColor={theme.colors.orange_main}
-                      offColor={theme.colors.background.elevation3}
+                      onColor={theme.colors.background.sliderBg}
+                      offColor={theme.colors.background.sliderBg}
                       onChange={swap.handleChangeUserOverrideSponsorValue}
                       checked={swap.isSponsored}
                       disabled={swap.isSponsorDisabled}
@@ -154,10 +203,9 @@ export function SwapInfoBlock({ swap }: { swap: UseSwap }) {
                 )}
               </>
             )}
-          </>
-        )}
-      </DL>
-      <PoweredByAlexText>{t('POWERED_BY_ALEX')}</PoweredByAlexText>
+          </DL>
+        </Container>
+      </BottomModal>
       <BottomModal
         header={t('SLIPPAGE_TITLE')}
         visible={showSlippageModal}

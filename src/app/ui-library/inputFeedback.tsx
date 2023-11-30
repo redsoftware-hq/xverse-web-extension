@@ -7,7 +7,7 @@ type FeedbackVariant = 'info' | 'danger';
 
 const colors: Record<FeedbackVariant, string> = {
   info: Theme.colors.white_200,
-  danger: Theme.colors.danger_light,
+  danger: Theme.colors.caution_pill,
 };
 const getColorForVariant = (variant: FeedbackVariant) => colors[variant];
 
@@ -36,13 +36,19 @@ export type InputFeedbackProps = {
   className?: string;
   message: string;
   variant?: FeedbackVariant;
+  noIcon?: boolean;
 };
 
-export function InputFeedback({ className, message, variant = 'info' }: InputFeedbackProps) {
+export function InputFeedback({
+  className,
+  message,
+  variant = 'info',
+  noIcon = false,
+}: InputFeedbackProps) {
   const IconVariant = icons[variant];
   return (
     <Feedback className={className} variant={variant}>
-      {message && <IconVariant weight="fill" size={16} color="currentColor" />}
+      {message && !noIcon && <IconVariant weight="fill" size={16} color="currentColor" />}
       <StyledP typography="body_medium_s">{message}</StyledP>
     </Feedback>
   );
