@@ -2,6 +2,7 @@
 import BtcTransactionHistoryItem from '@components/transactions/btcTransaction';
 import StxTransactionHistoryItem from '@components/transactions/stxTransaction';
 import useTransactions from '@hooks/queries/useTransactions';
+import useWalletSelector from '@hooks/useWalletSelector';
 import { animated, config, useSpring } from '@react-spring/web';
 import { FungibleToken } from '@secretkeylabs/xverse-core';
 import { BtcTransactionData } from '@secretkeylabs/xverse-core/types';
@@ -56,8 +57,8 @@ const NoTransactionsContainer = styled.div((props) => ({
   color: props.theme.colors.white[400],
 }));
 
-const GroupContainer = styled(animated.div)((props) => ({
-  marginBottom: props.theme.spacing(8),
+const GroupContainer = styled(animated.div)<{ txAll: boolean }>((props) => ({
+  marginBottom: props.txAll ? props.theme.spacing(2) : props.theme.spacing(8),
 }));
 
 const SectionHeader = styled.div((props) => ({
@@ -89,6 +90,7 @@ interface TransactionsHistoryListProps {
   coin: CurrencyTypes;
   ft?: FungibleToken;
   txFilter: string | null;
+  txAll?: boolean;
 }
 
 const groupBtcTxsByDate = (
@@ -156,8 +158,15 @@ const filterTxs = (
   });
 
 export default function TransactionsHistoryList(props: TransactionsHistoryListProps) {
-  const { coin, txFilter, ft } = props;
+  const { coin, txFilter, ft, txAll } = props;
+  const { coinsList } = useWalletSelector();
   const { data, isLoading, isFetching } = useTransactions((coin as CurrencyTypes) || 'STX');
+  const {
+    data: bitcoinData,
+    isLoading: loadingBtc,
+    isFetching: fetchingBtc,
+  } = useTransactions('BTC');
+  const { data: stxData, isLoading: loadingStx, isFetching: fetchingStx } = useTransactions('STX');
   const styles = useSpring({
     config: { ...config.stiff },
     from: { opacity: 0 },
@@ -166,7 +175,18 @@ export default function TransactionsHistoryList(props: TransactionsHistoryListPr
     },
   });
   const { t } = useTranslation('translation', { keyPrefix: 'COIN_DASHBOARD_SCREEN' });
+  // const visibleCoins = useMemo(() => {
+  //   coinsList?.filter((item) => item.visible);
+  // }, [coinsList]);
   const groupedTxs = useMemo(() => {
+    if (txAll) {
+      if (!loadingStx && !loadingBtc) {
+        const groupedBTC = groupBtcTxsByDate(bitcoinData as BtcTransactionData[]);
+        const groupedSTX = groupedTxsByDateMap(stxData as AddressTransactionWithTransfers[]);
+        const all = { ...groupedBTC, ...groupedSTX };
+        return all;
+      }
+    }
     if (data && data.length > 0) {
       if (isBtcTransactionArr(data)) {
         return groupBtcTxsByDate(data);
@@ -194,14 +214,12 @@ export default function TransactionsHistoryList(props: TransactionsHistoryListPr
   return (
     <ListItemsContainer>
       <ListHeader>{getListHeader()}</ListHeader>
+      {txAll && <SectionSeparator />}
       {groupedTxs &&
         !isLoading &&
         Object.keys(groupedTxs).map((group) => (
-          <GroupContainer key={group} style={styles}>
-            {/* <SectionHeader> */}
-            {/* <SectionTitle>{group}</SectionTitle> */}
-            <SectionSeparator />
-            {/* </SectionHeader> */}
+          <GroupContainer key={group} style={styles} txAll={txAll}>
+            {!txAll && <SectionSeparator />}
             {groupedTxs[group].map((transaction) => {
               if (isBtcTransaction(transaction)) {
                 return (
