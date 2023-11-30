@@ -1,9 +1,9 @@
 /* eslint-disable no-nested-ternary */
-import styled from 'styled-components';
-import { MoonLoader } from 'react-spinners';
-import { useTranslation } from 'react-i18next';
-import { animated } from '@react-spring/web';
 import Scroll from '@assets/img/market/scroll.svg';
+import { animated } from '@react-spring/web';
+import { useTranslation } from 'react-i18next';
+import { MoonLoader } from 'react-spinners';
+import styled from 'styled-components';
 
 const ListItemsContainer = styled.div((props) => ({
   marginTop: props.theme.spacing(8),
@@ -97,7 +97,7 @@ const TitleContainer = styled.div((props) => ({
   display: 'flex',
   flex: 1,
   alignItems: 'center',
-  gap: props.theme.spacing(3),  
+  gap: props.theme.spacing(3),
 }));
 
 function Header() {
@@ -118,11 +118,12 @@ type DetailRowProps = {
   img: string;
   change: string;
   price: string;
+  onClick: () => void;
 };
 
-function DetailRow({ coin, name, img, change, price }: DetailRowProps) {
+function DetailRow({ coin, name, img, change, price, onClick }: DetailRowProps) {
   return (
-    <DetailRowContainer>
+    <DetailRowContainer onClick={onClick}>
       <TitleContainer>
         <img src={img} alt={coin} />
         <div>
@@ -138,7 +139,7 @@ function DetailRow({ coin, name, img, change, price }: DetailRowProps) {
   );
 }
 
-export default function BitcoinAssets({isLoading, data}: any) {
+export default function BitcoinAssets({ isLoading, data, onClick }: any) {
   const { t } = useTranslation('translation', { keyPrefix: 'MARKET_SCREEN' });
 
   return (
@@ -163,6 +164,7 @@ export default function BitcoinAssets({isLoading, data}: any) {
                 img={item.img}
                 change={item.change}
                 price={item.price}
+                onClick={onClick}
               />
               <SectionSeparator />
             </>

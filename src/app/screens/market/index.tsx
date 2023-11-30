@@ -287,7 +287,11 @@ function Market() {
           setCurentActiveIndex={setCurentActiveIndex}
         />
       )}
-      <BitcoinAssets isLoading={loading} data={quotesData} />
+      <BitcoinAssets
+        isLoading={loading}
+        data={quotesData}
+        onClick={() => setCurentActiveIndex(currentActiveIndex === 0 ? currentActiveIndex + 1 : 0)}
+      />
       <BottomBar tab="market" />
     </>
   );
