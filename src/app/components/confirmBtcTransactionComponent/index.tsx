@@ -5,6 +5,7 @@ import InfoContainer from '@components/infoContainer';
 import LogoStatusHeader from '@components/logoStatusHeader';
 import Paragraph from '@components/paragraph';
 import RecipientComponent from '@components/recipientComponent';
+import SendConfirmationHeader from '@components/sendConfirmationHeader';
 import TopRow from '@components/topRow';
 import TransactionSettingAlert from '@components/transactionSetting';
 import TransferFeeView from '@components/transferFeeView';
@@ -32,6 +33,7 @@ import BigNumber from 'bignumber.js';
 import { ReactNode, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NumericFormat } from 'react-number-format';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import TransactionDetailComponent from '../transactionDetailComponent';
 
@@ -71,7 +73,11 @@ const TransparentButtonContainer = styled.div((props) => ({
   marginRight: props.theme.spacing(2),
   width: '100%',
 }));
-
+const EditButtonContainer = styled.div((props) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 12,
+}));
 const Button = styled.button((props) => ({
   display: 'flex',
   flexDirection: 'row',
@@ -122,12 +128,6 @@ const CalloutContainer = styled.div((props) => ({
   marginhorizontal: props.theme.spacing(8),
 }));
 
-const Header = styled.h1((props) => ({
-  ...props.theme.mont_tile_text,
-  color: props.theme.colors.action.classic,
-  paddingLeft: 16,
-  paddingRight: 16,
-}));
 interface Props {
   currentFee: BigNumber;
   feePerVByte: BigNumber; // TODO tim: is this the same as currentFeeRate? refactor to be clear
@@ -183,6 +183,9 @@ function ConfirmBtcTransactionComponent({
   const [signedTx, setSignedTx] = useState(signedTxHex);
   const [total, setTotal] = useState<BigNumber>(new BigNumber(0));
   const [showFeeWarning, setShowFeeWarning] = useState(false);
+  const [showNonceSettings, setShowNonceSettings] = useState(false);
+  const [openAdvancedSettings, setAdvancedSettings] = useState(false);
+  const navigate = useNavigate();
   const {
     isLoading,
     data,
@@ -309,7 +312,7 @@ function ConfirmBtcTransactionComponent({
   }, [currentFee, feeMultipliers]);
 
   const onAdvancedSettingClick = () => {
-    setShowFeeSettings(true);
+    setAdvancedSettings(true);
   };
 
   const closeTransactionSettingAlert = () => {
@@ -383,19 +386,12 @@ function ConfirmBtcTransactionComponent({
     }
   }, [errorSigningNonOrdial]);
 
+  const onCancel = () => {
+    navigate(-1);
+  };
   return (
     <>
-      <LogoStatusHeader
-        status={`Account ${
-          selectedAccount?.id === 0 ? selectedAccount.id + 1 : selectedAccount?.id
-        }`}
-      />
-      <Header>Send Confirmation</Header>
-      <Paragraph
-        content={t('CONFIRM_TRANSACTION.CONFIRM_DESCRIPTION')}
-        // eslint-disable-next-line no-inline-styles/no-inline-styles
-        style={{ paddingLeft: 16, paddingRight: 16, fontSize: 18 }}
-      />
+      <SendConfirmationHeader />
       <OuterContainer>
         {/* {!isBtcSendBrowserTx && !isGalleryOpen && (
           <TopRow title={t('CONFIRM_TRANSACTION.SEND')} onClick={onBackButtonClick} />
@@ -463,14 +459,30 @@ function ConfirmBtcTransactionComponent({
               subValue={getBtcFiatEquivalent(total, BigNumber(btcFiatRate))}
             />
           )}
-          <Button onClick={onAdvancedSettingClick}>
-            {/* <> */}
-            {/* <ButtonImage src={SettingIcon} /> */}
-            <ButtonText>{t('CONFIRM_TRANSACTION.EDIT_FEES')}</ButtonText>
-            {/* </> */}
-          </Button>
+
+          <EditButtonContainer>
+            <Button
+              onClick={() => {
+                setShowFeeSettings(true);
+                onAdvancedSettingClick();
+              }}
+            >
+              {/* <> */}
+              {/* <ButtonImage src={SettingIcon} /> */}
+              <ButtonText>{t('CONFIRM_TRANSACTION.EDIT_FEES')}</ButtonText>
+              {/* </> */}
+            </Button>
+            <Button
+              onClick={() => {
+                setShowNonceSettings(true);
+                onAdvancedSettingClick();
+              }}
+            >
+              <ButtonText>Edit Nonce</ButtonText>
+            </Button>
+          </EditButtonContainer>
           <TransactionSettingAlert
-            visible={showFeeSettings}
+            visible={openAdvancedSettings}
             fee={new BigNumber(currentFee).toString()}
             feePerVByte={feePerVByte}
             type={ordinalTxUtxo ? 'Ordinals' : 'BTC'}
@@ -483,6 +495,9 @@ function ConfirmBtcTransactionComponent({
             isRestoreFlow={isRestoreFundFlow}
             showFeeSettings={showFeeSettings}
             setShowFeeSettings={setShowFeeSettings}
+            showNonceSettings={showNonceSettings}
+            setShowNonceSettings={setShowNonceSettings}
+            onCancel={onCancel}
           />
         </Container>
         <ErrorContainer>

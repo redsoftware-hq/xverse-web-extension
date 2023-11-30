@@ -8,12 +8,13 @@ const BottomModalHeaderText = styled.h1((props) => ({
   flex: 1,
 }));
 
-const RowContainer = styled.div({
+const RowContainer = styled.div<{ noTextHeader?: boolean }>((props) => ({
   display: 'flex',
   flexDirection: 'row',
-  alignItems: 'space-between',
+  alignItems: props.noTextHeader ? 'center' : 'space-between',
+  justifyContent: props.noTextHeader ? 'space-between' : 'unset',
   margin: '24px 24px 20px 24px',
-});
+}));
 
 const ButtonImage = styled.button({
   backgroundColor: 'transparent',
@@ -27,6 +28,7 @@ interface Props {
   overlayStylesOverriding?: CSSProperties;
   contentStylesOverriding?: CSSProperties;
   disableHeader?: boolean;
+  noTextHeader?: boolean;
 }
 
 const CustomisedModal = styled(Modal)`
@@ -45,6 +47,7 @@ function BottomModal({
   overlayStylesOverriding,
   contentStylesOverriding,
   disableHeader = false,
+  noTextHeader = false,
 }: Props) {
   const theme = useTheme();
   const isGalleryOpen: boolean = document.documentElement.clientWidth > 360;
@@ -85,6 +88,16 @@ function BottomModal({
       {disableHeader ? (
         // eslint-disable-next-line react/jsx-no-useless-fragment
         <></>
+      ) : noTextHeader ? (
+        <>
+          <RowContainer noTextHeader={noTextHeader}>
+            {header}
+            <ButtonImage onClick={onClose}>
+              <img src={Cross} alt="cross" />
+            </ButtonImage>
+          </RowContainer>
+          <Separator />
+        </>
       ) : (
         <>
           <RowContainer>

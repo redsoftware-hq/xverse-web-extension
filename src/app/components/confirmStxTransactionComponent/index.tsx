@@ -6,6 +6,7 @@ import BottomModal from '@components/bottomModal';
 import ActionButton from '@components/button';
 import InfoContainer from '@components/infoContainer';
 import LedgerConnectionView from '@components/ledger/connectLedgerView';
+import SendConfirmationHeader from '@components/sendConfirmationHeader';
 import TransactionSettingAlert from '@components/transactionSetting';
 import TransferFeeView from '@components/transferFeeView';
 import useNetworkSelector from '@hooks/useNetwork';
@@ -59,18 +60,25 @@ const TransparentButtonContainer = styled.div((props) => ({
   width: '100%',
 }));
 
+const EditButtonContainer = styled.div((props) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 16,
+}));
 const Button = styled.button((props) => ({
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'center',
   borderRadius: props.theme.radius(1),
-  backgroundColor: 'transparent',
+  border: '1px solid #1F232D',
+  padding: '12px 16px',
+  height: '56px',
+  background: props.theme.colors.background.orangePillBg,
   width: '100%',
-  marginTop: props.theme.spacing(10),
 }));
 
 const ButtonText = styled.div((props) => ({
-  ...props.theme.body_medium_m,
+  ...props.theme.body_medium_xl,
   color: props.theme.colors.white_0,
   textAlign: 'center',
 }));
@@ -161,6 +169,7 @@ function ConfirmStxTransationComponent({
   const [isTxApproved, setIsTxApproved] = useState(false);
   const [isTxRejected, setIsTxRejected] = useState(false);
   const [showFeeWarning, setShowFeeWarning] = useState(false);
+  const [showNonceSettings, setShowNonceSettings] = useState(false);
 
   useEffect(() => {
     setButtonLoading(loading);
@@ -303,13 +312,14 @@ function ConfirmStxTransationComponent({
 
   return (
     <>
+      <SendConfirmationHeader />
       <Container>
-        <TitleContainer>
+        {/* <TitleContainer>
           {!isAsset && (
             <ReviewTransactionText>{title ?? t('REVIEW_TRANSACTION')}</ReviewTransactionText>
           )}
           {!!subTitle && <RequestedByText>{subTitle}</RequestedByText>}
-        </TitleContainer>
+        </TitleContainer> */}
 
         {showFeeWarning && (
           <WarningWrapper>
@@ -331,12 +341,24 @@ function ConfirmStxTransationComponent({
         {isSponsored ? (
           <SponsoredInfoText>{t('SPONSORED_TX_INFO')}</SponsoredInfoText>
         ) : (
-          <Button onClick={onAdvancedSettingClick}>
-            <>
-              <ButtonImage src={SettingIcon} />
-              <ButtonText>{t('ADVANCED_SETTING')}</ButtonText>
-            </>
-          </Button>
+          <EditButtonContainer>
+            <Button
+              onClick={() => {
+                setShowFeeSettings(true);
+                onAdvancedSettingClick();
+              }}
+            >
+              <ButtonText>{t('EDIT_FEES')}</ButtonText>
+            </Button>
+            <Button
+              onClick={() => {
+                setShowNonceSettings(true);
+                onAdvancedSettingClick();
+              }}
+            >
+              <ButtonText>Edit Nonce</ButtonText>
+            </Button>
+          </EditButtonContainer>
         )}
         <TransactionSettingAlert
           visible={openTransactionSettingModal}
@@ -347,6 +369,9 @@ function ConfirmStxTransationComponent({
           onCrossClick={closeTransactionSettingAlert}
           showFeeSettings={showFeeSettings}
           setShowFeeSettings={setShowFeeSettings}
+          showNonceSettings={showNonceSettings}
+          setShowNonceSettings={setShowNonceSettings}
+          onCancel={onCancelClick}
         />
       </Container>
       <ButtonContainer>

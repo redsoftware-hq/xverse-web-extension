@@ -175,11 +175,11 @@ function ConfirmStxTransaction() {
 
   return (
     <>
-      {isBrowserTx ? (
+      {/* {isBrowserTx ? (
         <AccountHeaderComponent disableMenuOption disableAccountSwitch />
       ) : (
         <TopRow title={t('CONFIRM_TRANSACTION.CONFIRM_TX')} onClick={handleCancelClick} />
-      )}
+      )} */}
       <ConfirmStxTransationComponent
         initialStxTransactions={[unsignedTx]}
         loading={isLoading}
@@ -206,7 +206,7 @@ function ConfirmStxTransaction() {
           </AlertContainer>
         )}
       </ConfirmStxTransationComponent>
-      {!isBrowserTx && <BottomBar tab="dashboard" />}
+      {/* {!isBrowserTx && <BottomBar tab="dashboard" />} */}
     </>
   );
 }

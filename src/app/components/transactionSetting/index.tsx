@@ -68,7 +68,9 @@ interface Props {
   nonOrdinalUtxos?: UTXO[];
   showFeeSettings: boolean;
   setShowFeeSettings: (value: boolean) => void;
-  isNotModal?: boolean;
+  showNonceSettings: boolean;
+  setShowNonceSettings: (value: boolean) => void;
+  onCancel: () => void;
 }
 
 function TransactionSettingAlert({
@@ -86,7 +88,9 @@ function TransactionSettingAlert({
   nonOrdinalUtxos,
   showFeeSettings,
   setShowFeeSettings,
-  isNotModal = false,
+  showNonceSettings,
+  setShowNonceSettings,
+  onCancel,
 }: Props) {
   const { t } = useTranslation('translation');
   const [feeInput, setFeeInput] = useState(fee);
@@ -94,7 +98,6 @@ function TransactionSettingAlert({
   const [nonceInput, setNonceInput] = useState<string | undefined>(nonce);
   const [error, setError] = useState('');
   const [selectedOption, setSelectedOption] = useState<string>('standard');
-  const [showNonceSettings, setShowNonceSettings] = useState(false);
   const [isLoading, setIsLoading] = useState(loading);
   const { btcBalance, stxAvailableBalance, network } = useWalletSelector();
 
@@ -231,7 +234,7 @@ function TransactionSettingAlert({
       {renderContent()}
       {(showFeeSettings || showNonceSettings) && (
         <ButtonContainer>
-          <ActionButton text="Cancel" transparent onPress={() => setShowFeeSettings(false)} />
+          <ActionButton text="Cancel" transparent onPress={onCancel} />
           <ActionButton
             text={t('TRANSACTION_SETTING.APPLY')}
             processing={isLoading}

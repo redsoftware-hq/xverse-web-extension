@@ -1,3 +1,4 @@
+import WalletIcon from '@assets/img/dashboard/Wallet.svg';
 import { currencySymbolMap } from '@secretkeylabs/xverse-core/types/currency';
 import styled from 'styled-components';
 
@@ -6,7 +7,7 @@ interface Props {
   fiatCurrency: any;
   fiatBalance: any;
   currencyIcon: any;
-  currency: string;
+  currency: string | undefined;
   operationTitle: string;
   operationIcon: any;
 }
@@ -87,11 +88,15 @@ export default function OperationHeader({
         <BalanceContainer>
           <AccountBalanceContainer>
             <AccountBalance>{accountBalance}</AccountBalance>
-            <Pill>{currency}</Pill>
+            {currency && <Pill>{currency}</Pill>}
           </AccountBalanceContainer>
-          <FiatBalance>{`${currencySymbolMap[fiatCurrency]}${fiatBalance}`}</FiatBalance>
+          {!fiatBalance && <FiatBalance>--</FiatBalance>}
+          {fiatBalance && (
+            <FiatBalance>{`${currencySymbolMap[fiatCurrency]}${fiatBalance}`}</FiatBalance>
+          )}
         </BalanceContainer>
-        <Icon src={currencyIcon} />
+        {currencyIcon && <Icon src={currencyIcon} />}
+        {!currencyIcon && <Icon src={WalletIcon} />}
       </Balance>
       <Operation>
         <OperationTitle>{operationTitle}</OperationTitle>
