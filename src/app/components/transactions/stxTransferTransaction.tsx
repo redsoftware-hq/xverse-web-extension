@@ -3,9 +3,10 @@ import TransactionRecipient from '@components/transactions/transactionRecipient'
 import TransactionStatusIcon from '@components/transactions/transactionStatusIcon';
 import TransactionTitle from '@components/transactions/transactionTitle';
 import useWalletSelector from '@hooks/useWalletSelector';
-import { StxTransactionData } from '@secretkeylabs/xverse-core';
+import { microstacksToStx, satsToBtc, StxTransactionData } from '@secretkeylabs/xverse-core';
 import { CurrencyTypes } from '@utils/constants';
 import { getStxTxStatusUrl } from '@utils/helper';
+import BigNumber from 'bignumber.js';
 import styled from 'styled-components';
 
 const TransactionContainer = styled.button((props) => ({
@@ -46,6 +47,33 @@ const TransactionRow = styled.div((props) => ({
   ...props.theme.body_bold_m,
 }));
 
+const TitleContainer = styled.div((props) => ({
+  display: 'flex',
+  flex: 1,
+  alignItems: 'center',
+  gap: props.theme.spacing(3),
+}));
+
+const PriceConatiner = styled.div({
+  display: 'flex',
+  alignItems: 'center',
+});
+
+const HeaderTitle = styled.p((props) => ({
+  ...props.theme.body_medium_m,
+  color: props.theme.colors.grey1,
+  paddingRight: props.theme.spacing(25),
+  textAlign: 'left',
+  padding: 0,
+}));
+
+const HeaderTitleAmount = styled.p((props) => ({
+  ...props.theme.body_medium_m,
+  color: props.theme.colors.grey1,
+  paddingRight: props.theme.spacing(25),
+  textAlign: 'right',
+  padding: 0,
+}));
 interface StxTransferTransactionProps {
   transaction: StxTransactionData;
   transactionCoin: CurrencyTypes;
@@ -54,14 +82,54 @@ interface StxTransferTransactionProps {
 export default function StxTransferTransaction(props: StxTransferTransactionProps) {
   const { transaction, transactionCoin } = props;
   const { network } = useWalletSelector();
-
+  const { stxBtcRate, btcFiatRate } = useWalletSelector();
   const openTxStatusUrl = () => {
     window.open(getStxTxStatusUrl(transaction.txid, network), '_blank', 'noopener,noreferrer');
   };
+  const currentDate = new Date(transaction.seenTime);
+  const months = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ];
+  const currentMonth = months[currentDate.getMonth()];
+  const currentDateValue = currentDate.getDate();
   return (
     <TransactionContainer onClick={openTxStatusUrl}>
-      <TransactionStatusIcon transaction={transaction} currency="STX" />
-      <TransactionInfoContainer>
+      <TitleContainer>
+        <TransactionStatusIcon transaction={transaction} currency="STX" />
+        <div>
+          <TransactionRecipient transaction={transaction} />
+          <HeaderTitle>{`${currentMonth} ${currentDateValue}`}</HeaderTitle>
+        </div>
+      </TitleContainer>
+      <PriceConatiner>
+        <div>
+          <TransactionRow>
+            <TransactionAmountContainer>
+              <TransactionAmount transaction={transaction} coin="STX" />
+            </TransactionAmountContainer>
+          </TransactionRow>
+          <HeaderTitleAmount>
+            {microstacksToStx(new BigNumber(transaction.amount))
+              .multipliedBy(new BigNumber(stxBtcRate))
+              .multipliedBy(new BigNumber(btcFiatRate))
+              .toFixed(2)
+              .toString()}
+            USD
+          </HeaderTitleAmount>
+        </div>
+      </PriceConatiner>
+      {/* <TransactionInfoContainer>
         <TransactionRow>
           <TransactionTitle transaction={transaction} />
           <TransactionAmountContainer>
@@ -69,7 +137,7 @@ export default function StxTransferTransaction(props: StxTransferTransactionProp
           </TransactionAmountContainer>
         </TransactionRow>
         <TransactionRecipient transaction={transaction} />
-      </TransactionInfoContainer>
+      </TransactionInfoContainer> */}
     </TransactionContainer>
   );
 }

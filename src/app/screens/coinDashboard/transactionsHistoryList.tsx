@@ -166,7 +166,6 @@ export default function TransactionsHistoryList(props: TransactionsHistoryListPr
     },
   });
   const { t } = useTranslation('translation', { keyPrefix: 'COIN_DASHBOARD_SCREEN' });
-
   const groupedTxs = useMemo(() => {
     if (data && data.length > 0) {
       if (isBtcTransactionArr(data)) {
@@ -192,7 +191,6 @@ export default function TransactionsHistoryList(props: TransactionsHistoryListPr
       }
     }
   };
-
   return (
     <ListItemsContainer>
       <ListHeader>{getListHeader()}</ListHeader>
@@ -214,11 +212,15 @@ export default function TransactionsHistoryList(props: TransactionsHistoryListPr
                 );
               }
               return (
-                <StxTransactionHistoryItem
-                  transaction={transaction}
-                  transactionCoin={coin}
-                  key={transaction.tx_id}
-                />
+                <>
+                  <StxTransactionHistoryItem
+                    transaction={transaction}
+                    transactionCoin={coin}
+                    key={transaction.tx_id}
+                    txFilter={txFilter}
+                  />
+                  <SectionSeparator />
+                </>
               );
             })}
           </GroupContainer>

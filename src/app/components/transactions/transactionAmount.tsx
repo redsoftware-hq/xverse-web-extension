@@ -27,7 +27,7 @@ export default function TransactionAmount(props: TransactionAmountProps): JSX.El
   const { coinsList } = useWalletSelector();
   if (coin === 'STX' || coin === 'FT') {
     if (transaction.txType === 'token_transfer') {
-      const prefix = transaction.incoming ? '' : '-';
+      const prefix = transaction.incoming ? '+' : '-';
       return (
         <NumericFormat
           value={microstacksToStx(transaction.amount).toString()}
