@@ -178,6 +178,7 @@ function SendStxScreen() {
         name: `${coin.name} ${coin.ticker}`,
         key: `${coin.ticker}`,
         handler: () => {
+          setShow(false);
           navigate(`/send-ft?coinTicker=${coin.ticker}`);
         },
       }),

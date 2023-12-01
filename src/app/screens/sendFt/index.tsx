@@ -195,7 +195,7 @@ function SendFtScreen() {
       const rate = new BigNumber(fungibleToken.tokenFiatRate);
       return balance.multipliedBy(rate).toFixed(2).toString();
     }
-    return '';
+    return undefined;
   }
   const getImageSourceForFt = () => {
     switch (fungibleToken?.ticker) {
@@ -232,6 +232,7 @@ function SendFtScreen() {
         name: `${coin.name} ${coin.ticker}`,
         key: `${coin.ticker}`,
         handler: () => {
+          setShow(false);
           navigate(`/send-ft?coinTicker=${coin.ticker}`);
         },
       }),
