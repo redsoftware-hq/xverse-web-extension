@@ -76,7 +76,7 @@ export const NumberInput = styled.input`
   }
 `;
 export const AmountInput = styled(NumberInput)<{ error?: boolean }>((props) => ({
-  ...props.theme.body_bold_l,
+  ...props.theme.body_medium_xl,
   flex: 1,
   color: props.error ? props.theme.colors.feedback.error : props.theme.colors.white_0,
   marginLeft: props.theme.spacing(2),

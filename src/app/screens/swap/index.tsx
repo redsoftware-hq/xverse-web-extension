@@ -1,30 +1,22 @@
 import IconStacks from '@assets/img/dashboard/stack_icon.svg';
 import IconUsdc from '@assets/img/dashboard/usdc.svg';
 import IconUsdt from '@assets/img/dashboard/usdt.svg';
-import Default from '@assets/img/dashboard/Wallet.svg';
 import IconWbtc from '@assets/img/dashboard/wbtc.svg';
+import DownArrow from '@assets/img/swap/Downarrowswap.svg';
 import SwapIcon from '@assets/img/swap/Swap.png';
 import ActionButton from '@components/button';
 import CoinSwitch from '@components/coinSwitch';
 import InfoContainer from '@components/infoContainer';
 import OperationHeader from '@components/operationHeader';
-import FiatRow from '@components/sendForm/fiatRow';
 import useWalletSelector from '@hooks/useWalletSelector';
-import { ArrowDown } from '@phosphor-icons/react';
-import CoinSelectModal from '@screens/home/coinSelectModal';
 import { SwapInfoBlock } from '@screens/swap/swapInfoBlock';
 import SwapTokenBlock from '@screens/swap/swapTokenBlock';
 import { useSwap } from '@screens/swap/useSwap';
-import {
-  getBtcEquivalent,
-  getStxTokenEquivalent,
-  microstacksToStx,
-  satsToBtc,
-} from '@secretkeylabs/xverse-core';
+import { microstacksToStx, satsToBtc } from '@secretkeylabs/xverse-core';
 import { useStepperContext } from '@stores/stepper';
 import { getFtBalance } from '@utils/tokens';
 import BigNumber from 'bignumber.js';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -47,7 +39,7 @@ const Container = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'column',
   rowGap: props.theme.spacing(8),
-  marginTop: props.theme.spacing(16),
+  // marginTop: props.theme.spacing(16),
 }));
 
 const DownArrowButton = styled.button((props) => ({
@@ -55,11 +47,13 @@ const DownArrowButton = styled.button((props) => ({
   borderRadius: props.theme.radius(2),
   width: props.theme.spacing(18),
   height: props.theme.spacing(18),
-  background: props.theme.colors.elevation3,
+  background: 'transparent',
   transition: 'all 0.2s ease',
   ':hover': {
     opacity: 0.8,
   },
+  marginTop: props.theme.spacing(6),
+  marginBottom: props.theme.spacing(6),
 }));
 
 const SendButtonContainer = styled.div((props) => ({
@@ -75,6 +69,7 @@ function SwapScreen() {
   const navigate = useNavigate();
   const { t } = useTranslation('translation', { keyPrefix: 'SWAP_SCREEN' });
   const swap = useSwap();
+  const location = useLocation();
   const [selecting, setSelecting] = useState<'from' | 'to'>();
   const [loading, setLoading] = useState(false);
   const { dispatchStep } = useStepperContext();
@@ -91,6 +86,12 @@ function SwapScreen() {
       setLoading(false);
     }
   }, [swap, setLoading]);
+
+  useEffect(() => {
+    if (location.state?.coin) {
+      swap.onSelectToken(location.state.coin, 'from');
+    }
+  }, []);
 
   function getFtFiatEquivalent(coinTicker) {
     const fungibleToken = coinsList?.find((coin) => coin.ticker === coinTicker);
@@ -172,20 +173,15 @@ function SwapScreen() {
         <Container>
           <SwapTokenBlock
             title={t('CONVERT')}
-            selectedCoin={swap.selectedFromToken}
+            selectedCoin={swap?.selectedFromToken}
             amount={swap.inputAmount}
             error={swap.inputAmountInvalid}
             onAmountChange={swap.onInputAmountChanged}
             onSelectCoin={() => setSelecting('from')}
           />
-          {/* <DownArrowButton onClick={swap.handleClickDownArrow}> */}
-          <FiatRow
-            forSwap
-            onClick={swap.handleClickDownArrow}
-            fiatAmount={swap.selectedFromToken?.fiatAmount}
-            fiatCurrency={fiatCurrency}
-          />
-          {/* </DownArrowButton> */}
+          <DownArrowButton onClick={swap.handleClickDownArrow}>
+            <img src={DownArrow} alt="swap-token-icon" />
+          </DownArrowButton>
           <SwapTokenBlock
             title={t('TO')}
             selectedCoin={swap.selectedToToken}

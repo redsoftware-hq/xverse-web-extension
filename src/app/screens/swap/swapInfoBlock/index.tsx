@@ -114,10 +114,16 @@ const DetailsText = styled.div((props) => ({
   ...props.theme.body_medium_xl,
   color: props.theme.colors.action.classic,
 }));
+const Nofees = styled.span((props) => ({
+  ...props.theme.body_bold_m,
+  fontSize: 10,
+  marginLeft: 6,
+}));
 export function SwapInfoBlock({ swap }: { swap: UseSwap }) {
   const [expandDetail, setExpandDetail] = useState(false);
   const { t } = useTranslation('translation', { keyPrefix: 'SWAP_SCREEN' });
   const [showSlippageModal, setShowSlippageModal] = useState(false);
+
   const theme = useTheme();
 
   return (
@@ -155,7 +161,7 @@ export function SwapInfoBlock({ swap }: { swap: UseSwap }) {
           <DL>
             <DT>{t('MIN_RECEIVE')}</DT>
             <DD>{swap.minReceived ?? '--'}</DD>
-            <DT>{t('SLIPPAGE')}</DT>
+            <DT style={{ marginTop: 'auto', marginBottom: 'auto' }}>{t('SLIPPAGE')}</DT>
             <DD>
               <SlippageEditContainer>
                 {swap.slippage * 100}%
@@ -171,6 +177,7 @@ export function SwapInfoBlock({ swap }: { swap: UseSwap }) {
                 <>
                   <SponsorTransactionSwitchLabel disabled={swap.isSponsorDisabled}>
                     {t('SPONSOR_TRANSACTION')}
+                    <Nofees>{t('NO_FEES')}</Nofees>
                   </SponsorTransactionSwitchLabel>
                   <ToggleContainer>
                     <CustomSwitch
@@ -207,12 +214,23 @@ export function SwapInfoBlock({ swap }: { swap: UseSwap }) {
         </Container>
       </BottomModal>
       <BottomModal
-        header={t('SLIPPAGE_TITLE')}
+        disableHeader
+        // header={t('SLIPPAGE_TITLE')}
         visible={showSlippageModal}
+        contentStylesOverriding={{
+          height: '100%',
+          maxHeight: '100%',
+          borderRadius: '0px',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+        }}
         onClose={() => setShowSlippageModal(false)}
       >
         <SlippageModalContent
           slippage={swap.slippage}
+          title={t('SLIPPAGE_TITLE')}
+          handleBack={() => setShowSlippageModal(false)}
           onChange={(slippage) => {
             swap.onSlippageChanged(slippage);
             setShowSlippageModal(false);
