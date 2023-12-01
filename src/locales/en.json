@@ -22,7 +22,7 @@
   },
   "LEDGER_IMPORT_SCREEN": {
     "LEDGER_IMPORT_1_TITLE": "Secure Your Assets with Ledger",
-    "LEDGER_IMPORT_1_SUBTITLE": "Using a Ledger hardware wallet with your Orange wallet is the most secure way to store your Bitcoin and other digital assets.",
+    "LEDGER_IMPORT_1_SUBTITLE": "Using a Ledger hardware wallet with your Orange Wallet is the most secure way to store your Bitcoin and other digital assets.",
     "LEDGER_IMPORT_1_BUTTON": "Get Started",
     "LEDGER_IMPORT_2_TITLE": "Select Assets",
     "LEDGER_IMPORT_2_SUBTITLE": "Select the assets you would like to manage with this wallet.",
@@ -39,8 +39,8 @@
       "STX_TITLE": "Connect Your Ledger",
       "STX_SUBTITLE": "To continue, connect your Ledger device, make sure it's unlocked, and open the Stacks app.",
       "TITLE_FAILED": "Connection failed",
-      "BTC_SUBTITLE_FAILED": "Make sure your Ledger device is connected, unlocked, authorised by your browser and the Bitcoin app is open.",
-      "STX_SUBTITLE_FAILED": "Make sure your Ledger device is connected, unlocked, authorised by your browser and the Stacks app is open."
+      "BTC_SUBTITLE_FAILED": "Make sure your Ledger device is connected, unlocked, authorized by your browser and the Bitcoin app is open.",
+      "STX_SUBTITLE_FAILED": "Make sure your Ledger device is connected, unlocked, authorized by your browser and the Stacks app is open."
     },
     "LEDGER_ADD_ADDRESS": {
       "TITLE_BTC": "Add a Bitcoin wallet",
@@ -135,8 +135,8 @@
     "TITLE_CANCELLED": "Account address rejected",
     "SUBTITLE_CANCELLED": "The account address was rejected on the device.",
     "TITLE_FAILED": "Connection failed",
-    "BTC_SUBTITLE_FAILED": "Make sure your Ledger device is connected, unlocked, authorised by your browser and the Bitcoin app is open.",
-    "STX_SUBTITLE_FAILED": "Make sure your Ledger device is connected, unlocked, authorised by your browser and the Stacks app is open.",
+    "BTC_SUBTITLE_FAILED": "Make sure your Ledger device is connected, unlocked, authorized by your browser and the Bitcoin app is open.",
+    "STX_SUBTITLE_FAILED": "Make sure your Ledger device is connected, unlocked, authorized by your browser and the Stacks app is open.",
     "BTC_TITLE_VERIFIED": "Bitcoin payment address verified successfully",
     "ORDINALS_TITLE_VERIFIED": "Ordinals address verified successfully",
     "STACKS_TITLE_VERIFIED": "Stacks address verified successfully",
@@ -157,8 +157,8 @@
       "STX_SUBTITLE": "Ensure your device is connected, unlocked, and the Stacks app is open to continue.",
       "ERROR_TITLE": "Connection Error",
       "ERROR_SUBTITLE": "Unable to connect to your device.",
-      "BTC_ERROR_SUBTITLE": "Please ensure your device is connected, unlocked, authorised by your browser, and the Bitcoin app is open.",
-      "STX_ERROR_SUBTITLE": "Please ensure your device is connected, unlocked, authorised by your browser, and the Stacks app is open.",
+      "BTC_ERROR_SUBTITLE": "Please ensure your device is connected, unlocked, authorized by your browser, and the Bitcoin app is open.",
+      "STX_ERROR_SUBTITLE": "Please ensure your device is connected, unlocked, authorized by your browser, and the Stacks app is open.",
       "WRONG_DEVICE_ERROR_SUBTITLE": "The public key of the connected device did not match the wallet public key. Make sure you have the correct device connected."
     },
     "EXTERNAL_INPUTS": {
@@ -169,7 +169,7 @@
       "TITLE": "Confirm Transaction",
       "SUBTITLE": "Please confirm the transaction on your device to continue.",
       "ERROR_TITLE": "Transaction Failed",
-      "ERROR_SUBTITLE": "The transaction has been rejected. Please try again.",
+      "ERROR_SUBTITLE": "The transaction has been rejected.",
       "ORDINAL_TX": {
         "ORDINAL_TITLE": "Confirm Ordinal Send",
         "ORDINAL_SUBTITLE": "Please confirm the Ordinal inscription transfer on your device.",
@@ -177,9 +177,9 @@
       }
     },
     "SUCCESS": {
-      "TITLE": "Transaction broadcasted",
-      "SUBTITLE": "Your transaction has been successfully broadcasted. You can close this tab.",
-      "BRC20_INFO": "The inscription may take up to several hours to appear in your wallet. Once received, head to your collectible dashboard and send it to your recipient to complete the token transfer."
+      "TITLE": "Transaction Sent",
+      "SUBTITLE": "Your transaction has been successfully sent to the blockchain.",
+      "BRC20_INFO": "The inscription may several hours to appear in your wallet. Once received, head to your collectible dashboard and send it to your recipient to complete the token transfer."
     },
     "CONFIRM_BUTTON": "Confirm",
     "CONNECT_BUTTON": "Connect",
@@ -220,7 +220,7 @@
   },
   "TOKEN_SCREEN": {
     "ADD_COINS": "Add Coin",
-    "CONTENT": "Add support for more tokens to your Orange wallet by enabling them below."
+    "CONTENT": "Add support for more tokens to your Orange Wallet by enabling them below."
   },
   "ACCOUNT_SCREEN": {
     "ADD_ACCOUNT": "Add Address",
@@ -246,15 +246,15 @@
     "AMOUNT": "Enter the amount to send.",
     "BALANCE": "Balance",
     "RECIPIENT": "Enter the wallet address.",
-    "RECIPIENT_PLACEHOLDER": "Enter STX Address...",
-    "BTC_RECIPIENT_PLACEHOLDER": "Enter Bitcoin address...",
+    "RECIPIENT_PLACEHOLDER": "Enter wallet address...",
+    "BTC_RECIPIENT_PLACEHOLDER": "Enter wallet address...",
     "ORDINAL_RECIPIENT_PLACEHOLDER": "Enter address...",
     "MEMO": "Add a memo (optional)",
     "MEMO_PLACEHOLDER": "Memo",
     "ASSOCIATED_ADDRESS": "Associated Address",
     "MEMO_INFO": "Please note that a memo can increase transaction fees.",
     "NEXT": "Next",
-    "NO_FUNDS": "Insufficient funds. Please try again.",
+    "NO_FUNDS": "Insufficient funds.",
     "BUY_CRYPTO": "Buy Crypto",
     "MOVE_TO_ASSET_DETAIL": "Back to asset detail",
     "WARNING_MSG": "Please confirm the wallet address as transactions are irreversible and funds can not be recovered.",
@@ -266,9 +266,9 @@
       "INVALID_AMOUNT": "Invalid amount.",
       "BELOW_MINIMUM_AMOUNT": "Amount needs to be greater than 1500 sats.",
       "MINIMUM_AMOUNT": "Minimum amount is 0.000001 STX.",
-      "INSUFFICIENT_BALANCE": "Insufficient funds. Please try again.",
+      "INSUFFICIENT_BALANCE": "Insufficient funds.",
       "MEMO_LENGTH": "Memo exceeds the allowed length.",
-      "INSUFFICIENT_BALANCE_FEES": "Insufficient funds. Please try again.",
+      "INSUFFICIENT_BALANCE_FEES": "Insufficient funds.",
       "NFT_SEND_DETAIL": "The NFT has already been sent and is pending.",
       "ORDINAL_NOT_OWNED": "This ordinal is not owned by this account",
       "INVALID_TRANSACTION": "Invalid transaction."
@@ -345,11 +345,11 @@
         "TITLE": "Confirm the Transaction",
         "SUBTITLE": "Please confirm the transaction on your device to continue.",
         "ERROR_TITLE": "Transaction Denied",
-        "ERROR_SUBTITLE": "This transaction has been rejected. Please try again."
+        "ERROR_SUBTITLE": "This transaction has been rejected."
       },
       "SUCCESS": {
-        "TITLE": "Transaction Broadcasted",
-        "SUBTITLE": "Your transaction have been successfully broadcasted. You can close this tab."
+        "TITLE": "Transaction Sent",
+        "SUBTITLE": "Your transaction has been successfully sent to the blockchain."
       },
       "CONFIRM_BUTTON": "Confirm",
       "CONNECT_BUTTON": "Connect",
@@ -361,7 +361,7 @@
   },
   "TX_ERRORS": {
     "INSUFFICIENT_BALANCE": "The requested transaction cannot proceed due to insufficient funds.",
-    "INSUFFICIENT_BALANCE_FEES": "Insufficient funds. Please try again.",
+    "INSUFFICIENT_BALANCE_FEES": "Insufficient funds.",
     "INVALID_TRANSACTION": "Invalid Transaction"
   },
   "TRANSACTION_SETTING": {
@@ -385,8 +385,8 @@
     "NONCE_WARNING": "Please note that entering an incorrect nonce can result in a failed transaction."
   },
   "TRANSACTION_STATUS": {
-    "BROADCASTED": "Transaction Broadcasted",
-    "SUCCESS_MSG": "Your transaction has been successfully submitted.",
+    "BROADCASTED": "Transaction Sent",
+    "SUCCESS_MSG": "Your transaction has been successfully sent to the blockchain.",
     "SEE_ON": "View on",
     "STACKS_EXPLORER": "Stacks Explorer",
     "BITCOIN_EXPLORER": "Explorer",
@@ -394,14 +394,14 @@
     "CLOSE": "Close",
     "FAILED": "Transaction Failed",
     "RETRY": "Try again",
-    "SPONSORED_SUCCESS_MSG": "Transaction signed",
+    "SPONSORED_SUCCESS_MSG": "Transaction Signed",
     "SPONSORED_MSG": "This transaction will be broadcasted by the sponsor.",
-    "BRC20_ORDINAL_MSG": "The inscription may take up to several hours to appear in your wallet. Once received, head to your collectible dashboard and send it to your recipient to complete the token transfer.",
+    "BRC20_ORDINAL_MSG": "The inscription may several hours to appear in your wallet. Once received, head to your collectible dashboard and send it to your recipient to complete the token transfer.",
     "SPONSOR_SERVICE_ERROR": "If the issue persist, try again at a later time, or uncheck the “Sponsor Transaction” option in the swap details."
   },
   "LEGAL_SCREEN": {
     "SCREEN_TITLE": "Legal",
-    "SCREEN_SUBTITLE": "Please review the Orange Pill Privacy Policy and Terms of Service.",
+    "SCREEN_SUBTITLE": "Please review the Orange Wallet Privacy Policy and Terms of Service.",
     "TERMS_SERVICES_LINK_BUTTON": "Terms of Service",
     "PRIVACY_POLICY_LINK_BUTTON": "Privacy Policy",
     "ACCEPT_LEGAL_BUTTON": "Accept",
@@ -451,7 +451,7 @@
     "OPEN_WALLET": "to open your wallet.",
     "RESTORE_SCREEN_TITLE": "Wallet Restored",
     "RESTORE_SCREEN_SUBTITLE": "Your wallet has been successfully restored.",
-    "SEARCH_XVERSE": "Locate Orange Pill and click",
+    "SEARCH_XVERSE": "Locate Orange Wallet and click",
     "SELF_CUSTODY": "Self Custody",
     "SELF_CUSTODY_DESC": "Your assets are securely stored on the blockchain and only you have access to your encrypted keys.",
     "PRIVATE": "Private",
@@ -491,7 +491,7 @@
         "TITLE": "Confirm the Signature",
         "SUBTITLE": "Authorise the signature on your device to continue.",
         "ERROR_TITLE": "Signature Denied",
-        "ERROR_SUBTITLE": "The signature has been rejected. Please try again."
+        "ERROR_SUBTITLE": "The signature has been rejected."
       },
       "SUCCESS": {
         "TITLE": "Signature confirmed",
@@ -515,14 +515,14 @@
   },
   "FORGOT_PASSWORD_SCREEN": {
     "TITLE": "Forgot Password",
-    "PARAGRAPH": "The Orange wallet does not store any passwords, seed phrases, or any user data. If you have forgotten your password, you will need reset your wallet and re-enter your seed phrase to recover your Bitcoin wallet. Always have your seed phrase backed up and stored in a safe location.",
+    "PARAGRAPH": "The Orange Wallet does not store any passwords, seed phrases, or any user data. If you have forgotten your password, you will need reset your wallet and re-enter your seed phrase to recover your Bitcoin wallet. Always have your seed phrase backed up and stored in a safe location.",
     "BACKUP_CHECKBOX_LABEL": "My seed phrase is backed up."
   },
   "RESTORE_WALLET_SCREEN": {
     "ENTER_SEED_HEADER": "Enter the requested words in the order of your seed phrase to confirm it is correct.",
     "SEED_INPUT_PLACEHOLDER": "Enter your seedphrase...",
     "PASTE": "Paste Seedphrase",
-    "SEED_INPUT_ERROR": "Invalid seed phrase. Please try again.",
+    "SEED_INPUT_ERROR": "Invalid seed phrase.",
     "CONTINUE_BUTTON": "Continue"
   },
   "STACKING_SCREEN": {
@@ -540,7 +540,7 @@
     "PENDING_DELEGATION": "Pending delegation",
     "DELEGATED": "Delegated",
     "IN_PROGRESS": "In progress",
-    "PILL": "PILL",
+    "PILL": "ORANGE",
     "REWARDS": "Rewards",
     "NOT_STACKING": "Not Staking",
     "TRANSACTIONS": "Staking Transactions"
@@ -597,7 +597,7 @@
     "MAYBE_LATER": "Change Later",
     "ENABLE": "Enable",
     "RARE_SATS_NOTICE_TITLE": "Don't see your rare sat?",
-    "RARE_SATS_NOTICE_DETAIL": "The Orange wallet only supports the Rodarmor rarity index. Your sats contain other attributes.",
+    "RARE_SATS_NOTICE_DETAIL": "The Orange Wallet only supports the Rodarmor rarity index. Your sats contain other attributes.",
     "SEE_SUPPORTED": "View the supported rarity scale",
     "FROM_RARE_SAT_BUNDLE": "This inscription belongs to the same bundle as other assets. Transferring it will involve transferring the entire bundle."
   },
@@ -704,7 +704,7 @@
     "BACKUP_WALLET": "Backup Wallet",
     "AUTO_LOCK": "Auto Lock",
     "RESET_WALLET": "Reset Wallet",
-    "RESET_WALLET_CONTENT": "The Orange wallet does not store any passwords, seed phrases, or any user data. If you have forgotten your password, you will need reset your wallet and re-enter your seed phrase to recover your Bitcoin wallet. Always have your seed phrase backed up and stored in a safe location.",
+    "RESET_WALLET_CONTENT": "The Orange Wallet does not store any passwords, seed phrases, or any user data. If you have forgotten your password, you will need reset your wallet and re-enter your seed phrase to recover your Bitcoin wallet. Always have your seed phrase backed up and stored in a safe location.",
     "ABOUT": "About",
     "TERMS_OF_SERVICE": "Terms of Service",
     "PRIVACY_POLICY": "Privacy Policy",
@@ -966,7 +966,7 @@
   },
   "ERROR_SCREEN": {
     "TITLE": "Significant Wallet Error",
-    "ERROR_DESCRIPTION": "The Orange wallet encountered a fatal error. Please restart your wallet.",
+    "ERROR_DESCRIPTION": "The Orange Wallet encountered a fatal error. Please restart your wallet.",
     "ERROR_PREFIX": "Error:",
     "SUPPORT": "If the issue persists, you can contact the support at support@1337labs.com"
   },
@@ -1004,8 +1004,8 @@
       "ADDRESS_REQUIRED": "A recipient address is required.",
       "AMOUNT_REQUIRED": "An amount is required.",
       "ADDRESS_INVALID": "Invalid address.",
-      "INSUFFICIENT_BALANCE": "Insufficient funds. Please try again.",
-      "INSUFFICIENT_BALANCE_FEES": "Insufficient funds. Please try again.",
+      "INSUFFICIENT_BALANCE": "Insufficient funds.",
+      "INSUFFICIENT_BALANCE_FEES": "Insufficient funds.",
       "SERVER_ERROR": "Unexpected error."
     },
     "SEND_INFO_TITLE": "Sending a BRC-20 token",
@@ -1022,8 +1022,8 @@
   "CONFIRM_BRC20": {
     "BITCOIN_VALUE": "Bitcoin value",
     "ERROR_CODES": {
-      "INSUFFICIENT_BALANCE": "Insufficient funds. Please try again.",
-      "INSUFFICIENT_FUNDS": "Insufficient funds. Please try again.",
+      "INSUFFICIENT_BALANCE": "Insufficient funds.",
+      "INSUFFICIENT_FUNDS": "Insufficient funds.",
       "FAILED_TO_FINALIZE": "Failed to finalize.",
       "UTXOS_MISSING": "UTXOs missing.",
       "INVALID_TICK": "Invalid tick.",
@@ -1059,12 +1059,13 @@
     "ASSET_TO_CONVERT_TO": "Asset to convert to",
     "SELECT_COIN": "Select",
     "DETAILS": "Details",
-    "MIN_RECEIVE": "Minimum received",
-    "SLIPPAGE": "Slippage Tolerance",
+    "MIN_RECEIVE": "Minimum Received",
+    "SLIPPAGE": "Slippage",
     "SLIPPAGE_TITLE": "Slippage",
-    "LP_FEE": "Liquidity Provider Fee",
+    "LP_FEE": "Liquidity Fees",
     "ROUTE": "Route",
-    "SPONSOR_TRANSACTION": "Sponsor transaction (NO FEES)",
+    "SPONSOR_TRANSACTION": "Sponsor TX",
+    "NO_FEES": "(NO FEES)",
     "POWERED_BY_ALEX": "",
     "CONTINUE": "Continue",
     "SLIPPAGE_DESC": "Your transaction will reverse if the price changes unfavorably by more of this percentage.",
@@ -1072,7 +1073,7 @@
     "RESET_TO_DEFAULT": "Reset to default",
     "ERRORS": {
       "INVALID_AMOUNT": "Invalid amount.",
-      "INSUFFICIENT_BALANCE_FEES": "Insufficient funds. Please try again.",
+      "INSUFFICIENT_BALANCE_FEES": "Insufficient funds.",
       "SLIPPAGE_TOLERANCE_CANNOT_EXCEED": "The slippage tolerance cannot exceed 100%."
     },
     "SWAP_TRANSACTION_CANNOT_BE_SPONSORED": "Swap transaction cannot be sponsored while you have a pending transaction.",
