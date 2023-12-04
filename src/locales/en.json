@@ -236,8 +236,8 @@
     "COPIED_ADDRESS": "Address Copied",
     "BTC_ADDRESS": "Bitcoin Address",
     "ORDINAL_ADDRESS": "Ordinal and BRC-20 Addresses",
-    "ORDINALS_RECEIVE_MESSAGE": "Only use this address to receive Ordinals and BRC-20 tokens.",
-    "STX_RECEIVE_MESSAGE": "Only use this address to receive SIP-010 tokens.",
+    "ORDINALS_RECEIVE_MESSAGE": "Do not sent Bitcoin and SIP-010 tokens to this address. Only send Ordinals adn BRC20 tokens to this wallet address.",
+    "STX_RECEIVE_MESSAGE": "Do not sent Ordinals NFTs to this address. Only send SIP-010 tokens to this wallet address.",
     "BTC_RECEIVE_MESSAGE": "Only use this address to receive Bitcoin. Do not send Ordinals or any other protocols to this address."
   },
   "SEND": {
@@ -422,7 +422,8 @@
     "SEED_PHRASE_VERIFY_BUTTON": "Verify",
     "SEED_INPUT_LABEL": "Seedphrase Verification",
     "SEED_PHRASE_BACK_BUTTON": "Back",
-    "SEED_PHRASE_DEC_SETTINGS": "Record and store your seed phrase in a secure place where only you have access."
+    "SEED_PHRASE_DEC_SETTINGS": "Record and store your seed phrase in a secure place where only you have access.",
+    "SEED_PHRASE_INCORRECT": "Seedphrase does not match."
   },
   "CREATE_PASSWORD_SCREEN": {
     "CREATE_PASSWORD_TITLE": "Enter Password",
@@ -1060,7 +1061,7 @@
     "SELECT_COIN": "Select",
     "DETAILS": "Details",
     "MIN_RECEIVE": "Minimum Received",
-    "SLIPPAGE": "Slippage",
+    "SLIPPAGE": "Enter the slippage tolerance.",
     "SLIPPAGE_TITLE": "Slippage",
     "LP_FEE": "Liquidity Fees",
     "ROUTE": "Route",
@@ -1070,7 +1071,7 @@
     "CONTINUE": "Continue",
     "SLIPPAGE_DESC": "Your transaction will reverse if the price changes unfavorably by more of this percentage.",
     "APPLY": "Apply",
-    "RESET_TO_DEFAULT": "Reset to default",
+    "RESET_TO_DEFAULT": "Default",
     "ERRORS": {
       "INVALID_AMOUNT": "Invalid amount.",
       "INSUFFICIENT_BALANCE_FEES": "Insufficient funds.",

@@ -2,11 +2,8 @@
 import type { NetworkType, SettingsNetwork } from '@secretkeylabs/xverse-core';
 import {
   BTC_BASE_URI_MAINNET,
- 
   BTC_BASE_URI_TESTNET,
- 
   HIRO_MAINNET_DEFAULT,
- 
   HIRO_TESTNET_DEFAULT,
 } from '@secretkeylabs/xverse-core/constant';
 
@@ -16,7 +13,7 @@ export const TERMS_LINK = 'https://docs.1337dao.com/about-1337/terms-of-service'
 export const PRIVACY_POLICY_LINK = 'https://docs.1337dao.com/about-1337/privacy-policy';
 export const SUPPORT_LINK = 'https://support.xverse.app/hc/en-us';
 export const BLOG_LINK = 'https:/xverse.app/blog';
-export const SUPPORT_EMAIL = 'support@xverse.app';
+export const SUPPORT_EMAIL = '';
 export const BTC_TRANSACTION_STATUS_URL = 'https://mempool.space/tx/';
 export const BTC_TRANSACTION_TESTNET_STATUS_URL = 'https://mempool.space/testnet/tx/';
 export const TRANSACTION_STATUS_URL = 'https://explorer.stacks.co/txid/';
@@ -75,7 +72,6 @@ export const initialNetworksList: SettingsNetwork[] = [
  * contract id of send_many transaction type
  */
 export const SEND_MANY_TOKEN_TRANSFER_CONTRACT_PRINCIPAL =
- 
   'SP3FBR2AGK5H9QBDH3EEN6DF8EK8JY7RX8QJ5SVTE.send-many-memo';
 
 export const SWAP_SPONSOR_DISABLED_SUPPORT_URL =

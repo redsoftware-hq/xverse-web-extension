@@ -368,6 +368,12 @@ const Theme = {
     fontWeight: '700',
     fontSize: 20,
   },
+  headline_mr: {
+    fontFamily: 'MontRegular',
+    fontStyle: 'normal',
+    fontWeight: '700',
+    fontSize: 24,
+  },
   body_l: {
     fontFamily: 'MontRegular',
     fontStyle: 'normal',
