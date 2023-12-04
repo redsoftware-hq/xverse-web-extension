@@ -473,9 +473,9 @@
     "CANCEL_BUTTON": "Cancel"
   },
   "AUTH_REQUEST_SCREEN": {
-    "TITLE": "Connection",
-    "REQUEST_TOOLTIP": "Requested by",
-    "CONNECT_BUTTON": "Connect",
+    "TITLE": "Connect Request",
+    "REQUEST_TOOLTIP": "Requested by a third-party website. Please ensure that this site is authorized to access your wallet before proceeding. ",
+    "CONNECT_BUTTON": "Approve",
     "CANCEL_BUTTON": "Cancel",
     "NO_STACKS_AUTH_SUPPORT": {
       "TITLE": "No Stacks Address.",
@@ -499,7 +499,7 @@
         "SUBTITLE": "This transaction will be broadcasted by the sponsor."
       },
       "CONFIRM_BUTTON": "Confirm",
-      "CONNECT_BUTTON": "Connect",
+      "CONNECT_BUTTON": "Approve",
       "CLOSE_BUTTON": "Close",
       "CANCEL_BUTTON": "Cancel",
       "RETRY_BUTTON": "Try again"

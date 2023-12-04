@@ -9,6 +9,7 @@ import ActionButton from '@components/button';
 import ConfirmScreen from '@components/confirmScreen';
 import InfoContainer from '@components/infoContainer';
 import LedgerConnectionView from '@components/ledger/connectLedgerView';
+import LogoStatusHeader from '@components/logoStatusHeader';
 import useSeedVault from '@hooks/useSeedVault';
 import useWalletSelector from '@hooks/useWalletSelector';
 import Transport from '@ledgerhq/hw-transport-webusb';
@@ -27,7 +28,7 @@ const MainContainer = styled.div({
   flex: 1,
   flexDirection: 'column',
   alignItems: 'center',
-  justifyContent: 'center',
+  // justifyContent: 'center',
   width: '100%',
   height: '100%',
   overflow: 'hidden',
@@ -52,15 +53,16 @@ const TopImage = styled.img({
 });
 
 const FunctionTitle = styled.h1((props) => ({
-  ...props.theme.headline_s,
-  color: props.theme.colors.white_0,
-  marginTop: props.theme.spacing(8),
+  ...props.theme.mont_tile_text,
+  color: props.theme.colors.action.classic,
+  textAlign: 'left',
+  padding: '0 20px 0 20px',
 }));
 
 const DappTitle = styled.h2((props) => ({
-  ...props.theme.body_l,
-  color: props.theme.colors.white_400,
-  marginTop: props.theme.spacing(2),
+  ...props.theme.body_medium_xl,
+  color: props.theme.colors.white_0,
+  padding: '0 20px 0 20px',
 }));
 
 const InfoContainerWrapper = styled.div((props) => ({
@@ -68,6 +70,13 @@ const InfoContainerWrapper = styled.div((props) => ({
   marginBottom: 0,
 }));
 
+const Top = styled.div((props) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 8,
+  marginBottom: 8,
+  marginTop: props.theme.spacing(2),
+}));
 function AuthenticationRequest() {
   const [loading, setLoading] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -210,11 +219,13 @@ function AuthenticationRequest() {
       loading={loading}
       disabled={isDisabled}
     >
-      <AccountHeaderComponent />
       <MainContainer>
-        <TopImage src={getDappLogo()} alt="Dapp Logo" />
-        <FunctionTitle>{t('TITLE')}</FunctionTitle>
-        <DappTitle>{`${t('REQUEST_TOOLTIP')} ${authRequest.payload.appDetails?.name}`}</DappTitle>
+        <Top>
+          <LogoStatusHeader status="Caution" />
+          <FunctionTitle>{t('TITLE')}</FunctionTitle>
+          <DappTitle>{t('REQUEST_TOOLTIP')}</DappTitle>
+        </Top>
+        {/* <TopImage src={getDappLogo()} alt="Dapp Logo" /> */}
         {isDisabled && (
           <InfoContainerWrapper>
             <InfoContainer
