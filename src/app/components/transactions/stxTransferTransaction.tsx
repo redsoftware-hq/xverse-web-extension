@@ -66,7 +66,13 @@ const HeaderTitle = styled.p((props) => ({
   textAlign: 'left',
   padding: 0,
 }));
-
+const TxId = styled.p((props) => ({
+  ...props.theme.body_medium_m,
+  color: props.theme.colors.white_0,
+  paddingRight: props.theme.spacing(25),
+  textAlign: 'left',
+  padding: 0,
+}));
 const HeaderTitleAmount = styled.p((props) => ({
   ...props.theme.body_medium_m,
   color: props.theme.colors.grey1,
@@ -103,11 +109,19 @@ export default function StxTransferTransaction(props: StxTransferTransactionProp
   ];
   const currentMonth = months[currentDate.getMonth()];
   const currentDateValue = currentDate.getDate();
+  function formatAddress(addr: string): string {
+    return addr ? `${addr.substring(0, 4)}...${addr.substring(addr.length - 4, addr.length)}` : '';
+  }
   return (
     <TransactionContainer onClick={openTxStatusUrl}>
       <TitleContainer>
         <TransactionStatusIcon transaction={transaction} currency="STX" />
         <div>
+          {transaction.txStatus.includes('abort') && (
+            <TransactionAmountContainer>
+              <TxId>{formatAddress(transaction.txid)}</TxId>
+            </TransactionAmountContainer>
+          )}
           <TransactionRecipient transaction={transaction} />
           <HeaderTitle>{`${currentMonth} ${currentDateValue}`}</HeaderTitle>
         </div>

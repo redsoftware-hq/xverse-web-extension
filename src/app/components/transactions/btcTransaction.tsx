@@ -1,13 +1,13 @@
 import useWalletSelector from '@hooks/useWalletSelector';
 import { Brc20HistoryTransactionData, BtcTransactionData } from '@secretkeylabs/xverse-core';
+import { satsToBtc } from '@secretkeylabs/xverse-core/currency';
+import { StoreState } from '@stores/index';
 import { getBtcTxStatusUrl } from '@utils/helper';
 import { isBtcTransaction } from '@utils/transactions/transactions';
-import { useCallback } from 'react';
-import styled from 'styled-components';
-import { useSelector } from 'react-redux';
-import { StoreState } from '@stores/index';
-import { satsToBtc } from '@secretkeylabs/xverse-core/currency';
 import BigNumber from 'bignumber.js';
+import { useCallback } from 'react';
+import { useSelector } from 'react-redux';
+import styled from 'styled-components';
 import TransactionAmount from './transactionAmount';
 import TransactionRecipient from './transactionRecipient';
 import TransactionStatusIcon from './transactionStatusIcon';
@@ -83,6 +83,13 @@ const HeaderTitleAmount = styled.p((props) => ({
   padding: 0,
 }));
 
+const TxId = styled.p((props) => ({
+  ...props.theme.body_medium_m,
+  color: props.theme.colors.white_0,
+  paddingRight: props.theme.spacing(25),
+  textAlign: 'left',
+  padding: 0,
+}));
 export default function BtcTransactionHistoryItem(props: TransactionHistoryItemProps) {
   const { transaction } = props;
   const { network } = useWalletSelector();
@@ -109,12 +116,19 @@ export default function BtcTransactionHistoryItem(props: TransactionHistoryItemP
   ];
   const currentMonth = months[currentDate.getMonth()];
   const currentDateValue = currentDate.getDate();
-
+  function formatAddress(addr: string): string {
+    return addr ? `${addr.substring(0, 4)}...${addr.substring(addr.length - 4, addr.length)}` : '';
+  }
   return (
     <TransactionContainer onClick={openBtcTxStatusLink}>
       <TitleContainer>
         <TransactionStatusIcon transaction={transaction} currency="BTC" />
         <div>
+          {transaction.txStatus.includes('abort') && (
+            <TransactionAmountContainer>
+              <TxId>{formatAddress(transaction.txid)}</TxId>
+            </TransactionAmountContainer>
+          )}
           <TransactionRecipient transaction={transaction} />
           <HeaderTitle>{`${currentMonth} ${currentDateValue}`}</HeaderTitle>
         </div>

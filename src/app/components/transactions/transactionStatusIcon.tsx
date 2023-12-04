@@ -1,7 +1,7 @@
 import Receive from '@assets/img/dashboard/recieve.svg';
 import Send from '@assets/img/dashboard/send.svg';
 import ContractIcon from '@assets/img/transactions/contract.svg';
-import FailedIcon from '@assets/img/transactions/failed.svg';
+import FailedIcon from '@assets/img/transactions/new_failed.svg';
 import OrdinalsIcon from '@assets/img/transactions/ordinal.svg';
 import PendingIcon from '@assets/img/transactions/PendingIcon.svg';
 import {
