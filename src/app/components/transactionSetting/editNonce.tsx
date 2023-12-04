@@ -1,6 +1,7 @@
 /* eslint-disable no-inline-styles/no-inline-styles */
 import InfoContainer from '@components/infoContainer';
 import LogoStatusHeader from '@components/logoStatusHeader';
+import TopRow from '@components/topRow';
 import useWalletSelector from '@hooks/useWalletSelector';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -9,19 +10,23 @@ import styled from 'styled-components';
 const NonceContainer = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'column',
-  marginLeft: props.theme.spacing(8),
-  marginRight: props.theme.spacing(8),
+  // marginLeft: props.theme.spacing(8),
+  // marginRight: props.theme.spacing(8),
 }));
 
 const DetailText = styled.h1((props) => ({
   ...props.theme.body_medium_xl,
   color: props.theme.colors.white_200,
   marginTop: props.theme.spacing(8),
+  marginLeft: props.theme.spacing(8),
+  marginRight: props.theme.spacing(8),
 }));
 
 const Text = styled.h1((props) => ({
   ...props.theme.body_medium_xl,
   marginTop: props.theme.spacing(8),
+  marginLeft: props.theme.spacing(8),
+  marginRight: props.theme.spacing(8),
 }));
 
 const InputContainer = styled.div((props) => ({
@@ -37,10 +42,12 @@ const InputContainer = styled.div((props) => ({
   paddingRight: props.theme.spacing(5),
   paddingTop: props.theme.spacing(5),
   paddingBottom: props.theme.spacing(5),
+  marginLeft: props.theme.spacing(8),
+  marginRight: props.theme.spacing(8),
 }));
 
 const InputField = styled.input((props) => ({
-  ...props.theme.body_m,
+  ...props.theme.body_medium_xl,
   background: props.theme.colors.background.orangePillBg,
   border: 'transparent',
   color: props.theme.colors.white_400,
@@ -56,8 +63,9 @@ const Header = styled.h1((props) => ({
 interface Props {
   nonce: string;
   setNonce: (nonce: string) => void;
+  handleBack: () => void;
 }
-function EditNonce({ nonce, setNonce }: Props) {
+function EditNonce({ nonce, setNonce, handleBack }: Props) {
   const { t } = useTranslation('translation', { keyPrefix: 'TRANSACTION_SETTING' });
   const [nonceInput, setNonceInput] = useState(nonce);
   const { selectedAccount } = useWalletSelector();
@@ -71,7 +79,8 @@ function EditNonce({ nonce, setNonce }: Props) {
 
   return (
     <NonceContainer>
-      <LogoStatusHeader
+      <TopRow title={t('ADVANCED_SETTING_NONCE_OPTION')} onClick={handleBack} />
+      {/* <LogoStatusHeader
         style={{
           paddingLeft: '0px',
           paddingBottom: '0px',
@@ -81,8 +90,7 @@ function EditNonce({ nonce, setNonce }: Props) {
         status={`Account ${
           selectedAccount?.id === 0 ? selectedAccount.id + 1 : selectedAccount?.id
         }`}
-      />
-      <Header>{t('ADVANCED_SETTING_NONCE_OPTION')}</Header>
+      /> */}
       <DetailText>{t('NONCE_INFO')}</DetailText>
       <Text>{t('NONCE')}</Text>
       <InputContainer>

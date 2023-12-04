@@ -1,5 +1,6 @@
 /* eslint-disable no-inline-styles/no-inline-styles */
 import LogoStatusHeader from '@components/logoStatusHeader';
+import TopRow from '@components/topRow';
 import useDebounce from '@hooks/useDebounce';
 import useOrdinalsByAddress from '@hooks/useOrdinalsByAddress';
 import useWalletSelector from '@hooks/useWalletSelector';
@@ -26,8 +27,6 @@ import styled from 'styled-components';
 const Container = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'column',
-  marginLeft: props.theme.spacing(8),
-  marginRight: props.theme.spacing(8),
   marginBottom: props.theme.spacing(2),
 }));
 
@@ -40,11 +39,15 @@ const DetailText = styled.h1((props) => ({
   ...props.theme.body_medium_xl,
   color: props.theme.colors.white_200,
   marginTop: props.theme.spacing(8),
+  marginLeft: props.theme.spacing(8),
+  marginRight: props.theme.spacing(8),
 }));
 
 const Text = styled.h1((props) => ({
   ...props.theme.body_medium_xl,
   marginTop: props.theme.spacing(8),
+  marginLeft: props.theme.spacing(8),
+  marginRight: props.theme.spacing(8),
 }));
 
 interface InputContainerProps {
@@ -56,6 +59,8 @@ const InputContainer = styled.div<InputContainerProps>((props) => ({
   alignItems: 'center',
   marginTop: props.theme.spacing(4),
   marginBottom: props.theme.spacing(6),
+  marginLeft: props.theme.spacing(8),
+  marginRight: props.theme.spacing(8),
   border: `1px solid ${
     props.withError ? props.theme.colors.feedback.error : props.theme.colors.elevation6
   }`,
@@ -111,20 +116,24 @@ const FeeButton = styled.button<ButtonProps>((props) => ({
   border: `1px solid ${props.isSelected ? 'transparent' : 'unset'}`,
   borderRadius: 40,
   width: props.isBtc ? 104 : 82,
+  maxWidth: 79,
   height: 40,
   display: 'flex',
+  maxHeight: 30,
   justifyContent: 'center',
   alignItems: 'center',
   marginRight: props.isLastInRow ? 0 : 8,
 }));
 
-const ButtonContainer = styled.div({
+const ButtonContainer = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'center',
-  justifyContent: 'space-between',
-  marginTop: 12,
-});
+  justifyContent: 'flex-start',
+  marginTop: 4,
+  marginLeft: props.theme.spacing(8),
+  marginRight: props.theme.spacing(8),
+}));
 
 const FeeContainer = styled.div({
   display: 'flex',
@@ -166,6 +175,7 @@ interface Props {
   setFeeRate: (feeRate: string) => void;
   setFeeMode: (feeMode: string) => void;
   setError: (error: string) => void;
+  handleBack: () => void;
 }
 function EditFee({
   type,
@@ -183,6 +193,7 @@ function EditFee({
   setFeeRate,
   setError,
   setFeeMode,
+  handleBack,
 }: Props) {
   const { t } = useTranslation('translation');
   const {
@@ -413,7 +424,8 @@ function EditFee({
 
   return (
     <Container>
-      <LogoStatusHeader
+      <TopRow title={t('TRANSACTION_SETTING.EDIT_FEE')} onClick={handleBack} />
+      {/* <LogoStatusHeader
         style={{
           paddingLeft: '0px',
           paddingBottom: '0px',
@@ -423,8 +435,8 @@ function EditFee({
         status={`Account ${
           selectedAccount?.id === 0 ? selectedAccount.id + 1 : selectedAccount?.id
         }`}
-      />
-      <Header>{t('TRANSACTION_SETTING.EDIT_FEE')}</Header>
+      /> */}
+      {/* <Header>{t('TRANSACTION_SETTING.EDIT_FEE')}</Header> */}
       <DetailText>{t('TRANSACTION_SETTING.FEE_INFO')}</DetailText>
       <FeeContainer>
         <Text>{t('TRANSACTION_SETTING.FEE')}</Text>

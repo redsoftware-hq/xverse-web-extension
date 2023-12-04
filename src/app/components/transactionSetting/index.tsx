@@ -171,7 +171,7 @@ function TransactionSettingAlert({
 
   const renderContent = () => {
     if (showNonceSettings) {
-      return <EditNonce nonce={nonce!} setNonce={setNonceInput} />;
+      return <EditNonce nonce={nonce!} setNonce={setNonceInput} handleBack={onClosePress} />;
     }
 
     if (showFeeSettings) {
@@ -192,28 +192,29 @@ function TransactionSettingAlert({
           ordinalTxUtxo={ordinalTxUtxo}
           isRestoreFlow={isRestoreFlow}
           nonOrdinalUtxos={nonOrdinalUtxos}
+          handleBack={onClosePress}
         />
       );
     }
 
-    return (
-      <>
-        <TransactionSettingOptionButton onClick={onEditFeesPress}>
-          <TransactionSettingOptionText>
-            {t('TRANSACTION_SETTING.ADVANCED_SETTING_FEE_OPTION')}
-          </TransactionSettingOptionText>
-          <img src={ArrowIcon} alt="Arrow " />
-        </TransactionSettingOptionButton>
-        {type === 'STX' && (
-          <TransactionSettingNonceOptionButton onClick={onEditNoncePress}>
-            <TransactionSettingOptionText>
-              {t('TRANSACTION_SETTING.ADVANCED_SETTING_NONCE_OPTION')}
-            </TransactionSettingOptionText>
-            <img src={ArrowIcon} alt="Arrow " />
-          </TransactionSettingNonceOptionButton>
-        )}
-      </>
-    );
+    // return (
+    //   <>
+    //     <TransactionSettingOptionButton onClick={onEditFeesPress}>
+    //       <TransactionSettingOptionText>
+    //         {t('TRANSACTION_SETTING.ADVANCED_SETTING_FEE_OPTION')}
+    //       </TransactionSettingOptionText>
+    //       <img src={ArrowIcon} alt="Arrow " />
+    //     </TransactionSettingOptionButton>
+    //     {type === 'STX' && (
+    //       <TransactionSettingNonceOptionButton onClick={onEditNoncePress}>
+    //         <TransactionSettingOptionText>
+    //           {t('TRANSACTION_SETTING.ADVANCED_SETTING_NONCE_OPTION')}
+    //         </TransactionSettingOptionText>
+    //         <img src={ArrowIcon} alt="Arrow " />
+    //       </TransactionSettingNonceOptionButton>
+    //     )}
+    //   </>
+    // );
   };
 
   return (
@@ -234,7 +235,7 @@ function TransactionSettingAlert({
       {renderContent()}
       {(showFeeSettings || showNonceSettings) && (
         <ButtonContainer>
-          <ActionButton text="Cancel" transparent onPress={onCancel} />
+          {/* <ActionButton text="Cancel" transparent onPress={onCancel} /> */}
           <ActionButton
             text={t('TRANSACTION_SETTING.APPLY')}
             processing={isLoading}
