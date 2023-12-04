@@ -13,7 +13,6 @@ export default function StyledTooltip(props: Props) {
     fontSize: 14,
     borderRadius: '8px',
     boxShadow: '0px 6px 10px 0px rgba(0, 0, 0, 0.50)',
-    border: '1px solid rgba(168, 185, 244, 0.15)',
     backdropFilter: 'blur(10px)',
     display: 'flex',
     padding: '6px 8px',
@@ -33,6 +32,7 @@ export default function StyledTooltip(props: Props) {
       place={place}
       noArrow={noArrow}
       style={style}
+      border="1px solid rgba(168, 185, 244, 0.15)"
     />
   );
 }

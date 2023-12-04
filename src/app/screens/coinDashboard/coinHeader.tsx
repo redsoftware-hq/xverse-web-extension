@@ -6,6 +6,7 @@ import Receive from '@assets/img/dashboard/recieve.svg';
 import Send from '@assets/img/dashboard/send.svg';
 import Lock from '@assets/img/transactions/Lock.svg';
 import SmallActionButton from '@components/smallActionButton';
+import StyledTooltip from '@components/styledTooltip';
 import TokenImage from '@components/tokenImage';
 import useWalletSelector from '@hooks/useWalletSelector';
 import { animated, useSpring, useSprings, useTransition } from '@react-spring/web';
@@ -175,6 +176,7 @@ const StacksLockedInfoText = styled.span((props) => ({
 const CurrencyCard = styled.div((props) => ({
   display: 'flex',
   justifyContent: 'center',
+  alignItems: 'center',
   backgroundColor: props.theme.colors.background.modalBackdrop,
   width: 45,
   borderRadius: 30,
@@ -183,7 +185,8 @@ const CurrencyCard = styled.div((props) => ({
 const CurrencyText = styled.h1((props) => ({
   ...props.theme.headline_category_s,
   color: props.theme.colors.white['0'],
-  fontSize: 13,
+  marginTop: '1px',
+  fontSize: 12,
 }));
 
 type Token = {
@@ -456,7 +459,7 @@ export default function CoinHeader(props: CoinBalanceProps) {
     const cleanValue = value.replace(/,/g, '');
     const numericValue = Number(cleanValue);
     const hasDecimal = numericValue % 1 !== 0;
-    return numericValue.toFixed(2);
+    return numericValue.toFixed(4);
   };
   return transitions((style, i) => (
     <animated.div {...handlers} style={style}>
@@ -496,7 +499,14 @@ export default function CoinHeader(props: CoinBalanceProps) {
           </BalanceValuesContainer>
           <RowButtonContainer>
             <ButtonContainer>
-              <SmallActionButton isOpaque isRound src={Send} onPress={() => goToSendScreen()} />
+              <SmallActionButton
+                id="send"
+                isOpaque
+                isRound
+                src={Send}
+                onPress={() => goToSendScreen()}
+              />
+              <StyledTooltip anchorSelect="send" content="Send" noArrow place="top" />
             </ButtonContainer>
 
             {!fungibleToken ? (
@@ -505,9 +515,15 @@ export default function CoinHeader(props: CoinBalanceProps) {
                   <SmallActionButton
                     isOpaque
                     isRound
+                    id="receive-ft"
                     src={Receive}
-                    onPress={() => navigate(`/receive/${coin}`)}
+                    onPress={() =>
+                      navigate(`/receive/${coin}`, {
+                        state: { header: 'Receive' },
+                      })
+                    }
                   />
+                  <StyledTooltip anchorSelect="receive-ft" content="Receive" noArrow place="top" />
                 </ButtonContainer>
                 {/* {coin === 'BTC' && (
                   <ButtonContainer>
@@ -527,8 +543,14 @@ export default function CoinHeader(props: CoinBalanceProps) {
                     isOpaque
                     isRound
                     src={Receive}
-                    onPress={() => navigate(coin === 'brc20' ? '/receive/ORD' : `/receive/${coin}`)}
+                    id="receive"
+                    onPress={() =>
+                      navigate(coin === 'brc20' ? '/receive/ORD' : `/receive/${coin}`, {
+                        state: { header: 'Receive' },
+                      })
+                    }
                   />
+                  <StyledTooltip anchorSelect="receive" content="Receive" noArrow place="top" />
                 </ButtonContainer>
                 {/* {coin === 'BTC' && (
                   <ButtonContainer>
@@ -542,14 +564,20 @@ export default function CoinHeader(props: CoinBalanceProps) {
                 )} */}
               </>
             )}
-            <ButtonContainer>
-              <SmallActionButton
-                isOpaque
-                isRound
-                src={SwapCoin}
-                onPress={() => navigate('/swap')}
-              />
-            </ButtonContainer>
+            {!(coin === 'BTC') && (
+              <ButtonContainer>
+                <SmallActionButton
+                  isOpaque
+                  id="swap"
+                  isRound
+                  src={SwapCoin}
+                  onPress={() =>
+                    navigate('/swap', { state: { coin: coin === 'FT' ? fungibleToken : coin } })
+                  }
+                />
+                <StyledTooltip anchorSelect="swap" content="Swap" noArrow place="top" />
+              </ButtonContainer>
+            )}
           </RowButtonContainer>
         </BalanceInfoContainer>
         {renderStackingBalances()}
