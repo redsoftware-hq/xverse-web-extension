@@ -13,6 +13,7 @@ import styled from 'styled-components';
 const ReceiveContainer = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'column',
+  flex: 1,
   gap: 16,
   marginBottom: props.theme.spacing(24),
   paddingLeft: props.theme.spacing(8),
@@ -24,9 +25,6 @@ const ButtonContainer = styled.div((props) => ({
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  marginTop: props.theme.spacing(8),
-  marginLeft: props.theme.spacing(6),
-  marginRight: props.theme.spacing(6),
 }));
 const Paragraph = styled.p((props) => ({
   ...props.theme.body_l,
@@ -42,7 +40,27 @@ const WarningContainer = styled.div((props) => ({
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  marginBottom: '-16px',
+}));
+const Top = styled.div((props) => ({
+  marginTop: props.theme.spacing(10),
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 8,
+  marginBottom: 8,
+}));
+const Bottom = styled.div((props) => ({
+  flex: 'none',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 13,
+  marginLeft: props.theme.spacing(10),
+  marginRight: props.theme.spacing(10),
+  marginBottom: props.theme.spacing(20),
+}));
+const Layout = styled.div((props) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  height: '100%',
 }));
 export default function ReceiveNftMainMenu() {
   const [isOrdinalReceiveAlertVisible, setIsOrdinalReceiveAlertVisible] = useState(false);
@@ -53,10 +71,10 @@ export default function ReceiveNftMainMenu() {
   });
 
   const onSTXReceiveSelect = () => {
-    navigate('/receive/STX');
+    navigate('/receive/STX', { state: { header: 'Receive Stacks' } });
   };
   const onOrdinalsReceivePress = () => {
-    navigate('/receive/ORD');
+    navigate('/receive/ORD', { state: { header: 'Recieve Ordinal and BRC20' } });
   };
   const onOrdinalReceiveAlertOpen = () => {
     if (showOrdinalReceiveAlert) setIsOrdinalReceiveAlertVisible(true);
@@ -69,11 +87,13 @@ export default function ReceiveNftMainMenu() {
   };
 
   return (
-    <>
-      <TopRow title={t('RECEIVE')} onClick={handleBack} />
-      <Paragraph>
-        Below are the addresses for all of the NFT protocols supported by the Orange Pill wallet.
-      </Paragraph>
+    <Layout>
+      <Top>
+        <TopRow title={t('RECEIVE')} onClick={handleBack} />
+        <Paragraph>
+          Below are the addresses for all of the NFT protocols supported by the Orange Pill wallet.
+        </Paragraph>
+      </Top>
 
       {isOrdinalReceiveAlertVisible && (
         <ShowOrdinalReceiveAlert onOrdinalReceiveAlertClose={onOrdinalReceiveAlertClose} />
@@ -94,15 +114,18 @@ export default function ReceiveNftMainMenu() {
         />
       </ReceiveContainer>
 
-      <WarningContainer>
-        <InfoContainer
-          showWarningText
-          bodyText="Do not send Bitcoin to these addresses. Only send the correct protocol to the addresses above."
-        />
-      </WarningContainer>
-      <ButtonContainer>
-        <ActionButton text="Close" onPress={() => navigate('/')} />
-      </ButtonContainer>
-    </>
+      <Bottom>
+        <WarningContainer>
+          <InfoContainer
+            styleContainer={{ padding: '0 12px 0 12px' }}
+            showWarningText
+            bodyText="Do not send Bitcoin to these addresses. Only send the correct protocol to the addresses above."
+          />
+        </WarningContainer>
+        <ButtonContainer>
+          <ActionButton text="Close" onPress={() => navigate('/')} />
+        </ButtonContainer>
+      </Bottom>
+    </Layout>
   );
 }

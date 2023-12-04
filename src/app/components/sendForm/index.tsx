@@ -33,7 +33,7 @@ const ScrollContainer = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
-  overflow-y: auto;
+  overflow-y: hidden;
   &::-webkit-scrollbar {
     display: none;
   }
@@ -57,7 +57,7 @@ const RowContainer = styled.div({
 const Container = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'column',
-  marginTop: props.theme.spacing(16),
+  // marginTop: props.theme.spacing(16),
 }));
 
 const OrdinalInfoContainer = styled.div((props) => ({
@@ -183,10 +183,18 @@ const CoinSwitchButton = styled.button((props) => ({
 
 const StyledInputFeedback = styled(InputFeedback)((props) => ({
   ...props.theme.typography.body_s,
-  marginLeft: props.theme.spacing(4),
+  width: 'fit-content',
   marginBottom: props.theme.spacing(4),
 }));
-
+const FiatContainer = styled.div({
+  display: 'flex',
+  justifyContent: 'space-between',
+  paddingBottom: 28,
+});
+const Bottom = styled.div({
+  display: 'flex',
+  flexDirection: 'column',
+});
 interface Props {
   onPressSend: (recipientID: string, amount: string, memo?: string) => void;
   currencyType: CurrencyTypes;
@@ -244,7 +252,7 @@ function SendForm({
   const [addressError, setAddressError] = useState<string | undefined>(recepientError);
   const navigate = useNavigate();
 
-  const { stxBtcRate, btcFiatRate, fiatCurrency, stxAddress, selectedAccount } =
+  const { stxBtcRate, btcFiatRate, fiatCurrency, stxAddress, selectedAccount, network } =
     useWalletSelector();
   const debouncedSearchTerm = useDebounce(recipientAddress, 300);
   const associatedBnsName = useBnsName(recipientAddress);
@@ -378,14 +386,17 @@ function SendForm({
           <img src={Down} alt="arrow-down" width={16} height={16} />
         </CoinSwitchButton>
       </AmountInputContainer>
-      <FiatRow
-        onClick={onSwitchPress}
-        showFiat={switchToFiat}
-        tokenCurrency={getTokenCurrency()}
-        tokenAmount={getTokenEquivalent(amount)}
-        fiatCurrency={fiatCurrency}
-        fiatAmount={fiatAmount ?? ''}
-      />
+      <FiatContainer>
+        {amountError && <StyledInputFeedback message={amountError} variant="danger" noIcon />}
+        <FiatRow
+          onClick={() => {}}
+          showFiat={switchToFiat}
+          tokenCurrency={getTokenCurrency()}
+          tokenAmount={getTokenEquivalent(amount)}
+          fiatCurrency={fiatCurrency}
+          fiatAmount={fiatAmount ?? ''}
+        />
+      </FiatContainer>
     </Container>
   );
 
@@ -495,7 +506,6 @@ function SendForm({
           )} */}
         <OuterContainer>
           {!disableAmountInput && renderEnterAmountSection}
-          {amountError && <StyledInputFeedback message={amountError} variant="danger" noIcon />}
           {children}
           {renderEnterRecipientSection}
           {addressError && <StyledInputFeedback message={addressError} variant="danger" noIcon />}
@@ -531,25 +541,27 @@ function SendForm({
               <InfoContainer bodyText={displayedWarning} type="Warning" />
             </OrdinalInfoContainer>
           )}
-          <InfoContainer showWarningText bodyText={t('WARNING_MSG')} />
         </OuterContainer>
       </ScrollContainer>
-      <ButtonContainer>
-        <ActionButton
-          onPress={() => {
-            navigate('/');
-            dispatchStep({ type: 'HOME' });
-          }}
-          transparent
-          text="Cancel"
-        />
-        <ActionButton
-          text={buttonText ?? t('NEXT')}
-          processing={processing}
-          disabled={!checkIfEnableButton()}
-          onPress={handleOnPress}
-        />
-      </ButtonContainer>
+      <Bottom>
+        <InfoContainer showWarningText bodyText={t('WARNING_MSG')} />
+        <ButtonContainer>
+          <ActionButton
+            onPress={() => {
+              navigate('/');
+              dispatchStep({ type: 'HOME' });
+            }}
+            transparent
+            text="Cancel"
+          />
+          <ActionButton
+            text={buttonText ?? t('NEXT')}
+            processing={processing}
+            disabled={!checkIfEnableButton()}
+            onPress={handleOnPress}
+          />
+        </ButtonContainer>
+      </Bottom>
     </>
   );
 }

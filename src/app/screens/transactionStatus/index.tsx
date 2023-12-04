@@ -118,9 +118,10 @@ const BeforeButtonText = styled.h1((props) => ({
 
 const IDText = styled.h1((props) => ({
   ...props.theme.typography.body_m,
-  color: props.theme.colors.secondaryText,
+  color: props.theme.colors.white_0,
   marginTop: props.theme.spacing(2),
   wordBreak: 'break-all',
+  textDecorationLine: 'underline',
 }));
 
 const ButtonText = styled.h1((props) => ({
@@ -163,14 +164,14 @@ function TransactionStatus() {
 
   const renderTransactionSuccessStatus = (
     <Container>
-      <LogoStatusHeader
+      {/* <LogoStatusHeader
         status={`Account ${
           selectedAccount?.id === 0 ? selectedAccount.id + 1 : selectedAccount?.id
         }`}
-      />
+      /> */}
       <Image src={Success} />
       <HeadingText>{sponsored ? t('SPONSORED_SUCCESS_MSG') : t('BROADCASTED')}</HeadingText>
-      <BodyText isTestnet={network === 'Testnet'}>
+      <BodyText isTestnet={network.type === 'Testnet'}>
         {sponsored ? t('SPONSORED_MSG') : t('SUCCESS_MSG')}
       </BodyText>
     </Container>
@@ -221,10 +222,10 @@ function TransactionStatus() {
     <TransactionIDContainer>
       <TxIDText>{t('TRANSACTION_ID')}</TxIDText>
       <TxIDContainer>
-        <IDText>{txid}</IDText>
-        <CopyButtonContainer>
+        <IDText onClick={openTransactionInBrowser}>{txid}</IDText>
+        {/* <CopyButtonContainer>
           <CopyButton text={txid} />
-        </CopyButtonContainer>
+        </CopyButtonContainer> */}
       </TxIDContainer>
     </TransactionIDContainer>
   );
@@ -233,7 +234,7 @@ function TransactionStatus() {
     <TxStatusContainer>
       <OuterContainer>
         {txid ? renderTransactionSuccessStatus : renderTransactionFailureStatus}
-        {txid && renderLink}
+        {/* {txid && renderLink} */}
         {isBrc20TokenFlow ? (
           <InfoMessageContainer>
             <InfoContainer bodyText={t('BRC20_ORDINAL_MSG')} />

@@ -16,7 +16,7 @@ const Container = styled.div((props) => ({
 const Description = styled.p((props) => ({
   ...props.theme.bold_tile_text,
   color: props.theme.colors.white[0],
-  marginBottom: props.theme.spacing(20),
+  marginBottom: props.theme.spacing(10),
 }));
 
 const Heading = styled.p((props) => ({

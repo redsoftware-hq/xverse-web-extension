@@ -18,40 +18,11 @@ const Container = styled.div((props) => ({
 
 const Paragraph = styled.p((props) => ({
   ...props.theme.body_l,
-  color: props.theme.colors.white_200,
   textAlign: 'left',
-  marginTop: props.theme.spacing(12),
+  color: props.theme.colors.white_0,
+  padding: '0px 16px',
 }));
 
-const BottomContainer = styled.div((props) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: 16,
-  marginBottom: props.theme.spacing(20),
-}));
-
-const ButtonsContainer = styled.div((props) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
-
-const ResetButton = styled.button((props) => ({
-  display: 'flex',
-  flexDirection: 'row',
-  justifyContent: 'center',
-  alignItems: 'center',
-  borderRadius: props.theme.radius(1),
-  backgroundColor: props.theme.colors.action.classic,
-  color: props.theme.colors.white['0'],
-  textTransform: 'uppercase',
-  fontFamily: 'MontSemiBold',
-  width: '100%',
-  height: 44,
-  '&:disabled': {
-    opacity: 0.6,
-  },
-}));
 const SliderContainer = styled.div((props) => ({
   ...props.theme.body_medium_m,
   color: props.theme.colors.white_0,
@@ -66,6 +37,29 @@ const SliderContainer = styled.div((props) => ({
   marginBottom: props.theme.spacing(5),
 }));
 
+const Top = styled.div((props) => ({
+  marginTop: props.theme.spacing(10),
+  flex: 1,
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 8,
+  marginBottom: 8,
+}));
+const Bottom = styled.div((props) => ({
+  flex: 'none',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  gap: 2,
+  marginLeft: props.theme.spacing(10),
+  marginRight: props.theme.spacing(10),
+  marginBottom: props.theme.spacing(20),
+}));
+const Layout = styled.div((props) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  height: '100%',
+}));
 function ForgotPassword(): JSX.Element {
   const { t } = useTranslation('translation', { keyPrefix: 'FORGOT_PASSWORD_SCREEN' });
   const [hasBackedUp, setHasBackedUp] = useState(false);
@@ -86,31 +80,29 @@ function ForgotPassword(): JSX.Element {
   };
 
   return (
-    <>
-      <TopRow title={t('TITLE')} onClick={onBack} />
-      <Container>
+    <Layout>
+      <Top>
+        <TopRow title={t('TITLE')} onClick={onBack} />
         <Paragraph>{t('PARAGRAPH')}</Paragraph>
-        <BottomContainer>
-          <SliderContainer>
-            <CustomSwitchSlider
-              id="backup"
-              toggleFunction={handleToggleBackUp}
-              toggleValue={hasBackedUp}
-            />
-            <label htmlFor="backup">{t('BACKUP_CHECKBOX_LABEL')}</label>
-          </SliderContainer>
-          <ButtonsContainer>
-            <ActionButton
-              text="Reset Wallet"
-              disabled={!hasBackedUp}
-              // eslint-disable-next-line no-inline-styles/no-inline-styles
-              style={{ textTransform: 'uppercase' }}
-              onPress={handleResetWallet}
-            />
-          </ButtonsContainer>
-        </BottomContainer>
-      </Container>
-    </>
+      </Top>
+      <Bottom>
+        <SliderContainer>
+          <CustomSwitchSlider
+            id="backup"
+            toggleFunction={handleToggleBackUp}
+            toggleValue={hasBackedUp}
+          />
+          <label htmlFor="backup">{t('BACKUP_CHECKBOX_LABEL')}</label>
+        </SliderContainer>
+        <ActionButton
+          text="Reset Wallet"
+          disabled={!hasBackedUp}
+          // eslint-disable-next-line no-inline-styles/no-inline-styles
+          style={{ textTransform: 'uppercase' }}
+          onPress={handleResetWallet}
+        />
+      </Bottom>
+    </Layout>
   );
 }
 

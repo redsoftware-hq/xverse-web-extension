@@ -9,21 +9,22 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import EnterSeedPhrase from './enterSeedphrase';
 
-const Container = styled.div((props) => ({
+const StepperContainer = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'column',
-  marginLeft: 'auto',
-  marginRight: 'auto',
-  height: 600,
-  width: 360,
-  backgroundColor: props.theme.colors.background.elevation0,
-  padding: `${props.theme.spacing(12)}px ${props.theme.spacing(8)}px 0 ${props.theme.spacing(8)}px`,
+  backgroundColor: props.theme.colors.background.orangePillBg,
+  padding: `${props.theme.spacing(10)}px 20px 0 20px`,
 }));
-
+const Container = styled.div((props) => ({
+  flex: 1,
+  display: 'flex',
+  flexDirection: 'column',
+  backgroundColor: props.theme.colors.background.orangePillBg,
+}));
 const PasswordContainer = styled.div((props) => ({
   display: 'flex',
+  flexDirection: 'column',
   height: '100%',
-  marginBottom: props.theme.spacing(16),
 }));
 const Heading = styled.p((props) => ({
   ...props.theme.mont_tile_text,
@@ -35,8 +36,19 @@ const SeedPhraseContainer = styled.div((props) => ({
   flexDirection: 'column',
   flex: 1,
   marginTop: props.theme.spacing(10),
+  padding: '0 20px 0 20px',
 }));
 
+const Top = styled.div((props) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 8,
+}));
+const Layout = styled.div((props) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  height: '100%',
+}));
 function RestoreWallet(): JSX.Element {
   const { t } = useTranslation('translation');
   const { restoreWallet } = useWalletReducer();
@@ -148,10 +160,14 @@ function RestoreWallet(): JSX.Element {
     </PasswordContainer>,
   ];
   return (
-    <Container>
-      <Steps data={restoreSteps} withLabel activeIndex={currentStepIndex} />
-      {restoreSteps[currentStepIndex]}
-    </Container>
+    <Layout>
+      <Top>
+        <StepperContainer>
+          <Steps data={restoreSteps} withLabel activeIndex={currentStepIndex} />
+        </StepperContainer>
+      </Top>
+      <Container>{restoreSteps[currentStepIndex]}</Container>
+    </Layout>
   );
 }
 

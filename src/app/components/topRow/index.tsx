@@ -5,8 +5,6 @@ import styled from 'styled-components';
 const TopSectionContainer = styled.div((props) => ({
   display: 'flex',
   minHeight: 18,
-  marginTop: props.theme.spacing(12),
-  marginBottom: props.theme.spacing(9),
   marginLeft: props.theme.spacing(8),
   flexDirection: 'column',
   justifyContent: 'center',
@@ -19,7 +17,7 @@ const HeaderText = styled.h1((props) => ({
   fontFamily: 'MontBold',
   fontSize: '32px',
   color: props.theme.colors.action.classic,
-  textAlign: 'center',
+  // textAlign: 'center',
   paddingRight: props.theme.spacing(10),
 }));
 

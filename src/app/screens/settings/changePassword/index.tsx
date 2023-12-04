@@ -15,9 +15,6 @@ const PasswordContainer = styled.div((props) => ({
   flexDirection: 'column',
   flex: 1,
   marginTop: props.theme.spacing(20),
-  paddingLeft: props.theme.spacing(8),
-  paddingRight: props.theme.spacing(8),
-  marginBottom: props.theme.spacing(20),
 }));
 
 const ToastContainer = styled.div((props) => ({
@@ -51,6 +48,18 @@ const Backdrop = styled.div((props) => ({
   height: '100vh',
   width: '100vw',
   margin: '-15px -20px',
+}));
+const Top = styled.div((props) => ({
+  marginTop: props.theme.spacing(10),
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 2,
+  marginBottom: 8,
+}));
+const Layout = styled.div((props) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  height: '100%',
 }));
 function ChangePasswordScreen() {
   const { t } = useTranslation('translation');
@@ -117,12 +126,14 @@ function ChangePasswordScreen() {
   };
 
   return (
-    <>
-      <TopRow
-        forUpdatePassword
-        title={t('SETTING_SCREEN.UPDATE_PASSWORD')}
-        onClick={handleBackButtonClick}
-      />
+    <Layout>
+      <Top>
+        <TopRow
+          forUpdatePassword
+          title={t('SETTING_SCREEN.UPDATE_PASSWORD')}
+          onClick={handleBackButtonClick}
+        />
+      </Top>
       <PasswordContainer>
         {currentStepIndex === 0 && (
           <PasswordInput
@@ -166,7 +177,7 @@ function ChangePasswordScreen() {
           />
         )}
       </PasswordContainer>
-    </>
+    </Layout>
   );
 }
 

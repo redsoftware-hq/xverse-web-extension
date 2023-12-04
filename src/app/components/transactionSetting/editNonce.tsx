@@ -55,10 +55,12 @@ const InputField = styled.input((props) => ({
   '::placeholder': { color: props.theme.colors.secondaryText },
 }));
 
-const Header = styled.h1((props) => ({
-  ...props.theme.mont_tile_text,
-  color: props.theme.colors.action.classic,
-  marginTop: props.theme.spacing(6),
+const Top = styled.div((props) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 2,
+  marginBottom: 8,
+  marginTop: props.theme.spacing(10),
 }));
 interface Props {
   nonce: string;
@@ -79,7 +81,9 @@ function EditNonce({ nonce, setNonce, handleBack }: Props) {
 
   return (
     <NonceContainer>
-      <TopRow title={t('ADVANCED_SETTING_NONCE_OPTION')} onClick={handleBack} />
+      <Top>
+        <TopRow title={t('ADVANCED_SETTING_NONCE_OPTION')} onClick={handleBack} />
+      </Top>
       {/* <LogoStatusHeader
         style={{
           paddingLeft: '0px',

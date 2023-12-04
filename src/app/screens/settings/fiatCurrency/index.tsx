@@ -1,15 +1,15 @@
-import styled from 'styled-components';
+import Paragraph from '@components/paragraph';
 import BottomBar from '@components/tabBar';
 import TopRow from '@components/topRow';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { useTranslation } from 'react-i18next';
 import useWalletSelector from '@hooks/useWalletSelector';
-import { ChangeFiatCurrencyAction } from '@stores/wallet/actions/actionCreators';
 import { SupportedCurrency } from '@secretkeylabs/xverse-core';
+import { ChangeFiatCurrencyAction } from '@stores/wallet/actions/actionCreators';
+import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 import { currencyList } from '../../../utils/currency';
 import CurrencyRow from './currencyRow';
-import Paragraph from '@components/paragraph';
 
 const Container = styled.div`
   display: flex;
@@ -23,7 +23,13 @@ const Container = styled.div`
     display: none;
   }
 `;
-
+const Top = styled.div((props) => ({
+  marginTop: props.theme.spacing(10),
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 2,
+  marginBottom: 8,
+}));
 function FiatCurrencyScreen() {
   const { t } = useTranslation('translation', { keyPrefix: 'SETTING_SCREEN' });
   const { fiatCurrency } = useWalletSelector();
@@ -44,8 +50,10 @@ function FiatCurrencyScreen() {
 
   return (
     <>
-      <TopRow title={t('CURRENCY')} onClick={handleBackButtonClick} />
-      <Paragraph content={t('CURRENCY_CONTENT')}/>
+      <Top>
+        <TopRow title={t('CURRENCY')} onClick={handleBackButtonClick} />
+        <Paragraph content={t('CURRENCY_CONTENT')} />
+      </Top>
       <Container>
         {currencyList.map((coin, index) => (
           <CurrencyRow

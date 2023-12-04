@@ -28,7 +28,8 @@ const Button = styled.button<ButtonProps>((props) => ({
   gap: props.theme.spacing(8),
   alignItems: 'center',
   borderRadius: props.theme.radius(1),
-  border: '1px solid rgba(168, 185, 244, 0.20)',
+  maxHeight: '56px',
+  border: '1px solid rgba(168, 185, 244, 0.15)',
   background:
     'radial-gradient(489.09% 91.61% at 89.79% 22.85%, rgba(56, 60, 78, 0.20) 0%, rgba(13, 14, 18, 0.20) 100%)',
   marginTop: props.theme.spacing(6),
@@ -50,15 +51,14 @@ const TitleText = styled.h1((props) => ({
 }));
 
 const ComponentText = styled.h1<TitleProps>((props) => ({
-  ...props.theme.body_m,
-  fontFamily: 'MontRegular',
+  ...props.theme.body_medium_xl,
   color: 'white',
   flex: 1,
   textAlign: 'left',
 }));
 
 const ComponentDescriptionText = styled.h1((props) => ({
-  ...props.theme.body_bold_m,
+  ...props.theme.body_medium_xl,
   color: props.theme.colors.white['0'],
 }));
 

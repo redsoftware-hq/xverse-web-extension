@@ -8,6 +8,7 @@ const RowContainer = styled.div({
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'center',
+  marginLeft: 'auto',
   justifyContent: 'flex-end',
 });
 

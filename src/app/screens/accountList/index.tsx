@@ -83,6 +83,18 @@ const AddAccountText = styled.h1((props) => ({
   color: props.theme.colors.white['0'],
 }));
 
+const Top = styled.div((props) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 2,
+  marginBottom: 8,
+  marginTop: props.theme.spacing(10),
+}));
+const Layout = styled.div((props) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  height: '100%',
+}));
 function AccountList(): JSX.Element {
   const { t } = useTranslation('translation', { keyPrefix: 'ACCOUNT_SCREEN' });
   const navigate = useNavigate();
@@ -118,27 +130,31 @@ function AccountList(): JSX.Element {
   }
 
   return (
-    <Container>
-      <TopRow title={t('ADD_ACCOUNT')} onClick={handleBackButtonClick} />
-      <AccountContainer>
+    <Layout>
+      <Top>
+        <TopRow title={t('ADD_ACCOUNT')} onClick={handleBackButtonClick} />
         <Paragraph content={t('CONTENT')} />
-        {accountsList.map((account) => (
-          <AccountRow
-            forAccountManagement
-            key={account.stxAddress}
-            disableMenuOption
-            account={account}
-            isSelected={isAccountSelected(account)}
-            onAccountSelected={handleAccountSelect}
-          />
-        ))}
-        <RowContainer onClick={async () => onCreateAccount()}>
-          <Button>
-            <AddAccountText>{t('NEW_ACCOUNT')}</AddAccountText>
-          </Button>
-        </RowContainer>
-      </AccountContainer>
-    </Container>
+      </Top>
+      <Container>
+        <AccountContainer>
+          {accountsList.map((account) => (
+            <AccountRow
+              forAccountManagement
+              key={account.stxAddress}
+              disableMenuOption
+              account={account}
+              isSelected={isAccountSelected(account)}
+              onAccountSelected={handleAccountSelect}
+            />
+          ))}
+          <RowContainer onClick={async () => onCreateAccount()}>
+            <Button>
+              <AddAccountText>{t('NEW_ACCOUNT')}</AddAccountText>
+            </Button>
+          </RowContainer>
+        </AccountContainer>
+      </Container>
+    </Layout>
   );
 }
 

@@ -14,22 +14,32 @@ const Container = styled.div((props) => ({
   display: 'flex',
   flex: 1,
   flexDirection: 'column',
-  paddingLeft: props.theme.spacing(10),
-  paddingRight: props.theme.spacing(10),
-  paddingTop: props.theme.spacing(10),
 }));
 
 const SeedContainer = styled.div((props) => ({
   paddingTop: props.theme.spacing(10),
 }));
-
 const PasswordContainer = styled.div((props) => ({
-  marginTop: props.theme.spacing(32),
-  marginBottom: props.theme.spacing(12),
   display: 'flex',
+  flexDirection: 'column',
   flex: 1,
 }));
-
+const StepperContainer = styled.div((props) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  backgroundColor: props.theme.colors.background.orangePillBg,
+  padding: `${props.theme.spacing(10)}px 20px 0 20px`,
+}));
+const Top = styled.div((props) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 8,
+}));
+const Layout = styled.div((props) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  height: '100%',
+}));
 export default function BackupWalletSteps(): JSX.Element {
   const { t } = useTranslation('translation', { keyPrefix: 'CREATE_PASSWORD_SCREEN' });
   const [currentActiveIndex, setCurrentActiveIndex] = useState<number>(0);
@@ -131,9 +141,13 @@ export default function BackupWalletSteps(): JSX.Element {
   ];
 
   return (
-    <Container>
-      <Steps data={backupSteps} withLabel activeIndex={currentActiveIndex} />
-      {backupSteps[currentActiveIndex]}
-    </Container>
+    <Layout>
+      <Top>
+        <StepperContainer>
+          <Steps data={backupSteps} withLabel activeIndex={currentActiveIndex} />
+        </StepperContainer>
+      </Top>
+      <Container>{backupSteps[currentActiveIndex]}</Container>
+    </Layout>
   );
 }

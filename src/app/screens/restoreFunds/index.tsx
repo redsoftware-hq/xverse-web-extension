@@ -6,6 +6,27 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import FundsRow from './fundsRow';
 
+const Top = styled.div((props) => ({
+  marginTop: props.theme.spacing(10),
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 8,
+  marginBottom: 8,
+}));
+const Bottom = styled.div((props) => ({
+  flex: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  marginLeft: props.theme.spacing(10),
+  marginRight: props.theme.spacing(10),
+  marginBottom: props.theme.spacing(20),
+}));
+const Layout = styled.div((props) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  height: '100%',
+}));
 const RestoreFundTitle = styled.h1((props) => ({
   ...props.theme.body_l,
   marginBottom: 15,
@@ -59,9 +80,11 @@ function RestoreFunds() {
     if (isSelected.ordinals) handleOnRestoreOridnalClick();
   };
   return (
-    <>
-      <TopRow title={t('TITLE')} onClick={handleOnCancelClick} />
-      <RestoreFundTitle>{t('DESCRIPTION')}</RestoreFundTitle>
+    <Layout>
+      <Top>
+        <TopRow title={t('TITLE')} onClick={handleOnCancelClick} />
+        <RestoreFundTitle>{t('DESCRIPTION')}</RestoreFundTitle>
+      </Top>
       <Container>
         <FundsRow
           selected={isSelected.btc}
@@ -78,10 +101,14 @@ function RestoreFunds() {
           onClick={() => setIsSelected({ ...isSelected, btc: false, ordinals: true })}
         />
       </Container>
-      <ButtonContainer>
-        <ActionButton text="Restore Assets" onPress={onPress} />
-      </ButtonContainer>
-    </>
+      <Bottom>
+        <ActionButton
+          text="Restore Assets"
+          onPress={onPress}
+          disabled={!(isSelected.btc || isSelected.ordinals)}
+        />
+      </Bottom>
+    </Layout>
   );
 }
 

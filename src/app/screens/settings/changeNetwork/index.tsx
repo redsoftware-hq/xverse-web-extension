@@ -1,5 +1,6 @@
 import Cross from '@assets/img/settings/x.svg';
 import ActionButton from '@components/button';
+import Paragraph from '@components/paragraph';
 import BottomBar from '@components/tabBar';
 import TopRow from '@components/topRow';
 import useWalletReducer from '@hooks/useWalletReducer';
@@ -12,7 +13,6 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import NetworkRow from './networkRow';
-import Paragraph from '@components/paragraph';
 
 const Container = styled.div`
   display: flex;
@@ -84,6 +84,27 @@ const Button = styled.button({
   background: 'none',
 });
 
+const Top = styled.div((props) => ({
+  marginTop: props.theme.spacing(10),
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 2,
+  marginBottom: 8,
+}));
+const Bottom = styled.div((props) => ({
+  flex: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  marginLeft: props.theme.spacing(10),
+  marginRight: props.theme.spacing(10),
+  marginBottom: props.theme.spacing(20),
+}));
+const Layout = styled.div((props) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  height: '100%',
+}));
 function ChangeNetworkScreen() {
   const { t } = useTranslation('translation', { keyPrefix: 'SETTING_SCREEN' });
   const { network, btcApiUrl, networkAddress } = useWalletSelector();
@@ -166,9 +187,11 @@ function ChangeNetworkScreen() {
   };
 
   return (
-    <>
-      <TopRow title={t('NETWORK')} onClick={handleBackButtonClick} />
-      <Paragraph content={t('NETWORK_CONTENT')} />
+    <Layout>
+      <Top>
+        <TopRow title={t('NETWORK')} onClick={handleBackButtonClick} />
+        <Paragraph content={t('NETWORK_CONTENT')} />
+      </Top>
       <Container>
         <NetworkRow
           network={initialNetworksList[0]}
@@ -182,28 +205,6 @@ function ChangeNetworkScreen() {
           onNetworkSelected={onNetworkSelected}
           showDivider={false}
         />
-        {/* <NodeInputHeader>
-          <NodeText>{t('NODE')}</NodeText>
-          <NodeResetButton onClick={onResetStacks}>Reset URL</NodeResetButton>
-        </NodeInputHeader>
-        <InputContainer>
-          <Input onChange={onChangeStacksUrl} value={url} />
-          <Button onClick={onClearStacksUrl}>
-            <img width={22} height={22} src={Cross} alt="cross" />
-          </Button>
-        </InputContainer>
-        <ErrorMessage>{error}</ErrorMessage>
-        <NodeInputHeader>
-          <NodeText>BTC API URL</NodeText>
-          <NodeResetButton onClick={onResetBtcUrl}>Reset URL</NodeResetButton>
-        </NodeInputHeader>
-        <InputContainer>
-          <Input onChange={onChangeBtcApiUrl} value={btcUrl} />
-          <Button onClick={onClearBtcUrl}>
-            <img width={22} height={22} src={Cross} alt="cross" />
-          </Button>
-        </InputContainer>
-        <ErrorMessage>{btcURLError}</ErrorMessage> */}
       </Container>
       <ButtonContainer>
         <ActionButton
@@ -213,7 +214,7 @@ function ChangeNetworkScreen() {
           disabled={isChangingNetwork}
         />
       </ButtonContainer>
-    </>
+    </Layout>
   );
 }
 

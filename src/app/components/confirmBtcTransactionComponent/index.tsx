@@ -62,9 +62,11 @@ interface ButtonProps {
 const ButtonContainer = styled.div<ButtonProps>((props) => ({
   display: 'flex',
   flexDirection: 'row',
+  gap: 8,
   position: 'relative',
   marginLeft: props.theme.spacing(8),
   marginRight: props.theme.spacing(8),
+  marginTop: props.theme.spacing(8),
   marginBottom: props.isBtcSendBrowserTx ? props.theme.spacing(20) : props.theme.spacing(5),
 }));
 
@@ -127,7 +129,13 @@ const CalloutContainer = styled.div((props) => ({
   marginBottom: props.theme.spacing(8),
   marginhorizontal: props.theme.spacing(8),
 }));
-
+const Top = styled.div((props) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 2,
+  marginBottom: 8,
+  marginTop: props.theme.spacing(10),
+}));
 interface Props {
   currentFee: BigNumber;
   feePerVByte: BigNumber; // TODO tim: is this the same as currentFeeRate? refactor to be clear
@@ -316,7 +324,7 @@ function ConfirmBtcTransactionComponent({
   };
 
   const closeTransactionSettingAlert = () => {
-    setShowFeeSettings(false);
+    setAdvancedSettings(false);
   };
 
   const onApplyClick = async ({
@@ -338,6 +346,7 @@ function ConfirmBtcTransactionComponent({
       mutate({ txRecipients: recipients, txFee: modifiedFee, seedPhrase: seed });
     }
     setLoading(true);
+    closeTransactionSettingAlert();
   };
 
   const handleOnConfirmClick = () => {
@@ -391,7 +400,10 @@ function ConfirmBtcTransactionComponent({
   };
   return (
     <>
-      <SendConfirmationHeader />
+      {/* <SendConfirmationHeader /> */}
+      <Top>
+        <TopRow title="Send Confirmation" onClick={onBackButtonClick} />
+      </Top>
       <OuterContainer>
         {/* {!isBtcSendBrowserTx && !isGalleryOpen && (
           <TopRow title={t('CONFIRM_TRANSACTION.SEND')} onClick={onBackButtonClick} />

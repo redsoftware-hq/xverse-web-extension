@@ -22,11 +22,12 @@ const TestnetContainer = styled.div((props) => ({
   borderBottom: 0,
   background: props.theme.colors.action.classic,
   paddingTop: props.theme.spacing(3),
+  maxHeight: 30,
   paddingBottom: props.theme.spacing(3),
 }));
 
 const TestnetText = styled.h1((props) => ({
-  ...props.theme.body_xs,
+  ...props.theme.body_l,
   textAlign: 'center',
   color: props.theme.colors.white_0,
 }));

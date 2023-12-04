@@ -12,8 +12,9 @@ import styled from 'styled-components';
 const TokenContainer = styled.div`
   display: flex;
   flex-direction: column;
-  padding-left: 22px;
-  padding-right: 22px;
+  gap: 12px;
+  padding-left: 8px;
+  padding-right: 8px;
   overflow-y: auto;
   &::-webkit-scrollbar {
     display: none;

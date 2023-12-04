@@ -14,6 +14,7 @@ import SwapTokenBlock from '@screens/swap/swapTokenBlock';
 import { useSwap } from '@screens/swap/useSwap';
 import { microstacksToStx, satsToBtc } from '@secretkeylabs/xverse-core';
 import { useStepperContext } from '@stores/stepper';
+import InputFeedback from '@ui-library/inputFeedback';
 import { getFtBalance } from '@utils/tokens';
 import BigNumber from 'bignumber.js';
 import { useCallback, useEffect, useState } from 'react';
@@ -65,6 +66,10 @@ const SendButtonContainer = styled.div((props) => ({
   marginRight: '5%',
 }));
 
+const StyledInputFeedback = styled(InputFeedback)((props) => ({
+  ...props.theme.typography.body_s,
+  width: 'fit-content',
+}));
 function SwapScreen() {
   const navigate = useNavigate();
   const { t } = useTranslation('translation', { keyPrefix: 'SWAP_SCREEN' });
@@ -179,6 +184,9 @@ function SwapScreen() {
             onAmountChange={swap.onInputAmountChanged}
             onSelectCoin={() => setSelecting('from')}
           />
+          {!!swap.submitError && (
+            <StyledInputFeedback message={swap.submitError} variant="danger" noIcon />
+          )}
           <DownArrowButton onClick={swap.handleClickDownArrow}>
             <img src={DownArrow} alt="swap-token-icon" />
           </DownArrowButton>
@@ -187,7 +195,6 @@ function SwapScreen() {
             selectedCoin={swap.selectedToToken}
             onSelectCoin={() => setSelecting('to')}
           />
-          {!!swap.submitError && <InfoContainer bodyText={swap.submitError} />}
         </Container>
         <SwapInfoBlock swap={swap} />
       </ScrollContainer>

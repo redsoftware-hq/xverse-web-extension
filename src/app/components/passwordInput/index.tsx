@@ -28,11 +28,14 @@ interface StrengthBarProps {
   strengthWidth: string;
 }
 
-const Container = styled.div({
+const Container = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'column',
   flex: 1,
-});
+  paddingLeft: props.theme.spacing(8),
+  paddingRight: props.theme.spacing(8),
+  marginBottom: props.theme.spacing(20),
+}));
 
 const HeaderText = styled.h1((props) => ({
   ...props.theme.mont_tile_text,
@@ -100,6 +103,15 @@ interface ButtonContainerProps {
   stackButtonAlignment: boolean;
   ifError: boolean;
 }
+const Bottom = styled.div((props) => ({
+  flex: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  marginLeft: props.theme.spacing(10),
+  marginRight: props.theme.spacing(10),
+  marginBottom: props.theme.spacing(20),
+}));
 const ButtonsContainer = styled.div<ButtonContainerProps>((props) => ({
   display: 'flex',
   flexDirection: props.stackButtonAlignment ? 'column-reverse' : 'row',
@@ -313,31 +325,32 @@ function PasswordInput(props: PasswordInputProps): JSX.Element {
   };
 
   return (
-    <Container>
-      <HeaderContainer>
-        <img src={PasswordIcon} alt="password" />
-      </HeaderContainer>
-      {!forUpdatePassword && <HeaderText>{title}</HeaderText>}
-      <PasswordInputLabel>{inputLabel}</PasswordInputLabel>
-      <PasswordInputContainer
-        hasError={
-          !!error ||
-          (!!createPasswordFlow &&
-            enteredPassword !== '' &&
-            enteredPasswordLength <= REQUIRED_PASSWORD_LENGTH)
-        }
-      >
-        <Input
-          type={isPasswordVisible ? 'text' : 'password'}
-          value={enteredPassword}
-          onChange={handlePasswordChange}
-        />
-        <Button onClick={handleTogglePasswordView}>
-          <img src={isPasswordVisible ? Eye : EyeSlash} alt="show-password" height={24} />
-        </Button>
-      </PasswordInputContainer>
-      {error && <ErrorMessage forUpdatePassword={forUpdatePassword}>{error}</ErrorMessage>}
-      <ButtonsContainer stackButtonAlignment={stackButtonAlignment} ifError={error !== ''}>
+    <>
+      <Container>
+        <HeaderContainer>
+          <img src={PasswordIcon} alt="password" />
+        </HeaderContainer>
+        {!forUpdatePassword && <HeaderText>{title}</HeaderText>}
+        <PasswordInputLabel>{inputLabel}</PasswordInputLabel>
+        <PasswordInputContainer
+          hasError={
+            !!error ||
+            (!!createPasswordFlow &&
+              enteredPassword !== '' &&
+              enteredPasswordLength <= REQUIRED_PASSWORD_LENGTH)
+          }
+        >
+          <Input
+            type={isPasswordVisible ? 'text' : 'password'}
+            value={enteredPassword}
+            onChange={handlePasswordChange}
+          />
+          <Button onClick={handleTogglePasswordView}>
+            <img src={isPasswordVisible ? Eye : EyeSlash} alt="show-password" height={24} />
+          </Button>
+        </PasswordInputContainer>
+        {error && <ErrorMessage forUpdatePassword={forUpdatePassword}>{error}</ErrorMessage>}
+        {/* <ButtonsContainer stackButtonAlignment={stackButtonAlignment} ifError={error !== ''}>
         <ActionButton
           processing={loading}
           disabled={
@@ -346,8 +359,19 @@ function PasswordInput(props: PasswordInputProps): JSX.Element {
           text={t('CONTINUE_BUTTON')}
           onPress={handleContinue}
         />
-      </ButtonsContainer>
-    </Container>
+      </ButtonsContainer> */}
+      </Container>
+      <Bottom>
+        <ActionButton
+          processing={loading}
+          disabled={
+            !enteredPassword || (!!checkPasswordStrength && score <= PasswordStrength.WeakScore)
+          }
+          text={t('CONTINUE_BUTTON')}
+          onPress={handleContinue}
+        />
+      </Bottom>
+    </>
   );
 }
 

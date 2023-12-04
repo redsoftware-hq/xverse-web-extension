@@ -8,8 +8,11 @@ import styled from 'styled-components';
 
 const Container = styled.div((props) => ({
   display: 'flex',
-  paddingTop: props.theme.spacing(21),
   flexDirection: 'column',
+  paddingLeft: props.theme.spacing(8),
+  paddingRight: props.theme.spacing(8),
+  marginBottom: props.theme.spacing(20),
+  paddingTop: props.theme.spacing(10),
   flex: 1,
 }));
 
@@ -24,27 +27,13 @@ const Heading = styled.p((props) => ({
 const Description = styled.p((props) => ({
   ...props.theme.bold_tile_text,
   color: props.theme.colors.white[0],
-  marginBottom: props.theme.spacing(15),
-}));
-
-const ButtonsContainer = styled.div((props) => ({
-  display: 'flex',
-  flexDirection: 'row',
-  justifyContent: 'space-between',
-  flex: 1,
-  alignItems: 'flex-end',
-  marginBottom: props.theme.spacing(20),
-  width: '100%',
-}));
-
-const TransparentButtonContainer = styled.div((props) => ({
-  marginRight: props.theme.spacing(2),
-  width: '100%',
+  marginBottom: props.theme.spacing(10),
 }));
 
 const ButtonContainer = styled.div((props) => ({
-  marginLeft: props.theme.spacing(2),
+  flex: 'none',
   width: '100%',
+  marginTop: 'auto',
 }));
 
 const PasteSeedButton = styled.button<{ position: 'mid' | 'bottom'; disabled?: boolean }>(
@@ -59,7 +48,7 @@ const PasteSeedButton = styled.button<{ position: 'mid' | 'bottom'; disabled?: b
     alignItems: 'center',
     justifyContent: 'center',
     position: 'absolute',
-    top: props.position === 'mid' ? '71%' : '80%',
+    top: props.position === 'mid' ? '69%' : '80%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
     img: {
@@ -88,7 +77,7 @@ const Pasted = styled.button<{ position: 'mid' | 'bottom'; disabled?: boolean }>
   alignItems: 'center',
   justifyContent: 'center',
   position: 'absolute',
-  top: props.position === 'mid' ? '71%' : '80%',
+  top: props.position === 'mid' ? '69%' : '80%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
   img: {
@@ -164,15 +153,13 @@ export default function VerifySeed(props: VerifySeedProps): JSX.Element {
             Paste Seedphrase
           </PasteSeedButton>
         ))}
-      <ButtonsContainer>
-        <ButtonContainer>
-          <ActionButton
-            text={t('SEED_PHRASE_VIEW_CONTINUE')}
-            onPress={handleVerify}
-            disabled={seedInput.map((e) => e.trim()).join(' ') === ''}
-          />
-        </ButtonContainer>
-      </ButtonsContainer>
+      <ButtonContainer>
+        <ActionButton
+          text={t('SEED_PHRASE_VIEW_CONTINUE')}
+          onPress={handleVerify}
+          disabled={seedInput.map((e) => e.trim()).join(' ') === ''}
+        />
+      </ButtonContainer>
     </Container>
   );
 }

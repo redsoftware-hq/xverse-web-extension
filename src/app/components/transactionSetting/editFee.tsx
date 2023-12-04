@@ -157,6 +157,13 @@ const ErrorText = styled.h1((props) => ({
   color: props.theme.colors.feedback.error,
   marginBottom: props.theme.spacing(2),
 }));
+const Top = styled.div((props) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 2,
+  marginBottom: 8,
+  marginTop: props.theme.spacing(10),
+}));
 
 // TODO tim: this component needs refactoring. separate business logic from presentation
 interface Props {
@@ -424,7 +431,9 @@ function EditFee({
 
   return (
     <Container>
-      <TopRow title={t('TRANSACTION_SETTING.EDIT_FEE')} onClick={handleBack} />
+      <Top>
+        <TopRow title={t('TRANSACTION_SETTING.EDIT_FEE')} onClick={handleBack} />
+      </Top>
       {/* <LogoStatusHeader
         style={{
           paddingLeft: '0px',

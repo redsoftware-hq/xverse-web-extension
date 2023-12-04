@@ -33,64 +33,68 @@ interface Props {
   setSeedError: (err: string) => void;
   pasteFromClipboard?: () => void;
 }
-const Paste = styled.button<{ position: 'mid' | 'bottom'; disabled?: boolean }>((props) => ({
-  ...props.theme.body_medium_m,
-  color: props.theme.colors.action.classic,
-  borderRadius: props.theme.radius(4),
-  backgroundColor: props.theme.colors.background.lightOrange,
-  height: 30,
-  width: 150,
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  position: 'absolute',
-  top: props.position === 'mid' ? '70%' : '80%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  img: {
-    marginRight: props.theme.spacing(4),
-  },
-  ':hover': {
-    backgroundColor: !props.disabled
-      ? props.theme.colors.action.classic
-      : props.theme.colors.background.lightOrange,
-    border: `1px solid ${
-      !props.disabled ? props.theme.colors.action.classic : props.theme.colors.action.classic
-    }`,
-    color: !props.disabled ? props.theme.colors.white[0] : props.theme.colors.action.classic,
-  },
-  ':focus': {
-    backgroundColor: !props.disabled
-      ? props.theme.colors.action.classic
-      : props.theme.colors.background.lightOrange,
-    border: `1px solid ${
-      !props.disabled ? props.theme.colors.action.classic : props.theme.colors.action.classic
-    }`,
-    color: !props.disabled ? props.theme.colors.white[0] : props.theme.colors.action.classic,
-  },
-  ':disabled': {
-    opacity: 0.5,
-    cursor: 'not-allowed',
-  },
-}));
-const Pasted = styled.button<{ position: 'mid' | 'bottom'; disabled?: boolean }>((props) => ({
-  ...props.theme.body_medium_m,
-  color: '#42BF23',
-  borderRadius: props.theme.radius(4),
-  backgroundColor: 'rgba(66, 191, 35, 0.20)',
-  height: 30,
-  width: 150,
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  position: 'absolute',
-  top: props.position === 'mid' ? '70%' : '80%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  img: {
-    marginRight: props.theme.spacing(4),
-  },
-}));
+const Paste = styled.button<{ position: 'mid' | 'bottom'; disabled?: boolean; seedError: any }>(
+  (props) => ({
+    ...props.theme.body_medium_m,
+    color: props.theme.colors.action.classic,
+    borderRadius: props.theme.radius(4),
+    backgroundColor: props.theme.colors.background.lightOrange,
+    height: 30,
+    width: 150,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    top: props.position === 'mid' ? (props.seedError ? '72%' : '70%') : '80%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    img: {
+      marginRight: props.theme.spacing(4),
+    },
+    ':hover': {
+      backgroundColor: !props.disabled
+        ? props.theme.colors.action.classic
+        : props.theme.colors.background.lightOrange,
+      border: `1px solid ${
+        !props.disabled ? props.theme.colors.action.classic : props.theme.colors.action.classic
+      }`,
+      color: !props.disabled ? props.theme.colors.white[0] : props.theme.colors.action.classic,
+    },
+    ':focus': {
+      backgroundColor: !props.disabled
+        ? props.theme.colors.action.classic
+        : props.theme.colors.background.lightOrange,
+      border: `1px solid ${
+        !props.disabled ? props.theme.colors.action.classic : props.theme.colors.action.classic
+      }`,
+      color: !props.disabled ? props.theme.colors.white[0] : props.theme.colors.action.classic,
+    },
+    ':disabled': {
+      opacity: 0.5,
+      cursor: 'not-allowed',
+    },
+  }),
+);
+const Pasted = styled.button<{ position: 'mid' | 'bottom'; disabled?: boolean; seedError: any }>(
+  (props) => ({
+    ...props.theme.body_medium_m,
+    color: '#42BF23',
+    borderRadius: props.theme.radius(4),
+    backgroundColor: 'rgba(66, 191, 35, 0.20)',
+    height: 30,
+    width: 150,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    top: props.position === 'mid' ? (props.seedError ? '72%' : '70%') : '80%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    img: {
+      marginRight: props.theme.spacing(4),
+    },
+  }),
+);
 function EnterSeedPhrase(props: Props): JSX.Element {
   const { onContinue, seed, setSeed, seedError, setSeedError, pasteFromClipboard, isPasted } =
     props;
@@ -107,11 +111,11 @@ function EnterSeedPhrase(props: Props): JSX.Element {
         setSeedError={setSeedError}
       />
       {isPasted ? (
-        <Pasted position="mid" disabled>
+        <Pasted position="mid" disabled seedError={seedError}>
           Pasted
         </Pasted>
       ) : (
-        <Paste position="mid" onClick={pasteFromClipboard}>
+        <Paste position="mid" onClick={pasteFromClipboard} seedError={seedError}>
           {t('PASTE')}
         </Paste>
       )}

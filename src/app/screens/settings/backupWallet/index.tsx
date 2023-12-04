@@ -13,11 +13,20 @@ const Container = styled.div<{ showSeed: boolean }>((props) => ({
   flex: 1,
   overflowY: 'auto',
   marginTop: props.showSeed ? props.theme.spacing(4) : props.theme.spacing(20),
-  paddingLeft: props.theme.spacing(8),
-  paddingRight: props.theme.spacing(8),
-  marginBottom: props.theme.spacing(20),
 }));
 
+const Top = styled.div((props) => ({
+  marginTop: props.theme.spacing(10),
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 2,
+  marginBottom: 8,
+}));
+const Layout = styled.div((props) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  height: '100%',
+}));
 function BackupWalletScreen() {
   const { t } = useTranslation('translation');
   const [password, setPassword] = useState<string>('');
@@ -59,8 +68,10 @@ function BackupWalletScreen() {
   };
 
   return (
-    <>
-      <TopRow title={t('SETTING_SCREEN.BACKUP_WALLET_UNLOCK_SEED')} onClick={goToSettingScreen} />
+    <Layout>
+      <Top>
+        <TopRow title={t('SETTING_SCREEN.BACKUP_WALLET_UNLOCK_SEED')} onClick={goToSettingScreen} />
+      </Top>
       <Container showSeed={showSeed}>
         {!showSeed && (
           <PasswordInput
@@ -87,7 +98,7 @@ function BackupWalletScreen() {
           />
         )}
       </Container>
-    </>
+    </Layout>
   );
 }
 

@@ -7,6 +7,7 @@ import ActionButton from '@components/button';
 import InfoContainer from '@components/infoContainer';
 import LedgerConnectionView from '@components/ledger/connectLedgerView';
 import SendConfirmationHeader from '@components/sendConfirmationHeader';
+import TopRow from '@components/topRow';
 import TransactionSettingAlert from '@components/transactionSetting';
 import TransferFeeView from '@components/transferFeeView';
 import useNetworkSelector from '@hooks/useNetwork';
@@ -122,6 +123,13 @@ const TitleContainer = styled.div((props) => ({
   marginBottom: props.theme.spacing(16),
 }));
 
+const Top = styled.div((props) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 2,
+  marginBottom: 8,
+  marginTop: props.theme.spacing(10),
+}));
 const WarningWrapper = styled.div((props) => ({
   marginBottom: props.theme.spacing(8),
 }));
@@ -259,7 +267,7 @@ function ConfirmStxTransationComponent({
     if (nonce && nonce !== '') {
       setNonce(initialStxTransactions[0], BigInt(nonce));
     }
-    setOpenTransactionSettingModal(false);
+    closeTransactionSettingAlert();
   };
 
   const handleConnectAndConfirm = async () => {
@@ -312,7 +320,10 @@ function ConfirmStxTransationComponent({
 
   return (
     <>
-      <SendConfirmationHeader />
+      {/* <SendConfirmationHeader /> */}
+      <Top>
+        <TopRow title="Send Confirmation" onClick={onBackButtonClick} />
+      </Top>
       <Container>
         {/* <TitleContainer>
           {!isAsset && (

@@ -1,34 +1,32 @@
+import ActionButton from '@components/button';
 import Separator from '@components/separator';
+import Seperator from '@components/seperator';
 import { Coin } from '@secretkeylabs/xverse-core/types';
-import { getTicker } from '@utils/helper';
+import { getTicker, getTicker } from '@utils/helper';
 import { useState } from 'react';
 import Switch from 'react-switch';
 import stc from 'string-to-color';
 import styled from 'styled-components';
 import Theme from 'theme';
-import { getTicker } from '@utils/helper';
-import Seperator from '@components/seperator';
-import ActionButton from '@components/button';
 
 const RowContainer = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'center',
   justifyContent: 'space-between',
-  padding: '13px 22px 13px 24px;',
-  gap: props.theme.spacing(8),
+  padding: '13px 24px 13px 24px;',
+  width: '100%',
+  maxHeight: '56px',
   borderRadius: props.theme.radius(1),
-  border: '1px solid rgba(168, 185, 244, 0.20)',
+  border: '1px solid rgba(168, 185, 244, 0.15)',
   background:
     'radial-gradient(489.09% 91.61% at 89.79% 22.85%, rgba(56, 60, 78, 0.20) 0%, rgba(13, 14, 18, 0.20) 100%)',
-  marginTop: props.theme.spacing(11),
+  // marginTop: props.theme.spacing(11),
 }));
-
 
 const BottomContainer = styled.div({
   marginBottom: 30,
 });
-
 
 const CustomSwitch = styled(Switch)`
   .react-switch-handle {
@@ -42,14 +40,11 @@ const CustomSwitch = styled(Switch)`
   }
 `;
 
-
 const SelectedCoinTitleText = styled.h1((props) => ({
-  ...props.theme.body_bold_m,
-  fontFamily: 'MontRegular',
-  color: props.theme.colors.white['0'],
+  ...props.theme.body_medium_xl,
+  color: props.theme.colors.white_0,
   textAlign: 'center',
 }));
-
 
 interface Props {
   coin: Coin;

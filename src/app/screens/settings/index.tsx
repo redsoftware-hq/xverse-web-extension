@@ -1,15 +1,15 @@
-import styled from 'styled-components';
-import { useTranslation } from 'react-i18next';
-import useWalletSelector from '@hooks/useWalletSelector';
 import ArrowIcon from '@assets/img/settings/arrow.svg';
+import useWalletSelector from '@hooks/useWalletSelector';
 import { useStepperContext } from '@stores/stepper';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 // import { useDispatch } from 'react-redux';
 // import { ChangeActivateOrdinalsAction } from '@stores/wallet/actions/actionCreators';
+import Paragraph from '@components/paragraph';
+import TopRow from '@components/topRow';
 import useNonOrdinalUtxos from '@hooks/useNonOrdinalUtxo';
 import useWalletReducer from '@hooks/useWalletReducer';
-import TopRow from '@components/topRow';
-import Paragraph from '@components/paragraph';
 import SettingComponent from './settingComponent';
 
 const Container = styled.div`
@@ -26,6 +26,27 @@ const Divider = styled.div((props) => ({
   padding: props.theme.spacing(11),
 }));
 
+const Top = styled.div((props) => ({
+  marginTop: props.theme.spacing(10),
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 2,
+  marginBottom: 8,
+}));
+const Bottom = styled.div((props) => ({
+  flex: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  marginLeft: props.theme.spacing(10),
+  marginRight: props.theme.spacing(10),
+  marginBottom: props.theme.spacing(20),
+}));
+const Layout = styled.div((props) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  height: '100%',
+}));
 function Setting() {
   const { t } = useTranslation('translation', { keyPrefix: 'SETTING_SCREEN' });
   // const { fiatCurrency, network, hasActivatedOrdinalsKey } = useWalletSelector();
@@ -85,9 +106,11 @@ function Setting() {
     navigate('/');
   };
   return (
-    <>
-      <TopRow title={t('MAIN_TILE')} onClick={handleBackButtonClick} />
-      <Paragraph content={t('CONTENT')} />
+    <Layout>
+      <Top>
+        <TopRow title={t('MAIN_TILE')} onClick={handleBackButtonClick} />
+        <Paragraph content={t('CONTENT')} />
+      </Top>
       <Container>
         <SettingComponent
           text={t('NETWORK')}
@@ -106,33 +129,11 @@ function Setting() {
           showDivider
         />
         <SettingComponent text={t('BACKUP_WALLET')} onClick={openBackUpWalletScreen} showDivider />
-        {/* <SettingComponent
-          text={t('LOCK_COUNTDOWN')}
-          onClick={openLockCountdownScreen} 
-          showDivider
-        /> */}
-        {/* <SettingComponent
-          text={t('RESET_WALLET')}
-          onClick={openResetWalletPage}
-          // showWarningTitle
-        /> */}
-        {/* <SettingComponent
-          text={t('ACTIVATE_ORDINAL_NFTS')}
-          toggle
-          toggleFunction={switchActivateOrdinalState}
-          toggleValue={hasActivatedOrdinalsKey}
-          showDivider
-        /> */}
         <SettingComponent text={t('RECOVER_ASSETS')} onClick={onRestoreFundClick} showDivider />
         <SettingComponent text={t('LOCK_WALLET')} onClick={handleLockWallet} showDivider />
         <Divider />
-        {/* <ResetWalletPrompt
-          showResetWalletPrompt={showResetWalletPrompt}
-          onResetWalletPromptClose={onResetWalletPromptClose}
-          openResetWalletScreen={openResetWalletScreen}
-        /> */}
       </Container>
-    </>
+    </Layout>
   );
 }
 
