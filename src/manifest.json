@@ -1,5 +1,5 @@
 {
-  "name": "Orange Pill Wallet",
+  "name": "Orange Wallet",
   "description": "The best wallet for Bitcoin. Powered by AI.",
   "manifest_version": 3,
   "options_page": "options.html",
@@ -17,16 +17,34 @@
     "128": "pill_logo.png"
   },
   "devtools_page": "devtools.html",
-  "web_accessible_resources": [{ "resources": ["inpage.js"], "matches": ["*://*/*"] }],
-  "host_permissions": ["*://*/*"],
-  "permissions": ["storage"],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "inpage.js"
+      ],
+      "matches": [
+        "*://*/*"
+      ]
+    }
+  ],
+  "host_permissions": [
+    "*://*/*"
+  ],
+  "permissions": [
+    "storage"
+  ],
   "content_security_policy": {
     "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'none'; default-src 'none'; connect-src *; style-src 'unsafe-inline'; frame-src 'none'; frame-ancestors 'none'; img-src 'self' data: https:;  media-src 'self' data: https:; "
   },
   "content_scripts": [
     {
-      "js": ["browser-polyfill.js", "content-script.js"],
-      "matches": ["*://*/*"],
+      "js": [
+        "browser-polyfill.js",
+        "content-script.js"
+      ],
+      "matches": [
+        "*://*/*"
+      ],
       "all_frames": true
     }
   ]
