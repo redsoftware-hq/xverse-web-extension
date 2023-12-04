@@ -4,6 +4,7 @@ import WBTC from '@assets/img/market/wbitcoin.svg';
 import AccountHeaderComponent from '@components/accountHeader';
 import BottomBar from '@components/tabBar';
 import useMarketData from '@hooks/useMarketData';
+import useWalletSelector from '@hooks/useWalletSelector';
 import { useEffect, useState } from 'react';
 import Chart from 'react-apexcharts';
 import { useNavigate } from 'react-router-dom';
@@ -11,10 +12,31 @@ import styled from 'styled-components';
 import BitcoinAssets from './BitcoinAssets';
 import StepperBar from './StepperBar';
 
-const USDollar = new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'USD',
-});
+type CoinData = {
+  percent_change_1h: number;
+  percent_change_24h: number;
+  percent_change_7d: number;
+  percent_change_30d: number;
+  price: number;
+  volume_24h: number;
+  market_cap: number;
+  total_supply: number;
+  circulating_supply: number;
+  timestamp: string;
+  name: string;
+};
+
+type ExtractedData = {
+  [symbol: string]: CoinData;
+};
+type Quote = {
+  coin: string;
+  name: string;
+  img: string; // Assuming img is a URL string
+  change: string;
+  price: string;
+  handleClick?: () => void;
+};
 
 const MaskContainer = styled.div((props) => ({
   position: 'absolute',
@@ -113,26 +135,45 @@ function convertTimestampTo12Hour(timestamp) {
   return `${hours}${period}`;
 }
 
-function MarketCapDetails({ isMarketCap, value, percentages }: any) {
+function MarketCapDetails({ isMarketCap, value, percentages, currency = 'USD' }: any) {
+  const Currency = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency,
+  });
   return (
     <MarketCapDetailsContainer>
       <Title>{isMarketCap ? 'Market Cap' : 'Trading Volume'}</Title>
-      <ItemTitle>{USDollar.format(value)}</ItemTitle>
+      <ItemTitle>{Currency.format(value)}</ItemTitle>
       <ItemTitle>{`${percentages}%`}</ItemTitle>
     </MarketCapDetailsContainer>
   );
 }
 
+const getIcon = (symbol) => {
+  switch (symbol) {
+    case 'BTC':
+      return BTC;
+    case 'WBTC':
+      return WBTC;
+    default:
+      return '';
+  }
+};
+
 function Market() {
-  const { data, loading } = useMarketData();
+  const { fiatCurrency } = useWalletSelector();
+  const { data, loading } = useMarketData({
+    symbol: 'BTC,WBTC,BCH,STX,BSV,ORDI,ALEX,OXBT,SATS,RATS',
+    convert: fiatCurrency,
+  });
   const [series, setSeries] = useState<any>(null);
   const [quotesData, setQuotesData] = useState<any>([]);
   const [headData, setHeadData] = useState<any[]>([]);
   const [currentActiveIndex, setCurentActiveIndex] = useState<any>(0);
-
-  // const mappedData = data?.data.BTC?.map((item: any) => ({ x: item.time, y: item.value }));
-
-  // const series = [{ data: mappedData }];
+  const Currency = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: fiatCurrency,
+  });
 
   const options = {
     chart: {
@@ -156,12 +197,14 @@ function Market() {
       type: 'datetime',
       labels: {
         datetimeUTC: false,
-        offsetY: -17,
+        offsetY: -20,
+        offsetX: 9.7,
         hideOverlappingLabels: true,
         formatter: (val: any, timestamp: any) => convertTimestampTo12Hour(timestamp),
         style: {
           colors: '#fff',
           fontFamily: 'MontRegular',
+          fontSize: 10,
         },
       },
       axisTicks: {
@@ -224,40 +267,74 @@ function Market() {
     if (!loading && data && data?.data?.BTC) {
       const mappedData = data.data.BTC[0].quotes.map((item: any) => ({
         x: +new Date(item.timestamp),
-        y: item.quote.USD.price.toFixed(2),
+        y: item.quote[fiatCurrency].price.toFixed(2),
       }));
       setSeries([{ data: mappedData, name: 'BTC' }]);
-      const { length } = data.data.BTC[0].quotes;
-      const btc = data.data.BTC[0].quotes[length - 1].quote.USD;
-      const wbtc = data.data.WBTC[0].quotes[length - 1].quote.USD;
+      const symbolsToExtract = [
+        'BTC',
+        'WBTC',
+        'BCH',
+        'STX',
+        'BSV',
+        'ORDI',
+        'ALEX',
+        'OXBT',
+        'SATS',
+        'RATS',
+      ]; // Add more symbols as needed
 
-      const quotes = [
-        {
-          coin: 'BTC',
-          name: 'Bitcoin',
-          img: BTC,
-          change: `${btc.percent_change_1h.toFixed(2)}%`,
-          price: `$${btc.price.toFixed(1)}`,
-        },
-        {
-          coin: 'WBTC',
-          name: 'Wrapped BTC',
-          img: WBTC,
-          change: `${wbtc.percent_change_1h.toFixed(2)}%`,
-          price: `$${wbtc.price.toFixed(1)}`,
-        },
-      ];
+      const extractedData: ExtractedData = {};
 
+      symbolsToExtract.forEach((symbol) => {
+        const symbolData = data.data[symbol];
+        if (symbolData && symbolData.length > 0) {
+          const { length } = symbolData[0].quotes;
+          const latestQuote = symbolData[0].quotes[length - 1].quote[fiatCurrency];
+          extractedData[symbol.toLowerCase()] = latestQuote;
+          extractedData[symbol.toLowerCase()].name = symbolData[0]?.name;
+        }
+      });
+
+      const quotes: Quote[] = [];
+
+      Object.entries(extractedData).forEach(([symbol, coinData]) => {
+        const quoteMappedData = data.data[symbol.toUpperCase()][0].quotes.map((item: any) => ({
+          x: +new Date(item.timestamp),
+          y: item.quote[fiatCurrency].price.toFixed(2),
+        }));
+        const quote = {
+          coin: symbol.toUpperCase(),
+          name: coinData?.name, // Assuming your data structure includes a 'name' property
+          // You can replace the following with actual image URLs for each coin
+          img: getIcon(symbol.toUpperCase()),
+          change: `${coinData?.percent_change_1h.toFixed(2)}%`,
+          price: Currency.format(Number(coinData?.price.toFixed(1))),
+          handleClick: () => {
+            setSeries([{ data: quoteMappedData, name: coinData.name }]);
+            setHeadData([
+              {
+                value: extractedData[symbol].market_cap.toFixed(0),
+                percentages: extractedData[symbol].percent_change_1h.toFixed(2),
+              },
+              {
+                value: extractedData[symbol].volume_24h.toFixed(0),
+                percentages: extractedData[symbol].percent_change_1h.toFixed(2),
+              },
+            ]);
+          },
+        };
+
+        quotes.push(quote);
+      });
       setQuotesData(quotes);
-
       setHeadData([
         {
-          value: btc.market_cap.toFixed(0),
-          percentages: btc.percent_change_1h.toFixed(2),
+          value: extractedData.btc.market_cap.toFixed(0),
+          percentages: extractedData.btc.percent_change_1h.toFixed(2),
         },
         {
-          value: btc.volume_24h.toFixed(0),
-          percentages: btc.percent_change_1h.toFixed(2),
+          value: extractedData.btc.volume_24h.toFixed(0),
+          percentages: extractedData.btc.percent_change_1h.toFixed(2),
         },
       ]);
     }
@@ -276,6 +353,7 @@ function Market() {
             isMarketCap={currentActiveIndex === 0}
             value={headData[currentActiveIndex]?.value}
             percentages={headData[currentActiveIndex]?.percentages}
+            currency={fiatCurrency}
           />
           <Chart options={options as any} series={series} type="area" height={240} />
         </ChartContainer>
@@ -287,11 +365,7 @@ function Market() {
           setCurentActiveIndex={setCurentActiveIndex}
         />
       )}
-      <BitcoinAssets
-        isLoading={loading}
-        data={quotesData}
-        onClick={() => setCurentActiveIndex(currentActiveIndex === 0 ? currentActiveIndex + 1 : 0)}
-      />
+      <BitcoinAssets isLoading={loading} data={quotesData} />
       <BottomBar tab="market" />
     </>
   );

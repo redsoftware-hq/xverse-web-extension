@@ -139,7 +139,7 @@ function DetailRow({ coin, name, img, change, price, onClick }: DetailRowProps) 
   );
 }
 
-export default function BitcoinAssets({ isLoading, data, onClick }: any) {
+export default function BitcoinAssets({ isLoading, data }: any) {
   const { t } = useTranslation('translation', { keyPrefix: 'MARKET_SCREEN' });
 
   return (
@@ -164,7 +164,7 @@ export default function BitcoinAssets({ isLoading, data, onClick }: any) {
                 img={item.img}
                 change={item.change}
                 price={item.price}
-                onClick={onClick}
+                onClick={item.handleClick}
               />
               <SectionSeparator />
             </>
