@@ -52,7 +52,7 @@ const Balance = styled.div((props) => ({
   alignItems: 'center',
 }));
 const AccountBalance = styled.h2((props) => ({
-  ...props.theme.headline_m,
+  ...props.theme.headline_mr,
   color: props.theme.colors.white_0,
   lineHeight: '24px',
 }));
@@ -69,7 +69,7 @@ const FiatBalance = styled.h3((props) => ({
 const Pill = styled.div((props) => ({
   ...props.theme.body_xs,
   borderRadius: 15,
-  padding: '1px 6px',
+  padding: '0px 6px',
   background: 'rgba(0, 0, 0, 0.40)',
   textAlign: 'center',
 }));
@@ -82,6 +82,8 @@ export default function OperationHeader({
   operationIcon,
   operationTitle,
 }: Props) {
+  const fiat = `${currencySymbolMap[fiatCurrency]}${fiatBalance}`;
+  console.log(fiatBalance);
   return (
     <Container>
       <Balance>
@@ -90,10 +92,7 @@ export default function OperationHeader({
             <AccountBalance>{accountBalance}</AccountBalance>
             {currency && <Pill>{currency}</Pill>}
           </AccountBalanceContainer>
-          {!fiatBalance && <FiatBalance>--</FiatBalance>}
-          {fiatBalance && (
-            <FiatBalance>{`${currencySymbolMap[fiatCurrency]}${fiatBalance}`}</FiatBalance>
-          )}
+          <FiatBalance>{fiatBalance !== undefined ? fiat : '--'}</FiatBalance>
         </BalanceContainer>
         {currencyIcon && <Icon src={currencyIcon} />}
         {!currencyIcon && <Icon src={WalletIcon} />}

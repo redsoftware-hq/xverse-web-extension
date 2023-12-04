@@ -83,7 +83,7 @@ export function FiatRow({
           <SwitchToFiatText>
             {showFiat ? `${tokenAmount}` : `${fiatAmount} ${fiatCurrency}`}
           </SwitchToFiatText>
-          <img src={Arrows} width={22} height={22} alt="switch-arrows" />
+          {/* <img src={Arrows} width={22} height={22} alt="switch-arrows" /> */}
         </SwitchToFiatButton>
       )}
     </RowContainer>

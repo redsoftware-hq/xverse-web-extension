@@ -1,11 +1,12 @@
 import InfoIcon from '@assets/img/info.svg';
 import WarningIcon from '@assets/img/Warning.svg';
 import { useTranslation } from 'react-i18next';
-import styled from 'styled-components';
+import styled, { CSSProperties } from 'styled-components';
 
 interface ContainerProps {
   type: 'Info' | 'Warning' | undefined;
   showWarningBackground?: boolean;
+  style?: CSSProperties;
 }
 const Container = styled.div<ContainerProps>((props) => ({
   display: 'flex',
@@ -13,8 +14,8 @@ const Container = styled.div<ContainerProps>((props) => ({
   borderRadius: 12,
   alignItems: 'flex-start',
   backgroundColor: props.showWarningBackground ? 'rgba(211, 60, 60, 0.15)' : 'transparent',
-  padding: props.theme.spacing(8),
-  marginBottom: props.theme.spacing(6),
+  padding: '24px 16px 8px 16px',
+  ...props.style,
 }));
 
 const TextContainer = styled.div((props) => ({
@@ -41,11 +42,13 @@ const SubText = styled.h1((props) => ({
 
 const Text = styled.h1((props) => ({
   ...props.theme.body_m,
+  fontSize: 12,
   color: props.theme.colors.secondaryText,
   lineHeight: 1.4,
 }));
 const WarningText = styled.span((props) => ({
   ...props.theme.body_m,
+  fontSize: 12,
   color: props.theme.colors.action.classic,
   lineHeight: 1.4,
   marginRight: props.theme.spacing(4),
@@ -67,6 +70,7 @@ interface Props {
   redirectText?: string;
   showWarningBackground?: boolean;
   showWarningText?: boolean;
+  styleContainer?: CSSProperties;
 }
 
 function InfoContainer({
@@ -77,10 +81,11 @@ function InfoContainer({
   onClick,
   showWarningText,
   showWarningBackground,
+  styleContainer,
 }: Props) {
   const { t } = useTranslation();
   return showWarningText ? (
-    <Container type={type}>
+    <Container type={type} style={styleContainer}>
       <Text>
         <WarningText>{t('COMMON.WARNING')}</WarningText>
         {bodyText}

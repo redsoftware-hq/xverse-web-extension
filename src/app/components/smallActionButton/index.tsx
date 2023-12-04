@@ -61,6 +61,7 @@ const ButtonContainer = styled.button<ButtonContainerProps>((props) => ({
 }));
 
 interface Props {
+  id?: string;
   src?: string;
   text?: string;
   onPress: () => void;
@@ -69,13 +70,21 @@ interface Props {
   isDisabled?: boolean;
 }
 
-function SmallActionButton({ src, text, onPress, isOpaque, isDisabled = false, isRound }: Props) {
+function SmallActionButton({
+  src,
+  text,
+  onPress,
+  isOpaque,
+  id,
+  isDisabled = false,
+  isRound,
+}: Props) {
   const handleOnPress = () => {
     if (!isDisabled) onPress();
   };
 
   return (
-    <ButtonContainer isDisabled={isDisabled} onClick={handleOnPress}>
+    <ButtonContainer isDisabled={isDisabled} onClick={handleOnPress} id={id}>
       <Button isOpaque={isOpaque} isRound={isRound}>
         {src && <ButtonImage src={src} />}
       </Button>

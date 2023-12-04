@@ -19,8 +19,6 @@ const TestnetContainer = styled.div((props) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  borderTopLeftRadius: props.theme.radius(1),
-  borderTopRightRadius: props.theme.radius(1),
   borderBottom: 0,
   background: props.theme.colors.action.classic,
   paddingTop: props.theme.spacing(3),

@@ -247,7 +247,12 @@ function RecipientComponent({
               <TransferDetailView icon={WalletIcon} title={t('To')} address={address} />
             </MultipleAddressContainer>
           ) : (
-            <TransferDetailView icon={OutputIcon} title={t('RECIPIENT')} address={address} />
+            <TransferDetailView
+              icon={OutputIcon}
+              title={t('RECIPIENT')}
+              address={address}
+              hideCopyButton
+            />
           )}
         </AddressContainer>
       )}

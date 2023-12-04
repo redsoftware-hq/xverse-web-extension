@@ -18,7 +18,7 @@ function ShowOrdinalReceiveAlert({ onOrdinalReceiveAlertClose }: Props) {
     <AlertMessage
       title={t('RECEIVING_ORDINALS')}
       description={t('RECEIVING_ORDINAL_INFO')}
-      buttonText={t('I_UNDERSTAND')}
+      buttonText={t('CONFIRM')}
       onClose={onOrdinalReceiveAlertClose}
       onButtonClick={onOrdinalReceiveAlertClose}
       tickMarkButtonText={t('DO_NOT_SHOW_MESSAGE')}

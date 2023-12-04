@@ -17,15 +17,16 @@ const Button = styled.button<ButtonProps>((props) => ({
   justifyContent: 'space-between',
   gap: props.theme.spacing(8),
   alignItems: 'center',
+  maxHeight: 56,
   borderRadius: props.theme.radius(1),
-  border: '1px solid rgba(168, 185, 244, 0.20)',
+  border: '1px solid rgba(168, 185, 244, 0.15)',
   background:
     'radial-gradient(489.09% 91.61% at 89.79% 22.85%, rgba(56, 60, 78, 0.20) 0%, rgba(13, 14, 18, 0.20) 100%)',
   marginTop: props.theme.spacing(6),
 }));
 
 const Text = styled.h1<TitleProps>((props) => ({
-  ...props.theme.body_medium_m,
+  ...props.theme.body_medium_xl,
   color: props.color,
   flex: 1,
   textAlign: 'left',

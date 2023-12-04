@@ -35,7 +35,8 @@ const BalanceHeadingText = styled.h1((props) => ({
 const CurrencyText = styled.h1((props) => ({
   ...props.theme.headline_category_s,
   color: props.theme.colors.white['0'],
-  fontSize: 13,
+  marginTop: '1px',
+  fontSize: 12,
 }));
 
 const BalanceAmountContainer = styled.div((props) => ({
@@ -59,6 +60,7 @@ const BarLoaderContainer = styled.div((props) => ({
 
 const CurrencyCard = styled.div((props) => ({
   display: 'flex',
+  alignItems: 'center',
   justifyContent: 'center',
   backgroundColor: props.theme.colors.background.modalBackdrop,
   width: 45,
