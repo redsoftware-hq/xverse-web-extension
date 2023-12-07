@@ -13,12 +13,12 @@ import styled from 'styled-components';
 import RedirectButton from './redirectButton';
 
 const Container = styled.div`
+  flex: 1;
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding-left: 22px;
-  padding-right: 22px;
-  padding-top: 26px;
+  padding-left: 16px;
+  padding-right: 16px;
   overflow-y: auto;
   height: 85vh;
   &::-webkit-scrollbar {
@@ -27,9 +27,11 @@ const Container = styled.div`
 `;
 
 const Text = styled.h1((props) => ({
-  ...props.theme.body_m,
-  color: props.theme.colors.white_200,
-  marginBottom: props.theme.spacing(14),
+  textAlign: 'left',
+  ...props.theme.body_medium_xl,
+  color: props.theme.colors.white_0,
+  padding: '0px 16px',
+  marginBottom: props.theme.spacing(8),
 }));
 
 const LoaderContainer = styled.div({
@@ -48,6 +50,27 @@ const LoaderContainer = styled.div({
   alignItems: 'center',
 });
 
+const Top = styled.div((props) => ({
+  marginTop: props.theme.spacing(10),
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 2,
+  marginBottom: 8,
+}));
+const Layout = styled.div((props) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  height: '100%',
+  overflow: 'hidden',
+}));
+const Bottom = styled.div((props) => ({
+  flex: 'none',
+  display: 'flex',
+  flexDirection: 'column',
+  marginLeft: props.theme.spacing(8),
+  marginRight: props.theme.spacing(8),
+  marginBottom: props.theme.spacing(40),
+}));
 function Buy() {
   const { t } = useTranslation('translation', { keyPrefix: 'BUY_SCREEN' });
   const navigate = useNavigate();
@@ -88,7 +111,7 @@ function Buy() {
     setLoading(true);
     try {
       const transacUrl = new URL(TRANSAC_URL);
-      transacUrl.searchParams.append('apiKey', TRANSAC_API_KEY);
+      transacUrl.searchParams.append('apiKey', TRANSAC_API_KEY as string);
       transacUrl.searchParams.append('cryptoCurrencyList', currency!);
       transacUrl.searchParams.append('defaultCryptoCurrency', currency!);
       transacUrl.searchParams.append('walletAddress', address);
@@ -101,42 +124,26 @@ function Buy() {
     }
   };
 
-  // const getBinanceUrl = async () => {
-  //   setLoading(true);
-  //   try {
-  //     const binanceUrl = new URL(BINANCE_URL);
-  //     binanceUrl.searchParams.append('cryptoAddress', address);
-  //     binanceUrl.searchParams.append('cryptoNetwork', currency!);
-  //     binanceUrl.searchParams.append('merchantCode', BINANCE_MERCHANT_CODE);
-  //     binanceUrl.searchParams.append('timestamp', `${new Date().getTime()}`);
-  //     const signature = await getBinaceSignature(binanceUrl.search.replace('?', ''));
-  //     binanceUrl.search = signature.signedUrl;
-  //     binanceUrl.searchParams.append('cryptoCurrency', currency!);
-  //     binanceUrl.searchParams.append('fiatCurrency', currency === 'STX' ? 'EUR' : fiatCurrency); // HACK: 24th Aug 2022 - Binance only supports EUR to STX
-  //     setUrl(binanceUrl.toString());
-  //   } catch (e) {
-  //     setLoading(false);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
   return (
-    <>
-      <TopRow title={`${t('BUY')} ${currency}`} onClick={handleBackButtonClick} />
+    <Layout>
+      <Top>
+        <TopRow title={`${t('BUY')} ${currency}`} onClick={handleBackButtonClick} />
+        <Text>{t('PURCHASE_CRYPTO')}</Text>
+      </Top>
       <Container>
         {loading && (
           <LoaderContainer>
             <MoonLoader color="white" size={20} />
           </LoaderContainer>
         )}
-        <Text>{t('PURCHASE_CRYPTO')}</Text>
         {/* <RedirectButton text={t('MOONPAY')} src={MoonPay} onClick={getMoonPayUrl} />
         <RedirectButton text={t('BINANCE')} src={Binance} onClick={getBinanceUrl} /> */}
         <RedirectButton text={t('TRANSAK')} src={Transak} onClick={getTransacUrl} />
-        <InfoContainer titleText={t('DISCLAIMER')} bodyText={t('THIRD_PARTY_WARNING')} />
       </Container>
-    </>
+      <Bottom>
+        <InfoContainer bodyText={t('THIRD_PARTY_WARNING')} showWarningText />
+      </Bottom>
+    </Layout>
   );
 }
 

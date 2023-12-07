@@ -3,22 +3,20 @@ import styled from 'styled-components';
 
 const Button = styled.button((props) => ({
   display: 'flex',
-  flexDirection: 'row',
   justifyContent: 'center',
   alignItems: 'center',
-  borderRadius: 8,
-  backgroundColor: 'transparent',
-  padding: props.theme.spacing(8),
+  borderRadius: 12,
+  background: props.theme.colors.background.orangePillBg,
+  padding: '16px 24px',
   marginBottom: props.theme.spacing(8),
-  border: `1px solid ${props.theme.colors.elevation3}`,
+  maxHeight: 56,
+  border: '1px solid rgba(168, 185, 244, 0.15)',
 }));
 
 const Text = styled.h1((props) => ({
-  ...props.theme.body_bold_l,
+  ...props.theme.body_medium_xl,
   color: props.theme.colors.white_0,
   textAlign: 'center',
-  marginLeft: props.theme.spacing(8),
-  marginTop: props.theme.spacing(4),
 }));
 
 const RowContainer = styled.div({
@@ -37,10 +35,8 @@ function RedirectButton({ src, text, onClick }: Props) {
   return (
     <Button onClick={onClick}>
       <RowContainer>
-        <img src={src} alt={text} />
         <Text>{text}</Text>
       </RowContainer>
-      <img src={CaretRight} alt="arrow" />
     </Button>
   );
 }

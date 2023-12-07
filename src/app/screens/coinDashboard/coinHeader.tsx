@@ -525,7 +525,7 @@ export default function CoinHeader(props: CoinBalanceProps) {
                   />
                   <StyledTooltip anchorSelect="receive-ft" content="Receive" noArrow place="top" />
                 </ButtonContainer>
-                {/* {coin === 'BTC' && (
+                {coin === 'BTC' && (
                   <ButtonContainer>
                     <SmallActionButton
                       isOpaque
@@ -534,7 +534,7 @@ export default function CoinHeader(props: CoinBalanceProps) {
                       onPress={() => navigate(`/buy/${coin}`)}
                     />
                   </ButtonContainer>
-                )} */}
+                )}
               </>
             ) : (
               <>
@@ -552,16 +552,14 @@ export default function CoinHeader(props: CoinBalanceProps) {
                   />
                   <StyledTooltip anchorSelect="receive" content="Receive" noArrow place="top" />
                 </ButtonContainer>
-                {/* {coin === 'BTC' && (
-                  <ButtonContainer>
-                    <SmallActionButton
-                      isOpaque
-                      isRound
-                      src={Buy}
-                      onPress={() => navigate(`/buy/${stepsData[currentActiveIndex]}`)}
-                    />
-                  </ButtonContainer>
-                )} */}
+                <ButtonContainer>
+                  <SmallActionButton
+                    isOpaque
+                    isRound
+                    src={Buy}
+                    onPress={() => navigate(`/buy/${stepsData[currentActiveIndex]}`)}
+                  />
+                </ButtonContainer>
               </>
             )}
             {!(coin === 'BTC') && (
