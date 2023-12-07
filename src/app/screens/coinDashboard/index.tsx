@@ -140,10 +140,7 @@ export default function CoinDashboard() {
   const [showFtContractDetails, setShowFtContractDetails] = useState(false);
   const { coin } = useParams();
   const [searchParams] = useSearchParams();
-  const {
-    coinsList,
-    brcCoinsList,
-  } = useWalletSelector();
+  const { coinsList, brcCoinsList } = useWalletSelector();
   const ftAddress = searchParams.get('ft');
   const brc20FtName = searchParams.get('brc20ft');
   useBtcWalletData();
@@ -206,6 +203,7 @@ export default function CoinDashboard() {
         coin={coin as CurrencyTypes}
         ft={ft}
         txFilter={`${ft?.principal}::${ft?.assetName}`}
+        brc20Token={brc20FtName}
       />
     );
   };

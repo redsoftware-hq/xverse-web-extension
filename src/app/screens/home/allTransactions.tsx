@@ -1,12 +1,14 @@
+/* eslint-disable no-nested-ternary */
 import BtcTransactionHistoryItem from '@components/transactions/btcTransaction';
 import StxTransactionHistoryItem from '@components/transactions/stxTransaction';
 import useTransactions from '@hooks/queries/useTransactions';
+import useWalletSelector from '@hooks/useWalletSelector';
 import { animated, config, useSpring } from '@react-spring/web';
-import { BtcTransactionData } from '@secretkeylabs/xverse-core';
+import { FungibleToken } from '@secretkeylabs/xverse-core';
+import { BtcTransactionData } from '@secretkeylabs/xverse-core/types';
 import {
   AddressTransactionWithTransfers,
   MempoolTransaction,
-  PostConditionFungible,
 } from '@stacks/stacks-blockchain-api-types';
 import { CurrencyTypes } from '@utils/constants';
 import { formatDate } from '@utils/date';
@@ -18,10 +20,11 @@ import {
   isBtcTransactionArr,
   Tx,
 } from '@utils/transactions/transactions';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { MoonLoader } from 'react-spinners';
 import styled from 'styled-components';
+import AllTransactionItem from './allTransactionItem';
 
 const ListItemsContainer = styled.div((props) => ({
   marginTop: props.theme.spacing(8),
@@ -61,15 +64,6 @@ const GroupContainer = styled(animated.div)<{ txAll: boolean | undefined }>((pro
   marginBottom: props.txAll ? props.theme.spacing(0) : props.theme.spacing(0),
 }));
 
-const SectionHeader = styled.div((props) => ({
-  display: 'flex',
-  flexDirection: 'row',
-  alignItems: 'center',
-  marginBottom: props.theme.spacing(7),
-  paddingLeft: props.theme.spacing(8),
-  paddingRight: props.theme.spacing(8),
-}));
-
 const Divider = styled.div({
   borderTop: '1px solid  #A8B9F433',
   width: '90%',
@@ -79,8 +73,8 @@ const Divider = styled.div({
 
 interface TransactionsHistoryListProps {
   coin: CurrencyTypes;
+  ft?: FungibleToken;
   txFilter: string | null;
-  ft?: any;
   brc20Token: string | null;
 }
 
@@ -161,12 +155,32 @@ const filterTxs = (
     );
   });
 
-export default function TransactionsHistoryList(props: TransactionsHistoryListProps) {
-  const { coin, txFilter, brc20Token, ft } = props;
-  const { data, isLoading, isFetching, error } = useTransactions(
-    (coin as CurrencyTypes) || 'STX',
-    brc20Token,
-  );
+function mergeObjects(obj1, obj2) {
+  if (obj1 === undefined) return obj2 || {};
+  if (obj2 === undefined) return obj1 || {};
+  return Object.keys({ ...obj1, ...obj2 }).reduce((merged, key) => {
+    if (Array.isArray(obj1[key]) && Array.isArray(obj2[key])) {
+      merged[key] = obj1[key].concat(obj2[key]);
+    } else if (typeof obj1[key] === 'object' && typeof obj2[key] === 'object') {
+      merged[key] = mergeObjects(obj1[key], obj2[key]);
+    } else {
+      merged[key] = obj2[key] !== undefined ? obj2[key] : obj1[key];
+    }
+    return merged;
+  }, {});
+}
+
+export default function AllTransactionsHistoryList() {
+  const {
+    data: btcData,
+    isLoading: loadingBTC,
+    isFetching: fetchingBTC,
+  } = useTransactions('BTC', null);
+  const {
+    data: stxData,
+    isLoading: loadingSTX,
+    isFetching: fetchingSTX,
+  } = useTransactions('STX', null);
   const styles = useSpring({
     config: { ...config.stiff },
     from: { opacity: 0 },
@@ -174,47 +188,38 @@ export default function TransactionsHistoryList(props: TransactionsHistoryListPr
       opacity: 1,
     },
   });
-
+  const { coinsList } = useWalletSelector();
   const { t } = useTranslation('translation', { keyPrefix: 'COIN_DASHBOARD_SCREEN' });
+  const visibleCoins = useMemo(() => coinsList?.filter((coin) => coin.visible), [coinsList]);
 
-  const getListHeader = () => {
-    if (coin) {
-      switch (coin) {
-        case 'BTC':
-          return `Bitcoin ${t('TRANSACTIONS_TITLE')}`;
-        case 'STX':
-          return `STX ${t('TRANSACTIONS_TITLE')}`;
-        default:
-          return `${ft?.name ? ft.name : 'All'} ${t('TRANSACTIONS_TITLE')}`;
-      }
-    }
-  };
   const groupedTxs = useMemo(() => {
-    if (!data?.length) {
+    console.log('In groupedTxs');
+    let btc;
+    let stx;
+    if (!stxData?.length && !btcData?.length) {
       return;
     }
-
-    if (isBtcTransactionArr(data) || isBrc20TransactionArr(data)) {
-      return groupBtcTxsByDate(data);
+    if (btcData?.length) {
+      btc = groupBtcTxsByDate(btcData as BtcTransactionData[]);
     }
-
-    if (txFilter && coin === 'FT') {
-      const filteredTxs = filterTxs(
-        data as (AddressTransactionWithTransfers | MempoolTransaction)[],
-        txFilter,
+    if (stxData?.length) {
+      stx = groupedTxsByDateMap(
+        stxData as (AddressTransactionWithTransfers | MempoolTransaction)[],
       );
-      return groupedTxsByDateMap(filteredTxs);
     }
 
-    return groupedTxsByDateMap(data as (AddressTransactionWithTransfers | MempoolTransaction)[]);
-  }, [data, isLoading, isFetching]);
-  console.log(groupedTxs);
+    const collection = mergeObjects(btc, stx);
+    console.log('ALL', collection);
+    return mergeObjects(btc, stx);
+  }, [stxData, btcData]);
+
   return (
     <ListItemsContainer>
-      <ListHeader>{getListHeader()}</ListHeader>
+      <ListHeader>All {t('TRANSACTIONS_TITLE')}</ListHeader>
       <Divider />
       {groupedTxs &&
-        !isLoading &&
+        !loadingBTC &&
+        !loadingSTX &&
         Object.keys(groupedTxs).map((group) => (
           <GroupContainer key={group} style={styles} txAll>
             {groupedTxs[group].map((transaction, index) => {
@@ -224,24 +229,39 @@ export default function TransactionsHistoryList(props: TransactionsHistoryListPr
               return (
                 <StxTransactionHistoryItem
                   transaction={transaction}
-                  transactionCoin={coin}
-                  key={transaction.tx_id}
-                  txFilter={txFilter}
+                  transactionCoin="STX"
+                  key={transaction?.tx_id}
+                  txFilter={null}
                 />
               );
             })}
+            {visibleCoins &&
+              visibleCoins.map((coin) => (
+                <AllTransactionItem
+                  key={coin.ticker}
+                  coin="FT"
+                  ft={coin}
+                  txFilter={`${coin?.principal}::${coin?.assetName}`}
+                />
+              ))}
           </GroupContainer>
         ))}
-      {isLoading && (
+
+      {loadingBTC && (
         <LoadingContainer>
           <MoonLoader color="white" size={20} />
         </LoadingContainer>
       )}
-      {!isLoading && !!error && (
-        <NoTransactionsContainer>{t('TRANSACTIONS_LIST_ERROR')}</NoTransactionsContainer>
+      {loadingSTX && (
+        <LoadingContainer>
+          <MoonLoader color="white" size={20} />
+        </LoadingContainer>
       )}
-      {!isLoading && data?.length === 0 && !error && (
-        <NoTransactionsContainer>{t('TRANSACTIONS_LIST_EMPTY')}</NoTransactionsContainer>
+      {!loadingBTC && !loadingSTX && btcData?.length === 0 && stxData?.length === 0 && (
+        <>
+          <Divider />
+          <NoTransactionsContainer>{t('TRANSACTIONS_LIST_EMPTY')}</NoTransactionsContainer>
+        </>
       )}
     </ListItemsContainer>
   );

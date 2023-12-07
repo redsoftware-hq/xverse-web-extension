@@ -20,11 +20,13 @@ const TransactionContainer = styled.button((props) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
-  width: '100%',
+  margin: 'auto',
+  width: '90%',
   paddingTop: props.theme.spacing(5),
   paddingBottom: props.theme.spacing(5),
   paddingLeft: props.theme.spacing(8),
   paddingRight: props.theme.spacing(8),
+  borderBottom: '1px solid  #A8B9F433',
   background: 'none',
   ':hover': {
     background: props.theme.colors.white_900,
@@ -119,6 +121,7 @@ export default function BtcTransactionHistoryItem(props: TransactionHistoryItemP
   function formatAddress(addr: string): string {
     return addr ? `${addr.substring(0, 4)}...${addr.substring(addr.length - 4, addr.length)}` : '';
   }
+  console.log(transaction);
   return (
     <TransactionContainer onClick={openBtcTxStatusLink}>
       <TitleContainer>
@@ -130,7 +133,9 @@ export default function BtcTransactionHistoryItem(props: TransactionHistoryItemP
             </TransactionAmountContainer>
           )}
           <TransactionRecipient transaction={transaction} />
-          <HeaderTitle>{`${currentMonth} ${currentDateValue}`}</HeaderTitle>
+          {!transaction.txStatus.includes('pending') && (
+            <HeaderTitle>{`${currentMonth} ${currentDateValue}`}</HeaderTitle>
+          )}
         </div>
       </TitleContainer>
       <PriceConatiner>

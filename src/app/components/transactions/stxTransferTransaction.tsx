@@ -112,6 +112,9 @@ export default function StxTransferTransaction(props: StxTransferTransactionProp
   function formatAddress(addr: string): string {
     return addr ? `${addr.substring(0, 4)}...${addr.substring(addr.length - 4, addr.length)}` : '';
   }
+  const headerTitle = transaction.txStatus.includes('pending')
+    ? 'pending'
+    : `${currentMonth} ${currentDateValue}`;
   return (
     <TransactionContainer onClick={openTxStatusUrl}>
       <TitleContainer>
@@ -123,14 +126,14 @@ export default function StxTransferTransaction(props: StxTransferTransactionProp
             </TransactionAmountContainer>
           )}
           <TransactionRecipient transaction={transaction} />
-          <HeaderTitle>{`${currentMonth} ${currentDateValue}`}</HeaderTitle>
+          <HeaderTitle>{headerTitle}</HeaderTitle>
         </div>
       </TitleContainer>
       <PriceConatiner>
         <div>
           <TransactionRow>
             <TransactionAmountContainer>
-              <TransactionAmount transaction={transaction} coin="STX" />
+              <TransactionAmount transaction={transaction} coin={transactionCoin} />
             </TransactionAmountContainer>
           </TransactionRow>
           <HeaderTitleAmount>
