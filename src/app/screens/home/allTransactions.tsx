@@ -170,6 +170,32 @@ function mergeObjects(obj1, obj2) {
   }, {});
 }
 
+function sortData(inputData) {
+  const customSortOrder = {
+    Pending: 1,
+    Today: 2,
+    Yesterday: 3,
+  };
+
+  const sortedData = Object.fromEntries(
+    Object.entries(inputData).sort(([keyA], [keyB]) => {
+      const orderA = customSortOrder[keyA] || Infinity;
+      const orderB = customSortOrder[keyB] || Infinity;
+
+      if (orderA !== Infinity || orderB !== Infinity) {
+        return orderA - orderB;
+      }
+
+      // If both are regular dates, sort them in descending order
+      const dateA = new Date(keyA).getTime();
+      const dateB = new Date(keyB).getTime();
+
+      return dateB - dateA;
+    }),
+  );
+
+  return sortedData;
+}
 export default function AllTransactionsHistoryList() {
   const {
     data: btcData,
@@ -209,8 +235,9 @@ export default function AllTransactionsHistoryList() {
     }
 
     const collection = mergeObjects(btc, stx);
-    console.log('ALL', collection);
-    return mergeObjects(btc, stx);
+    const allTransactions = sortData(collection);
+    console.log('ALL', allTransactions);
+    return allTransactions;
   }, [stxData, btcData]);
 
   return (
