@@ -67,11 +67,18 @@ const FiatBalance = styled.h3((props) => ({
   lineHeight: '16px',
 }));
 const Pill = styled.div((props) => ({
-  ...props.theme.body_xs,
-  borderRadius: 15,
-  padding: '0px 6px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: 45,
+  borderRadius: 30,
   background: 'rgba(0, 0, 0, 0.40)',
-  textAlign: 'center',
+}));
+const PillText = styled.h1((props) => ({
+  ...props.theme.headline_category_s,
+  color: props.theme.colors.white_0,
+  marginTop: '1px',
+  fontSize: 12,
 }));
 export default function OperationHeader({
   accountBalance,
@@ -83,14 +90,17 @@ export default function OperationHeader({
   operationTitle,
 }: Props) {
   const fiat = `${currencySymbolMap[fiatCurrency]}${fiatBalance}`;
-  console.log(fiatBalance);
   return (
     <Container>
       <Balance>
         <BalanceContainer>
           <AccountBalanceContainer>
             <AccountBalance>{accountBalance}</AccountBalance>
-            {currency && <Pill>{currency}</Pill>}
+            {currency && (
+              <Pill>
+                <PillText>{currency}</PillText>
+              </Pill>
+            )}
           </AccountBalanceContainer>
           <FiatBalance>{fiatBalance !== undefined ? fiat : '--'}</FiatBalance>
         </BalanceContainer>
