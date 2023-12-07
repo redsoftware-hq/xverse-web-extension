@@ -93,10 +93,13 @@ const Theme = {
 
     // orange-pill-wallet
     secondaryText: '#626A82',
+    error_graident:
+      'linear-gradient(90deg, rgba(255, 199, 0, 0.20) 0%, rgba(255, 199, 0, 0.00) 31.87%), radial-gradient(489.09% 91.61% at 89.79% 22.85%, rgba(56, 60, 78, 0.20) 0%, rgba(13, 14, 18, 0.20) 100%)',
     success_gradient:
       'linear-gradient(90deg, rgba(66, 191, 35, 0.20) 0%, rgba(66, 191, 35, 0.00) 31.87%), radial-gradient(489.09% 91.61% at 89.79% 22.85%, rgba(56, 60, 78, 0.20) 0%, rgba(13, 14, 18, 0.20) 100%)',
     toast: {
       successBorder: '1px solid rgba(168, 185, 244, 0.15)',
+      errorBorder: '1px solid rgba(168, 185, 244, 0.15)',
     },
     action: {
       classic: '#D23403',

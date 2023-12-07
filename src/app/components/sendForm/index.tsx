@@ -1,4 +1,6 @@
 import Down from '@assets/img/send/Down.svg';
+import WarningClose from '@assets/img/settings/warning_close.svg';
+import Close from '@assets/img/settings/x.svg';
 import ActionButton from '@components/button';
 import CoinSwitch from '@components/coinSwitch';
 import InfoContainer from '@components/infoContainer';
@@ -19,6 +21,7 @@ import { getCurrencyFlag } from '@utils/currency';
 import { getTicker } from '@utils/helper';
 import BigNumber from 'bignumber.js';
 import { ReactNode, SetStateAction, useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
 import { NumericFormat } from 'react-number-format';
 import { useNavigate } from 'react-router-dom';
@@ -219,6 +222,64 @@ interface Props {
   toggleCoinSwitch?: () => void;
 }
 
+const ToastContainer = styled.div((props) => ({
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  background: props.theme.colors.error_graident,
+  border: props.theme.colors.toast.errorBorder,
+  borderRadius: props.theme.radius(3),
+  height: 60,
+  padding: '12px 20px 12px 16px',
+  margin: '0px 16px 16px 16px',
+  width: 306,
+  flex: 1,
+}));
+
+const ToastMessage = styled.h1((props) => ({
+  ...props.theme.body_medium_xl,
+  color: '#FFC700',
+}));
+
+const ToastDismissButton = styled.button(() => ({
+  background: 'transparent',
+}));
+const Backdrop = styled.div((props) => ({
+  display: 'flex',
+  alignItems: 'flex-end',
+  background: 'rgba(0, 0, 0, 0.80)  ',
+  backdropFilter: props.theme.backdrop.hover,
+  height: '100vh',
+  width: '100vw',
+  margin: '-15px -20px',
+}));
+function ToastContent({ message, dismissToast }: { message: any; dismissToast: any }) {
+  return (
+    <Backdrop>
+      <ToastContainer>
+        <img src={WarningClose} alt="error-icon" />
+        <ToastMessage>{message}</ToastMessage>
+        <ToastDismissButton onClick={dismissToast}>
+          <img src={Close} alt="X" />
+        </ToastDismissButton>
+      </ToastContainer>
+    </Backdrop>
+  );
+}
+const Max = styled.button((props) => ({
+  display: 'flex',
+  flexDirection: 'row',
+  columnGap: props.theme.spacing(2),
+  marginLeft: 'auto',
+  borderRadius: '15px',
+  maxWidth: '75px',
+  padding: '6px 12px',
+  background: 'rgba(210, 52, 3, 0.20)',
+  alignItems: 'center',
+  ...props.theme.body_medium_m,
+  color: props.theme.colors.action.classic,
+}));
 function SendForm({
   onPressSend,
   currencyType,
@@ -251,7 +312,9 @@ function SendForm({
   const [switchToFiat, setSwitchToFiat] = useState(false);
   const [addressError, setAddressError] = useState<string | undefined>(recepientError);
   const navigate = useNavigate();
-
+  const dismissToast = () => {
+    toast.dismiss();
+  };
   const { stxBtcRate, btcFiatRate, fiatCurrency, stxAddress, selectedAccount, network } =
     useWalletSelector();
   const debouncedSearchTerm = useDebounce(recipientAddress, 300);
@@ -268,6 +331,7 @@ function SendForm({
 
   useEffect(() => {
     if (recepientError) {
+      toast.custom(<ToastContent message={recepientError} dismissToast={dismissToast} />);
       if (associatedAddress !== '' && recepientError.includes(t('ERRORS.ADDRESS_INVALID'))) {
         setAddressError('');
       } else {
@@ -275,7 +339,10 @@ function SendForm({
       }
     }
   }, [recepientError, associatedAddress]);
-
+  useEffect(() => {
+    if (amountError)
+      toast.custom(<ToastContent message={amountError} dismissToast={dismissToast} />);
+  }, [amountError]);
   useEffect(() => {
     const resultRegex = /^\d*\.?\d*$/;
 
@@ -387,7 +454,7 @@ function SendForm({
         </CoinSwitchButton>
       </AmountInputContainer>
       <FiatContainer>
-        {amountError && <StyledInputFeedback message={amountError} variant="danger" noIcon />}
+        {/* {amountError && <StyledInputFeedback message={amountError} variant="danger" noIcon />} */}
         <FiatRow
           onClick={() => {}}
           showFiat={switchToFiat}
@@ -396,6 +463,13 @@ function SendForm({
           fiatCurrency={fiatCurrency}
           fiatAmount={fiatAmount ?? ''}
         />
+        <Max
+          onClick={() => {
+            setAmount(balance?.toString() as string);
+          }}
+        >
+          Max
+        </Max>
       </FiatContainer>
     </Container>
   );
@@ -508,7 +582,7 @@ function SendForm({
           {!disableAmountInput && renderEnterAmountSection}
           {children}
           {renderEnterRecipientSection}
-          {addressError && <StyledInputFeedback message={addressError} variant="danger" noIcon />}
+          {/* {addressError && <StyledInputFeedback message={addressError} variant="danger" noIcon />} */}
           {info && <InputFeedback message={info} />}
           {/* {currencyType !== 'BTC' &&
             currencyType !== 'NFT' &&

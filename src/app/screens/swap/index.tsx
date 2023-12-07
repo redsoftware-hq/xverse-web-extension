@@ -2,6 +2,8 @@ import IconStacks from '@assets/img/dashboard/stack_icon.svg';
 import IconUsdc from '@assets/img/dashboard/usdc.svg';
 import IconUsdt from '@assets/img/dashboard/usdt.svg';
 import IconWbtc from '@assets/img/dashboard/wbtc.svg';
+import WarningClose from '@assets/img/settings/warning_close.svg';
+import Close from '@assets/img/settings/x.svg';
 import DownArrow from '@assets/img/swap/Downarrowswap.svg';
 import SwapIcon from '@assets/img/swap/Swap.png';
 import ActionButton from '@components/button';
@@ -18,6 +20,7 @@ import InputFeedback from '@ui-library/inputFeedback';
 import { getFtBalance } from '@utils/tokens';
 import BigNumber from 'bignumber.js';
 import { useCallback, useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -39,7 +42,7 @@ const ScrollContainer = styled.div`
 const Container = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'column',
-  rowGap: props.theme.spacing(8),
+  rowGap: props.theme.spacing(5),
   // marginTop: props.theme.spacing(16),
 }));
 
@@ -70,6 +73,64 @@ const StyledInputFeedback = styled(InputFeedback)((props) => ({
   ...props.theme.typography.body_s,
   width: 'fit-content',
 }));
+const ToastContainer = styled.div((props) => ({
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  background: props.theme.colors.error_graident,
+  border: props.theme.colors.toast.errorBorder,
+  borderRadius: props.theme.radius(3),
+  height: 60,
+  padding: '12px 20px 12px 16px',
+  margin: '0px 16px 16px 16px',
+  width: 306,
+  flex: 1,
+}));
+
+const ToastMessage = styled.h1((props) => ({
+  ...props.theme.body_medium_xl,
+  color: '#FFC700',
+}));
+
+const ToastDismissButton = styled.button(() => ({
+  background: 'transparent',
+}));
+const Backdrop = styled.div((props) => ({
+  display: 'flex',
+  alignItems: 'flex-end',
+  background: 'rgba(0, 0, 0, 0.80)  ',
+  backdropFilter: props.theme.backdrop.hover,
+  height: '100vh',
+  width: '100vw',
+  margin: '-15px -20px',
+}));
+function ToastContent({ message, dismissToast }: { message: any; dismissToast: any }) {
+  return (
+    <Backdrop>
+      <ToastContainer>
+        <img src={WarningClose} alt="error-icon" />
+        <ToastMessage>{message}</ToastMessage>
+        <ToastDismissButton onClick={dismissToast}>
+          <img src={Close} alt="X" />
+        </ToastDismissButton>
+      </ToastContainer>
+    </Backdrop>
+  );
+}
+const Max = styled.button((props) => ({
+  display: 'flex',
+  flexDirection: 'row',
+  columnGap: props.theme.spacing(2),
+  marginLeft: 'auto',
+  borderRadius: '15px',
+  maxWidth: '75px',
+  padding: '6px 12px',
+  background: 'rgba(210, 52, 3, 0.20)',
+  alignItems: 'center',
+  ...props.theme.body_medium_m,
+  color: props.theme.colors.action.classic,
+}));
 function SwapScreen() {
   const navigate = useNavigate();
   const { t } = useTranslation('translation', { keyPrefix: 'SWAP_SCREEN' });
@@ -80,6 +141,9 @@ function SwapScreen() {
   const { dispatchStep } = useStepperContext();
   const { btcBalance, btcFiatRate, fiatCurrency, coinsList, stxBtcRate, stxBalance } =
     useWalletSelector();
+  const dismissToast = () => {
+    toast.dismiss();
+  };
   const handleClickContinue = useCallback(async () => {
     if (swap.submitError || !swap.onSwap) {
       return;
@@ -163,6 +227,12 @@ function SwapScreen() {
     );
     return contents;
   };
+
+  useEffect(() => {
+    if (swap.submitError) {
+      toast.custom(<ToastContent message={swap.submitError} dismissToast={dismissToast} />);
+    }
+  }, [swap.submitError]);
   return (
     <>
       <OperationHeader
@@ -184,9 +254,13 @@ function SwapScreen() {
             onAmountChange={swap.onInputAmountChanged}
             onSelectCoin={() => setSelecting('from')}
           />
-          {!!swap.submitError && (
-            <StyledInputFeedback message={swap.submitError} variant="danger" noIcon />
-          )}
+          <Max
+            onClick={() => {
+              swap.onInputAmountChanged(swap.selectedFromToken?.balance?.toString() as string);
+            }}
+          >
+            Max
+          </Max>
           <DownArrowButton onClick={swap.handleClickDownArrow}>
             <img src={DownArrow} alt="swap-token-icon" />
           </DownArrowButton>
