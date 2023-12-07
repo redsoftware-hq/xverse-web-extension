@@ -24,8 +24,8 @@ export interface TokenImageProps {
 
 const TickerImage = styled.img<{ size?: number; round?: boolean; isSmallSize?: boolean }>(
   (props) => ({
-    height: props.isSmallSize ? 32 : 56,
-    width: props.isSmallSize ? 32 : 56,
+    height: props.size ? props.size : props.isSmallSize ? 32 : 56,
+    width: props.size ? props.size : props.isSmallSize ? 32 : 56,
     borderRadius: 30,
   }),
 );
@@ -80,7 +80,7 @@ export default function TokenImage(props: TokenImageProps) {
     if (!loading) {
       if (fungibleToken?.image) {
         const Imgsrc = getImageSourceForFt();
-        return <TickerImage isSmallSize={isSmallSize} src={Imgsrc} />;
+        return <TickerImage isSmallSize={isSmallSize} src={Imgsrc} size={size} />;
       }
       let ticker = fungibleToken?.ticker;
       if (!ticker && fungibleToken?.name) {
@@ -101,5 +101,5 @@ export default function TokenImage(props: TokenImageProps) {
     );
   }
 
-  return <TickerImage isSmallSize={isSmallSize} src={getCoinIcon()} />;
+  return <TickerImage isSmallSize={isSmallSize} src={getCoinIcon()} size={size} />;
 }

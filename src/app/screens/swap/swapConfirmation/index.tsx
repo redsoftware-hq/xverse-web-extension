@@ -1,8 +1,11 @@
+/* eslint-disable no-inline-styles/no-inline-styles */
 import SponsoredTransactionIcon from '@assets/img/transactions/CircleWavyCheck.svg';
 import AccountHeaderComponent from '@components/accountHeader';
 import ActionButton from '@components/button';
 import InfoContainer from '@components/infoContainer';
+import Paragraph from '@components/paragraph';
 import BottomBar from '@components/tabBar';
+import TopRow from '@components/topRow';
 import { AdvanceSettings } from '@screens/swap/swapConfirmation/advanceSettings';
 import FeesBlock from '@screens/swap/swapConfirmation/feesBlock';
 import FunctionBlock from '@screens/swap/swapConfirmation/functionBlock';
@@ -26,12 +29,11 @@ const TitleText = styled.div((props) => ({
 export const ButtonContainer = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'row',
-  marginBottom: props.theme.spacing(8),
   marginTop: props.theme.spacing(8),
   position: 'sticky',
   bottom: 0,
-  background: props.theme.colors.elevation0,
-  padding: `${props.theme.spacing(12)}px 0`,
+  background: props.theme.colors.background.orangePillBg,
+  padding: '16px 20px 40px 20px',
 }));
 
 export const ActionButtonWrap = styled.div((props) => ({
@@ -58,9 +60,22 @@ const StyledInfoContainer = styled.div((props) => ({
 }));
 
 const Container = styled.div((props) => ({
+  padding: '20px',
+  overflow: 'auto',
   marginBottom: props.theme.spacing(4),
 }));
 
+const Top = styled.div((props) => ({
+  marginTop: props.theme.spacing(10),
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 2,
+}));
+const Layout = styled.div((props) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  height: '100%',
+}));
 export default function SwapConfirmation() {
   const { t } = useTranslation('translation', { keyPrefix: 'SWAP_CONFIRM_SCREEN' });
   const location = useLocation();
@@ -84,10 +99,12 @@ export default function SwapConfirmation() {
   };
 
   return (
-    <>
-      <AccountHeaderComponent disableMenuOption disableAccountSwitch />
+    <Layout>
+      <Top>
+        <TopRow title={t('TOKEN_SWAP')} onClick={onCancel} />
+        <Paragraph content={t('SWAP_WARN')} style={{ marginBottom: 0 }} />
+      </Top>
       <Container>
-        <TitleText>{t('TOKEN_SWAP')}</TitleText>
         {swap.isSponsorDisabled && (
           <StyledInfoContainer>
             <InfoContainer
@@ -105,22 +122,21 @@ export default function SwapConfirmation() {
         {!swap.isSponsored && (
           <FeesBlock txFee={swap.txFeeAmount} txFeeFiatAmount={swap.txFeeFiatAmount} />
         )}
-        {swap.isSponsored ? (
+        {/* {swap.isSponsored ? (
           <SponsoredTransactionText>
             <Icon src={SponsoredTransactionIcon} />
             {t('THIS_IS_A_SPONSORED_TRANSACTION')}
           </SponsoredTransactionText>
         ) : (
           <AdvanceSettings swap={swap} />
-        )}
-        <ButtonContainer>
-          <ActionButtonWrap>
-            <ActionButton text={t('CANCEL')} transparent onPress={onCancel} />
-          </ActionButtonWrap>
-          <ActionButton text={t('CONFIRM')} processing={confirming} onPress={onConfirm} />
-        </ButtonContainer>
+        )} */}
       </Container>
-      <BottomBar tab="dashboard" />
-    </>
+      <ButtonContainer>
+        <ActionButtonWrap>
+          <ActionButton text={t('CANCEL')} transparent onPress={onCancel} />
+        </ActionButtonWrap>
+        <ActionButton text={t('CONFIRM')} processing={confirming} onPress={onConfirm} />
+      </ButtonContainer>
+    </Layout>
   );
 }

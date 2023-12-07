@@ -4,6 +4,7 @@ import FoldDownIcon from '@assets/img/swap/fold_arrow_down.svg';
 import FoldIconUp from '@assets/img/swap/fold_arrow_up.svg';
 // import { StyledToolTip } from '@components/accountRow';
 import TokenImage from '@components/tokenImage';
+import { animated } from '@react-spring/web';
 import { SwapConfirmationOutput } from '@screens/swap/swapConfirmation/useConfirmSwap';
 import { EstimateUSDText } from '@screens/swap/swapTokenBlock';
 import { getTruncatedAddress } from '@utils/helper';
@@ -11,12 +12,14 @@ import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 
-export const Container = styled.div((props) => ({
+export const Container = styled.div<{ isExpanded: boolean }>((props) => ({
   display: 'flex',
   flexDirection: 'column',
-  padding: props.theme.spacing(10),
+  alignContent: 'center',
   marginBottom: props.theme.spacing(6),
-  background: props.theme.colors.elevation1,
+  border: '1px solid #1F232D',
+  background: props.theme.colors.background.orangePillBg,
+  maxHeight: props.isExpanded ? 'fit-content' : 56,
   borderRadius: 12,
 }));
 
@@ -25,13 +28,12 @@ export const TitleContainer = styled.div(() => ({
   flex: '1',
   alignItems: 'center',
   justifyContent: 'space-between',
+  padding: 20,
 }));
 
 export const TitleText = styled.h3((props) => ({
-  ...props.theme.body_medium_m,
-  color: props.theme.colors.white_200,
-  fontSize: 14,
-  fontWeight: 500,
+  ...props.theme.body_medium_xl,
+  color: props.theme.colors.white_0,
 }));
 
 export const FoldArrow = styled.img(() => ({
@@ -112,6 +114,14 @@ interface StxInfoCardProps {
   swap: SwapConfirmationOutput;
 }
 
+const ExpandedContainer = styled(animated.div)<{ isExpanded: boolean }>((props) => ({
+  display: 'flex',
+  background: '#14161C',
+  flexDirection: 'column',
+  padding: props.isExpanded ? '10px 18px' : '0px',
+  borderTop: '1px solid #1F232D',
+  borderRadius: '0px 0px 11px 11px',
+}));
 export function FoldButton({ isFold, onSwitch }: { isFold: boolean; onSwitch: () => void }) {
   return <FoldArrow src={isFold ? FoldDownIcon : FoldIconUp} onClick={() => onSwitch()} />;
 }
@@ -127,7 +137,7 @@ export default function StxInfoBlock({ type, swap }: StxInfoCardProps) {
   }, []);
   const token = type === 'transfer' ? swap.fromToken : swap.toToken;
   return (
-    <Container>
+    <Container isExpanded={!isFold}>
       <TitleContainer>
         <TitleText>
           {type === 'transfer' ? t('YOU_WILL_TRANSFER') : t('YOU_WILL_RECEIVE')}
@@ -135,41 +145,22 @@ export default function StxInfoBlock({ type, swap }: StxInfoCardProps) {
         <FoldButton isFold={isFold} onSwitch={() => setIsFold((prev) => !prev)} />
       </TitleContainer>
       {isFold ? null : (
-        <>
-          <DescriptionText>{t('LESS_THAN_OR_EQUAL_TO')}</DescriptionText>
+        <ExpandedContainer isExpanded={!isFold}>
           <AmountContainer>
             <SpaceBetweenContainer>
               <ItemsCenterContainer>
                 {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-                <TokenImage {...token.image} />
+                <TokenImage {...token.image} size={36} />
                 <AmountLabel>{token.name}</AmountLabel>
               </ItemsCenterContainer>
               <ItemsCenterContainer>
-                <CurrencyText>{token.amount}</CurrencyText>
+                <CurrencyText>{token.amount?.toFixed(5)}</CurrencyText>
                 <CurrencyText>{token.name}</CurrencyText>
               </ItemsCenterContainer>
             </SpaceBetweenContainer>
             <EstimateUSDText>{` ~ $${token.fiatAmount} USD`}</EstimateUSDText>
           </AmountContainer>
-          <DescriptionText>{type === 'transfer' ? t('FROM') : t('TO')}</DescriptionText>
-          <SpaceBetweenContainer>
-            <ItemsCenterContainer>
-              <AddressImg src={AddressIcon} />
-              <AddressLabelText>{t('YOUR_ADDRESS')}</AddressLabelText>
-            </ItemsCenterContainer>
-            <CopyButton id={copyId} onClick={onCopy}>
-              <AddressText>{getTruncatedAddress(swap.address)}</AddressText>
-              <CopyImg src={CopyIcon} />
-            </CopyButton>
-            {/* <StyledToolTip
-              anchorId={copyId}
-              variant="light"
-              content={isCopied ? t('COPIED') : t('COPY_YOUR_ADDRESS')}
-              events={['hover']}
-              place="top"
-            /> */}
-          </SpaceBetweenContainer>
-        </>
+        </ExpandedContainer>
       )}
     </Container>
   );
