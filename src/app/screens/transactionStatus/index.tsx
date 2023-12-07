@@ -43,16 +43,13 @@ const TransactionIDContainer = styled.div((props) => ({
 }));
 
 const ButtonContainer = styled.div((props) => ({
-  flex: 1,
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'flex-end',
   gap: props.theme.spacing(6),
-  marginTop: props.theme.spacing(15),
-  marginBottom: props.theme.spacing(24),
-  marginLeft: props.theme.spacing(8),
-  marginRight: props.theme.spacing(8),
+  width: '100%',
+  marginTop: props.theme.spacing(8),
 }));
 
 const RowContainer = styled.div((props) => ({
@@ -66,11 +63,6 @@ const RowContainer = styled.div((props) => ({
 const TxIDContainer = styled.div({
   display: 'flex',
   flexDirection: 'row',
-});
-
-const CopyButtonContainer = styled.div({
-  marginLeft: 8,
-  padding: 2,
 });
 
 const InfoMessageContainer = styled.div({
@@ -141,6 +133,16 @@ const Button = styled.button((props) => ({
   marginLeft: props.theme.spacing(3),
 }));
 
+const Bottom = styled.div((props) => ({
+  flex: 'none',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  marginLeft: props.theme.spacing(10),
+  marginRight: props.theme.spacing(10),
+  marginBottom: props.theme.spacing(20),
+}));
 function TransactionStatus() {
   const { t } = useTranslation('translation', { keyPrefix: 'TRANSACTION_STATUS' });
   const navigate = useNavigate();
@@ -164,11 +166,6 @@ function TransactionStatus() {
 
   const renderTransactionSuccessStatus = (
     <Container>
-      {/* <LogoStatusHeader
-        status={`Account ${
-          selectedAccount?.id === 0 ? selectedAccount.id + 1 : selectedAccount?.id
-        }`}
-      /> */}
       <Image src={Success} />
       <HeadingText>{sponsored ? t('SPONSORED_SUCCESS_MSG') : t('BROADCASTED')}</HeadingText>
       <BodyText isTestnet={network.type === 'Testnet'}>
@@ -223,9 +220,6 @@ function TransactionStatus() {
       <TxIDText>{t('TRANSACTION_ID')}</TxIDText>
       <TxIDContainer>
         <IDText onClick={openTransactionInBrowser}>{txid}</IDText>
-        {/* <CopyButtonContainer>
-          <CopyButton text={txid} />
-        </CopyButtonContainer> */}
       </TxIDContainer>
     </TransactionIDContainer>
   );
@@ -234,7 +228,13 @@ function TransactionStatus() {
     <TxStatusContainer>
       <OuterContainer>
         {txid ? renderTransactionSuccessStatus : renderTransactionFailureStatus}
-        {/* {txid && renderLink} */}
+        {isSponsorServiceError && (
+          <InfoMessageContainer>
+            <InfoContainer bodyText={t('SPONSOR_SERVICE_ERROR')} />
+          </InfoMessageContainer>
+        )}
+      </OuterContainer>
+      <Bottom>
         {isBrc20TokenFlow ? (
           <InfoMessageContainer>
             <InfoContainer bodyText={t('BRC20_ORDINAL_MSG')} />
@@ -242,22 +242,17 @@ function TransactionStatus() {
         ) : (
           txid && renderTransactionID
         )}
-        {isSponsorServiceError && (
-          <InfoMessageContainer>
-            <InfoContainer bodyText={t('SPONSOR_SERVICE_ERROR')} />
-          </InfoMessageContainer>
+        {isSwapTransaction && isSponsorServiceError ? (
+          <ButtonContainer>
+            <ActionButton text={t('RETRY')} onPress={handleClickTrySwapAgain} />
+            <ActionButton text={t('CLOSE')} onPress={onCloseClick} transparent />
+          </ButtonContainer>
+        ) : (
+          <ButtonContainer>
+            <ActionButton text={t('CLOSE')} onPress={onCloseClick} />
+          </ButtonContainer>
         )}
-      </OuterContainer>
-      {isSwapTransaction && isSponsorServiceError ? (
-        <ButtonContainer>
-          <ActionButton text={t('RETRY')} onPress={handleClickTrySwapAgain} />
-          <ActionButton text={t('CLOSE')} onPress={onCloseClick} transparent />
-        </ButtonContainer>
-      ) : (
-        <ButtonContainer>
-          <ActionButton text={t('CLOSE')} onPress={onCloseClick} />
-        </ButtonContainer>
-      )}
+      </Bottom>
     </TxStatusContainer>
   );
 }
