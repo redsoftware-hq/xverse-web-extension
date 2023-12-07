@@ -1,8 +1,8 @@
 import ActionButton from '@components/button';
 import TopRow from '@components/topRow';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import FundsRow from './fundsRow';
 
@@ -43,41 +43,21 @@ const Container = styled.div({
   paddingLeft: 16,
   paddingRight: 16,
 });
-const ButtonContainer = styled.div({
-  marginBottom: 40,
-  marginLeft: 16,
-  marginRight: 16,
-});
 
-type SelectedState = {
-  btc: boolean;
-  ordinals: boolean;
-};
 function RestoreFunds() {
   const { t } = useTranslation('translation', { keyPrefix: 'RESTORE_FUND_SCREEN' });
-  const [isSelected, setIsSelected] = useState<SelectedState>({ btc: false, ordinals: false });
+  const [isSelected, setIsSelected] = useState<boolean>(false);
   const navigate = useNavigate();
-  const location = useLocation();
-  const { unspentUtxos } = location.state;
 
   const handleOnCancelClick = () => {
     navigate(-1);
-  };
-
-  const handleOnRestoreBtcClick = () => {
-    navigate('/recover-btc', {
-      state: {
-        unspentUtxos,
-      },
-    });
   };
 
   const handleOnRestoreOridnalClick = () => {
     navigate('/recover-ordinals');
   };
   const onPress = () => {
-    if (isSelected.btc) handleOnRestoreBtcClick();
-    if (isSelected.ordinals) handleOnRestoreOridnalClick();
+    if (isSelected) handleOnRestoreOridnalClick();
   };
   return (
     <Layout>
@@ -87,26 +67,13 @@ function RestoreFunds() {
       </Top>
       <Container>
         <FundsRow
-          selected={isSelected.btc}
-          // image={IconBitcoin}
-          title={t('RECOVER_BTC')}
-          // description={t('RECOVER_BTC_DESC')}
-          onClick={() => setIsSelected({ ...isSelected, btc: true, ordinals: false })}
-        />
-        <FundsRow
-          selected={isSelected.ordinals}
-          // image={OrdinalsIcon}
+          selected={isSelected}
           title={t('RECOVER_ORDINALS')}
-          // description={t('RECOVER_ORDINALS_DESC')}
-          onClick={() => setIsSelected({ ...isSelected, btc: false, ordinals: true })}
+          onClick={() => setIsSelected(true)}
         />
       </Container>
       <Bottom>
-        <ActionButton
-          text="Restore Assets"
-          onPress={onPress}
-          disabled={!(isSelected.btc || isSelected.ordinals)}
-        />
+        <ActionButton text="Restore Assets" onPress={onPress} disabled={!isSelected} />
       </Bottom>
     </Layout>
   );

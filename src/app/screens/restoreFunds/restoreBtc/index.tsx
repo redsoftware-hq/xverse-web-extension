@@ -1,6 +1,8 @@
+import IconBitcoin from '@assets/img/dashboard/bitcoin_icon.svg';
+import ActionButton from '@components/button';
+import BottomTabBar from '@components/tabBar';
 import TopRow from '@components/topRow';
 import useWalletSelector from '@hooks/useWalletSelector';
-import IconBitcoin from '@assets/img/dashboard/bitcoin_icon.svg';
 import {
   BtcUtxoDataResponse,
   getBtcFiatEquivalent,
@@ -16,12 +18,10 @@ import {
 } from '@secretkeylabs/xverse-core/transactions/btc';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import BigNumber from 'bignumber.js';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import ActionButton from '@components/button';
-import BottomTabBar from '@components/tabBar';
-import { useEffect } from 'react';
 
 const RestoreFundTitle = styled.h1((props) => ({
   ...props.theme.body_l,
@@ -108,16 +108,24 @@ function RestoreBtc() {
       network: NetworkType;
       fee?: BigNumber;
     }
-  >(async ({ recipientAddress, nonOrdinalUtxos, accountIndex, seedPhrase, network, fee }) =>
-    signNonOrdinalBtcSendTransaction(
+  >({
+    mutationFn: async ({
       recipientAddress,
       nonOrdinalUtxos,
       accountIndex,
       seedPhrase,
       network,
       fee,
-    ),
-  );
+    }) =>
+      signNonOrdinalBtcSendTransaction(
+        recipientAddress,
+        nonOrdinalUtxos,
+        accountIndex,
+        seedPhrase,
+        network,
+        fee,
+      ),
+  });
 
   const onClickTransfer = () => {
     mutateSignNonOrdinalBtcTransaction({
@@ -172,7 +180,7 @@ function RestoreBtc() {
 
   return (
     <>
-      <TopRow title={t('TITLE')} onClick={()=> navigate(-1)}  />
+      <TopRow title={t('TITLE')} onClick={() => navigate(-1)} />
       <Container>
         {isNoAmount ? (
           <RestoreFundTitle>{t('NO_FUNDS')}</RestoreFundTitle>
