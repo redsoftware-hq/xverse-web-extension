@@ -6,7 +6,7 @@
   "action": {
     "default_popup": "popup.html",
     "default_icon": "pill_logo.png",
-    "default_title": "Orange Pill"
+    "default_title": "Orange Wallet"
   },
   "chrome_url_overrides": {},
   "background": {
