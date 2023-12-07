@@ -4,6 +4,7 @@ import OnboardingGuard from '@components/guards/onboarding';
 // import { SingleTabGuard } from '@components/guards/singleTab';
 import ScreenContainer from '@components/screenContainer';
 import AccountList from '@screens/accountList';
+import Assistant from '@screens/assistant';
 import AuthenticationRequest from '@screens/authenticationRequest';
 import BackupWallet from '@screens/backupWallet';
 import BackupWalletSteps from '@screens/backupWalletSteps';
@@ -425,6 +426,10 @@ const router = createHashRouter([
       {
         path: 'receive-main-menu/nft',
         element: <ReceiveNftMainMenu />,
+      },
+      {
+        path: 'assistant',
+        element: <Assistant />,
       },
     ],
   },

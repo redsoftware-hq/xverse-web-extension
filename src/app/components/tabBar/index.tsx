@@ -1,5 +1,8 @@
+import AssistantTab from '@assets/img/assistant/AI_filled.svg';
+import UnselectedAssistantTab from '@assets/img/assistant/AI_white.svg';
 import UnselectedNftTab from '@assets/img/bottomTabBar/NFT.svg';
 import MarketTab from '@assets/img/bottomTabBar/Selected_market.svg';
+
 import NftTab from '@assets/img/bottomTabBar/Selected_nft.svg';
 import StackingTab from '@assets/img/bottomTabBar/Selected_stake.svg';
 import WalletTab from '@assets/img/bottomTabBar/Selected_wallet.svg';
@@ -50,7 +53,7 @@ const Button = styled.button({
   zIndex: 2,
 });
 
-export type Tab = 'dashboard' | 'nft' | 'market' | 'stacking';
+export type Tab = 'dashboard' | 'nft' | 'market' | 'stacking' | 'assistant';
 
 interface Props {
   tab: Tab;
@@ -81,8 +84,12 @@ function BottomTabBar({ tab }: Props) {
   //   if (tab !== 'stacking') {
   //     navigate('/stacking');
   //   }
-  // };
 
+  const handleAssistant = () => {
+    if (tab !== 'assistant') {
+      navigate('/assistant');
+    }
+  };
   return (
     <Container>
       <RowContainer>
@@ -102,9 +109,14 @@ function BottomTabBar({ tab }: Props) {
           <img id="nft" src={tab === 'nft' ? NftTab : UnselectedNftTab} alt="nft" />
           <StyledTooltip anchorSelect="nft" content="NFTs" place="bottom" noArrow />
         </Button>
-        {/* <Button onClick={handleStackingButtonClick}>
-        <img src={tab === 'stacking' ? StackingTab : UnselectedStackingTab} alt="stacking" />
-      </Button> */}
+        <Button onClick={handleAssistant}>
+          <img
+            id="ai"
+            src={tab === 'stacking' ? AssistantTab : UnselectedAssistantTab}
+            alt="stacking"
+          />
+          <StyledTooltip anchorSelect="ai" content="Assistant" place="bottom" noArrow />
+        </Button>
       </RowContainer>
     </Container>
   );
