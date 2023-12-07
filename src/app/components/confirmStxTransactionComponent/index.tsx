@@ -322,7 +322,7 @@ function ConfirmStxTransationComponent({
     <>
       {/* <SendConfirmationHeader /> */}
       <Top>
-        <TopRow title="Send Confirmation" onClick={onBackButtonClick} />
+        <TopRow title="Send Confirmation" onClick={onCancelClick} />
       </Top>
       <Container>
         {/* <TitleContainer>

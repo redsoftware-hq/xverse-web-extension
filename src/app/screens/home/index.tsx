@@ -12,10 +12,10 @@ import useCoinRates from '@hooks/queries/useCoinRates';
 import useFeeMultipliers from '@hooks/queries/useFeeMultipliers';
 import useStxWalletData from '@hooks/queries/useStxWalletData';
 import useWalletSelector from '@hooks/useWalletSelector';
-import TransactionsHistoryList from '@screens/coinDashboard/transactionsHistoryList';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import AllTransactionsHistoryList from './allTransactions';
 import BalanceCard from './balanceCard';
 
 const Container = styled.div`
@@ -161,7 +161,7 @@ function Home() {
         <StepperContainer>
           <StepperNavigator />
         </StepperContainer>
-        <TransactionsHistoryList coin="FT" txFilter={null} txAll />
+        <AllTransactionsHistoryList />
       </MainContainer>
       <BottomBar tab="dashboard" />
     </>

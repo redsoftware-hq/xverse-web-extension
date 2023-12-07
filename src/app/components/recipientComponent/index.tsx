@@ -242,9 +242,14 @@ function RecipientComponent({
         <AddressContainer>
           {showSenderAddress ? (
             <MultipleAddressContainer>
-              <TransferDetailView icon={WalletIcon} title={t('FROM')} address={ordinalsAddress} />
-              <DownArrowIcon src={ArrowIcon} />
-              <TransferDetailView icon={WalletIcon} title={t('To')} address={address} />
+              {/* <TransferDetailView icon={WalletIcon} title={t('FROM')} address={ordinalsAddress} hideCopyButton/> */}
+              {/* <DownArrowIcon src={ArrowIcon} /> */}
+              <TransferDetailView
+                icon={WalletIcon}
+                title={t('RECIPIENT')}
+                address={address}
+                hideCopyButton
+              />
             </MultipleAddressContainer>
           ) : (
             <TransferDetailView

@@ -1,15 +1,12 @@
-import ArrowIcon from '@assets/img/settings/arrow.svg';
+import Paragraph from '@components/paragraph';
+import TopRow from '@components/topRow';
+import useNonOrdinalUtxos from '@hooks/useNonOrdinalUtxo';
+import useWalletReducer from '@hooks/useWalletReducer';
 import useWalletSelector from '@hooks/useWalletSelector';
 import { useStepperContext } from '@stores/stepper';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-// import { useDispatch } from 'react-redux';
-// import { ChangeActivateOrdinalsAction } from '@stores/wallet/actions/actionCreators';
-import Paragraph from '@components/paragraph';
-import TopRow from '@components/topRow';
-import useNonOrdinalUtxos from '@hooks/useNonOrdinalUtxo';
-import useWalletReducer from '@hooks/useWalletReducer';
 import SettingComponent from './settingComponent';
 
 const Container = styled.div`
@@ -33,27 +30,17 @@ const Top = styled.div((props) => ({
   gap: 2,
   marginBottom: 8,
 }));
-const Bottom = styled.div((props) => ({
-  flex: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  marginLeft: props.theme.spacing(10),
-  marginRight: props.theme.spacing(10),
-  marginBottom: props.theme.spacing(20),
-}));
 const Layout = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'column',
   height: '100%',
+  overflow: 'hidden',
 }));
 function Setting() {
   const { t } = useTranslation('translation', { keyPrefix: 'SETTING_SCREEN' });
-  // const { fiatCurrency, network, hasActivatedOrdinalsKey } = useWalletSelector();
   const { fiatCurrency, network } = useWalletSelector();
   const { lockWallet } = useWalletReducer();
   const navigate = useNavigate();
-  // const dispatch = useDispatch();
   const { dispatchStep } = useStepperContext();
   const { unspentUtxos } = useNonOrdinalUtxos();
 
