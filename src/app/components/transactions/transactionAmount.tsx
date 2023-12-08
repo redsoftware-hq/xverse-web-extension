@@ -43,7 +43,7 @@ export default function TransactionAmount(props: TransactionAmountProps): JSX.El
         const token = coinsList?.find(
           (cn) => cn.principal === transaction.contractCall?.contract_id,
         );
-        const prefix = transaction.incoming ? '' : '-';
+        const prefix = transaction.incoming ? '+' : '-';
         return (
           <NumericFormat
             value={getFtBalance(token as FungibleToken)}

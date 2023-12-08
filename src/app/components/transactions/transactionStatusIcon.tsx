@@ -2,7 +2,7 @@ import Receive from '@assets/img/dashboard/recieve.svg';
 import Send from '@assets/img/dashboard/send.svg';
 import ContractIcon from '@assets/img/transactions/contract.svg';
 import FailedIcon from '@assets/img/transactions/new_failed.svg';
-import OrdinalsIcon from '@assets/img/transactions/ordinal.svg';
+import OrdinalsIcon from '@assets/img/transactions/new_ordinal.svg';
 import PendingIcon from '@assets/img/transactions/PendingIcon.svg';
 import {
   Brc20HistoryTransactionData,
@@ -10,6 +10,7 @@ import {
   StxTransactionData,
 } from '@secretkeylabs/xverse-core';
 import { CurrencyTypes } from '@utils/constants';
+
 interface TransactionStatusIconPros {
   transaction: StxTransactionData | BtcTransactionData | Brc20HistoryTransactionData;
   currency: CurrencyTypes;
@@ -43,9 +44,6 @@ function TransactionStatusIcon(props: TransactionStatusIconPros) {
     }
     if (tx.txStatus === 'pending') {
       return <img width={32} src={PendingIcon} alt="pending" />;
-    }
-    if (tx.isOrdinal) {
-      return <img width={32} src={OrdinalsIcon} alt="ordinals-transfer" />;
     }
     if (tx.incoming) {
       return <img width={32} src={Receive} alt="received" />;

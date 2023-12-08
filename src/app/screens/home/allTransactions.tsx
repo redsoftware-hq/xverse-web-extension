@@ -9,6 +9,7 @@ import { BtcTransactionData } from '@secretkeylabs/xverse-core/types';
 import {
   AddressTransactionWithTransfers,
   MempoolTransaction,
+  PostConditionFungible,
 } from '@stacks/stacks-blockchain-api-types';
 import { CurrencyTypes } from '@utils/constants';
 import { formatDate } from '@utils/date';
@@ -235,7 +236,7 @@ export default function AllTransactionsHistoryList() {
     }
 
     const collection = mergeObjects(btc, stx);
-    const allTransactions = sortData(collection);
+    const allTransactions: any = sortData(collection);
     console.log('ALL', allTransactions);
     return allTransactions;
   }, [stxData, btcData]);
@@ -251,6 +252,7 @@ export default function AllTransactionsHistoryList() {
           <GroupContainer key={group} style={styles} txAll>
             {groupedTxs[group].map((transaction, index) => {
               if (isBtcTransaction(transaction) || isBrc20Transaction(transaction)) {
+                // eslint-disable-next-line react/no-array-index-key
                 return <BtcTransactionHistoryItem transaction={transaction} key={index} />;
               }
               return (

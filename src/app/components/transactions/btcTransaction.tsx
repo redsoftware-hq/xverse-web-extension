@@ -121,7 +121,6 @@ export default function BtcTransactionHistoryItem(props: TransactionHistoryItemP
   function formatAddress(addr: string): string {
     return addr ? `${addr.substring(0, 4)}...${addr.substring(addr.length - 4, addr.length)}` : '';
   }
-  console.log(transaction);
   return (
     <TransactionContainer onClick={openBtcTxStatusLink}>
       <TitleContainer>

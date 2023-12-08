@@ -1,5 +1,5 @@
 import AssistantTab from '@assets/img/assistant/AI_filled.svg';
-import UnselectedAssistantTab from '@assets/img/assistant/AI_white.svg';
+import UnselectedAssistantTab from '@assets/img/assistant/ai_unselected.svg';
 import UnselectedNftTab from '@assets/img/bottomTabBar/NFT.svg';
 import MarketTab from '@assets/img/bottomTabBar/Selected_market.svg';
 
