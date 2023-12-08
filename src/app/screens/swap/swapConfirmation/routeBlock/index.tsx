@@ -19,7 +19,6 @@ const RouteProgress = styled.div((props) => ({
   justifyContent: 'space-between',
   flex: 1,
   background: '#14161C',
-  marginTop: props.theme.spacing(8),
 }));
 
 const ProgressItem = styled.div((props) => ({
@@ -42,7 +41,7 @@ const ExpandedContainer = styled(animated.div)<{ isExpanded: boolean }>((props) 
   display: 'flex',
   background: '#14161C',
   flexDirection: 'column',
-  padding: props.isExpanded ? '10px 18px' : '0px',
+  padding: props.isExpanded ? '16px 18px' : '0px',
   borderTop: '1px solid #1F232D',
   borderRadius: '0px 0px 11px 11px',
 }));

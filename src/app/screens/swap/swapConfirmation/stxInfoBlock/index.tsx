@@ -28,7 +28,7 @@ export const TitleContainer = styled.div(() => ({
   flex: '1',
   alignItems: 'center',
   justifyContent: 'space-between',
-  padding: 20,
+  padding: '15px 20px 20px 20px',
 }));
 
 export const TitleText = styled.h3((props) => ({
