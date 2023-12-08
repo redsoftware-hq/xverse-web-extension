@@ -207,6 +207,7 @@ export default function CoinHeader(props: CoinBalanceProps) {
     stxAvailableBalance,
     coinsList,
     brcCoinsList,
+    network,
     selectedAccount,
   } = useWalletSelector();
   const navigate = useNavigate();
@@ -525,7 +526,7 @@ export default function CoinHeader(props: CoinBalanceProps) {
                   />
                   <StyledTooltip anchorSelect="receive-ft" content="Receive" noArrow place="top" />
                 </ButtonContainer>
-                {coin === 'BTC' && (
+                {coin !== 'FT' && (
                   <ButtonContainer>
                     <SmallActionButton
                       isOpaque
@@ -562,7 +563,7 @@ export default function CoinHeader(props: CoinBalanceProps) {
                 </ButtonContainer>
               </>
             )}
-            {!(coin === 'BTC') && (
+            {network.type === 'Mainnet' && !(coin === 'BTC') && (
               <ButtonContainer>
                 <SmallActionButton
                   isOpaque
