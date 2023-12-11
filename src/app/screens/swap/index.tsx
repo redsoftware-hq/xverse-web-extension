@@ -10,6 +10,7 @@ import ActionButton from '@components/button';
 import CoinSwitch from '@components/coinSwitch';
 import InfoContainer from '@components/infoContainer';
 import OperationHeader from '@components/operationHeader';
+import FiatRow from '@components/sendForm/fiatRow';
 import useWalletSelector from '@hooks/useWalletSelector';
 import { SwapInfoBlock } from '@screens/swap/swapInfoBlock';
 import SwapTokenBlock from '@screens/swap/swapTokenBlock';
@@ -56,8 +57,8 @@ const DownArrowButton = styled.button((props) => ({
   ':hover': {
     opacity: 0.8,
   },
-  marginTop: props.theme.spacing(6),
-  marginBottom: props.theme.spacing(6),
+  marginTop: props.theme.spacing(5),
+  marginBottom: props.theme.spacing(5),
 }));
 
 const SendButtonContainer = styled.div((props) => ({
@@ -131,6 +132,10 @@ const Max = styled.button((props) => ({
   ...props.theme.body_medium_m,
   color: props.theme.colors.action.classic,
 }));
+const FiatContainer = styled.div({
+  display: 'flex',
+  justifyContent: 'space-between',
+});
 function SwapScreen() {
   const navigate = useNavigate();
   const { t } = useTranslation('translation', { keyPrefix: 'SWAP_SCREEN' });
@@ -138,6 +143,7 @@ function SwapScreen() {
   const location = useLocation();
   const [selecting, setSelecting] = useState<'from' | 'to'>();
   const [loading, setLoading] = useState(false);
+  const [fiatAmount, setFiatAmount] = useState<string | undefined>('0');
   const { dispatchStep } = useStepperContext();
   const { btcBalance, btcFiatRate, fiatCurrency, coinsList, stxBtcRate, stxBalance } =
     useWalletSelector();
@@ -253,14 +259,24 @@ function SwapScreen() {
             error={swap.inputAmountInvalid}
             onAmountChange={swap.onInputAmountChanged}
             onSelectCoin={() => setSelecting('from')}
+            setFiatAmount={setFiatAmount}
           />
-          <Max
-            onClick={() => {
-              swap.onInputAmountChanged(swap.selectedFromToken?.balance?.toString() as string);
-            }}
-          >
-            Max
-          </Max>
+          <FiatContainer>
+            <FiatRow
+              onClick={() => {}}
+              showFiat={false}
+              fiatCurrency={fiatCurrency}
+              fiatAmount={fiatAmount || swap.selectedFromToken?.fiatAmount}
+            />
+            <Max
+              onClick={() => {
+                setFiatAmount(getFiatEquivalent(swap.selectedFromToken?.name));
+                swap.onInputAmountChanged(swap.selectedFromToken?.balance?.toString() as string);
+              }}
+            >
+              Max
+            </Max>
+          </FiatContainer>
           <DownArrowButton onClick={swap.handleClickDownArrow}>
             <img src={DownArrow} alt="swap-token-icon" />
           </DownArrowButton>
@@ -268,6 +284,7 @@ function SwapScreen() {
             title={t('TO')}
             selectedCoin={swap.selectedToToken}
             onSelectCoin={() => setSelecting('to')}
+            setFiatAmount={setFiatAmount}
           />
         </Container>
         <SwapInfoBlock swap={swap} />

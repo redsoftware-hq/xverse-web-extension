@@ -466,6 +466,14 @@ function SendForm({
         <Max
           onClick={() => {
             setAmount(balance?.toString() as string);
+            const amountInCurrency = getFiatEquivalent(
+              Number(balance?.toString() as string),
+              currencyType,
+              BigNumber(stxBtcRate),
+              BigNumber(btcFiatRate),
+              fungibleToken,
+            );
+            setFiatAmount(amountInCurrency);
           }}
         >
           Max

@@ -563,20 +563,23 @@ export default function CoinHeader(props: CoinBalanceProps) {
                 </ButtonContainer>
               </>
             )}
-            {network.type === 'Mainnet' && !(coin === 'BTC') && (
-              <ButtonContainer>
-                <SmallActionButton
-                  isOpaque
-                  id="swap"
-                  isRound
-                  src={SwapCoin}
-                  onPress={() =>
-                    navigate('/swap', { state: { coin: coin === 'FT' ? fungibleToken : coin } })
-                  }
-                />
-                <StyledTooltip anchorSelect="swap" content="Swap" noArrow place="top" />
-              </ButtonContainer>
-            )}
+            {
+              // network.type === 'Mainnet' &&
+              !(coin === 'BTC') && (
+                <ButtonContainer>
+                  <SmallActionButton
+                    isOpaque
+                    id="swap"
+                    isRound
+                    src={SwapCoin}
+                    onPress={() =>
+                      navigate('/swap', { state: { coin: coin === 'FT' ? fungibleToken : coin } })
+                    }
+                  />
+                  <StyledTooltip anchorSelect="swap" content="Swap" noArrow place="top" />
+                </ButtonContainer>
+              )
+            }
           </RowButtonContainer>
         </BalanceInfoContainer>
         {renderStackingBalances()}
