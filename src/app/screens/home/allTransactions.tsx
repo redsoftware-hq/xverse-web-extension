@@ -276,12 +276,7 @@ export default function AllTransactionsHistoryList() {
           </GroupContainer>
         ))}
 
-      {loadingBTC && (
-        <LoadingContainer>
-          <MoonLoader color="white" size={20} />
-        </LoadingContainer>
-      )}
-      {loadingSTX && (
+      {(loadingSTX || loadingBTC) && (
         <LoadingContainer>
           <MoonLoader color="white" size={20} />
         </LoadingContainer>

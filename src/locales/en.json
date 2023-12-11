@@ -515,9 +515,9 @@
     "FORGOT_PASSWORD_BUTTON": "Forgot password?"
   },
   "FORGOT_PASSWORD_SCREEN": {
-    "TITLE": "Reset Wallet",
-    "PARAGRAPH": "Resetting you wallet will erase all of your data associated with this wallet address. After resetting your wallet, you will have to create a new wallet or restore your wallet from an existing seed phrase.",
-    "BACKUP_CHECKBOX_LABEL": "I understand."
+    "TITLE": "Forgot Password",
+    "PARAGRAPH": "Orange Pill does not store any passwords, seed phrases, or any user data. If you have forgotten your password, you will need reset your wallet and re-enter your seed phrase to recover your Bitcoin wallet. Always have your seed phrase backed up and stored in a safe location.",
+    "BACKUP_CHECKBOX_LABEL": "My seed phrase is backed up."
   },
   "RESTORE_WALLET_SCREEN": {
     "ENTER_SEED_HEADER": "Enter the requested words in the order of your seed phrase to confirm it is correct.",
@@ -705,7 +705,8 @@
     "BACKUP_WALLET": "Backup Wallet",
     "AUTO_LOCK": "Auto Lock",
     "RESET_WALLET": "Reset Wallet",
-    "RESET_WALLET_CONTENT": "The Orange Wallet does not store any passwords, seed phrases, or any user data. If you have forgotten your password, you will need reset your wallet and re-enter your seed phrase to recover your Bitcoin wallet. Always have your seed phrase backed up and stored in a safe location.",
+    "RESET_WALLET_CONTENT": "Resetting you wallet will erase all of your data associated with this wallet address. After resetting your wallet, you will have to create a new wallet or restore your wallet from an existing seed phrase.",
+    "BACKUP_CHECKBOX_LABEL": "I understand.",
     "ABOUT": "About",
     "TERMS_OF_SERVICE": "Terms of Service",
     "PRIVACY_POLICY": "Privacy Policy",

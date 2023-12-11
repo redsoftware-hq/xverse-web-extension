@@ -118,6 +118,7 @@ function Setting() {
         <SettingComponent text={t('BACKUP_WALLET')} onClick={openBackUpWalletScreen} showDivider />
         <SettingComponent text={t('RECOVER_ASSETS')} onClick={onRestoreFundClick} showDivider />
         <SettingComponent text={t('LOCK_WALLET')} onClick={handleLockWallet} showDivider />
+        <SettingComponent text={t('RESET_WALLET')} onClick={openResetWalletPage} showDivider />
         <Divider />
       </Container>
     </Layout>
