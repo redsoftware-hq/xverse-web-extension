@@ -78,6 +78,7 @@ const ErrorText = styled.p((props) => ({
 }));
 
 const InputFieldContainer = styled.div((props) => ({
+  display: 'flex',
   background: props.theme.colors.background.orangePillBg,
   flex: 1,
 }));
@@ -280,6 +281,13 @@ const Max = styled.button((props) => ({
   ...props.theme.body_medium_m,
   color: props.theme.colors.action.classic,
 }));
+const Paste = styled.button((props) => ({
+  padding: '6px 12px',
+  display: 'inline-flex',
+  color: props.theme.colors.action.classic,
+  background: 'rgba(210, 52, 3, 0.20)',
+  borderRadius: '15px',
+}));
 function SendForm({
   onPressSend,
   currencyType,
@@ -440,6 +448,15 @@ function SendForm({
           .toString()
           .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
+  const handlePaste = async () => {
+    try {
+      const text = await navigator.clipboard.readText();
+      setRecipientAddress(text);
+      onAddressInputChange?.(text);
+    } catch (e) {
+      console.log(e);
+    }
+  };
   const renderEnterAmountSection = (
     <Container>
       <RowContainer>
@@ -515,6 +532,7 @@ function SendForm({
             placeholder={getAddressInputPlaceholder()}
             onChange={handleAddressInputChange}
           />
+          <Paste onClick={handlePaste}>Paste</Paste>
         </InputFieldContainer>
       </AmountInputContainer>
       {associatedAddress &&
