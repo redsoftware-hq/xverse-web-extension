@@ -78,10 +78,10 @@ const PriceConatiner = styled.div({
   alignItems: 'center',
 });
 
-const ItemTitle = styled.p((props) => ({
+const ItemTitle = styled.p<{ isSelected: boolean }>((props) => ({
   ...props.theme.body_medium_m,
   fontSize: '16px',
-  color: props.theme.colors.white[0],
+  color: props.isSelected ? props.theme.colors.action.classic : props.theme.colors.white[0],
   paddingRight: props.theme.spacing(7),
 }));
 
@@ -119,27 +119,28 @@ type DetailRowProps = {
   change: string;
   price: string;
   onClick: () => void;
+  isSelected: boolean;
 };
 
-function DetailRow({ coin, name, img, change, price, onClick }: DetailRowProps) {
+function DetailRow({ coin, name, img, change, price, onClick, isSelected }: DetailRowProps) {
   return (
     <DetailRowContainer onClick={onClick}>
       <TitleContainer>
         <img src={img} alt={coin} />
         <div>
-          <ItemTitle>{name}</ItemTitle>
+          <ItemTitle isSelected={isSelected}>{name}</ItemTitle>
           <HeaderTitle>{coin}</HeaderTitle>
         </div>
       </TitleContainer>
       <PriceConatiner>
-        <ItemTitle>{price}</ItemTitle>
-        <ItemTitle>{change}</ItemTitle>
+        <ItemTitle isSelected={isSelected}>{price}</ItemTitle>
+        <ItemTitle isSelected={isSelected}>{change}</ItemTitle>
       </PriceConatiner>
     </DetailRowContainer>
   );
 }
 
-export default function BitcoinAssets({ isLoading, data }: any) {
+export default function BitcoinAssets({ isLoading, data, isSelected }: any) {
   const { t } = useTranslation('translation', { keyPrefix: 'MARKET_SCREEN' });
 
   return (
@@ -165,6 +166,7 @@ export default function BitcoinAssets({ isLoading, data }: any) {
                 change={item.change}
                 price={item.price}
                 onClick={item.handleClick}
+                isSelected={item.name === isSelected}
               />
               <SectionSeparator />
             </>

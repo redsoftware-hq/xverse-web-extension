@@ -170,6 +170,7 @@ function Market() {
   const [quotesData, setQuotesData] = useState<any>([]);
   const [headData, setHeadData] = useState<any[]>([]);
   const [currentActiveIndex, setCurentActiveIndex] = useState<any>(0);
+  const [isSelected, setIsSelected] = useState('Bitcoin');
   const Currency = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: fiatCurrency,
@@ -269,7 +270,7 @@ function Market() {
         x: +new Date(item.timestamp),
         y: item.quote[fiatCurrency].price.toFixed(2),
       }));
-      setSeries([{ data: mappedData, name: 'BTC' }]);
+      setSeries([{ data: mappedData, name: 'Bitcoin' }]);
       const symbolsToExtract = [
         'BTC',
         'WBTC',
@@ -310,6 +311,7 @@ function Market() {
           change: `${coinData?.percent_change_1h.toFixed(2)}%`,
           price: Currency.format(Number(coinData?.price.toFixed(1))),
           handleClick: () => {
+            setIsSelected(coinData.name);
             setSeries([{ data: quoteMappedData, name: coinData.name }]);
             setHeadData([
               {
@@ -365,7 +367,7 @@ function Market() {
           setCurentActiveIndex={setCurentActiveIndex}
         />
       )}
-      <BitcoinAssets isLoading={loading} data={quotesData} />
+      <BitcoinAssets isLoading={loading} data={quotesData} isSelected={isSelected} />
       <BottomBar tab="market" />
     </>
   );
