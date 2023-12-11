@@ -343,6 +343,7 @@ function PasswordInput(props: PasswordInputProps): JSX.Element {
           <Input
             type={isPasswordVisible ? 'text' : 'password'}
             value={enteredPassword}
+            autoFocus
             onChange={handlePasswordChange}
           />
           <Button onClick={handleTogglePasswordView}>
