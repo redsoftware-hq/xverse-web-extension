@@ -80,6 +80,7 @@ const ErrorText = styled.p((props) => ({
 const InputFieldContainer = styled.div((props) => ({
   display: 'flex',
   background: props.theme.colors.background.orangePillBg,
+  gap:8,
   flex: 1,
 }));
 
