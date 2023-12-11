@@ -432,6 +432,14 @@ function SendForm({
     return getTokenCurrency();
   };
 
+  const formatNumber = (number) =>
+    Number.isNaN(number)
+      ? 'Invalid input'
+      : number
+          .toFixed(2)
+          .toString()
+          .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
   const renderEnterAmountSection = (
     <Container>
       <RowContainer>
@@ -461,7 +469,7 @@ function SendForm({
           tokenCurrency={getTokenCurrency()}
           tokenAmount={getTokenEquivalent(amount)}
           fiatCurrency={fiatCurrency}
-          fiatAmount={fiatAmount ?? ''}
+          fiatAmount={formatNumber(Number(fiatAmount)) ?? ''}
         />
         <Max
           onClick={() => {

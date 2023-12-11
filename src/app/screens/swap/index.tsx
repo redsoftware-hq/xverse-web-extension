@@ -239,6 +239,14 @@ function SwapScreen() {
       toast.custom(<ToastContent message={swap.submitError} dismissToast={dismissToast} />);
     }
   }, [swap.submitError]);
+  const formatNumber = (number) =>
+    Number.isNaN(number)
+      ? 'Invalid input'
+      : number
+          .toFixed(2)
+          .toString()
+          .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
   return (
     <>
       <OperationHeader
@@ -266,7 +274,7 @@ function SwapScreen() {
               onClick={() => {}}
               showFiat={false}
               fiatCurrency={fiatCurrency}
-              fiatAmount={fiatAmount || swap.selectedFromToken?.fiatAmount}
+              fiatAmount={formatNumber(Number(fiatAmount || swap.selectedFromToken?.fiatAmount))}
             />
             <Max
               onClick={() => {

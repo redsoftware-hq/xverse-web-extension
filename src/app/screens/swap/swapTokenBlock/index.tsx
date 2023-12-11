@@ -1,13 +1,7 @@
 import ChevronIcon from '@assets/img/swap/chevron.svg';
 import useWalletSelector from '@hooks/useWalletSelector';
-// import TokenImage from '@components/tokenImage';
-// import useWalletSelector from '@hooks/useWalletSelector';
 import { SwapToken } from '@screens/swap/types';
-import { getFiatEquivalent } from '@secretkeylabs/xverse-core';
-import BigNumber from 'bignumber.js';
-// import { currencySymbolMap } from '@secretkeylabs/xverse-core/types/currency';
 import { useTranslation } from 'react-i18next';
-// import { NumericFormat } from 'react-number-format';
 import styled from 'styled-components';
 
 const Container = styled.div((props) => ({
@@ -106,7 +100,7 @@ type SwapTokenBlockProps = {
   onAmountChange?: (amount: string) => void;
   onSelectCoin?: () => void;
   error?: boolean;
-  setFiatAmount: (amount: string) => void;
+  setFiatAmount: (amount: undefined) => void;
 };
 
 function SwapTokenBlock({
@@ -119,9 +113,6 @@ function SwapTokenBlock({
   setFiatAmount,
 }: SwapTokenBlockProps) {
   const { t } = useTranslation('translation', { keyPrefix: 'SWAP_SCREEN' });
-  const { stxBtcRate, btcFiatRate, coinsList } = useWalletSelector();
-  console.log(selectedCoin);
-  // const { fiatCurrency } = useWalletSelector();
 
   return (
     <Container>
