@@ -286,6 +286,9 @@ const Paste = styled.button((props) => ({
   display: 'inline-flex',
   color: props.theme.colors.action.classic,
   background: 'rgba(210, 52, 3, 0.20)',
+  alignItems: 'center',
+  justifyContent: 'center',
+  textAlign: 'center',
   borderRadius: '15px',
 }));
 function SendForm({
