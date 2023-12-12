@@ -134,7 +134,7 @@ function Home() {
 
   return (
     <>
-      <AccountHeaderComponent onReceive={onReceive} />
+      <AccountHeaderComponent onReceive={onReceive} addressFor="BTC" />
       <MainContainer>
         <Container>
           <Dashboard>

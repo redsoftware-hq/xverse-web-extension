@@ -126,7 +126,7 @@ function DetailRow({ coin, name, img, change, price, onClick, isSelected }: Deta
   return (
     <DetailRowContainer onClick={onClick}>
       <TitleContainer>
-        <img src={img} alt={coin} />
+        <img src={img} alt={coin} width={32} height={32} />
         <div>
           <ItemTitle isSelected={isSelected}>{name}</ItemTitle>
           <HeaderTitle>{coin}</HeaderTitle>

@@ -1,5 +1,13 @@
 /* eslint-disable import/no-extraneous-dependencies */
+import ALEX from '@assets/img/market/alexgo.svg';
+import BCH from '@assets/img/market/bitcoin-cash.svg';
+import BSV from '@assets/img/market/bitcoin-sv.svg';
 import BTC from '@assets/img/market/bitcoin.svg';
+import SATS from '@assets/img/market/brc20-sats.svg';
+import ORDI from '@assets/img/market/Ordi.svg';
+import OXBT from '@assets/img/market/OXBT.svg';
+import RATS from '@assets/img/market/RATS.svg';
+import STX from '@assets/img/market/Stacks.svg';
 import WBTC from '@assets/img/market/wbitcoin.svg';
 import AccountHeaderComponent from '@components/accountHeader';
 import BottomBar from '@components/tabBar';
@@ -151,12 +159,26 @@ function MarketCapDetails({ isMarketCap, value, percentages, currency = 'USD' }:
 
 const getIcon = (symbol) => {
   switch (symbol) {
-    case 'BTC':
-      return BTC;
     case 'WBTC':
       return WBTC;
+    case 'BCH':
+      return BCH;
+    case 'STX':
+      return STX;
+    case 'BSV':
+      return BSV;
+    case 'ORDI':
+      return ORDI;
+    case 'ALEX':
+      return ALEX;
+    case 'OXBT':
+      return OXBT;
+    case 'SATS':
+      return SATS;
+    case 'RATS':
+      return RATS;
     default:
-      return '';
+      return BTC;
   }
 };
 

@@ -6,6 +6,7 @@ import TopRow from '@components/topRow';
 import useWalletReducer from '@hooks/useWalletReducer';
 import useWalletSelector from '@hooks/useWalletSelector';
 import { Account } from '@secretkeylabs/xverse-core/types';
+import { useStepperContext } from '@stores/stepper';
 import { selectAccount } from '@stores/wallet/actions/actionCreators';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
@@ -101,7 +102,7 @@ function AccountList(): JSX.Element {
   const dispatch = useDispatch();
   const { network, accountsList, selectedAccount } = useWalletSelector();
   const { createAccount } = useWalletReducer();
-
+  const { dispatchStep } = useStepperContext();
   const handleAccountSelect = (account: Account) => {
     dispatch(
       selectAccount(
@@ -116,6 +117,7 @@ function AccountList(): JSX.Element {
         network,
       ),
     );
+    dispatchStep({ type: 'HOME' });
     navigate('/');
   };
 
@@ -145,6 +147,7 @@ function AccountList(): JSX.Element {
               account={account}
               isSelected={isAccountSelected(account)}
               onAccountSelected={handleAccountSelect}
+              addressFor="BTC"
             />
           ))}
           <RowContainer onClick={async () => onCreateAccount()}>

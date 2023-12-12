@@ -211,22 +211,15 @@ export default function CoinDashboard() {
   const navigate = useNavigate();
   return (
     <>
-      <AccountHeaderComponent onReceive={() => navigate('/receive-main-menu')} />
+      <AccountHeaderComponent
+        onReceive={() => navigate('/receive-main-menu')}
+        addressFor={coin === 'BTC' ? 'BTC' : 'STX'}
+      />
       <Container>
         <CoinHeader coin={coin as CurrencyTypes} fungibleToken={ft || brc20Ft} />
         <StepperContainer>
           <StepperNavigator />
         </StepperContainer>
-        {/* {ft && (
-          <FtInfoContainer contractSelected={showFtContractDetails}>
-            <Button isSelected={!showFtContractDetails} onClick={onTransactionsClick}>
-              {t('TRANSACTIONS')}
-            </Button>
-            <Button onClick={onContractClick} isSelected={showFtContractDetails}>
-              {t('CONTRACT')}
-            </Button>
-          </FtInfoContainer>
-        )} */}
         {showContent()}
       </Container>
       <BottomBar tab="dashboard" />

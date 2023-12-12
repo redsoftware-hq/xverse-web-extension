@@ -194,15 +194,21 @@ interface Props {
   onReceive?: () => void;
   forAccountManagement?: boolean;
   usedInPopup?: boolean;
+  addressFor: 'BTC' | 'ORD' | 'STX';
 }
 interface DisplayAddressProps {
   account: Account | null;
   allowCopyAddress?: boolean;
   showOrdinalAddress?: boolean;
   onBtcCopied?: any;
+  onStxCopied?: any;
+  onOrdCopied?: any;
   showOrdinalBtcAddress?: any;
   handleOnBtcAddressClick?: any;
+  handleOnStxAddressClick?: any;
+  handleOnOrdAddressClick?: any;
   handleClickForSelectingAccountDuringConnection?: any;
+  addressFor: 'BTC' | 'STX' | 'ORD';
 }
 function DisplayAddress({
   account,
@@ -212,33 +218,54 @@ function DisplayAddress({
   showOrdinalBtcAddress,
   onBtcCopied,
   handleClickForSelectingAccountDuringConnection,
+  addressFor,
+  onStxCopied,
+  handleOnStxAddressClick,
+  onOrdCopied,
+  handleOnOrdAddressClick,
 }: DisplayAddressProps) {
   if (allowCopyAddress)
     return (
       <RowContainer>
-        <CopyButton id="bitcoin-address" onClick={handleOnBtcAddressClick}>
-          <CopyImage src={Copy} alt="copy" />
-        </CopyButton>
-        <StyledTooltip
-          anchorSelect="bitcoin-address"
-          content={onBtcCopied ? 'Copied' : 'Copy'}
-          noArrow
-          place="bottom"
-        />
-
-        {/* <CopyButton id="stacks-address" onClick={handleOnStxAddressClick}>
-        <CopyImage src={Copy} alt="copy" />
-        <CurrentUnSelectedAccountText>
-          {getTruncatedAddress(account?.stxAddress!)}
-        </CurrentUnSelectedAccountText>
-      </CopyButton>
-      <StyledToolTip
-        anchorId="stacks-address"
-        variant="light"
-        content={onStxCopied ? 'Copied' : 'Stacks address'}
-        events={['hover']}
-        place="bottom"
-      /> */}
+        {addressFor === 'BTC' && (
+          <>
+            <CopyButton id="bitcoin-address" onClick={handleOnBtcAddressClick}>
+              <CopyImage src={Copy} alt="copy" />
+            </CopyButton>
+            <StyledTooltip
+              anchorSelect="bitcoin-address"
+              content={onBtcCopied ? 'Copied' : 'Copy'}
+              noArrow
+              place="bottom"
+            />
+          </>
+        )}
+        {addressFor === 'STX' && (
+          <>
+            <CopyButton id="stacks-address" onClick={handleOnStxAddressClick}>
+              <CopyImage src={Copy} alt="copy" />
+            </CopyButton>
+            <StyledTooltip
+              anchorSelect="stacks-address"
+              content={onStxCopied ? 'Copied' : 'Copy'}
+              noArrow
+              place="bottom"
+            />
+          </>
+        )}
+        {addressFor === 'ORD' && (
+          <>
+            <CopyButton id="ordinals-address" onClick={handleOnOrdAddressClick}>
+              <CopyImage src={Copy} alt="copy" />
+            </CopyButton>
+            <StyledTooltip
+              anchorSelect="ordinals-address"
+              content={onOrdCopied ? 'Copied' : 'Copy'}
+              noArrow
+              place="bottom"
+            />
+          </>
+        )}
       </RowContainer>
     );
   return (
@@ -258,46 +285,51 @@ function AccountRow({
   showOrdinalAddress,
   forAccountManagement = false,
   usedInPopup = false,
+  addressFor,
 }: Props) {
-  // const { t } = useTranslation('translation', { keyPrefix: 'DASHBOARD_SCREEN' });
   const { showBtcReceiveAlert } = useWalletSelector();
-  // const gradient = getAccountGradient(account?.stxAddress!);
-  // const [onStxCopied, setOnStxCopied] = useState(false);
+  const [onStxCopied, setOnStxCopied] = useState(false);
   const [onBtcCopied, setOnBtcCopied] = useState(false);
+  const [onOrdCopied, setOrdCopied] = useState(false);
   const dispatch = useDispatch();
   const btcCopiedTooltipTimeoutRef = useRef<NodeJS.Timeout | undefined>();
   const stxCopiedTooltipTimeoutRef = useRef<NodeJS.Timeout | undefined>();
+  const ordCopiedTooltipTimeoutRef = useRef<NodeJS.Timeout | undefined>();
 
   useEffect(
     () => () => {
       clearTimeout(btcCopiedTooltipTimeoutRef.current);
       clearTimeout(stxCopiedTooltipTimeoutRef.current);
+      clearTimeout(ordCopiedTooltipTimeoutRef.current);
     },
     [],
   );
 
-  // function getName() {
-  //   return account?.bnsName ?? `${t('ACCOUNT_NAME')} ${`${(account?.id ?? 0) + 1}`}`;
-  // }
-
   const handleOnBtcAddressClick = () => {
     navigator.clipboard.writeText(account?.btcAddress!);
     setOnBtcCopied(true);
-    // setOnStxCopied(false);
-    // set 'Copied' text back to 'Bitcoin address' after 3 seconds
+    setOnStxCopied(false);
+    setOrdCopied(false);
     btcCopiedTooltipTimeoutRef.current = setTimeout(() => setOnBtcCopied(false), 3000);
     if (showBtcReceiveAlert !== null) {
       dispatch(ChangeShowBtcReceiveAlertAction(true));
     }
   };
 
-  // const handleOnStxAddressClick = () => {
-  //   navigator.clipboard.writeText(account?.stxAddress!);
-  //   setOnStxCopied(true);
-  //   setOnBtcCopied(false);
-  //   // set 'Copied' text back to 'Stacks address' after 3 seconds
-  //   stxCopiedTooltipTimeoutRef.current = setTimeout(() => setOnStxCopied(false), 3000);
-  // };
+  const handleOnStxAddressClick = () => {
+    navigator.clipboard.writeText(account?.stxAddress!);
+    setOnStxCopied(true);
+    setOnBtcCopied(false);
+    setOrdCopied(false);
+    stxCopiedTooltipTimeoutRef.current = setTimeout(() => setOnStxCopied(false), 3000);
+  };
+  const handleOnOrdAddressClick = () => {
+    navigator.clipboard.writeText(account?.ordinalsAddress!);
+    setOrdCopied(true);
+    setOnStxCopied(false);
+    setOnBtcCopied(false);
+    ordCopiedTooltipTimeoutRef.current = setTimeout(() => setOrdCopied(false), 3000);
+  };
 
   const onRowClick = () => {
     if (!allowCopyAddress) {
@@ -333,7 +365,11 @@ function AccountRow({
     const accountDetails = input.split('/');
     return grayedOut ? accountDetails[1] : accountDetails[0];
   };
-
+  const getDisplayedDashboardAccount = () => {
+    if (addressFor === 'ORD') return getTruncatedAddress(account?.ordinalsAddress!);
+    if (addressFor === 'BTC') return getTruncatedAddress(account?.btcAddress!);
+    if (addressFor === 'STX') return getTruncatedAddress(account?.stxAddress!);
+  };
   return forAccountManagement ? (
     <CurrentAccountContainerList>
       {!account ? (
@@ -361,8 +397,7 @@ function AccountRow({
           !usedInPopup && (
             <AccountSection>
               <CurrentUnSelectedAccountText onClick={onClick}>
-                {getTruncatedAddress(account?.btcAddress!)}
-                {/* {getAddressDetail(account!)} */}
+                {getDisplayedDashboardAccount()}
               </CurrentUnSelectedAccountText>
             </AccountSection>
           )
@@ -377,6 +412,11 @@ function AccountRow({
           handleOnBtcAddressClick={handleOnBtcAddressClick}
           showOrdinalBtcAddress={showOrdinalBtcAddress}
           handleClickForSelectingAccountDuringConnection={usedInPopup ? onClick : console.log()}
+          handleOnStxAddressClick={handleOnStxAddressClick}
+          handleOnOrdAddressClick={handleOnOrdAddressClick}
+          onStxCopied={onStxCopied}
+          onOrdCopied={onOrdCopied}
+          addressFor={addressFor}
         />
         {!disableMenuOption && !usedInPopup && (
           <>
