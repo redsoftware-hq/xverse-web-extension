@@ -51,7 +51,7 @@ const SliderContainer = styled.div((props) => ({
   '> input, > label': {
     cursor: 'pointer',
   },
-  marginBottom: props.theme.spacing(5),
+  marginBottom: props.theme.spacing(13),
 }));
 function ResetWalletScreen() {
   const { t } = useTranslation('translation', { keyPrefix: 'SETTING_SCREEN' });

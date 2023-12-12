@@ -105,7 +105,7 @@ const AddressText = styled.p((props) => ({
 }));
 
 const CurrencyText = styled.p((props) => ({
-  ...props.theme.body_medium_m,
+  ...props.theme.body_xs,
   marginLeft: props.theme.spacing(4),
 }));
 
@@ -118,7 +118,7 @@ const ExpandedContainer = styled(animated.div)<{ isExpanded: boolean }>((props) 
   display: 'flex',
   background: '#14161C',
   flexDirection: 'column',
-  padding: props.isExpanded ? '10px 18px' : '0px',
+  padding: props.isExpanded ? '10px 24px' : '0px',
   borderTop: '1px solid #1F232D',
   borderRadius: '0px 0px 11px 11px',
 }));
@@ -126,6 +126,11 @@ export function FoldButton({ isFold, onSwitch }: { isFold: boolean; onSwitch: ()
   return <FoldArrow src={isFold ? FoldDownIcon : FoldIconUp} onClick={() => onSwitch()} />;
 }
 
+const ValueContainer = styled.div((props) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+}));
 export default function StxInfoBlock({ type, swap }: StxInfoCardProps) {
   const { t } = useTranslation('translation', { keyPrefix: 'SWAP_CONFIRM_SCREEN' });
   const [isCopied, setIsCopied] = useState(false);
@@ -154,11 +159,12 @@ export default function StxInfoBlock({ type, swap }: StxInfoCardProps) {
                 <AmountLabel>{token.name}</AmountLabel>
               </ItemsCenterContainer>
               <ItemsCenterContainer>
-                <CurrencyText>{token.amount?.toFixed(5)}</CurrencyText>
-                <CurrencyText>{token.name}</CurrencyText>
+                <ValueContainer>
+                  <CurrencyText>{`${token.amount?.toFixed(5)} ${token.name}`}</CurrencyText>
+                  <EstimateUSDText>{` ~ $${token.fiatAmount} USD`}</EstimateUSDText>
+                </ValueContainer>
               </ItemsCenterContainer>
             </SpaceBetweenContainer>
-            <EstimateUSDText>{` ~ $${token.fiatAmount} USD`}</EstimateUSDText>
           </AmountContainer>
         </ExpandedContainer>
       )}

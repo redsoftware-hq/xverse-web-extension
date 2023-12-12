@@ -41,7 +41,7 @@ const ExpandedContainer = styled(animated.div)<{ isExpanded: boolean }>((props) 
   display: 'flex',
   background: '#14161C',
   flexDirection: 'column',
-  padding: props.isExpanded ? '16px 18px' : '0px',
+  padding: props.isExpanded ? '10px 24px' : '0px',
   borderTop: '1px solid #1F232D',
   borderRadius: '0px 0px 11px 11px',
 }));

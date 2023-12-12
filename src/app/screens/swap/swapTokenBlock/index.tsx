@@ -88,7 +88,7 @@ const CoinText = styled.div((props) => ({
 }));
 
 export const EstimateUSDText = styled.p((props) => ({
-  ...props.theme.body_medium_m,
+  ...props.theme.body_xs,
   color: props.theme.colors.secondaryText,
   marginLeft: 'auto',
 }));
