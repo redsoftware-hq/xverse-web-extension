@@ -57,7 +57,7 @@ const CurrentAccountContainerList = styled.div((props) => ({
   flexDirection: 'column',
   paddingLeft: props.theme.spacing(6),
   paddingRight: props.theme.spacing(6),
-  paddingBottom: props.theme.spacing(6),
+  paddingBottom: props.theme.spacing(8),
 }));
 // const CurrentSelectedAccountText = styled.h1((props) => ({
 //   ...props.theme.body_bold_m,
@@ -85,7 +85,7 @@ const GrayedOutText = styled.h1((props) => ({
   fontWeight: 600,
   fontSize: 20,
   textAlign: 'start',
-  color: props.theme.colors.white['400'],
+  color: props.theme.colors.secondaryText,
   marginTop: props.theme.spacing(1),
 }));
 
@@ -100,7 +100,8 @@ const AccountSection = styled.div((props) => ({
 const AccountSectionBar = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'row',
-  padding: '8px 22px',
+  padding: '16px 20px',
+  maxHeight: 56,
   justifyContent: 'center',
   gap: props.theme.spacing(8),
   alignItems: 'center',

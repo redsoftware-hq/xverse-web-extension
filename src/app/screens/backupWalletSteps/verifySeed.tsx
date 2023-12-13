@@ -43,14 +43,10 @@ const PasteSeedButton = styled.button<{ position: 'mid' | 'bottom'; disabled?: b
     borderRadius: props.theme.radius(4),
     backgroundColor: props.theme.colors.background.lightOrange,
     height: 30,
-    width: 150,
+    width: 80,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    position: 'absolute',
-    top: props.position === 'mid' ? '69%' : '80%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
     img: {
       marginRight: props.theme.spacing(4),
     },
@@ -72,16 +68,40 @@ const Pasted = styled.button<{ position: 'mid' | 'bottom'; disabled?: boolean }>
   borderRadius: props.theme.radius(4),
   backgroundColor: 'rgba(66, 191, 35, 0.20)',
   height: 30,
-  width: 150,
+  width: 80,
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  position: 'absolute',
-  top: props.position === 'mid' ? '69%' : '80%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
   img: {
     marginRight: props.theme.spacing(4),
+  },
+}));
+const UtilButtonContainer = styled.div(() => ({
+  display: 'flex',
+  gap: 11,
+  margin: 'auto',
+}));
+const Clear = styled.button((props) => ({
+  ...props.theme.body_medium_m,
+  color: props.theme.colors.action.classic,
+  borderRadius: props.theme.radius(4),
+  backgroundColor: props.theme.colors.background.lightOrange,
+  height: 30,
+  width: 80,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  img: {
+    marginRight: props.theme.spacing(4),
+  },
+  ':hover': {
+    backgroundColor: !props.disabled
+      ? props.theme.colors.action.classic
+      : props.theme.colors.background.lightOrange,
+    border: `1px solid ${
+      !props.disabled ? props.theme.colors.action.classic : props.theme.colors.action.classic
+    }`,
+    color: !props.disabled ? props.theme.colors.white[0] : props.theme.colors.action.classic,
   },
 }));
 interface VerifySeedProps {
@@ -143,16 +163,20 @@ export default function VerifySeed(props: VerifySeedProps): JSX.Element {
         seedError={err}
         setSeedError={setErr}
       />
-      {copy &&
-        (isPasted ? (
-          <Pasted position="mid" disabled>
-            Pasted
-          </Pasted>
-        ) : (
-          <PasteSeedButton position="mid" onClick={handlePaste}>
-            Paste Seedphrase
-          </PasteSeedButton>
-        ))}
+      {copy && (
+        <UtilButtonContainer>
+          <Clear onClick={() => setSeedInput(new Array(12).fill(''))}>Clear</Clear>
+          {isPasted ? (
+            <Pasted position="mid" disabled>
+              Pasted
+            </Pasted>
+          ) : (
+            <PasteSeedButton position="mid" onClick={handlePaste}>
+              Paste
+            </PasteSeedButton>
+          )}
+        </UtilButtonContainer>
+      )}
       <ButtonContainer>
         <ActionButton
           text={t('SEED_PHRASE_VIEW_CONTINUE')}

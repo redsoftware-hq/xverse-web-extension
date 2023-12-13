@@ -27,7 +27,6 @@ const RowContainer = styled.button((props) => ({
   justifyContent: 'center',
   alignItems: 'center',
   background: 'transparent',
-  marginTop: props.theme.spacing(8),
   paddingLeft: props.theme.spacing(4),
   paddingRight: props.theme.spacing(10),
 }));
@@ -36,7 +35,6 @@ const AccountContainer = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'column',
   paddingLeft: props.theme.spacing(4),
-  gap: '10px',
   paddingRight: props.theme.spacing(4),
 }));
 
@@ -61,7 +59,7 @@ const Button = styled.button<{ disabled?: boolean }>((props) => ({
     border: `1px solid ${
       !props.disabled ? props.theme.colors.action.classic : props.theme.colors.action.classic
     }`,
-    color: !props.disabled ? props.theme.colors.white[0] : props.theme.colors.action.classic,
+    color: !props.disabled ? props.theme.colors.white[0] : props.theme.colors.white_0,
   },
   ':focus': {
     backgroundColor: !props.disabled
@@ -76,12 +74,6 @@ const Button = styled.button<{ disabled?: boolean }>((props) => ({
     opacity: 0.5,
     cursor: 'not-allowed',
   },
-}));
-
-const AddAccountText = styled.h1((props) => ({
-  ...props.theme.body_m,
-  opacity: 0.8,
-  color: props.theme.colors.white['0'],
 }));
 
 const Top = styled.div((props) => ({
@@ -151,9 +143,7 @@ function AccountList(): JSX.Element {
             />
           ))}
           <RowContainer onClick={async () => onCreateAccount()}>
-            <Button>
-              <AddAccountText>{t('NEW_ACCOUNT')}</AddAccountText>
-            </Button>
+            <Button>{t('NEW_ACCOUNT')}</Button>
           </RowContainer>
         </AccountContainer>
       </Container>

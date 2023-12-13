@@ -522,7 +522,7 @@
   "RESTORE_WALLET_SCREEN": {
     "ENTER_SEED_HEADER": "Enter the requested words in the order of your seed phrase to confirm it is correct.",
     "SEED_INPUT_PLACEHOLDER": "Enter your seedphrase...",
-    "PASTE": "Paste Seedphrase",
+    "PASTE": "Paste",
     "SEED_INPUT_ERROR": "Invalid seed phrase.",
     "CONTINUE_BUTTON": "Continue"
   },

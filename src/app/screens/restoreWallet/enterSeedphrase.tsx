@@ -40,27 +40,14 @@ const Paste = styled.button<{ position: 'mid' | 'bottom'; disabled?: boolean; se
     borderRadius: props.theme.radius(4),
     backgroundColor: props.theme.colors.background.lightOrange,
     height: 30,
-    width: 150,
+    width: 80,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    position: 'absolute',
-    top: props.position === 'mid' ? (props.seedError ? '72%' : '70%') : '80%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
     img: {
       marginRight: props.theme.spacing(4),
     },
     ':hover': {
-      backgroundColor: !props.disabled
-        ? props.theme.colors.action.classic
-        : props.theme.colors.background.lightOrange,
-      border: `1px solid ${
-        !props.disabled ? props.theme.colors.action.classic : props.theme.colors.action.classic
-      }`,
-      color: !props.disabled ? props.theme.colors.white[0] : props.theme.colors.action.classic,
-    },
-    ':focus': {
       backgroundColor: !props.disabled
         ? props.theme.colors.action.classic
         : props.theme.colors.background.lightOrange,
@@ -82,19 +69,43 @@ const Pasted = styled.button<{ position: 'mid' | 'bottom'; disabled?: boolean; s
     borderRadius: props.theme.radius(4),
     backgroundColor: 'rgba(66, 191, 35, 0.20)',
     height: 30,
-    width: 150,
+    width: 80,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    position: 'absolute',
-    top: props.position === 'mid' ? (props.seedError ? '72%' : '70%') : '80%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
     img: {
       marginRight: props.theme.spacing(4),
     },
   }),
 );
+const Clear = styled.button((props) => ({
+  ...props.theme.body_medium_m,
+  color: props.theme.colors.action.classic,
+  borderRadius: props.theme.radius(4),
+  backgroundColor: props.theme.colors.background.lightOrange,
+  height: 30,
+  width: 80,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  img: {
+    marginRight: props.theme.spacing(4),
+  },
+  ':hover': {
+    backgroundColor: !props.disabled
+      ? props.theme.colors.action.classic
+      : props.theme.colors.background.lightOrange,
+    border: `1px solid ${
+      !props.disabled ? props.theme.colors.action.classic : props.theme.colors.action.classic
+    }`,
+    color: !props.disabled ? props.theme.colors.white[0] : props.theme.colors.action.classic,
+  },
+}));
+const UtilButtonContainer = styled.div(() => ({
+  display: 'flex',
+  gap: 11,
+  margin: 'auto',
+}));
 function EnterSeedPhrase(props: Props): JSX.Element {
   const { onContinue, seed, setSeed, seedError, setSeedError, pasteFromClipboard, isPasted } =
     props;
@@ -110,16 +121,18 @@ function EnterSeedPhrase(props: Props): JSX.Element {
         seedError={seedError}
         setSeedError={setSeedError}
       />
-      {isPasted ? (
-        <Pasted position="mid" disabled seedError={seedError}>
-          Pasted
-        </Pasted>
-      ) : (
-        <Paste position="mid" onClick={pasteFromClipboard} seedError={seedError}>
-          {t('PASTE')}
-        </Paste>
-      )}
-
+      <UtilButtonContainer>
+        <Clear onClick={() => setSeed(new Array(12).fill(''))}>Clear</Clear>
+        {isPasted ? (
+          <Pasted position="mid" disabled seedError={seedError}>
+            Pasted
+          </Pasted>
+        ) : (
+          <Paste position="mid" onClick={pasteFromClipboard} seedError={seedError}>
+            {t('PASTE')}
+          </Paste>
+        )}
+      </UtilButtonContainer>
       <ButtonContainer>
         <ActionButton
           onPress={onContinue}
