@@ -1,4 +1,3 @@
-import { StacksProvider } from '@stacks/connect';
 import {
   AuthenticationRequestEventDetails,
   DomEventName,
@@ -13,12 +12,13 @@ import {
   SignatureResponseMessage,
   TransactionResponseMessage,
 } from '@common/types/message-types';
+import { StacksProvider } from '@stacks/connect';
 
 declare const VERSION: string;
 type CallableMethods = keyof typeof ExternalMethods;
 
 interface ExtensionResponse {
-  source: 'xverse-extension';
+  source: 'orange-wallet-extension';
   method: CallableMethods;
 
   [key: string]: any;
@@ -30,11 +30,11 @@ const callAndReceive = async (
 ): Promise<ExtensionResponse> =>
   new Promise((resolve, reject) => {
     const timeout = setTimeout(() => {
-      reject(new Error('Unable to get response from xverse extension'));
+      reject(new Error('Unable to get response from orange-wallet extension'));
     }, 1000);
     const waitForResponse = (event: MessageEvent) => {
       if (
-        event.data.source === 'xverse-extension' &&
+        event.data.source === 'orange-wallet-extension' &&
         event.data.method === `${methodName}Response`
       ) {
         clearTimeout(timeout);
@@ -46,7 +46,7 @@ const callAndReceive = async (
     window.postMessage(
       {
         method: methodName,
-        source: 'xverse-app',
+        source: 'orange-wallet-app',
         ...opts,
       },
       window.location.origin,
@@ -156,7 +156,7 @@ const StacksMethodsProvider: StacksProvider = {
   getProductInfo() {
     return {
       version: VERSION,
-      name: 'Xverse Wallet',
+      name: 'Orange Wallet',
     };
   },
   request(): Promise<Record<string, any>> {

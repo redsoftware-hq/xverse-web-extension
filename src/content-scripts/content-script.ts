@@ -4,9 +4,9 @@ import {
   DomEventName,
   GetAddressRequestEvent,
   SendBtcRequestEvent,
+  SignatureRequestEvent,
   SignMessageRequestEvent,
   SignPsbtRequestEvent,
-  SignatureRequestEvent,
   TransactionRequestEvent,
 } from '@common/types/inpage-types';
 import {
@@ -24,7 +24,7 @@ import RequestsRoutes from '@common/utils/route-urls';
 // Legacy messaging to work with older versions of Connect
 window.addEventListener('message', (event) => {
   const { data } = event;
-  if (data.source === 'xverse-app') {
+  if (data.source === 'orange-wallet') {
     const { method } = data;
     if (method === 'getURL') {
       const url = chrome.runtime.getURL('options.html');
@@ -33,7 +33,7 @@ window.addEventListener('message', (event) => {
         {
           url,
           method: 'getURLResponse',
-          source: 'xverse-extension',
+          source: 'orange-wallet-extension',
         },
         event.origin,
       );
@@ -180,5 +180,5 @@ document.addEventListener(DomEventName.createInscriptionRequest, ((
 // Inject inpage script (Stacks Provider)
 const inpage = document.createElement('script');
 inpage.src = chrome.runtime.getURL('inpage.js');
-inpage.id = 'xverse-wallet-provider';
+inpage.id = 'orange-wallet-provider';
 document.body.appendChild(inpage);
