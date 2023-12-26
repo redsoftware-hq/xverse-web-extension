@@ -427,10 +427,10 @@ const router = createHashRouter([
         path: 'receive-main-menu/nft',
         element: <ReceiveNftMainMenu />,
       },
-      {
-        path: 'assistant',
-        element: <Assistant />,
-      },
+      // {
+      //   path: 'assistant',
+      //   element: <Assistant />,
+      // },
     ],
   },
   {
